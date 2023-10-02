@@ -1,0 +1,45 @@
+{
+  "header": {
+    "countries": "Países",
+    "input_placeholder": "Procurar...",
+    "menu": {
+      "profile": "Meu perfil",
+      "language": "Linguagens",
+      "config": "Configurações",
+      "signout": "Sair"
+    },
+    "themes": {
+      "light": "Claro",
+      "dark": "Escuro",
+      "system": "Sistema"
+    }
+  },
+  "login": {
+    "button": "Entrar",
+    "title": "Login",
+    "description": "Use seu email e senha para fazer login no Bagg",
+    "email": "Email",
+    "password": "Senha",
+    "login": "Logar"
+  },
+  "signup": {
+    "button": "Criar conta",
+    "title": "Cadastrar-se",
+    "description": "Preencha o formulário para se cadastrar no Bagg",
+    "name": "Nome",
+    "name_error": "Nome inválido",
+    "username": "Nome de usuário",
+    "username_error": "Nome de usuário inválido ou já cadastrado",
+    "birthdate": "Data de nascimento",
+    "birthdate_placeholder": "Selecione uma data",
+    "birthdate_error": "Data de nascimento inválida",
+    "email": "Email",
+    "email_error": "Email inválido",
+    "password": "Senha",
+    "password_error": "Senha inválida",
+    "confirm_password": "Confirmar senha",
+    "confirm_password_error": "As senhas não concidem",
+    "confirm": "Ao se cadastrar, você aceita nossos termos de uso e a nossa política de privacidade",
+    "signup": "Cadastrar-se"
+  }
+}

@@ -1,15 +1,11 @@
-import { useRouter } from 'next/router';
-import { Header } from '../components/header';
 import { GetStaticProps } from 'next';
+import { useTranslations } from 'next-intl';
+import React from 'react';
 
-export default function Home() {
-  const router = useRouter();
+export default function Countries() {
+  const t = useTranslations();
 
-  return (
-    <main className={``}>
-      <Header />
-    </main>
-  );
+  return <div>{t('header.countries')}</div>;
 }
 
 export const getStaticProps: GetStaticProps = async (context) => {
