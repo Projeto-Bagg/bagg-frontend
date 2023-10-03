@@ -41,7 +41,7 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'didik-medium'
+          app-name: 'bagg'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_37A3DD4D42CD4220B5FDF77C30340EC7 }}
           package: next.zip
