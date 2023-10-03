@@ -19,7 +19,9 @@
     "title": "Login",
     "description": "Use seu email e senha para fazer login no Bagg",
     "email": "Email",
+    "email_error": "Email inválido",
     "password": "Senha",
+    "password_error": "Senha inválida",
     "login": "Logar"
   },
   "signup": {

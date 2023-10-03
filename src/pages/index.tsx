@@ -1,13 +1,15 @@
 import { useRouter } from 'next/router';
 import { Header } from '../components/header';
 import { GetStaticProps } from 'next';
+import CreateTip from '../components/create-tip';
 
 export default function Home() {
   const router = useRouter();
 
   return (
-    <main className={``}>
+    <main>
       <Header />
+      <CreateTip />
     </main>
   );
 }

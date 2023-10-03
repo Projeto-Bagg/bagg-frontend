@@ -21,37 +21,27 @@ jobs:
         with:
           node-version: '18.x'
 
+      - name: create env file
+        env:
+          NEXT_PUBLIC_API_BASE_URL: ${{ vars.DEV_NEXT_PUBLIC_API_BASE_URL }}
+        run: |
+          touch .env
+          echo NEXT_PUBLIC_API_BASE_URL=$NEXT_PUBLIC_API_BASE_URL >> .env
+          echo NODE_ENV=development >> .env
+
       - name: npm install, build, and test
         run: |
           npm install
-          npm run build --if-present
-      - name: Zip artifact for deployment
-        run: zip release.zip ./* -r
-      - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v3
-        with:
-          name: node-app
-          path: release.zip
+          npm run build
 
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-    environment:
-      name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+      - name: Zip all files for upload between jobs
+        run: zip next.zip ./* .next .env -qr
 
-    steps:
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v2
-        with:
-          name: node-app
-      - name: unzip artifact for deployment
-        run: unzip release.zip
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'bagg'
+          app-name: 'didik-medium'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_37A3DD4D42CD4220B5FDF77C30340EC7 }}
-          package: .
+          package: next.zip
