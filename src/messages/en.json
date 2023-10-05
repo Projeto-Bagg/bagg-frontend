@@ -5,7 +5,7 @@
     "menu": {
       "profile": "My profile",
       "language": "Languages",
-      "config": "Configurations",
+      "settings": "Settings",
       "signout": "Sign out"
     },
     "themes": {
@@ -18,11 +18,12 @@
     "button": "Login",
     "title": "Login",
     "description": "Use your email and password to login to Bagg",
-    "email": "Email",
-    "email_error": "Invalid email",
     "password": "Password",
     "password_error": "Invalid password",
-    "login": "Login"
+    "login_submit": "Login",
+    "login": "Email or username",
+    "login_error": "Invalid login",
+    "unauthorized": "Login or password provided is incorrect"
   },
   "signup": {
     "button": "Sign up",
@@ -31,17 +32,36 @@
     "name": "Name",
     "name_error": "Invalid name",
     "username": "Username",
-    "username_error": "Invalid username or already taken",
+    "username_error": "Invalid username",
+    "username_not_available": "Username not available",
     "birthdate": "Birthdate",
     "birthdate_placeholder": "Select a birthdate",
     "birthdate_error": "Invalid birthdate",
     "email": "Email",
     "email_error": "Invalid email",
+    "email_not_available": "Email not available",
     "password": "Password",
     "password_error": "Invalid password",
     "confirm_password": "Confirm password",
     "confirm_password_error": "Passwords do not match",
     "confirm": "By registering, you accept our terms of use and our privacy policy",
-    "signup": "Sign up"
+    "signup": "Sign up",
+    "day": "Day",
+    "month": "Month",
+    "year": "Year",
+    "months": {
+      "January": "January",
+      "February": "February",
+      "March": "March",
+      "April": "April",
+      "May": "May",
+      "June": "June",
+      "July": "July",
+      "August": "August",
+      "September": "September",
+      "October": "October",
+      "November": "November",
+      "December": "December"
+    }
   }
 }

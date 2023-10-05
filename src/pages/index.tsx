@@ -1,5 +1,4 @@
 import { useRouter } from 'next/router';
-import { Header } from '../components/header';
 import { GetStaticProps } from 'next';
 import CreateTip from '../components/create-tip';
 
@@ -8,7 +7,6 @@ export default function Home() {
 
   return (
     <main>
-      <Header />
       <CreateTip />
     </main>
   );

@@ -21,14 +21,6 @@ jobs:
         with:
           node-version: '18.x'
 
-      - name: create env file
-        env:
-          NEXT_PUBLIC_API_BASE_URL: ${{ vars.DEV_NEXT_PUBLIC_API_BASE_URL }}
-        run: |
-          touch .env
-          echo NEXT_PUBLIC_API_BASE_URL=$NEXT_PUBLIC_API_BASE_URL >> .env
-          echo NODE_ENV=development >> .env
-
       - name: npm install, build, and test
         run: |
           npm install

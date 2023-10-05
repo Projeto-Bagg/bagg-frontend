@@ -24,8 +24,8 @@ const axios = instance.create({
     'Access-Control-Allow-Origin': '*',
   },
   baseURL:
-    process.env.NEXT_PUBLIC_VERCEL_ENV === 'production'
-      ? `https://bagg-backend.vercel.app/`
+    process.env.NODE_ENV === 'production'
+      ? `https://bagg-api.azurewebsites.net/`
       : 'http://localhost:3001/',
 });
 

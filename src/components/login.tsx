@@ -18,9 +18,10 @@ import {
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
 import { useTranslations } from 'next-intl';
+import axios, { AxiosError } from 'axios';
 
 const loginSchema = z.object({
-  email: z.string().email(),
+  login: z.string(),
   password: z.string().min(4).max(22),
 });
 
@@ -44,7 +45,9 @@ export const Login = () => {
       await auth.login(data);
     } catch (error) {
       setLoading(false);
-      toast({ title: 'Erro' });
+      axios.isAxiosError(error) &&
+        error.response?.status === 401 &&
+        toast({ title: t('unauthorized') });
     }
   };
 
@@ -67,25 +70,29 @@ export const Login = () => {
         <form onSubmit={login.handleSubmit(handleSignIn)}>
           <div className="mb-4">
             <div className="flex justify-between mb-2">
-              <Label htmlFor="email">{t('email')}</Label>
-              {login.formState.errors.email && (
-                <span className="text-red-600">{t('email_error')}</span>
+              <Label htmlFor="email">{t('login')}</Label>
+              {login.formState.errors.login && (
+                <span className="text-red-600 text-sm leading-none font-bold">
+                  {t('login_error')}
+                </span>
               )}
             </div>
-            <Input id="email" {...login.register('email')} />
+            <Input id="email" {...login.register('login')} />
           </div>
           <div className="mb-4">
             <div className="flex justify-between mb-2">
               <Label htmlFor="password">{t('password')}</Label>
               {login.formState.errors.password && (
-                <span className="text-red-600">{t('password_error')}</span>
+                <span className="text-red-600 text-sm leading-none font-bold">
+                  {t('password_error')}
+                </span>
               )}
             </div>
             <Input id="password" type={'password'} {...login.register('password')} />
           </div>
           <DialogFooter>
-            <Button type={'submit'} className="w-full">
-              {t('login')}
+            <Button type={'submit'} loading={loading} className="w-full">
+              {t('login_submit')}
             </Button>
           </DialogFooter>
         </form>

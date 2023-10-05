@@ -14,20 +14,24 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { Calendar } from '@/components/ui/calendar';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { CalendarIcon } from 'lucide-react';
-import { format } from 'date-fns';
-import { cn } from '@/lib/utils';
 import { Label } from '@/components/ui/label';
 import { useTranslations } from 'next-intl';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from './ui/select';
 
 const signUpSchema = z
   .object({
     displayName: z.string().min(3).max(64),
     username: z.string().min(3).max(15),
     email: z.string().email(),
-    birthdate: z.date(),
+    birthdateDay: z.string(),
+    birthdateMonth: z.string(),
+    birthdateYear: z.string(),
     password: z.string().min(4).max(22),
     confirmPassword: z.string(),
   })
@@ -38,6 +42,21 @@ const signUpSchema = z
   });
 
 type SignUpType = z.infer<typeof signUpSchema>;
+
+const months = [
+  'January',
+  'February',
+  'March',
+  'May',
+  'April',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+] as const;
 
 export const Signup = () => {
   const [loading, setLoading] = useState<boolean>();
@@ -52,10 +71,19 @@ export const Signup = () => {
     try {
       setLoading(true);
 
-      const { confirmPassword, ...signUpData } = data;
+      const {
+        confirmPassword,
+        birthdateDay,
+        birthdateMonth,
+        birthdateYear,
+        ...signUpData
+      } = data;
+
+      const birthdate = new Date(+birthdateYear, +birthdateMonth, +birthdateDay);
 
       await auth.signUp({
         ...signUpData,
+        birthdate,
         displayName: data.displayName
           .toLowerCase()
           .replace(/\b\w/g, (c) => c.toUpperCase()),
@@ -63,9 +91,18 @@ export const Signup = () => {
 
       await new Promise((resolve) => setTimeout(resolve, 700));
 
-      await auth.login({ email: data.email, password: data.password });
+      await auth.login({ login: data.username, password: data.password });
     } catch (error: any) {
-      error.response.status === 409 && toast({ title: 'Email já cadastrado' });
+      error.response.data?.email?.code === 'email_not_available' &&
+        signUp.setError('email', {
+          message: t('email_not_available'),
+          type: 'email_not_available',
+        });
+      error.response.data?.username?.code === 'username_not_available' &&
+        signUp.setError('username', {
+          message: t('username_not_available'),
+          type: 'username_not_available',
+        });
       setLoading(false);
     }
   };
@@ -84,10 +121,12 @@ export const Signup = () => {
         </DialogHeader>
         <form onSubmit={signUp.handleSubmit(handleSignUp)}>
           <div className="mb-4">
-            <div className="justify-between flex mb-2">
+            <div className="justify-between flex align-baseline mb-2">
               <Label>{t('name')}</Label>
               {signUp.formState.errors.displayName && (
-                <span className="text-bold text-red-600">{t('name_error')}</span>
+                <span className="font-bold leading-none text-sm text-red-600">
+                  {t('name_error')}
+                </span>
               )}
             </div>
             <Input {...signUp.register('displayName')} />
@@ -96,7 +135,11 @@ export const Signup = () => {
             <div className="justify-between flex mb-2">
               <Label>{t('username')}</Label>
               {signUp.formState.errors.username && (
-                <span className="text-bold text-red-600">{t('username_error')}</span>
+                <span className="font-bold leading-none text-sm text-red-600">
+                  {signUp.formState.errors.username.type === 'username_not_available'
+                    ? t('username_not_available')
+                    : t('username_error')}
+                </span>
               )}
             </div>
             <Input {...signUp.register('username')} />
@@ -104,51 +147,82 @@ export const Signup = () => {
           <div className="mb-4">
             <div className="flex justify-between mb-2">
               <Label>{t('birthdate')}</Label>
-              {signUp.formState.errors.birthdate && (
-                <span className="text-bold text-red-600">{t('birthdate_error')}</span>
+              {(signUp.formState.errors.birthdateDay ||
+                signUp.formState.errors.birthdateMonth ||
+                signUp.formState.errors.birthdateYear) && (
+                <span className="font-bold leading-none text-sm text-red-600">
+                  {t('birthdate_error')}
+                </span>
               )}
             </div>
-            <Controller
-              name="birthdate"
-              control={signUp.control}
-              render={({ field }) => (
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant={'outline_no_hover'}
-                      className={cn(
-                        'w-full justify-start text-left font-normal',
-                        !signUp.watch('birthdate') && 'text-muted-foreground'
-                      )}
-                    >
-                      <CalendarIcon className="mr-2 h-4 w-4" />
-                      {signUp.watch('birthdate') ? (
-                        format(signUp.watch('birthdate'), 'PPP')
-                      ) : (
-                        <span>{t('birthdate_placeholder')}</span>
-                      )}
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0">
-                    <Calendar
-                      pagedNavigation
-                      captionLayout="dropdown-buttons"
-                      mode="single"
-                      selected={signUp.getValues?.('birthdate')}
-                      onSelect={field.onChange}
-                      initialFocus
-                      toDate={new Date()}
-                    />
-                  </PopoverContent>
-                </Popover>
-              )}
-            />
+            <div className="flex gap-2 justify-between">
+              <Controller
+                name="birthdateDay"
+                control={signUp.control}
+                render={({ field }) => (
+                  <Select onValueChange={field.onChange}>
+                    <SelectTrigger>
+                      <SelectValue placeholder={t('day')} />
+                    </SelectTrigger>
+                    <SelectContent className="max-h-[400px]">
+                      {[...Array(31)].map((_, index) => (
+                        <SelectItem key={index + 1} value={(index + 1).toString()}>
+                          {index + 1}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                )}
+              />
+              <Controller
+                name="birthdateMonth"
+                control={signUp.control}
+                render={({ field }) => (
+                  <Select onValueChange={field.onChange}>
+                    <SelectTrigger>
+                      <SelectValue placeholder={t('month')} />
+                    </SelectTrigger>
+                    <SelectContent className="max-h-[400px]">
+                      {months.map((month, index) => (
+                        <SelectItem key={month} value={index.toString()}>
+                          {t(`months.${month}`)}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                )}
+              />
+              <Controller
+                name="birthdateYear"
+                control={signUp.control}
+                render={({ field }) => (
+                  <Select onValueChange={field.onChange}>
+                    <SelectTrigger>
+                      <SelectValue placeholder={t('year')} />
+                    </SelectTrigger>
+                    <SelectContent className="max-h-[400px]">
+                      {Array.apply(0, Array(120 - 1))
+                        .map((_, index) => new Date().getFullYear() - index)
+                        .map((year, index) => (
+                          <SelectItem key={index} value={year.toString()}>
+                            {year}
+                          </SelectItem>
+                        ))}
+                    </SelectContent>
+                  </Select>
+                )}
+              />
+            </div>
           </div>
           <div className="mb-4">
-            <div className="flex justify-between mb-4">
+            <div className="flex justify-between mb-2">
               <Label>{t('email')}</Label>
               {signUp.formState.errors.email && (
-                <span className="text-bold text-red-600">{t('email_error')}</span>
+                <span className="font-bold leading-none text-sm text-red-600">
+                  {signUp.formState.errors.email.type === 'email_not_available'
+                    ? t('email_not_available')
+                    : t('email_error')}
+                </span>
               )}
             </div>
             <Input {...signUp.register('email')} />
@@ -157,7 +231,9 @@ export const Signup = () => {
             <div className="flex justify-between mb-2">
               <Label>{t('password')}</Label>
               {signUp.formState.errors.password && (
-                <span className="text-bold text-red-600">{t('password_error')}</span>
+                <span className="font-bold leading-none text-sm text-red-600">
+                  {t('password_error')}
+                </span>
               )}
             </div>
             <Input type={'password'} {...signUp.register('password')} />
@@ -166,7 +242,7 @@ export const Signup = () => {
             <div className="flex justify-between mb-2">
               <Label>{t('confirm_password')}</Label>
               {signUp.formState.errors.confirmPassword && (
-                <span className="text-bold text-red-600">
+                <span className="font-bold leading-none text-sm text-red-600">
                   {t('confirm_password_error')}
                 </span>
               )}
@@ -177,7 +253,7 @@ export const Signup = () => {
             {t('confirm')}
           </span>
           <div className="flex justify-end mb-2">
-            <Button type={'submit'} className="w-full">
+            <Button type={'submit'} loading={loading} className="w-full">
               {t('signup')}
             </Button>
           </div>

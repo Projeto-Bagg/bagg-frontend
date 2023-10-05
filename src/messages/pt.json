@@ -5,7 +5,7 @@
     "menu": {
       "profile": "Meu perfil",
       "language": "Linguagens",
-      "config": "Configurações",
+      "settings": "Configurações",
       "signout": "Sair"
     },
     "themes": {
@@ -18,11 +18,12 @@
     "button": "Entrar",
     "title": "Login",
     "description": "Use seu email e senha para fazer login no Bagg",
-    "email": "Email",
-    "email_error": "Email inválido",
     "password": "Senha",
     "password_error": "Senha inválida",
-    "login": "Logar"
+    "login_submit": "Logar",
+    "login": "Email ou nome de usuário",
+    "login_error": "Login inválido",
+    "unauthorized": "Login ou senha incorretos"
   },
   "signup": {
     "button": "Criar conta",
@@ -31,17 +32,36 @@
     "name": "Nome",
     "name_error": "Nome inválido",
     "username": "Nome de usuário",
-    "username_error": "Nome de usuário inválido ou já cadastrado",
+    "username_error": "Nome de usuário inválido",
+    "username_not_available": "Nome de usuário já cadastrado",
     "birthdate": "Data de nascimento",
     "birthdate_placeholder": "Selecione uma data",
     "birthdate_error": "Data de nascimento inválida",
     "email": "Email",
     "email_error": "Email inválido",
+    "email_not_available": "Email já cadastrado",
     "password": "Senha",
     "password_error": "Senha inválida",
     "confirm_password": "Confirmar senha",
     "confirm_password_error": "As senhas não concidem",
     "confirm": "Ao se cadastrar, você aceita nossos termos de uso e a nossa política de privacidade",
-    "signup": "Cadastrar-se"
+    "signup": "Cadastrar-se",
+    "day": "Dia",
+    "month": "Mês",
+    "year": "Ano",
+    "months": {
+      "January": "Janeiro",
+      "February": "Fevereiro",
+      "March": "Março",
+      "April": "Abril",
+      "May": "Maio",
+      "June": "Junho",
+      "July": "Julho",
+      "August": "Agosto",
+      "September": "Setembro",
+      "October": "Outubro",
+      "November": "Novembro",
+      "December": "Dezembro"
+    }
   }
 }

@@ -15,13 +15,14 @@ type User = {
 };
 
 type UserSignIn = {
-  email: string;
+  login: string;
   password: string;
 };
 
 type UserSignUp = {
   displayName: string;
   username: string;
+  birthdate: Date;
   email: string;
   password: string;
 };

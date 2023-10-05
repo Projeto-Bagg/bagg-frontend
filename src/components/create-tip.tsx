@@ -26,7 +26,7 @@ const createTipSchema = z.object({
       video: typeof window === 'undefined' ? z.any() : z.instanceof(File),
       thumbnail: z.string(),
     },
-    { required_error: 'Selecione um vídeo' }
+    { required_error: 'Selecione um vídeo' },
   ),
   title: z.string(),
   message: z.string(),
@@ -134,7 +134,7 @@ export default function CreateTip() {
             )}
           />
         </div>
-        <DialogFooter>
+        <DialogFooter className="gap-2">
           <Button variant={'destructive'}>Cancelar</Button>
           <Button>Enviar</Button>
         </DialogFooter>
