@@ -4,10 +4,12 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import { getCookie, deleteCookie, setCookie } from 'cookies-next';
 import axios from '@/services/axios';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
+import { Spinner } from '../assets';
 
 type User = {
   id: string;
-  displayName: string;
+  fullName: string;
   username: string;
   email: string;
   birthdate: Date;
@@ -20,7 +22,7 @@ type UserSignIn = {
 };
 
 type UserSignUp = {
-  displayName: string;
+  fullName: string;
   username: string;
   birthdate: Date;
   email: string;
@@ -84,7 +86,16 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     <AuthContext.Provider
       value={{ login, logout, user, isAuthenticated, signUp, isLoading }}
     >
-      {children}
+      {isLoading ? (
+        <div className="flex flex-col h-screen gap-2 justify-center items-center">
+          <h1 className="text-3xl font-bold">Bagg</h1>
+          <div>
+            <Spinner className="[&>circle]:stroke-foreground" width="40" height="40" />
+          </div>
+        </div>
+      ) : (
+        children
+      )}
     </AuthContext.Provider>
   );
 };

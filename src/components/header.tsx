@@ -88,9 +88,7 @@ export const Header = () => {
             </button>
           </form>
           <ThemeToggle />
-          {auth.isLoading ? (
-            <span>Loading...</span>
-          ) : auth.isAuthenticated ? (
+          {auth.isAuthenticated ? (
             <div className="flex items-center gap-2">
               <DropdownMenu>
                 <DropdownMenuTrigger>

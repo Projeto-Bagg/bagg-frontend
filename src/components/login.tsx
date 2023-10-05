@@ -77,7 +77,7 @@ export const Login = () => {
                 </span>
               )}
             </div>
-            <Input id="email" {...login.register('login')} />
+            <Input id="login" {...login.register('login')} />
           </div>
           <div className="mb-4">
             <div className="flex justify-between mb-2">

@@ -5,11 +5,7 @@ import CreateTip from '../components/create-tip';
 export default function Home() {
   const router = useRouter();
 
-  return (
-    <main>
-      <CreateTip />
-    </main>
-  );
+  return <main></main>;
 }
 
 export const getStaticProps: GetStaticProps = async (context) => {

@@ -26,7 +26,7 @@ import {
 
 const signUpSchema = z
   .object({
-    displayName: z.string().min(3).max(64),
+    fullName: z.string().min(3).max(64),
     username: z.string().min(3).max(15),
     email: z.string().email(),
     birthdateDay: z.string(),
@@ -84,9 +84,7 @@ export const Signup = () => {
       await auth.signUp({
         ...signUpData,
         birthdate,
-        displayName: data.displayName
-          .toLowerCase()
-          .replace(/\b\w/g, (c) => c.toUpperCase()),
+        fullName: data.fullName.toLowerCase().replace(/\b\w/g, (c) => c.toUpperCase()),
       });
 
       await new Promise((resolve) => setTimeout(resolve, 700));
@@ -123,13 +121,13 @@ export const Signup = () => {
           <div className="mb-4">
             <div className="justify-between flex align-baseline mb-2">
               <Label>{t('name')}</Label>
-              {signUp.formState.errors.displayName && (
+              {signUp.formState.errors.fullName && (
                 <span className="font-bold leading-none text-sm text-red-600">
                   {t('name_error')}
                 </span>
               )}
             </div>
-            <Input {...signUp.register('displayName')} />
+            <Input {...signUp.register('fullName')} />
           </div>
           <div className="mb-4">
             <div className="justify-between flex mb-2">

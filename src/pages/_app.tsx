@@ -16,29 +16,29 @@ export default function App({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(() => new QueryClient());
 
   return (
-    <AuthProvider>
-      <QueryClientProvider client={queryClient}>
-        <Hydrate state={pageProps.dehydratedState}>
-          <div className={inter.className}>
-            <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
-              <Toaster />
-              <NextSeo
-                title="Bagg"
-                openGraph={{
-                  title: 'Bagg',
-                  description: 'x',
-                }}
-              />
-              <NextIntlClientProvider messages={pageProps.messages}>
+    <QueryClientProvider client={queryClient}>
+      <Hydrate state={pageProps.dehydratedState}>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <NextIntlClientProvider messages={pageProps.messages}>
+            <div className={inter.className}>
+              <AuthProvider>
                 <Header />
                 <div className="container">
                   <Component {...pageProps} />
                 </div>
-              </NextIntlClientProvider>
-            </ThemeProvider>
-          </div>
-        </Hydrate>
-      </QueryClientProvider>
-    </AuthProvider>
+                <Toaster />
+                <NextSeo
+                  title="Bagg"
+                  openGraph={{
+                    title: 'Bagg',
+                    description: 'x',
+                  }}
+                />
+              </AuthProvider>
+            </div>
+          </NextIntlClientProvider>
+        </ThemeProvider>
+      </Hydrate>
+    </QueryClientProvider>
   );
 }

@@ -1,3 +1,3 @@
-import spinner from './Spinner.svg';
+import Spinner from './Spinner.svg';
 
-export { spinner };
+export { Spinner };
