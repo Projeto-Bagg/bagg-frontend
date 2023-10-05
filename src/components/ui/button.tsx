@@ -4,7 +4,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
-import { spinner } from '../../assets';
+import { Spinner } from '@/assets';
 
 const buttonVariants = cva(
   'inline-flex items-center shrink-0 justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
@@ -50,7 +50,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         {...props}
       >
-        {loading ? <Image src={spinner} className="max-h-full" alt="" /> : children}
+        {loading ? <Spinner className="max-h-full" /> : children}
       </Comp>
     );
   },
