@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { useAuth } from '@/context/auth-context';
-import { toast } from '@/components/ui/use-toast';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import {
@@ -32,7 +31,13 @@ const signUpSchema = z
     birthdateDay: z.string(),
     birthdateMonth: z.string(),
     birthdateYear: z.string(),
-    password: z.string().min(4).max(22),
+    password: z
+      .string()
+      .min(4)
+      .regex(
+        /^(?=(.*[a-z]){1,})(?=(.*[A-Z]){1,})(?=(.*[0-9]){1,})(?=(.*[!@#$%^&*()\-__+.]){1,}).{8,}$/,
+        'password_too_weak',
+      ),
     confirmPassword: z.string(),
   })
   .superRefine((data, ctx) => {
@@ -230,7 +235,9 @@ export const Signup = () => {
               <Label>{t('password')}</Label>
               {signUp.formState.errors.password && (
                 <span className="font-bold leading-none text-sm text-red-600">
-                  {t('password_error')}
+                  {signUp.formState.errors.password.message === 'password_too_weak'
+                    ? t('password_too_weak')
+                    : t('password_error')}
                 </span>
               )}
             </div>

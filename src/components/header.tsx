@@ -53,7 +53,7 @@ export const Header = () => {
 
   return (
     <header className="text-sm border-b h-14">
-      <div className="container flex gap-4 justify-between items-center h-full">
+      <div className="container px-8 flex gap-4 justify-between items-center h-full">
         <nav>
           <ul className="flex gap-8 font-semibold items-center">
             <li>

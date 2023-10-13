@@ -1,33 +1,8 @@
-'use client';
-
 import { createContext, useContext, useEffect, useState } from 'react';
 import { getCookie, deleteCookie, setCookie } from 'cookies-next';
 import axios from '@/services/axios';
 import { useRouter } from 'next/router';
-import Image from 'next/image';
-import { Spinner } from '../assets';
-
-type User = {
-  id: string;
-  fullName: string;
-  username: string;
-  email: string;
-  birthdate: Date;
-  image: string;
-};
-
-type UserSignIn = {
-  login: string;
-  password: string;
-};
-
-type UserSignUp = {
-  fullName: string;
-  username: string;
-  birthdate: Date;
-  email: string;
-  password: string;
-};
+import { Spinner } from '@/assets';
 
 type AuthContextType = {
   login: (user: UserSignIn) => Promise<void>;
@@ -48,13 +23,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const isAuthenticated = !!user;
 
   useEffect(() => {
-    const token = getCookie('bagg.session_token') as string;
+    const fetchUser = async () => {
+      const token = getCookie('bagg.session_token');
 
-    if (token) {
-      axios.get<User>('users/me').then((response) => setUser(response.data));
-    }
-
-    setIsLoading(false);
+      if (token) {
+        await axios.get<User>('users/me').then((response) => setUser(response.data));
+      }
+    };
+    fetchUser().then(() => setIsLoading(false));
   }, []);
 
   const login = async (user: UserSignIn) => {

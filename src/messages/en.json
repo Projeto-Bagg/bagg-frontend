@@ -42,6 +42,7 @@
     "email_not_available": "Email not available",
     "password": "Password",
     "password_error": "Invalid password",
+    "password_too_weak": "Password too weak",
     "confirm_password": "Confirm password",
     "confirm_password_error": "Passwords do not match",
     "confirm": "By registering, you accept our terms of use and our privacy policy",
@@ -63,5 +64,28 @@
       "November": "November",
       "December": "December"
     }
+  },
+  "profile_pic_modal": {
+    "title": "Edit profile picture",
+    "confirm": "Send picture",
+    "upload": "Upload picture",
+    "remove": "Remove current picture",
+    "cancel": "Cancel"
+  },
+  "profile": {
+    "createdAt": "Joined in {joinDate, date, long}",
+    "birthdate": "Born in {joinDate, date, long}",
+    "followers": "Followers",
+    "following": "Following",
+    "follow": "Follow",
+    "follow_you": "Follow you"
+  },
+  "edit_profile": {
+    "button": "Edit profile",
+    "title": "Edit profile",
+    "description": "Make changes to your profile here. Click save when youre done.",
+    "bio": "Biography",
+    "edit_profile_pic": "Edit profile picture",
+    "save": "Save changes"
   }
 }

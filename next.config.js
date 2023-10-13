@@ -26,6 +26,9 @@ const nextConfig = {
   },
   reactStrictMode: true,
   output: 'standalone',
+  images: {
+    domains: ['baggstorage.blob.core.windows.net'],
+  },
 };
 
 module.exports = nextConfig;

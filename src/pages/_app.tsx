@@ -13,7 +13,19 @@ import { NextSeo } from 'next-seo';
 const inter = Inter({ subsets: ['latin'] });
 
 export default function App({ Component, pageProps }: AppProps) {
-  const [queryClient] = useState(() => new QueryClient());
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            refetchOnWindowFocus: false,
+            refetchOnReconnect: false,
+            retry: false,
+            staleTime: Infinity,
+          },
+        },
+      }),
+  );
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -23,7 +35,7 @@ export default function App({ Component, pageProps }: AppProps) {
             <div className={inter.className}>
               <AuthProvider>
                 <Header />
-                <div className="container">
+                <div className="container border-x min-h-[calc(100vh-56px)]">
                   <Component {...pageProps} />
                 </div>
                 <Toaster />

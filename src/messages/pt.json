@@ -44,6 +44,7 @@
     "password_error": "Senha inválida",
     "confirm_password": "Confirmar senha",
     "confirm_password_error": "As senhas não concidem",
+    "password_too_weak": "Senha muito fraca",
     "confirm": "Ao se cadastrar, você aceita nossos termos de uso e a nossa política de privacidade",
     "signup": "Cadastrar-se",
     "day": "Dia",
@@ -63,5 +64,28 @@
       "November": "Novembro",
       "December": "Dezembro"
     }
+  },
+  "profile_pic_modal": {
+    "title": "Alterar foto do perfil",
+    "confirm": "Enviar foto",
+    "upload": "Carregar foto",
+    "remove": "Remover foto atual",
+    "cancel": "Cancelar"
+  },
+  "profile": {
+    "createdAt": "Entrou em {joinDate, date, long}",
+    "birthdate": "Nasceu em {joinDate, date, long}",
+    "followers": "Seguidores",
+    "following": "Seguindo",
+    "follow": "Seguir",
+    "follow_you": "Segue você"
+  },
+  "edit_profile": {
+    "button": "Editar perfil",
+    "title": "Editar perfil",
+    "description": "Faça alterações nos dados do seu perfil. Aperte em salvar quando tiver terminado.",
+    "bio": "Biografia",
+    "edit_profile_pic": "Editar foto de perfil",
+    "save": "Salvar alterações"
   }
 }
