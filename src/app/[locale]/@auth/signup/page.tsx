@@ -1,5 +1,7 @@
+'use client';
+
 import { zodResolver } from '@hookform/resolvers/zod';
-import React, { useState } from 'react';
+import React, { ReactNode, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { useAuth } from '@/context/auth-context';
@@ -21,7 +23,8 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from './ui/select';
+} from '@/components/ui/select';
+import { useRouter } from 'next/navigation';
 
 const signUpSchema = z
   .object({
@@ -63,9 +66,10 @@ const months = [
   'December',
 ] as const;
 
-export const Signup = () => {
+export default function SignUp() {
   const [loading, setLoading] = useState<boolean>();
   const auth = useAuth();
+  const router = useRouter();
   const t = useTranslations('signup');
 
   const signUp = useForm<SignUpType>({
@@ -95,6 +99,8 @@ export const Signup = () => {
       await new Promise((resolve) => setTimeout(resolve, 700));
 
       await auth.login({ login: data.username, password: data.password });
+
+      router.back();
     } catch (error: any) {
       error.response.data?.email?.code === 'email_not_available' &&
         signUp.setError('email', {
@@ -111,12 +117,7 @@ export const Signup = () => {
   };
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button variant={'ghost'} className="flex gap-2 items-center h-9 cursor-pointer">
-          <span className="font-bold uppercase">{t('button')}</span>
-        </Button>
-      </DialogTrigger>
+    <Dialog open onOpenChange={() => router.back()}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle className="text-2xl">{t('title')}</DialogTitle>
@@ -266,4 +267,4 @@ export const Signup = () => {
       </DialogContent>
     </Dialog>
   );
-};
+}

@@ -1,12 +1,12 @@
-'use-client';
+'use client';
 
 import React, { FormEvent } from 'react';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
+import Link from 'next-intl/link';
+import { useRouter } from 'next-intl/client';
+import { usePathname } from 'next-intl/client';
+import { useLocale } from 'next-intl';
 import { useTranslations } from 'next-intl';
 import { useAuth } from '@/context/auth-context';
-import { Signup } from '@/components/signup';
-import { Login } from '@/components/login';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
 import { Input } from '@/components/ui/input';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -21,20 +21,18 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from './ui/dropdown-menu';
-import { setCookie } from 'cookies-next';
-import { Check, Search } from 'lucide-react';
+import { Check, Search, User } from 'lucide-react';
+import { Button } from './ui/button';
 
 export const Header = () => {
   const t = useTranslations('header');
   const auth = useAuth();
   const router = useRouter();
+  const pathname = usePathname();
+  const locale = useLocale();
 
   const changeLanguage = (locale: string) => {
-    setCookie('NEXT_LOCALE', locale);
-
-    router.push({ pathname: router.pathname, query: router.query }, router.asPath, {
-      locale,
-    });
+    router.replace(pathname, { locale });
   };
 
   const handleSearch = (e: FormEvent<HTMLFormElement>) => {
@@ -46,7 +44,7 @@ export const Header = () => {
       return;
     }
 
-    router.push({ pathname: '/search', query: { q } });
+    router.push('/search', { query: q });
 
     e.currentTarget.reset();
   };
@@ -118,7 +116,7 @@ export const Header = () => {
                         }}
                       >
                         <span>Português</span>
-                        {router.locale === 'pt' && <Check size={14} />}
+                        {locale === 'pt' && <Check size={14} />}
                       </DropdownMenuItem>
                       <DropdownMenuItem
                         className="flex justify-between"
@@ -128,7 +126,7 @@ export const Header = () => {
                         }}
                       >
                         <span>English</span>
-                        {router.locale === 'en' && <Check size={14} />}
+                        {locale === 'en' && <Check size={14} />}
                       </DropdownMenuItem>
                     </DropdownMenuSubContent>
                   </DropdownMenuSub>
@@ -144,8 +142,23 @@ export const Header = () => {
             </div>
           ) : (
             <div className="flex gap-2">
-              <Login />
-              <Signup />
+              <Link href={'/login'}>
+                <Button
+                  variant={'outline'}
+                  className="flex gap-2 items-center h-9 cursor-pointer uppercase"
+                >
+                  <User className="h-[1.2rem] w-[1.2rem]" />
+                  <span className="font-bold">{t('login')}</span>
+                </Button>
+              </Link>
+              <Link href={'/signup'}>
+                <Button
+                  variant={'ghost'}
+                  className="flex gap-2 items-center h-9 cursor-pointer"
+                >
+                  <span className="font-bold uppercase">{t('signup')}</span>
+                </Button>
+              </Link>
             </div>
           )}
         </div>

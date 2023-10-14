@@ -2,6 +2,8 @@
   "header": {
     "countries": "Países",
     "input_placeholder": "Procurar...",
+    "login": "Entrar",
+    "signup": "Criar conta",
     "menu": {
       "profile": "Meu perfil",
       "language": "Linguagens",
@@ -15,7 +17,6 @@
     }
   },
   "login": {
-    "button": "Entrar",
     "title": "Login",
     "description": "Use seu email e senha para fazer login no Bagg",
     "password": "Senha",
@@ -26,7 +27,6 @@
     "unauthorized": "Login ou senha incorretos"
   },
   "signup": {
-    "button": "Criar conta",
     "title": "Cadastrar-se",
     "description": "Preencha o formulário para se cadastrar no Bagg",
     "name": "Nome",

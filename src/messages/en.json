@@ -2,6 +2,8 @@
   "header": {
     "countries": "Countries",
     "input_placeholder": "Search...",
+    "signup": "Sign up",
+    "login": "Login",
     "menu": {
       "profile": "My profile",
       "language": "Languages",
@@ -15,7 +17,6 @@
     }
   },
   "login": {
-    "button": "Login",
     "title": "Login",
     "description": "Use your email and password to login to Bagg",
     "password": "Password",
@@ -26,7 +27,6 @@
     "unauthorized": "Login or password provided is incorrect"
   },
   "signup": {
-    "button": "Sign up",
     "title": "Sign up",
     "description": "Fill out the form to register with Bagg",
     "name": "Name",

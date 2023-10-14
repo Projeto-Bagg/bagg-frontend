@@ -1,3 +1,5 @@
+'use client';
+
 import React, { ReactNode, createRef, useRef, useState } from 'react';
 import axios from '../services/axios';
 import {
@@ -7,13 +9,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from './ui/dialog';
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { Cropper, ReactCropperElement } from 'react-cropper';
 import { Separator } from './ui/separator';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
-import { useMutation } from '@tanstack/react-query';
-import { useRouter } from 'next/router';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 import { useAuth } from '../context/auth-context';
 import { DialogClose } from '@radix-ui/react-dialog';
 import { MoveLeft } from 'lucide-react';
@@ -41,6 +42,7 @@ export const ProfilePicDialog = ({ children }: IProfilePicDialog) => {
   const auth = useAuth();
   const router = useRouter();
   const t = useTranslations('profile_pic_modal');
+  const queryClient = useQueryClient();
 
   const updatePic = useMutation(
     async (image: File) => {
@@ -50,8 +52,9 @@ export const ProfilePicDialog = ({ children }: IProfilePicDialog) => {
       return await axios.put('/users', formData);
     },
     {
-      onSuccess: () => {
-        router.reload();
+      onSuccess: (data) => {
+        queryClient.setQueryData(['session'], data.data);
+        setOpen(false);
       },
     },
   );
@@ -62,7 +65,7 @@ export const ProfilePicDialog = ({ children }: IProfilePicDialog) => {
     },
     {
       onSuccess: () => {
-        router.reload();
+        router.refresh();
       },
     },
   );
@@ -132,7 +135,11 @@ export const ProfilePicDialog = ({ children }: IProfilePicDialog) => {
               guides={true}
             />
             <Separator className="my-3" />
-            <Button onClick={handleImageSubmit} className="w-full">
+            <Button
+              loading={updatePic.isLoading}
+              onClick={handleImageSubmit}
+              className="w-full"
+            >
               {t('confirm')}
             </Button>
           </div>
@@ -161,7 +168,7 @@ export const ProfilePicDialog = ({ children }: IProfilePicDialog) => {
             </button>
             <Separator />
             <AlertDialog>
-              <AlertDialogTrigger>
+              <AlertDialogTrigger asChild>
                 <button className="h-[54px]" disabled={!auth.user?.image}>
                   <span className="text-red-500 font-bold">{t('remove')}</span>{' '}
                 </button>

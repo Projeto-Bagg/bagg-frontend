@@ -1,14 +1,16 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+'use client';
+
+import { createContext, useContext, useEffect } from 'react';
 import { getCookie, deleteCookie, setCookie } from 'cookies-next';
 import axios from '@/services/axios';
-import { useRouter } from 'next/router';
 import { Spinner } from '@/assets';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 
 type AuthContextType = {
   login: (user: UserSignIn) => Promise<void>;
   logout: () => void;
   signUp: (user: UserSignUp) => Promise<{ status: number }>;
-  user: User | null;
+  user: User | null | undefined;
   isAuthenticated: boolean;
   isLoading: boolean;
 };
@@ -16,29 +18,34 @@ type AuthContextType = {
 export const AuthContext = createContext({} as AuthContextType);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const router = useRouter();
+  const queryClient = useQueryClient();
+  const {
+    data: user,
+    isLoading,
+    refetch,
+  } = useQuery<User>(['session'], async () => (await axios.get('users/me')).data, {
+    enabled: false,
+  });
 
   const isAuthenticated = !!user;
 
   useEffect(() => {
-    const fetchUser = async () => {
-      const token = getCookie('bagg.session_token');
+    const token = getCookie('bagg.session_token');
 
-      if (token) {
-        await axios.get<User>('users/me').then((response) => setUser(response.data));
-      }
-    };
-    fetchUser().then(() => setIsLoading(false));
-  }, []);
+    if (token) {
+      axios.get('users/me').then((user) => {
+        queryClient.setQueryData(['session'], user.data);
+      });
+    } else {
+      queryClient.setQueryData(['session'], null);
+    }
+  }, [queryClient]);
 
   const login = async (user: UserSignIn) => {
     const { data } = await axios.post('/auth/login', user);
-
     setCookie('bagg.session_token', data.access_token);
 
-    router.reload();
+    refetch();
   };
 
   const signUp = async (user: UserSignUp) => {
@@ -52,7 +59,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const logout = () => {
     try {
       deleteCookie('bagg.session_token');
-      router.reload();
+      queryClient.setQueryData(['session'], null);
     } catch (error) {
       console.log(error);
     }
@@ -66,7 +73,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         <div className="flex flex-col h-screen gap-2 justify-center items-center">
           <h1 className="text-3xl font-bold">Bagg</h1>
           <div>
-            <Spinner className="[&>circle]:stroke-foreground" width="40" height="40" />
+            <Spinner
+              priority={'true'}
+              className="[&>circle]:stroke-foreground"
+              width="40"
+              height="40"
+            />
           </div>
         </div>
       ) : (

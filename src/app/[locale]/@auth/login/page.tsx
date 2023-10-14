@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+'use client';
+
+import React, { ReactNode, useState } from 'react';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useAuth } from '@/context/auth-context';
-import { User } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import {
@@ -19,6 +20,7 @@ import {
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
 import { useTranslations } from 'next-intl';
+import { useRouter } from 'next/navigation';
 
 const loginSchema = z.object({
   login: z.string(),
@@ -27,10 +29,10 @@ const loginSchema = z.object({
 
 type LoginType = z.infer<typeof loginSchema>;
 
-export const Login = () => {
+export default function Login() {
   const [loading, setLoading] = useState<boolean>();
-  const [open, setOpen] = useState<boolean>(false);
   const { toast } = useToast();
+  const router = useRouter();
   const t = useTranslations('login');
 
   const auth = useAuth();
@@ -43,6 +45,7 @@ export const Login = () => {
     try {
       setLoading(true);
       await auth.login(data);
+      router.back();
     } catch (error) {
       setLoading(false);
       axios.isAxiosError(error) &&
@@ -52,16 +55,7 @@ export const Login = () => {
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button
-          variant={'outline'}
-          className="flex gap-2 items-center h-9 cursor-pointer uppercase"
-        >
-          <User className="h-[1.2rem] w-[1.2rem]" />
-          <span className="font-bold">{t('button')}</span>
-        </Button>
-      </DialogTrigger>
+    <Dialog open={true} onOpenChange={() => router.back()}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle className="text-2xl">{t('title')}</DialogTitle>
@@ -99,4 +93,4 @@ export const Login = () => {
       </DialogContent>
     </Dialog>
   );
-};
+}

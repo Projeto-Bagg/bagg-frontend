@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 import {
   Dialog,
@@ -7,8 +9,8 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from './ui/dialog';
-import { Button } from './ui/button';
+} from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -25,10 +27,11 @@ import {
 import { useMutation } from '@tanstack/react-query';
 import axios from '@/services/axios';
 import { useAuth } from '@/context/auth-context';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { ProfilePicDialog } from '@/components/profile-pic-dialog';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Textarea } from '@/components/ui/textarea';
+import { useEditProfile } from '../hooks/useEditProfile';
 
 const editFormSchema = z
   .object({
@@ -43,7 +46,7 @@ const editFormSchema = z
 
 type EditFormType = z.infer<typeof editFormSchema>;
 
-type EditFormTypeWithDate = Omit<
+export type EditFormTypeWithDate = Omit<
   EditFormType,
   'birthdateDay' | 'birthdateMonth' | 'birthdateYear'
 > & {
@@ -68,7 +71,6 @@ const months = [
 export const EditProfile = () => {
   const [open, setOpen] = useState<boolean>();
   const [loading, setLoading] = useState<boolean>();
-  const router = useRouter();
   const edit = useForm<EditFormType>({
     resolver: zodResolver(editFormSchema),
   });
@@ -77,19 +79,11 @@ export const EditProfile = () => {
 
   const t = useTranslations();
 
-  const editMutation = useMutation(
-    async (editFormType: EditFormTypeWithDate) => await axios.put('/users', editFormType),
-    {
-      onSuccess: (_, { username }) => {
-        router.replace('/' + username).then(() => router.reload());
-      },
-    },
-  );
+  const editMutation = useEditProfile();
 
   const handleEdit = async (data: EditFormType) => {
     try {
       setLoading(true);
-      console.log(data);
 
       const { birthdateDay, birthdateMonth, birthdateYear, ...signUpData } = data;
 
@@ -99,13 +93,15 @@ export const EditProfile = () => {
         birthdate = new Date(+birthdateYear, +birthdateMonth, +birthdateDay);
       }
 
-      editMutation.mutate({ ...signUpData, birthdate });
+      await editMutation.mutateAsync({ ...signUpData, birthdate });
+      setOpen(false);
     } catch (error: any) {
       error.response.data?.username?.code === 'username_not_available' &&
         edit.setError('username', {
           message: t('signup.username_not_available'),
           type: 'username_not_available',
         });
+    } finally {
       setLoading(false);
     }
   };
