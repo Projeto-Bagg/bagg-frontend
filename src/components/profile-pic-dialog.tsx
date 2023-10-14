@@ -1,21 +1,21 @@
 'use client';
 
 import React, { ReactNode, createRef, useRef, useState } from 'react';
-import axios from '../services/axios';
+import axios from '@/services/axios';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from './ui/dialog';
+} from '@/components/ui/dialog';
 import { Cropper, ReactCropperElement } from 'react-cropper';
-import { Separator } from './ui/separator';
-import { Button } from './ui/button';
-import { Input } from './ui/input';
+import { Separator } from '@/components/ui/separator';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '../context/auth-context';
+import { useAuth } from '@/context/auth-context';
 import { DialogClose } from '@radix-ui/react-dialog';
 import { MoveLeft } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -28,7 +28,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from './ui/alert-dialog';
+} from '@/components/ui/alert-dialog';
 
 interface IProfilePicDialog {
   children: ReactNode;

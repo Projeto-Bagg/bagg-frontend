@@ -1,6 +1,6 @@
 'use client';
 
-import React, { ReactNode, useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -11,7 +11,6 @@ import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
-  DialogTrigger,
   DialogTitle,
   DialogDescription,
   DialogHeader,
@@ -21,6 +20,7 @@ import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
+import { useOriginTracker } from '@/context/origin-tracker';
 
 const loginSchema = z.object({
   login: z.string(),
@@ -34,6 +34,7 @@ export default function Login() {
   const { toast } = useToast();
   const router = useRouter();
   const t = useTranslations('login');
+  const isWithinPage = useOriginTracker();
 
   const auth = useAuth();
 
@@ -55,7 +56,14 @@ export default function Login() {
   };
 
   return (
-    <Dialog open={true} onOpenChange={() => router.back()}>
+    <Dialog
+      open
+      onOpenChange={() =>
+        isWithinPage
+          ? router.back()
+          : router.push('/', { forceOptimisticNavigation: true } as any)
+      }
+    >
       <DialogContent>
         <DialogHeader>
           <DialogTitle className="text-2xl">{t('title')}</DialogTitle>

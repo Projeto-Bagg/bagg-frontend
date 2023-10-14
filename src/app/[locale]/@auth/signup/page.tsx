@@ -1,7 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import React, { ReactNode, useState } from 'react';
+import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { useAuth } from '@/context/auth-context';
@@ -25,6 +25,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { useRouter } from 'next/navigation';
+import { useOriginTracker } from '@/context/origin-tracker';
 
 const signUpSchema = z
   .object({
@@ -71,6 +72,7 @@ export default function SignUp() {
   const auth = useAuth();
   const router = useRouter();
   const t = useTranslations('signup');
+  const isWithinPage = useOriginTracker();
 
   const signUp = useForm<SignUpType>({
     resolver: zodResolver(signUpSchema),
@@ -117,7 +119,14 @@ export default function SignUp() {
   };
 
   return (
-    <Dialog open onOpenChange={() => router.back()}>
+    <Dialog
+      open
+      onOpenChange={() =>
+        isWithinPage
+          ? router.back()
+          : router.push('/', { forceOptimisticNavigation: true } as any)
+      }
+    >
       <DialogContent>
         <DialogHeader>
           <DialogTitle className="text-2xl">{t('title')}</DialogTitle>

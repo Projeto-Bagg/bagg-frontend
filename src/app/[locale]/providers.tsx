@@ -1,10 +1,11 @@
 'use client';
 
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import React, { ReactNode, useState } from 'react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ThemeProvider } from '@/components/ui/theme-provider';
 import { Toaster } from '@/components/ui/toaster';
-import { AuthProvider } from '../../context/auth-context';
+import { AuthProvider } from '@/context/auth-context';
+import { OriginTrackerProvider } from '@/context/origin-tracker';
 
 export const Providers = ({ children }: { children: ReactNode }) => {
   const [queryClient] = useState(
@@ -22,13 +23,15 @@ export const Providers = ({ children }: { children: ReactNode }) => {
   );
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-        <AuthProvider>
-          <Toaster />
-          {children}
-        </AuthProvider>
-      </ThemeProvider>
-    </QueryClientProvider>
+    <OriginTrackerProvider>
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <AuthProvider>
+            <Toaster />
+            {children}
+          </AuthProvider>
+        </ThemeProvider>
+      </QueryClientProvider>
+    </OriginTrackerProvider>
   );
 };

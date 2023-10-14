@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import axios from '../services/axios';
+import axios from '@/services/axios';
 
 export const useUnFollow = () => {
   const queryClient = useQueryClient();

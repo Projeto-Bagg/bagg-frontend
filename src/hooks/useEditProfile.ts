@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import axios from '../services/axios';
-import { EditFormTypeWithDate } from '../components/edit-profile';
-import { useAuth } from '../context/auth-context';
+import axios from '@/services/axios';
+import { EditFormTypeWithDate } from '@/components/edit-profile';
+import { useAuth } from '@/context/auth-context';
 import { useRouter } from 'next/navigation';
 
 export const useEditProfile = () => {

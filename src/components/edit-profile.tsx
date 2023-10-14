@@ -24,14 +24,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { useMutation } from '@tanstack/react-query';
-import axios from '@/services/axios';
 import { useAuth } from '@/context/auth-context';
-import { useRouter } from 'next/navigation';
 import { ProfilePicDialog } from '@/components/profile-pic-dialog';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Textarea } from '@/components/ui/textarea';
-import { useEditProfile } from '../hooks/useEditProfile';
+import { useEditProfile } from '@/hooks/useEditProfile';
 
 const editFormSchema = z
   .object({

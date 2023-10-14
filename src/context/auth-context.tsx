@@ -1,8 +1,8 @@
 'use client';
 
+import axios from '@/services/axios';
 import { createContext, useContext, useEffect } from 'react';
 import { getCookie, deleteCookie, setCookie } from 'cookies-next';
-import axios from '@/services/axios';
 import { Spinner } from '@/assets';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 

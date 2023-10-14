@@ -1,6 +1,8 @@
 'use client';
 
 import React from 'react';
+import Dropzone from 'react-dropzone';
+import Image from 'next/image';
 import {
   Dialog,
   DialogContent,
@@ -9,18 +11,16 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from './ui/dialog';
-import { Button } from './ui/button';
-import { Input } from './ui/input';
-import { Label } from './ui/label';
+} from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
-import Dropzone from 'react-dropzone';
-import Image from 'next/image';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Textarea } from './ui/textarea';
-import { getVideoThumbnail } from '../utils/getVideoThumbnail';
-import { useCreateTip } from '../hooks/useCreateTip';
+import { Textarea } from '@/components/ui/textarea';
+import { getVideoThumbnail } from '@/utils/getVideoThumbnail';
+import { useCreateTip } from '@/hooks/useCreateTip';
 
 const createTipSchema = z.object({
   file: z.object(
