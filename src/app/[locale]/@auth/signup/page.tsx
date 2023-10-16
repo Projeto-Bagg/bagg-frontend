@@ -29,7 +29,9 @@ import { useOriginTracker } from '@/context/origin-tracker';
 const signUpSchema = z
   .object({
     fullName: z.string().min(3).max(64),
-    username: z.string().min(3).max(15),
+    username: z
+      .string()
+      .regex(/^(?=.{3,16}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![.])$/),
     email: z.string().email(),
     birthdateDay: z.string(),
     birthdateMonth: z.string(),
@@ -39,7 +41,7 @@ const signUpSchema = z
       .min(4)
       .regex(
         /^(?=(.*[a-z]){1,})(?=(.*[A-Z]){1,})(?=(.*[0-9]){1,})(?=(.*[!@#$%^&*()\-__+.]){1,}).{8,}$/,
-        'password_too_weak',
+        'Password too weak',
       ),
     confirmPassword: z.string(),
   })
@@ -103,15 +105,15 @@ export default function SignUp() {
 
       router.back();
     } catch (error: any) {
-      error.response.data?.email?.code === 'email_not_available' &&
+      error.response.data?.email?.code === 'emailNotAvailable' &&
         signUp.setError('email', {
-          message: t('email_not_available'),
-          type: 'email_not_available',
+          message: t('emailNotAvailable'),
+          type: 'emailNotAvailable',
         });
-      error.response.data?.username?.code === 'username_not_available' &&
+      error.response.data?.username?.code === 'usernameNotAvailable' &&
         signUp.setError('username', {
-          message: t('username_not_available'),
-          type: 'username_not_available',
+          message: t('usernameNotAvailable'),
+          type: 'usernameNotAvailable',
         });
       setLoading(false);
     }
@@ -137,7 +139,7 @@ export default function SignUp() {
               <Label>{t('name')}</Label>
               {signUp.formState.errors.fullName && (
                 <span className="font-bold leading-none text-sm text-red-600">
-                  {t('name_error')}
+                  {t('nameError')}
                 </span>
               )}
             </div>
@@ -148,9 +150,9 @@ export default function SignUp() {
               <Label>{t('username')}</Label>
               {signUp.formState.errors.username && (
                 <span className="font-bold leading-none text-sm text-red-600">
-                  {signUp.formState.errors.username.type === 'username_not_available'
-                    ? t('username_not_available')
-                    : t('username_error')}
+                  {signUp.formState.errors.username.type === 'usernameNotAvailable'
+                    ? t('usernameNotAvailable')
+                    : t('usernameError')}
                 </span>
               )}
             </div>
@@ -163,7 +165,7 @@ export default function SignUp() {
                 signUp.formState.errors.birthdateMonth ||
                 signUp.formState.errors.birthdateYear) && (
                 <span className="font-bold leading-none text-sm text-red-600">
-                  {t('birthdate_error')}
+                  {t('birthdateError')}
                 </span>
               )}
             </div>
@@ -231,9 +233,9 @@ export default function SignUp() {
               <Label>{t('email')}</Label>
               {signUp.formState.errors.email && (
                 <span className="font-bold leading-none text-sm text-red-600">
-                  {signUp.formState.errors.email.type === 'email_not_available'
-                    ? t('email_not_available')
-                    : t('email_error')}
+                  {signUp.formState.errors.email.type === 'emailNotAvailable'
+                    ? t('emailNotAvailable')
+                    : t('emailError')}
                 </span>
               )}
             </div>
@@ -244,9 +246,9 @@ export default function SignUp() {
               <Label>{t('password')}</Label>
               {signUp.formState.errors.password && (
                 <span className="font-bold leading-none text-sm text-red-600">
-                  {signUp.formState.errors.password.message === 'password_too_weak'
-                    ? t('password_too_weak')
-                    : t('password_error')}
+                  {signUp.formState.errors.password.message === 'Password too weak'
+                    ? t('passwordTooWeak')
+                    : t('passwordError')}
                 </span>
               )}
             </div>
@@ -254,10 +256,10 @@ export default function SignUp() {
           </div>
           <div className="mb-4">
             <div className="flex justify-between mb-2">
-              <Label>{t('confirm_password')}</Label>
+              <Label>{t('confirmPassword')}</Label>
               {signUp.formState.errors.confirmPassword && (
                 <span className="font-bold leading-none text-sm text-red-600">
-                  {t('confirm_password_error')}
+                  {t('confirmPasswordError')}
                 </span>
               )}
             </div>

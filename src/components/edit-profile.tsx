@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { ReactNode, useState } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -72,7 +72,7 @@ const months = [
   'December',
 ] as const;
 
-export const EditProfile = () => {
+export const EditProfile = ({ children }: { children: ReactNode }) => {
   const [open, setOpen] = useState<boolean>();
   const [loading, setLoading] = useState<boolean>();
   const editMutation = useEditProfile();
@@ -112,10 +112,10 @@ export const EditProfile = () => {
       await editMutation.mutateAsync(formData);
       setOpen(false);
     } catch (error: any) {
-      error.response.data?.username?.code === 'username_not_available' &&
+      error.response.data?.username?.code === 'usernameNotAvailable' &&
         edit.setError('username', {
-          message: t('signup.username_not_available'),
-          type: 'username_not_available',
+          message: t('signup.usernameNotAvailable'),
+          type: 'usernameNotAvailable',
         });
     } finally {
       setLoading(false);
@@ -129,13 +129,11 @@ export const EditProfile = () => {
         setOpen(open), edit.reset();
       }}
     >
-      <DialogTrigger asChild>
-        <Button>{t('edit_profile.button')}</Button>
-      </DialogTrigger>
+      <DialogTrigger>{children}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{t('edit_profile.title')}</DialogTitle>
-          <DialogDescription>{t('edit_profile.description')}</DialogDescription>
+          <DialogTitle>{t('editProfile.title')}</DialogTitle>
+          <DialogDescription>{t('editProfile.description')}</DialogDescription>
         </DialogHeader>
         <form onSubmit={edit.handleSubmit(handleEdit)}>
           <div className="mb-2">
@@ -154,7 +152,7 @@ export const EditProfile = () => {
                   />
                 </Avatar>
                 <span className="text-sm font-bold text-blue-600">
-                  {t('edit_profile.edit_profile_pic')}
+                  {t('editProfile.editProfilePic')}
                 </span>
               </div>
             </ProfilePicDialog>
@@ -164,7 +162,7 @@ export const EditProfile = () => {
               <Label>{t('signup.name')}</Label>
               {edit.formState.errors.fullName && (
                 <span className="font-bold leading-none text-sm text-red-600">
-                  {t('signup.name_error')}
+                  {t('signup.nameError')}
                 </span>
               )}
             </div>
@@ -176,8 +174,8 @@ export const EditProfile = () => {
               {edit.formState.errors.username && (
                 <span className="font-bold leading-none text-sm text-red-600">
                   {edit.formState.errors.username.type === 'username_not_available'
-                    ? t('signup.username_not_available')
-                    : t('signup.username_error')}
+                    ? t('signup.usernameNotAvailable')
+                    : t('signup.usernameError')}
                 </span>
               )}
             </div>
@@ -185,7 +183,7 @@ export const EditProfile = () => {
           </div>
           <div className="mb-4">
             <div className="justify-between flex align-baseline mb-2">
-              <Label>{t('edit_profile.bio')}</Label>
+              <Label>{t('editProfile.bio')}</Label>
             </div>
             <Textarea
               className="max-h-[144px]"
@@ -200,7 +198,7 @@ export const EditProfile = () => {
                 edit.formState.errors.birthdateMonth ||
                 edit.formState.errors.birthdateYear) && (
                 <span className="font-bold leading-none text-sm text-red-600">
-                  {t('signup.birthdate_error')}
+                  {t('signup.birthdateError')}
                 </span>
               )}
             </div>
@@ -277,7 +275,7 @@ export const EditProfile = () => {
           </div>
           <DialogFooter>
             <Button className="min-w-[85px]" loading={loading} type="submit">
-              {t('edit_profile.save')}
+              {t('editProfile.save')}
             </Button>
           </DialogFooter>
         </form>

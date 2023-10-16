@@ -21,6 +21,15 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Bagg',
     description: 'Uma rede social para viajantes',
+    siteName: 'Bagg',
+    url: 'https://bagg.azurewebsites.net',
+    type: 'website',
+    locale: 'pt',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Bagg',
+    description: 'Uma rede social para viajantes',
   },
 };
 
@@ -49,7 +58,7 @@ export default async function LocaleLayout({
         <NextIntlClientProvider locale={locale} messages={messages}>
           <Providers>
             <Header />
-            <div className="container border-x min-h-[calc(100vh-56px)]">
+            <div className="container min-h-[calc(100vh-56px)] border-l border-r">
               {children}
               {auth}
             </div>

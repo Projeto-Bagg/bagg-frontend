@@ -75,7 +75,7 @@ export default function Login() {
               <Label htmlFor="email">{t('login')}</Label>
               {login.formState.errors.login && (
                 <span className="text-red-600 text-sm leading-none font-bold">
-                  {t('login_error')}
+                  {t('loginError')}
                 </span>
               )}
             </div>
@@ -86,7 +86,7 @@ export default function Login() {
               <Label htmlFor="password">{t('password')}</Label>
               {login.formState.errors.password && (
                 <span className="text-red-600 text-sm leading-none font-bold">
-                  {t('password_error')}
+                  {t('passwordError')}
                 </span>
               )}
             </div>
@@ -94,7 +94,7 @@ export default function Login() {
           </div>
           <DialogFooter>
             <Button type={'submit'} loading={loading} className="w-full">
-              {t('login_submit')}
+              {t('loginSubmit')}
             </Button>
           </DialogFooter>
         </form>

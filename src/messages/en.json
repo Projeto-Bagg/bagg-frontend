@@ -1,7 +1,9 @@
 {
   "header": {
     "countries": "Countries",
-    "input_placeholder": "Search...",
+    "home": "Home",
+    "ranking": "Ranking",
+    "inputPlaceholder": "Search...",
     "signup": "Sign up",
     "login": "Login",
     "menu": {
@@ -20,31 +22,31 @@
     "title": "Login",
     "description": "Use your email and password to login to Bagg",
     "password": "Password",
-    "password_error": "Invalid password",
-    "login_submit": "Login",
+    "passwordError": "Invalid password",
+    "loginSubmit": "Login",
     "login": "Email or username",
-    "login_error": "Invalid login",
+    "loginError": "Invalid login",
     "unauthorized": "Login or password provided is incorrect"
   },
   "signup": {
     "title": "Sign up",
-    "description": "Fill out the form to register with Bagg",
+    "description": "Fill out the form to register to Bagg",
     "name": "Name",
-    "name_error": "Invalid name",
+    "nameError": "Invalid name",
     "username": "Username",
-    "username_error": "Invalid username",
-    "username_not_available": "Username not available",
+    "usernameError": "Invalid username",
+    "usernameNotAvailable": "Username not available",
     "birthdate": "Birthdate",
-    "birthdate_placeholder": "Select a birthdate",
-    "birthdate_error": "Invalid birthdate",
+    "birthdatePlaceholder": "Select a birthdate",
+    "birthdateError": "Invalid birthdate",
     "email": "Email",
-    "email_error": "Invalid email",
-    "email_not_available": "Email not available",
+    "emailError": "Invalid email",
+    "emailNotAvailable": "Email not available",
     "password": "Password",
-    "password_error": "Invalid password",
-    "password_too_weak": "Password too weak",
-    "confirm_password": "Confirm password",
-    "confirm_password_error": "Passwords do not match",
+    "passwordError": "Invalid password",
+    "passwordTooWeak": "Password too weak",
+    "confirmPassword": "Confirm password",
+    "confirmPasswordError": "Passwords do not match",
     "confirm": "By registering, you accept our terms of use and our privacy policy",
     "signup": "Sign up",
     "day": "Day",
@@ -65,7 +67,7 @@
       "December": "December"
     }
   },
-  "profile_pic_modal": {
+  "profilePicModal": {
     "title": "Edit profile picture",
     "confirm": "Send picture",
     "upload": "Upload picture",
@@ -73,19 +75,19 @@
     "cancel": "Cancel"
   },
   "profile": {
+    "editProfile": "Edit profile",
     "createdAt": "Joined in {joinDate, date, long}",
     "birthdate": "Born in {joinDate, date, long}",
     "followers": "Followers",
     "following": "Following",
     "follow": "Follow",
-    "follow_you": "Follow you"
+    "followYou": "Follow you"
   },
-  "edit_profile": {
-    "button": "Edit profile",
+  "editProfile": {
     "title": "Edit profile",
-    "description": "Make changes to your profile here. Click save when youre done.",
+    "description": "Make changes to your profile here. Click save when you're done.",
     "bio": "Biography",
-    "edit_profile_pic": "Edit profile picture",
+    "editProfilePic": "Edit profile picture",
     "save": "Save changes"
   }
 }

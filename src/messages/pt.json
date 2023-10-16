@@ -1,7 +1,9 @@
 {
   "header": {
     "countries": "Países",
-    "input_placeholder": "Procurar...",
+    "home": "Página principal",
+    "ranking": "Ranking",
+    "inputPlaceholder": "Procurar...",
     "login": "Entrar",
     "signup": "Criar conta",
     "menu": {
@@ -20,31 +22,31 @@
     "title": "Login",
     "description": "Use seu email e senha para fazer login no Bagg",
     "password": "Senha",
-    "password_error": "Senha inválida",
-    "login_submit": "Logar",
+    "passwordError": "Senha inválida",
+    "loginSubmit": "Logar",
     "login": "Email ou nome de usuário",
-    "login_error": "Login inválido",
+    "loginError": "Login inválido",
     "unauthorized": "Login ou senha incorretos"
   },
   "signup": {
     "title": "Cadastrar-se",
     "description": "Preencha o formulário para se cadastrar no Bagg",
     "name": "Nome",
-    "name_error": "Nome inválido",
+    "nameError": "Nome inválido",
     "username": "Nome de usuário",
-    "username_error": "Nome de usuário inválido",
-    "username_not_available": "Nome de usuário já cadastrado",
+    "usernameError": "Nome de usuário inválido",
+    "usernameNotAvailable": "Nome de usuário já cadastrado",
     "birthdate": "Data de nascimento",
-    "birthdate_placeholder": "Selecione uma data",
-    "birthdate_error": "Data de nascimento inválida",
+    "birthdatePlaceholder": "Selecione uma data",
+    "birthdateError": "Data de nascimento inválida",
     "email": "Email",
-    "email_error": "Email inválido",
-    "email_not_available": "Email já cadastrado",
+    "emailError": "Email inválido",
+    "emailNotAvailable": "Email já cadastrado",
     "password": "Senha",
-    "password_error": "Senha inválida",
-    "confirm_password": "Confirmar senha",
-    "confirm_password_error": "As senhas não concidem",
-    "password_too_weak": "Senha muito fraca",
+    "passwordError": "Senha inválida",
+    "confirmPassword": "Confirmar senha",
+    "confirmPasswordError": "As senhas não concidem",
+    "passwordTooWeak": "Senha muito fraca",
     "confirm": "Ao se cadastrar, você aceita nossos termos de uso e a nossa política de privacidade",
     "signup": "Cadastrar-se",
     "day": "Dia",
@@ -65,7 +67,7 @@
       "December": "Dezembro"
     }
   },
-  "profile_pic_modal": {
+  "profilePicModal": {
     "title": "Alterar foto do perfil",
     "confirm": "Enviar foto",
     "upload": "Carregar foto",
@@ -73,19 +75,19 @@
     "cancel": "Cancelar"
   },
   "profile": {
+    "editProfile": "Editar perfil",
     "createdAt": "Entrou em {joinDate, date, long}",
     "birthdate": "Nasceu em {joinDate, date, long}",
     "followers": "Seguidores",
     "following": "Seguindo",
     "follow": "Seguir",
-    "follow_you": "Segue você"
+    "followYou": "Segue você"
   },
-  "edit_profile": {
-    "button": "Editar perfil",
+  "editProfile": {
     "title": "Editar perfil",
     "description": "Faça alterações nos dados do seu perfil. Aperte em salvar quando tiver terminado.",
     "bio": "Biografia",
-    "edit_profile_pic": "Editar foto de perfil",
+    "editProfilePic": "Editar foto de perfil",
     "save": "Salvar alterações"
   }
 }
