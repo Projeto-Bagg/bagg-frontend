@@ -8,7 +8,7 @@ interface User {
   bio?: string;
   birthdate: Date;
   createdAt: Date;
-  image: string;
+  image?: string;
   following: number;
   followers: number;
 }

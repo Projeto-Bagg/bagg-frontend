@@ -5,6 +5,7 @@ import { NextIntlClientProvider } from 'next-intl';
 import { ReactNode } from 'react';
 import { Header } from '@/components/header';
 import { Providers } from '@/app/[locale]/providers';
+import { Metadata } from 'next';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -13,6 +14,15 @@ interface Props {
   auth: ReactNode;
   params: { locale: string };
 }
+
+export const metadata: Metadata = {
+  title: 'Bagg',
+  description: 'Uma rede social para viajantes',
+  openGraph: {
+    title: 'Bagg',
+    description: 'Uma rede social para viajantes',
+  },
+};
 
 async function getMessages(locale: string) {
   try {

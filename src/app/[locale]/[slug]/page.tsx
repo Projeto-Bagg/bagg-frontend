@@ -5,12 +5,12 @@ import axios from '@/services/axios';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useQuery } from '@tanstack/react-query';
 import { useAuth } from '@/context/auth-context';
-import { ProfilePicDialog } from '@/components/profile-pic-dialog';
 import { useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/button';
 import { useFollow } from '@/hooks/useFollow';
 import { useUnFollow } from '@/hooks/useUnfollow';
 import { EditProfile } from '@/components/edit-profile';
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 
 export default function Profile({ params }: { params: { slug: string } }) {
   const auth = useAuth();
@@ -40,27 +40,28 @@ export default function Profile({ params }: { params: { slug: string } }) {
     <div className="p-8 border-b">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
-          {auth.user?.id === user.data.id ? (
-            <ProfilePicDialog>
+          <Dialog>
+            <DialogTrigger>
               <Avatar className="w-[184px] h-[184px]">
-                <AvatarImage src={auth.user?.image} />
+                <AvatarImage src={user.data.image} />
                 <AvatarFallback>
                   <span className="text-4xl">
-                    {auth.user?.username.charAt(0).toUpperCase()}
+                    {user.data.username.charAt(0).toUpperCase()}
                   </span>
                 </AvatarFallback>
               </Avatar>
-            </ProfilePicDialog>
-          ) : (
-            <Avatar className="w-[184px] h-[184px]">
-              <AvatarImage src={user.data.image} />
-              <AvatarFallback>
-                <span className="text-4xl">
-                  {user.data.username.charAt(0).toUpperCase()}
-                </span>
-              </AvatarFallback>
-            </Avatar>
-          )}
+            </DialogTrigger>
+            <DialogContent className="w-auto md:w-auto sm:w-auto p-0 md:rounded-full rounded-full border-none">
+              <Avatar className="w-[400px] h-[400px]">
+                <AvatarImage src={user.data.image} />
+                <AvatarFallback>
+                  <span className="text-4xl">
+                    {user.data.username.charAt(0).toUpperCase()}
+                  </span>
+                </AvatarFallback>
+              </Avatar>
+            </DialogContent>
+          </Dialog>
           <div className="flex flex-col">
             <span className="text-2xl">@{user.data.username}</span>
             <span className="text-sm text-slate-400">{user.data.fullName}</span>

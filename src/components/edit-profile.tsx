@@ -26,9 +26,10 @@ import {
 } from '@/components/ui/select';
 import { useAuth } from '@/context/auth-context';
 import { ProfilePicDialog } from '@/components/profile-pic-dialog';
-import { Avatar, AvatarImage } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Textarea } from '@/components/ui/textarea';
 import { useEditProfile } from '@/hooks/useEditProfile';
+import { useDeleteProfilePic } from '@/hooks/useDeleteProfilePic';
 
 const editFormSchema = z
   .object({
@@ -38,6 +39,12 @@ const editFormSchema = z
     birthdateMonth: z.string(),
     birthdateYear: z.string(),
     bio: z.string(),
+    profilePic: z
+      .object({
+        file: typeof window === 'undefined' ? z.any() : z.instanceof(File),
+        url: z.string(),
+      })
+      .nullable(),
   })
   .partial();
 
@@ -68,29 +75,41 @@ const months = [
 export const EditProfile = () => {
   const [open, setOpen] = useState<boolean>();
   const [loading, setLoading] = useState<boolean>();
+  const editMutation = useEditProfile();
+  const auth = useAuth();
+  const t = useTranslations();
+  const deletePic = useDeleteProfilePic();
   const edit = useForm<EditFormType>({
     resolver: zodResolver(editFormSchema),
   });
-
-  const auth = useAuth();
-
-  const t = useTranslations();
-
-  const editMutation = useEditProfile();
 
   const handleEdit = async (data: EditFormType) => {
     try {
       setLoading(true);
 
-      const { birthdateDay, birthdateMonth, birthdateYear, ...signUpData } = data;
-
-      let birthdate;
-
-      if (birthdateDay && birthdateMonth && birthdateYear) {
-        birthdate = new Date(+birthdateYear, +birthdateMonth, +birthdateDay);
+      if (data.profilePic === null) {
+        await deletePic.mutateAsync();
       }
 
-      await editMutation.mutateAsync({ ...signUpData, birthdate });
+      const formData = new FormData();
+      data.profilePic && formData.append('profile-pic', data.profilePic.file);
+      data.fullName && formData.append('fullName', data.fullName);
+      data.bio && formData.append('bio', data.bio);
+      data.username && formData.append('username', data.username);
+
+      let birthdate: Date | undefined;
+
+      if (data.birthdateDay && data.birthdateMonth && data.birthdateYear) {
+        birthdate = new Date(
+          +data.birthdateYear,
+          +data.birthdateMonth,
+          +data.birthdateDay,
+        );
+      }
+
+      birthdate && formData.append('birthdate', birthdate.toISOString());
+
+      await editMutation.mutateAsync(formData);
       setOpen(false);
     } catch (error: any) {
       error.response.data?.username?.code === 'username_not_available' &&
@@ -104,7 +123,12 @@ export const EditProfile = () => {
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog
+      open={open}
+      onOpenChange={(open) => {
+        setOpen(open), edit.reset();
+      }}
+    >
       <DialogTrigger asChild>
         <Button>{t('edit_profile.button')}</Button>
       </DialogTrigger>
@@ -115,10 +139,19 @@ export const EditProfile = () => {
         </DialogHeader>
         <form onSubmit={edit.handleSubmit(handleEdit)}>
           <div className="mb-2">
-            <ProfilePicDialog>
+            <ProfilePicDialog onSubmit={(f) => edit.setValue('profilePic', f)}>
               <div className="flex items-center gap-2.5 w-fit">
-                <Avatar>
-                  <AvatarImage src={auth.user?.image} />
+                <Avatar className="w-[72px] h-[72px]">
+                  <AvatarFallback>
+                    {auth.user?.username.charAt(0).toUpperCase()}
+                  </AvatarFallback>
+                  <AvatarImage
+                    src={
+                      edit.watch('profilePic') === null
+                        ? undefined
+                        : edit.watch('profilePic')?.url || auth.user?.image
+                    }
+                  />
                 </Avatar>
                 <span className="text-sm font-bold text-blue-600">
                   {t('edit_profile.edit_profile_pic')}

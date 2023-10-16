@@ -1,7 +1,7 @@
 'use client';
 
-import { zodResolver } from '@hookform/resolvers/zod';
 import React, { useState } from 'react';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { useAuth } from '@/context/auth-context';
@@ -13,7 +13,6 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { useTranslations } from 'next-intl';
@@ -264,7 +263,7 @@ export default function SignUp() {
             </div>
             <Input type={'password'} {...signUp.register('confirmPassword')} />
           </div>
-          <span className="text-center block mb-4 text-sm font-medium">
+          <span className="text-center block mb-4 text-sm font-medium text-muted-foreground">
             {t('confirm')}
           </span>
           <div className="flex justify-end mb-2">

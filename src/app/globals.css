@@ -57,3 +57,7 @@
     @apply bg-background text-foreground;
   }
 }
+
+.cropper-face {
+  opacity: 0 !important;
+}

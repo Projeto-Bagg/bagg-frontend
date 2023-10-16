@@ -1,6 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from '@/services/axios';
-import { EditFormTypeWithDate } from '@/components/edit-profile';
 import { useAuth } from '@/context/auth-context';
 import { useRouter } from 'next/navigation';
 
@@ -10,7 +9,7 @@ export const useEditProfile = () => {
   const route = useRouter();
 
   return useMutation(
-    async (editForm: EditFormTypeWithDate) => await axios.put<User>('/users', editForm),
+    async (editForm: FormData) => await axios.put<User>('/users', editForm),
     {
       onSuccess(data) {
         if (auth.user?.username !== data.data.username) {
