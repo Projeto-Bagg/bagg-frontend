@@ -58,7 +58,7 @@ export default async function LocaleLayout({
         <NextIntlClientProvider locale={locale} messages={messages}>
           <Providers>
             <Header />
-            <div className="container min-h-[calc(100vh-56px)] border-l border-r">
+            <div className="container min-h-[calc(100vh-61px)] border-l border-r">
               {children}
               {auth}
             </div>

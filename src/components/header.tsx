@@ -21,7 +21,7 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Check, Menu, Search, User } from 'lucide-react';
+import { Check, Search, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { MobileNav } from '@/components/mobile-nav';
 
@@ -51,8 +51,8 @@ export const Header = () => {
   };
 
   return (
-    <header className="text-sm border-b h-14">
-      <div className="container px-4 lg:px-8 flex gap-2 lg:gap-4 justify-between items-center h-full">
+    <div className="text-sm border-b">
+      <header className="container h-[3.75rem] px-4 lg:px-8 flex gap-2 lg:gap-4 justify-between items-center">
         <nav>
           <ul className="flex gap-2 lg:gap-6 font-semibold items-center">
             <li>
@@ -168,7 +168,7 @@ export const Header = () => {
           </div>
           <MobileNav />
         </div>
-      </div>
-    </header>
+      </header>
+    </div>
   );
 };

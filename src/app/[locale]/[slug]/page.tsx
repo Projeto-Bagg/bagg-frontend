@@ -57,7 +57,7 @@ export default function Profile({ params }: { params: { slug: string } }) {
             <Dialog>
               <DialogTrigger>
                 <Avatar className="w-[80px] h-[80px] lg:w-[184px] lg:h-[184px]">
-                  <AvatarImage src={user.data.image} />
+                  <AvatarImage draggable={false} src={user.data.image} />
                   <AvatarFallback>
                     <span className="text-xl lg:text-4xl">
                       {user.data.username.charAt(0).toUpperCase()}
@@ -65,9 +65,9 @@ export default function Profile({ params }: { params: { slug: string } }) {
                   </AvatarFallback>
                 </Avatar>
               </DialogTrigger>
-              <DialogContent className="w-auto md:w-auto sm:w-auto p-0 sm:rounded-full rounded-full border-none">
-                <Avatar className="w-screen h-[100vw] lg:w-[400px] lg:h-[400px]">
-                  <AvatarImage src={user.data.image} />
+              <DialogContent className="w-[90%] md:w-auto sm:w-auto p-0 sm:rounded-full rounded-full border-none">
+                <Avatar className="w-full h-full lg:w-[400px] lg:h-[400px]">
+                  <AvatarImage draggable={false} src={user.data.image} />
                   <AvatarFallback>
                     <span className="text-4xl">
                       {user.data.username.charAt(0).toUpperCase()}
@@ -98,7 +98,7 @@ export default function Profile({ params }: { params: { slug: string } }) {
             </EditProfile>
           )}
         </div>
-        <div className="text-xs lg:text-sm mt-4">
+        <div className="text-sm mt-4">
           {user.data.bio && <p className="mb-1">{user.data.bio}</p>}
           <div className="mb-1">
             <p className="text-muted-foreground">

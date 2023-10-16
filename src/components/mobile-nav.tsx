@@ -44,7 +44,7 @@ export const MobileNav = () => {
                   <AvatarImage src={auth.user?.image} />
                 </Avatar>
                 <div>
-                  <span className="text-sm">{auth.user?.username}</span>
+                  <span className="text-sm">@{auth.user?.username}</span>
                   <p className="text-xs text-muted-foreground">{auth.user?.fullName}</p>
                 </div>
               </div>
