@@ -31,18 +31,20 @@ const signUpSchema = z
     fullName: z.string().min(3).max(64),
     username: z
       .string()
-      .regex(/^(?=.{3,16}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![.])$/),
+      .min(3)
+      .max(20)
+      .regex(/^(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![.])$/),
     email: z.string().email(),
     birthdateDay: z.string(),
     birthdateMonth: z.string(),
     birthdateYear: z.string(),
     password: z
       .string()
-      .min(4)
       .regex(
         /^(?=(.*[a-z]){1,})(?=(.*[A-Z]){1,})(?=(.*[0-9]){1,})(?=(.*[!@#$%^&*()\-__+.]){1,}).{8,}$/,
         'Password too weak',
-      ),
+      )
+      .min(8),
     confirmPassword: z.string(),
   })
   .superRefine((data, ctx) => {
@@ -128,7 +130,7 @@ export default function SignUp() {
           : router.push('/', { forceOptimisticNavigation: true } as any)
       }
     >
-      <DialogContent>
+      <DialogContent onPointerDownOutside={(e) => e.preventDefault()}>
         <DialogHeader>
           <DialogTitle className="text-2xl">{t('title')}</DialogTitle>
           <DialogDescription>{t('description')}</DialogDescription>
@@ -215,8 +217,8 @@ export default function SignUp() {
                       <SelectValue placeholder={t('year')} />
                     </SelectTrigger>
                     <SelectContent className="max-h-[400px]">
-                      {Array.apply(0, Array(120 - 1))
-                        .map((_, index) => new Date().getFullYear() - index)
+                      {Array.apply(0, Array(104 - 1))
+                        .map((_, index) => new Date().getFullYear() - index - 16)
                         .map((year, index) => (
                           <SelectItem key={index} value={year.toString()}>
                             {year}

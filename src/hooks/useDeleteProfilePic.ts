@@ -6,7 +6,7 @@ export const useDeleteProfilePic = () => {
 
   return useMutation(
     async () => {
-      return await axios.delete('/users/profile-pic');
+      return await axios.delete('/users/profilePic');
     },
     {
       onSuccess: () => {

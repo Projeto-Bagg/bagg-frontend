@@ -31,18 +31,20 @@ export const ProfilePicDialog = ({ children, onSubmit }: IProfilePicDialog) => {
   const [minZoom, setMinZoom] = useState<number>();
   const inputRef = useRef<HTMLInputElement>(null);
   const cropperRef = useRef<ReactCropperElement>(null);
+  const modalRef = useRef<React.ElementRef<typeof DialogContent>>(null);
   const auth = useAuth();
   const t = useTranslations('profilePicModal');
 
   const handleZoom = useCallback((e: Cropper.ZoomEvent<HTMLImageElement>) => {
     const height = cropperRef.current?.naturalHeight;
     const width = cropperRef.current?.naturalWidth;
+    const modalWidth = modalRef.current?.offsetWidth;
 
-    if (!height || !width) {
+    if (!height || !width || !modalWidth) {
       return;
     }
 
-    const minZoom = 510 / (width < height ? width : height);
+    const minZoom = modalWidth / (width < height ? width : height);
 
     setMinZoom(minZoom);
 
@@ -95,7 +97,7 @@ export const ProfilePicDialog = ({ children, onSubmit }: IProfilePicDialog) => {
       }}
     >
       <DialogTrigger>{children}</DialogTrigger>
-      <DialogContent className="gap-0 px-0 py-0 pt-6">
+      <DialogContent ref={modalRef} className="gap-0 px-0 py-0 pt-6">
         <DialogHeader className="mb-6">
           <DialogTitle className="text-center">{t('title')}</DialogTitle>
         </DialogHeader>
@@ -123,7 +125,7 @@ export const ProfilePicDialog = ({ children, onSubmit }: IProfilePicDialog) => {
                 autoCropArea={1}
                 guides={true}
               ></Cropper>
-              <div className="absolute right-4 bottom-4 w-[45%] bg-slate-700 border-muted-foreground border p-1 bg-opacity-30 rounded-xl flex gap-1.5 text-primary">
+              <div className="absolute right-4 bottom-4 w-[50%] bg-slate-700 border-muted-foreground border p-1 bg-opacity-30 rounded-xl flex gap-1.5 text-primary">
                 <ZoomOut size={26} strokeWidth={2.5} />
                 <Slider
                   min={minZoom}

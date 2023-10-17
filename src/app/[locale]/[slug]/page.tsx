@@ -57,29 +57,29 @@ export default function Profile({ params }: { params: { slug: string } }) {
             <Dialog>
               <DialogTrigger>
                 <Avatar className="w-[80px] h-[80px] lg:w-[184px] lg:h-[184px]">
-                  <AvatarImage draggable={false} src={user.data.image} />
+                  <AvatarImage src={user.data.image} />
                   <AvatarFallback>
                     <span className="text-xl lg:text-4xl">
-                      {user.data.username.charAt(0).toUpperCase()}
+                      {user.data.fullName.charAt(0).toUpperCase()}
                     </span>
                   </AvatarFallback>
                 </Avatar>
               </DialogTrigger>
               <DialogContent className="w-[90%] md:w-auto sm:w-auto p-0 sm:rounded-full rounded-full border-none">
                 <Avatar className="w-full h-full lg:w-[400px] lg:h-[400px]">
-                  <AvatarImage draggable={false} src={user.data.image} />
+                  <AvatarImage src={user.data.image} />
                   <AvatarFallback>
                     <span className="text-4xl">
-                      {user.data.username.charAt(0).toUpperCase()}
+                      {user.data.fullName.charAt(0).toUpperCase()}
                     </span>
                   </AvatarFallback>
                 </Avatar>
               </DialogContent>
             </Dialog>
             <div className="flex flex-col">
-              <span className="text-lg lg:text-2xl">@{user.data.username}</span>
-              <span className="text-xs lg:text-base text-muted-foreground">
-                {user.data.fullName}
+              <span className="text-lg lg:text-2xl">{user.data.fullName}</span>
+              <span className="text-xs lg:text-base text-muted-foreground ">
+                @{user.data.username}
               </span>
               {friendshipStatus.data?.followedBy && (
                 <span className="text-xs lg:text-base text-muted-foreground">
@@ -99,7 +99,7 @@ export default function Profile({ params }: { params: { slug: string } }) {
           )}
         </div>
         <div className="text-sm mt-4">
-          {user.data.bio && <p className="mb-1">{user.data.bio}</p>}
+          {user.data.bio && <p className="mb-1 whitespace-pre-wrap">{user.data.bio}</p>}
           <div className="mb-1">
             <p className="text-muted-foreground">
               {t('createdAt', { joinDate: user.data.createdAt })}

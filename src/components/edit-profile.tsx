@@ -33,8 +33,12 @@ import { useDeleteProfilePic } from '@/hooks/useDeleteProfilePic';
 
 const editFormSchema = z
   .object({
-    fullName: z.string(),
-    username: z.string(),
+    fullName: z.string().min(3).max(64),
+    username: z
+      .string()
+      .min(3)
+      .max(20)
+      .regex(/^(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![.])$/),
     birthdateDay: z.string(),
     birthdateMonth: z.string(),
     birthdateYear: z.string(),
@@ -92,7 +96,7 @@ export const EditProfile = ({ children }: { children: ReactNode }) => {
       }
 
       const formData = new FormData();
-      data.profilePic && formData.append('profile-pic', data.profilePic.file);
+      data.profilePic && formData.append('profilePic', data.profilePic.file);
       data.fullName && formData.append('fullName', data.fullName);
       data.bio && formData.append('bio', data.bio);
       data.username && formData.append('username', data.username);
@@ -129,7 +133,7 @@ export const EditProfile = ({ children }: { children: ReactNode }) => {
         setOpen(open), edit.reset();
       }}
     >
-      <DialogTrigger>{children}</DialogTrigger>
+      <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{t('editProfile.title')}</DialogTitle>
@@ -141,7 +145,7 @@ export const EditProfile = ({ children }: { children: ReactNode }) => {
               <div className="flex items-center gap-2.5 w-fit">
                 <Avatar className="w-[72px] h-[72px]">
                   <AvatarFallback>
-                    {auth.user?.username.charAt(0).toUpperCase()}
+                    {auth.user?.fullName.charAt(0).toUpperCase()}
                   </AvatarFallback>
                   <AvatarImage
                     src={
@@ -173,7 +177,7 @@ export const EditProfile = ({ children }: { children: ReactNode }) => {
               <Label>{t('signup.username')}</Label>
               {edit.formState.errors.username && (
                 <span className="font-bold leading-none text-sm text-red-600">
-                  {edit.formState.errors.username.type === 'username_not_available'
+                  {edit.formState.errors.username.type === 'usernameNotAvailable'
                     ? t('signup.usernameNotAvailable')
                     : t('signup.usernameError')}
                 </span>
@@ -260,8 +264,8 @@ export const EditProfile = ({ children }: { children: ReactNode }) => {
                       <SelectValue placeholder={t('signup.year')} />
                     </SelectTrigger>
                     <SelectContent className="max-h-[400px]">
-                      {Array.apply(0, Array(120 - 1))
-                        .map((_, index) => new Date().getFullYear() - index)
+                      {Array.apply(0, Array(104 - 1))
+                        .map((_, index) => new Date().getFullYear() - index - 16)
                         .map((year, index) => (
                           <SelectItem key={index} value={year.toString()}>
                             {year}

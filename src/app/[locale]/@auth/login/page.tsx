@@ -64,7 +64,7 @@ export default function Login() {
           : router.push('/', { forceOptimisticNavigation: true } as any)
       }
     >
-      <DialogContent>
+      <DialogContent onPointerDownOutside={(e) => e.preventDefault()}>
         <DialogHeader>
           <DialogTitle className="text-2xl">{t('title')}</DialogTitle>
           <DialogDescription>{t('description')}</DialogDescription>

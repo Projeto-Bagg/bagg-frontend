@@ -95,7 +95,7 @@ export const Header = () => {
                     <Avatar>
                       <AvatarImage src={auth.user?.image} />
                       <AvatarFallback>
-                        {auth.user?.username.charAt(0).toUpperCase()}
+                        {auth.user?.fullName.charAt(0).toUpperCase()}
                       </AvatarFallback>
                     </Avatar>
                   </DropdownMenuTrigger>
