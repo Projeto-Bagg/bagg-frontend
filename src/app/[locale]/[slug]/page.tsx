@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { useRouter } from 'next/navigation';
 import axios from '@/services/axios';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useQuery } from '@tanstack/react-query';
@@ -8,17 +9,17 @@ import { useAuth } from '@/context/auth-context';
 import { useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/button';
 import { useFollow } from '@/hooks/useFollow';
-import { useUnFollow } from '@/hooks/useUnfollow';
+import { useUnfollow } from '@/hooks/useUnfollow';
 import { EditProfile } from '@/components/edit-profile';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
-import { useRouter } from 'next/navigation';
 import { Separator } from '@/components/ui/separator';
+import { UserFollowTabs } from '@/components/user-follow-tabs';
 
 export default function Profile({ params }: { params: { slug: string } }) {
   const auth = useAuth();
   const t = useTranslations('profile');
   const follow = useFollow();
-  const unfollow = useUnFollow();
+  const unfollow = useUnfollow();
   const router = useRouter();
 
   const user = useQuery<User>(
@@ -26,23 +27,12 @@ export default function Profile({ params }: { params: { slug: string } }) {
     async () => (await axios.get<User>('/users/' + params.slug)).data,
   );
 
-  const friendshipStatus = useQuery(
-    ['friendship', params.slug],
-    async () =>
-      (await axios.get<FriendshipStatus>('/users/friendship/' + params.slug)).data,
-    {
-      enabled: auth.isAuthenticated,
-    },
-  );
-
   const handleFollowClick = () => {
     if (!auth.isAuthenticated) {
       return router.push('/login');
     }
 
-    friendshipStatus.data?.following
-      ? unfollow.mutate(params.slug)
-      : follow.mutate(params.slug);
+    user.data?.isFollowing ? unfollow.mutate(params.slug) : follow.mutate(params.slug);
   };
 
   if (!user.data || !params.slug || user.isLoading) {
@@ -66,7 +56,7 @@ export default function Profile({ params }: { params: { slug: string } }) {
                 </Avatar>
               </DialogTrigger>
               <DialogContent className="w-[90%] md:w-auto sm:w-auto p-0 sm:rounded-full rounded-full border-none">
-                <Avatar className="w-full h-full lg:w-[400px] lg:h-[400px]">
+                <Avatar className="w-full h-full lg:w-[480px] lg:h-[480px]">
                   <AvatarImage src={user.data.image} />
                   <AvatarFallback>
                     <span className="text-4xl">
@@ -81,7 +71,7 @@ export default function Profile({ params }: { params: { slug: string } }) {
               <span className="text-xs lg:text-base text-muted-foreground ">
                 @{user.data.username}
               </span>
-              {friendshipStatus.data?.followedBy && (
+              {user.data?.followedBy && (
                 <span className="text-xs lg:text-base text-muted-foreground">
                   {t('followYou')}
                 </span>
@@ -90,7 +80,7 @@ export default function Profile({ params }: { params: { slug: string } }) {
           </div>
           {auth.user?.id !== user.data.id ? (
             <Button type="button" disabled={follow.isLoading} onClick={handleFollowClick}>
-              {friendshipStatus.data?.following ? t('following') : t('follow')}
+              {user.data?.isFollowing ? t('following') : t('follow')}
             </Button>
           ) : (
             <EditProfile>
@@ -109,14 +99,18 @@ export default function Profile({ params }: { params: { slug: string } }) {
             </p>
           </div>
           <div className="flex gap-2">
-            <div className="flex gap-1">
-              <span className="font-bold">{user.data.followers}</span>
-              <span className="text-muted-foreground">{t('followers')}</span>
-            </div>
-            <div className="flex gap-1">
-              <span className="font-bold">{user.data.following}</span>
-              <span className="text-muted-foreground">{t('following')}</span>
-            </div>
+            <UserFollowTabs defaultTab="followers" username={params.slug}>
+              <div className="flex gap-1">
+                <span className="font-bold">{user.data.followers}</span>
+                <span className="text-muted-foreground">{t('followers')}</span>
+              </div>
+            </UserFollowTabs>
+            <UserFollowTabs defaultTab="following" username={params.slug}>
+              <div className="flex gap-1">
+                <span className="font-bold">{user.data.following}</span>
+                <span className="text-muted-foreground">{t('following')}</span>
+              </div>
+            </UserFollowTabs>
           </div>
         </div>
       </div>

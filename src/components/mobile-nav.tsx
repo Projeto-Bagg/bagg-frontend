@@ -23,7 +23,7 @@ export const MobileNav = () => {
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <Menu className="lg:hidden" />
+        <Menu className="md:hidden" />
       </SheetTrigger>
       <SheetContent>
         <SheetHeader className="text-left mb-4">

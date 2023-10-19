@@ -25,6 +25,8 @@ import {
 } from '@/components/ui/select';
 import { useRouter } from 'next/navigation';
 import { useOriginTracker } from '@/context/origin-tracker';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { Info } from 'lucide-react';
 
 const signUpSchema = z
   .object({
@@ -33,7 +35,7 @@ const signUpSchema = z
       .string()
       .min(3)
       .max(20)
-      .regex(/^(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![.])$/),
+      .regex(/^[a-zA-Z0-9_]+$/),
     email: z.string().email(),
     birthdateDay: z.string(),
     birthdateMonth: z.string(),
@@ -41,7 +43,7 @@ const signUpSchema = z
     password: z
       .string()
       .regex(
-        /^(?=(.*[a-z]){1,})(?=(.*[A-Z]){1,})(?=(.*[0-9]){1,})(?=(.*[!@#$%^&*()\-__+.]){1,}).{8,}$/,
+        /^(?=(.*[a-z]){1,})(?=(.*[A-Z]){1,})(?=(.*[0-9]){1,})(?=(.*[-!$%^&*()_+|~=`{}\[\]:\/;<>?,.@#]){1,}).{8,}$/,
         'Password too weak',
       )
       .min(8),
@@ -135,40 +137,68 @@ export default function SignUp() {
           <DialogTitle className="text-2xl">{t('title')}</DialogTitle>
           <DialogDescription>{t('description')}</DialogDescription>
         </DialogHeader>
-        <form onSubmit={signUp.handleSubmit(handleSignUp)}>
-          <div className="mb-4">
-            <div className="justify-between flex align-baseline mb-2">
+        <form className="space-y-4" onSubmit={signUp.handleSubmit(handleSignUp)}>
+          <div>
+            <div className="justify-between flex mb-0.5">
               <Label>{t('name')}</Label>
               {signUp.formState.errors.fullName && (
-                <span className="font-bold leading-none text-sm text-red-600">
-                  {t('nameError')}
-                </span>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Info size={18} className="text-red-600" />
+                  </TooltipTrigger>
+                  <TooltipContent>{t('nameError')}</TooltipContent>
+                </Tooltip>
               )}
             </div>
             <Input {...signUp.register('fullName')} />
           </div>
-          <div className="mb-4">
-            <div className="justify-between flex mb-2">
+          <div>
+            <div className="justify-between flex mb-0.5">
               <Label>{t('username')}</Label>
-              {signUp.formState.errors.username && (
-                <span className="font-bold leading-none text-sm text-red-600">
-                  {signUp.formState.errors.username.type === 'usernameNotAvailable'
-                    ? t('usernameNotAvailable')
-                    : t('usernameError')}
-                </span>
-              )}
+              {signUp.formState.errors.username &&
+                (signUp.formState.errors.username?.type === 'usernameNotAvailable' ? (
+                  <span className="text-red-500 text-sm font-bold">
+                    {t('usernameNotAvailable')}
+                  </span>
+                ) : (
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Info size={18} className="text-red-600" />
+                    </TooltipTrigger>
+                    <TooltipContent className="pl-7">
+                      {t('usernameError.title')}
+                      <ul className="list-disc">
+                        <li
+                          data-valid={/.{3,20}/.test(signUp.watch('username'))}
+                          className="data-[valid=true]:text-green-500"
+                        >
+                          {t('usernameError.condition1')}
+                        </li>
+                        <li
+                          data-valid={/^[a-zA-Z0-9_]+$/.test(signUp.watch('username'))}
+                          className="data-[valid=true]:text-green-500"
+                        >
+                          {t('usernameError.condition2')}
+                        </li>
+                      </ul>
+                    </TooltipContent>
+                  </Tooltip>
+                ))}
             </div>
             <Input {...signUp.register('username')} />
           </div>
-          <div className="mb-4">
-            <div className="flex justify-between mb-2">
+          <div>
+            <div className="flex justify-between mb-0.5">
               <Label>{t('birthdate')}</Label>
               {(signUp.formState.errors.birthdateDay ||
                 signUp.formState.errors.birthdateMonth ||
                 signUp.formState.errors.birthdateYear) && (
-                <span className="font-bold leading-none text-sm text-red-600">
-                  {t('birthdateError')}
-                </span>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Info size={18} className="text-red-600" />
+                  </TooltipTrigger>
+                  <TooltipContent>{t('birthdateError')}</TooltipContent>
+                </Tooltip>
               )}
             </div>
             <div className="flex gap-2 justify-between">
@@ -230,44 +260,88 @@ export default function SignUp() {
               />
             </div>
           </div>
-          <div className="mb-4">
-            <div className="flex justify-between mb-2">
+          <div>
+            <div className="flex justify-between mb-0.5">
               <Label>{t('email')}</Label>
-              {signUp.formState.errors.email && (
-                <span className="font-bold leading-none text-sm text-red-600">
-                  {signUp.formState.errors.email.type === 'emailNotAvailable'
-                    ? t('emailNotAvailable')
-                    : t('emailError')}
-                </span>
-              )}
+              {signUp.formState.errors.email &&
+                (signUp.formState.errors.email.type === 'emailNotAvailable' ? (
+                  <span className="text-sm text-red-500 font-bold">
+                    {t('emailNotAvailable')}
+                  </span>
+                ) : (
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Info size={18} className="text-red-600" />
+                    </TooltipTrigger>
+                    <TooltipContent>{t('emailError')}</TooltipContent>
+                  </Tooltip>
+                ))}
             </div>
             <Input {...signUp.register('email')} />
           </div>
-          <div className="mb-4">
-            <div className="flex justify-between mb-2">
+          <div>
+            <div className="flex justify-between mb-0.5">
               <Label>{t('password')}</Label>
               {signUp.formState.errors.password && (
-                <span className="font-bold leading-none text-sm text-red-600">
-                  {signUp.formState.errors.password.message === 'Password too weak'
-                    ? t('passwordTooWeak')
-                    : t('passwordError')}
-                </span>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Info size={18} className="text-red-600" />
+                  </TooltipTrigger>
+                  <TooltipContent className="pl-7">
+                    <span>{t('passwordTooWeak.title')}</span>
+                    <ul className="list-disc">
+                      <li
+                        data-valid={/.{8,}/.test(signUp.watch('password'))}
+                        className="data-[valid=true]:text-green-500"
+                      >
+                        {t('passwordTooWeak.condition1')}
+                      </li>
+                      <li
+                        data-valid={/(?=(.*[0-9]){1,})/.test(signUp.watch('password'))}
+                        className="data-[valid=true]:text-green-500"
+                      >
+                        {t('passwordTooWeak.condition2')}
+                      </li>
+                      <li
+                        data-valid={/(?=(.*[a-z]){1,})(?=(.*[A-Z]){1,})/.test(
+                          signUp.watch('password'),
+                        )}
+                        className="data-[valid=true]:text-green-500"
+                      >
+                        {t('passwordTooWeak.condition3')}
+                      </li>
+                      <li
+                        data-valid={/(?=(.*[-!$%^&*()_+|~=`{}\[\]:\/;<>?,.@#]){1,})/.test(
+                          signUp.watch('password'),
+                        )}
+                        className="data-[valid=true]:text-green-500"
+                      >
+                        {t('passwordTooWeak.condition4', {
+                          characters: '!@#$%&*()-_=+<>:;/|,.^`}{[]',
+                        })}
+                      </li>
+                    </ul>
+                  </TooltipContent>
+                </Tooltip>
               )}
             </div>
             <Input type={'password'} {...signUp.register('password')} />
           </div>
-          <div className="mb-4">
-            <div className="flex justify-between mb-2">
+          <div>
+            <div className="flex justify-between mb-0.5">
               <Label>{t('confirmPassword')}</Label>
               {signUp.formState.errors.confirmPassword && (
-                <span className="font-bold leading-none text-sm text-red-600">
-                  {t('confirmPasswordError')}
-                </span>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Info size={18} className="text-red-600" />
+                  </TooltipTrigger>
+                  <TooltipContent>{t('confirmPasswordError')}</TooltipContent>
+                </Tooltip>
               )}
             </div>
             <Input type={'password'} {...signUp.register('confirmPassword')} />
           </div>
-          <span className="text-center block mb-4 text-sm font-medium text-muted-foreground">
+          <span className="text-center block text-sm font-medium text-muted-foreground">
             {t('confirm')}
           </span>
           <div className="flex justify-end mb-2">

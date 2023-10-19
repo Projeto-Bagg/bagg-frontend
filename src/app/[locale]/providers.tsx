@@ -6,6 +6,7 @@ import { ThemeProvider } from '@/components/ui/theme-provider';
 import { Toaster } from '@/components/ui/toaster';
 import { AuthProvider } from '@/context/auth-context';
 import { OriginTrackerProvider } from '@/context/origin-tracker';
+import { TooltipProvider } from '@/components/ui/tooltip';
 
 export const Providers = ({ children }: { children: ReactNode }) => {
   const [queryClient] = useState(
@@ -24,14 +25,16 @@ export const Providers = ({ children }: { children: ReactNode }) => {
 
   return (
     <OriginTrackerProvider>
-      <QueryClientProvider client={queryClient}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <AuthProvider>
-            <Toaster />
-            {children}
-          </AuthProvider>
-        </ThemeProvider>
-      </QueryClientProvider>
+      <TooltipProvider>
+        <QueryClientProvider client={queryClient}>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            <AuthProvider>
+              <Toaster />
+              {children}
+            </AuthProvider>
+          </ThemeProvider>
+        </QueryClientProvider>
+      </TooltipProvider>
     </OriginTrackerProvider>
   );
 };

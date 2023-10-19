@@ -33,13 +33,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const token = getCookie('bagg.session_token');
 
     if (token) {
-      axios.get('users/me').then((user) => {
-        queryClient.setQueryData(['session'], user.data);
-      });
+      refetch();
     } else {
       queryClient.setQueryData(['session'], null);
     }
-  }, [queryClient]);
+  }, [queryClient, refetch]);
 
   const login = async (user: UserSignIn) => {
     const { data } = await axios.post('/auth/login', user);

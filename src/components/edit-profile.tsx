@@ -30,6 +30,8 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Textarea } from '@/components/ui/textarea';
 import { useEditProfile } from '@/hooks/useEditProfile';
 import { useDeleteProfilePic } from '@/hooks/useDeleteProfilePic';
+import { Tooltip, TooltipTrigger } from '@/components/ui/tooltip';
+import { Info } from 'lucide-react';
 
 const editFormSchema = z
   .object({
@@ -38,7 +40,7 @@ const editFormSchema = z
       .string()
       .min(3)
       .max(20)
-      .regex(/^(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![.])$/),
+      .regex(/^[a-zA-Z_]+$/),
     birthdateDay: z.string(),
     birthdateMonth: z.string(),
     birthdateYear: z.string(),
@@ -177,9 +179,15 @@ export const EditProfile = ({ children }: { children: ReactNode }) => {
               <Label>{t('signup.username')}</Label>
               {edit.formState.errors.username && (
                 <span className="font-bold leading-none text-sm text-red-600">
-                  {edit.formState.errors.username.type === 'usernameNotAvailable'
-                    ? t('signup.usernameNotAvailable')
-                    : t('signup.usernameError')}
+                  {edit.formState.errors.username.type === 'usernameNotAvailable' ? (
+                    t('signup.usernameNotAvailable')
+                  ) : (
+                    <Tooltip>
+                      <TooltipTrigger>
+                        <Info />
+                      </TooltipTrigger>
+                    </Tooltip>
+                  )}
                 </span>
               )}
             </div>

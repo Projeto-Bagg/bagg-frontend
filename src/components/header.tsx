@@ -87,7 +87,7 @@ export const Header = () => {
             </button>
           </form>
           <ThemeToggle />
-          <div className="hidden lg:block">
+          <div className="hidden md:block">
             {auth.isAuthenticated ? (
               <div className="flex items-center gap-2">
                 <DropdownMenu>
