@@ -3,7 +3,11 @@
     "countries": "Countries",
     "home": "Home",
     "ranking": "Ranking",
-    "inputPlaceholder": "Search...",
+    "search": {
+      "inputPlaceholder": "Search for users",
+      "emptySearch": "Searching for",
+      "notFound": "Users not found :("
+    },
     "signup": "Sign up",
     "login": "Login",
     "menu": {

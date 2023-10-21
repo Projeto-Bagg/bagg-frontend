@@ -30,29 +30,28 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Textarea } from '@/components/ui/textarea';
 import { useEditProfile } from '@/hooks/useEditProfile';
 import { useDeleteProfilePic } from '@/hooks/useDeleteProfilePic';
-import { Tooltip, TooltipTrigger } from '@/components/ui/tooltip';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { Info } from 'lucide-react';
 
-const editFormSchema = z
-  .object({
-    fullName: z.string().min(3).max(64),
-    username: z
-      .string()
-      .min(3)
-      .max(20)
-      .regex(/^[a-zA-Z_]+$/),
-    birthdateDay: z.string(),
-    birthdateMonth: z.string(),
-    birthdateYear: z.string(),
-    bio: z.string(),
-    profilePic: z
-      .object({
-        file: typeof window === 'undefined' ? z.any() : z.instanceof(File),
-        url: z.string(),
-      })
-      .nullable(),
-  })
-  .partial();
+const editFormSchema = z.object({
+  fullName: z.string().min(3).max(64),
+  username: z
+    .string()
+    .min(3)
+    .max(20)
+    .regex(/^[a-zA-Z_]+$/),
+  birthdateDay: z.string(),
+  birthdateMonth: z.string(),
+  birthdateYear: z.string(),
+  bio: z.string(),
+  profilePic: z
+    .object({
+      file: typeof window === 'undefined' ? z.any() : z.instanceof(File),
+      url: z.string(),
+    })
+    .nullable()
+    .optional(),
+});
 
 type EditFormType = z.infer<typeof editFormSchema>;
 
@@ -99,21 +98,17 @@ export const EditProfile = ({ children }: { children: ReactNode }) => {
 
       const formData = new FormData();
       data.profilePic && formData.append('profilePic', data.profilePic.file);
-      data.fullName && formData.append('fullName', data.fullName);
-      data.bio && formData.append('bio', data.bio);
-      data.username && formData.append('username', data.username);
+      formData.append('fullName', data.fullName);
+      formData.append('bio', data.bio);
+      formData.append('username', data.username);
 
-      let birthdate: Date | undefined;
+      const birthdate = new Date(
+        +data.birthdateYear,
+        +data.birthdateMonth,
+        +data.birthdateDay,
+      );
 
-      if (data.birthdateDay && data.birthdateMonth && data.birthdateYear) {
-        birthdate = new Date(
-          +data.birthdateYear,
-          +data.birthdateMonth,
-          +data.birthdateDay,
-        );
-      }
-
-      birthdate && formData.append('birthdate', birthdate.toISOString());
+      formData.append('birthdate', birthdate.toISOString());
 
       await editMutation.mutateAsync(formData);
       setOpen(false);
@@ -141,8 +136,8 @@ export const EditProfile = ({ children }: { children: ReactNode }) => {
           <DialogTitle>{t('editProfile.title')}</DialogTitle>
           <DialogDescription>{t('editProfile.description')}</DialogDescription>
         </DialogHeader>
-        <form onSubmit={edit.handleSubmit(handleEdit)}>
-          <div className="mb-2">
+        <form className="space-y-4" onSubmit={edit.handleSubmit(handleEdit)}>
+          <div>
             <ProfilePicDialog onSubmit={(f) => edit.setValue('profilePic', f)}>
               <div className="flex items-center gap-2.5 w-fit">
                 <Avatar className="w-[72px] h-[72px]">
@@ -163,38 +158,57 @@ export const EditProfile = ({ children }: { children: ReactNode }) => {
               </div>
             </ProfilePicDialog>
           </div>
-          <div className="mb-4">
-            <div className="justify-between flex align-baseline mb-2">
+          <div>
+            <div className="justify-between flex mb-0.5">
               <Label>{t('signup.name')}</Label>
               {edit.formState.errors.fullName && (
-                <span className="font-bold leading-none text-sm text-red-600">
-                  {t('signup.nameError')}
-                </span>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Info size={18} className="text-red-600" />
+                  </TooltipTrigger>
+                  <TooltipContent>{t('signup.nameError')}</TooltipContent>
+                </Tooltip>
               )}
             </div>
             <Input {...edit.register('fullName')} defaultValue={auth.user?.fullName} />
           </div>
-          <div className="mb-4">
-            <div className="justify-between flex mb-2">
+          <div>
+            <div className="justify-between flex mb-0.5">
               <Label>{t('signup.username')}</Label>
-              {edit.formState.errors.username && (
-                <span className="font-bold leading-none text-sm text-red-600">
-                  {edit.formState.errors.username.type === 'usernameNotAvailable' ? (
-                    t('signup.usernameNotAvailable')
-                  ) : (
-                    <Tooltip>
-                      <TooltipTrigger>
-                        <Info />
-                      </TooltipTrigger>
-                    </Tooltip>
-                  )}
-                </span>
-              )}
+              {edit.formState.errors.username &&
+                (edit.formState.errors.username?.type === 'usernameNotAvailable' ? (
+                  <span className="text-red-500 text-sm font-bold">
+                    {t('signup.usernameNotAvailable')}
+                  </span>
+                ) : (
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Info size={18} className="text-red-600" />
+                    </TooltipTrigger>
+                    <TooltipContent className="pl-7">
+                      {t('signup.usernameError.title')}
+                      <ul className="list-disc">
+                        <li
+                          data-valid={/.{3,20}/.test(edit.watch('username'))}
+                          className="data-[valid=true]:text-green-500"
+                        >
+                          {t('signup.usernameError.condition1')}
+                        </li>
+                        <li
+                          data-valid={/^[a-zA-Z0-9_]+$/.test(edit.watch('username'))}
+                          className="data-[valid=true]:text-green-500"
+                        >
+                          {t('signup.usernameError.condition2')}
+                        </li>
+                      </ul>
+                    </TooltipContent>
+                  </Tooltip>
+                ))}
             </div>
             <Input {...edit.register('username')} defaultValue={auth.user?.username} />
           </div>
-          <div className="mb-4">
-            <div className="justify-between flex align-baseline mb-2">
+          <div>
+            <div className="justify-between flex mb-0.5">
               <Label>{t('editProfile.bio')}</Label>
             </div>
             <Textarea
@@ -203,15 +217,18 @@ export const EditProfile = ({ children }: { children: ReactNode }) => {
               defaultValue={auth.user?.bio}
             />
           </div>
-          <div className="mb-4">
-            <div className="flex justify-between mb-2">
+          <div>
+            <div className="flex justify-between mb-0.5">
               <Label>{t('signup.birthdate')}</Label>
               {(edit.formState.errors.birthdateDay ||
                 edit.formState.errors.birthdateMonth ||
                 edit.formState.errors.birthdateYear) && (
-                <span className="font-bold leading-none text-sm text-red-600">
-                  {t('signup.birthdateError')}
-                </span>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Info size={18} className="text-red-600" />
+                  </TooltipTrigger>
+                  <TooltipContent>{t('signup.birthdateError')}</TooltipContent>
+                </Tooltip>
               )}
             </div>
             <div className="flex gap-2 justify-between">

@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from '@/services/axios';
 import { useAuth } from '@/context/auth-context';
+import { produce } from 'immer';
 
 export const useFollow = () => {
   const queryClient = useQueryClient();
@@ -14,51 +15,46 @@ export const useFollow = () => {
         queryClient.setQueryData<User>(
           ['user', followingUsername],
           (old) =>
-            old && {
-              ...old,
-              isFollowing: true,
-              followers: old.followers + 1,
-            },
+            old &&
+            produce(old, (draft) => {
+              draft.isFollowing = true;
+              draft.followers += 1;
+            }),
         );
 
         queryClient.setQueryData<User>(
           ['user', auth.user?.username],
           (old) =>
-            old && {
-              ...old,
-              following: old.following + 1,
-            },
-        );
-
-        queryClient.setQueriesData<User[]>(
-          ['followers'],
-          (old) =>
             old &&
-            old.map((user) => {
-              if (user.username === followingUsername) {
-                return {
-                  ...user,
-                  isFollowing: true,
-                  followers: user.followers + 1,
-                };
-              }
-              return user;
+            produce(old, (draft) => {
+              draft.following += 1;
             }),
         );
 
-        queryClient.setQueriesData<User[]>(
-          ['following'],
+        ['followers', 'following'].forEach((tab) => {
+          queryClient.setQueriesData<User[]>(
+            [tab],
+            (old) =>
+              old &&
+              produce(old, (draft) => {
+                draft.map((user) => {
+                  if (user.username === followingUsername) {
+                    user.isFollowing = true;
+                    user.followers += 1;
+                  }
+                });
+              }),
+          );
+        });
+
+        queryClient.setQueryData<User[]>(
+          ['followers', followingUsername],
           (old) =>
             old &&
-            old.map((user) => {
-              if (user.username === followingUsername) {
-                return {
-                  ...user,
-                  isFollowing: true,
-                  followers: user.followers + 1,
-                };
-              }
-              return user;
+            produce(old, (draft) => {
+              auth.user &&
+                draft.findIndex((user) => user.username === auth.user?.username) === -1 &&
+                draft.unshift(auth.user);
             }),
         );
       },

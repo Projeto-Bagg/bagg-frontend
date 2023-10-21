@@ -14,6 +14,7 @@ import { EditProfile } from '@/components/edit-profile';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { Separator } from '@/components/ui/separator';
 import { UserFollowTabs } from '@/components/user-follow-tabs';
+import { UserCog } from 'lucide-react';
 
 export default function Profile({ params }: { params: { slug: string } }) {
   const auth = useAuth();
@@ -46,7 +47,7 @@ export default function Profile({ params }: { params: { slug: string } }) {
           <div className="flex items-center gap-2 lg:gap-4">
             <Dialog>
               <DialogTrigger>
-                <Avatar className="w-[80px] h-[80px] lg:w-[184px] lg:h-[184px]">
+                <Avatar className="w-[100px] h-[100px] lg:w-[184px] lg:h-[184px]">
                   <AvatarImage src={user.data.image} />
                   <AvatarFallback>
                     <span className="text-xl lg:text-4xl">
@@ -84,12 +85,19 @@ export default function Profile({ params }: { params: { slug: string } }) {
             </Button>
           ) : (
             <EditProfile>
-              <Button>{t('editProfile')}</Button>
+              <div>
+                <Button className="hidden md:block">{t('editProfile')}</Button>
+                <Button className="flex md:hidden rounded-full items-center justify-center w-10">
+                  <UserCog className="shrink-0" size={20} />
+                </Button>
+              </div>
             </EditProfile>
           )}
         </div>
         <div className="text-sm mt-4">
-          {user.data.bio && <p className="mb-1 whitespace-pre-wrap">{user.data.bio}</p>}
+          {user.data.bio && (
+            <p className="mb-1 break-words whitespace-pre-wrap">{user.data.bio}</p>
+          )}
           <div className="mb-1">
             <p className="text-muted-foreground">
               {t('createdAt', { joinDate: user.data.createdAt })}

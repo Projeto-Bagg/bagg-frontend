@@ -1,5 +1,6 @@
 import axios from '@/services/axios';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { produce } from 'immer';
 
 export const useDeleteProfilePic = () => {
   const queryClient = useQueryClient();
@@ -13,10 +14,10 @@ export const useDeleteProfilePic = () => {
         queryClient.setQueryData<User>(
           ['session'],
           (old) =>
-            old && {
-              ...old,
-              image: undefined,
-            },
+            old &&
+            produce(old, (draft) => {
+              draft.image = undefined;
+            }),
         );
       },
     },

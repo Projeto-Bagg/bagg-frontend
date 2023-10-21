@@ -1,6 +1,6 @@
 import { default as instance } from 'axios';
 import { parseISO } from 'date-fns';
-import { getCookie } from 'cookies-next';
+import { getCookie, setCookie } from 'cookies-next';
 
 const isoDateFormat =
   /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d*)?(?:[-+]\d{2}:?\d{2}|Z)?$/;
@@ -30,16 +30,34 @@ const axios = instance.create({
 });
 
 axios.interceptors.request.use((config) => {
-  const token = getCookie('bagg.session_token');
+  const token = getCookie('bagg.sessionToken');
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
 });
 
-axios.interceptors.response.use((originalResponse) => {
-  handleDates(originalResponse.data);
-  return originalResponse;
-});
+axios.interceptors.response.use(
+  (originalResponse) => {
+    handleDates(originalResponse.data);
+    return originalResponse;
+  },
+  async (error) => {
+    const accessToken = getCookie('bagg.sessionToken');
+
+    if (error.response.status === 401 && accessToken) {
+      const refreshToken = getCookie('bagg.refreshToken');
+
+      const response = await axios.post('/auth/refresh', {
+        refreshToken,
+      });
+
+      setCookie('bagg.sessionToken', response.data.accessToken);
+      setCookie('bagg.refreshToken', response.data.refreshToken);
+
+      return axios(error.config);
+    }
+  },
+);
 
 export default axios;

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { FormEvent } from 'react';
+import React, { useState } from 'react';
 import Link from 'next-intl/link';
 import { useRouter } from 'next-intl/client';
 import { usePathname } from 'next-intl/client';
@@ -24,6 +24,11 @@ import {
 import { Check, Search, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { MobileNav } from '@/components/mobile-nav';
+import { useQuery } from '@tanstack/react-query';
+import axios from '@/services/axios';
+import { useDebounce } from 'use-debounce';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Separator } from '@/components/ui/separator';
 
 export const Header = () => {
   const t = useTranslations('header');
@@ -31,23 +36,22 @@ export const Header = () => {
   const router = useRouter();
   const pathname = usePathname();
   const locale = useLocale();
+  const [query, setQuery] = useState<string>();
+  const [debouncedQuery] = useDebounce(query, 1000);
+  const [popoverOpen, setPopoverOpen] = useState<boolean>();
+
+  const search = useQuery<User[]>(
+    ['search', debouncedQuery],
+    async () => (await axios.get<User[]>('/users/search/' + debouncedQuery)).data,
+    {
+      enabled: !!debouncedQuery,
+    },
+  );
+
+  console.log({ debouncedQuery, loading: search.isLoading, data: search.data });
 
   const changeLanguage = (locale: string) => {
     router.replace(pathname, { locale });
-  };
-
-  const handleSearch = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    const q = (e.currentTarget[0] as HTMLInputElement).value;
-
-    if (!q) {
-      return;
-    }
-
-    router.push('/search', { query: q });
-
-    e.currentTarget.reset();
   };
 
   return (
@@ -78,14 +82,62 @@ export const Header = () => {
             </li>
           </ul>
         </nav>
-
         <div className="flex gap-2 items-center">
-          <form className="relative" onSubmit={handleSearch}>
-            <Input placeholder={t('inputPlaceholder')} />
-            <button type="submit" className="absolute top-3 right-3">
-              <Search size={16} />
-            </button>
-          </form>
+          <div className="relative">
+            <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
+              <PopoverTrigger onClick={(e) => popoverOpen && e.preventDefault()}>
+                <Input
+                  className="lg:min-w-[288px]"
+                  placeholder={t('search.inputPlaceholder')}
+                  onChange={(e) => setQuery(e.target.value)}
+                />
+                <button type="submit" className="absolute top-3 right-3">
+                  <Search size={16} />
+                </button>
+              </PopoverTrigger>
+              <PopoverContent
+                className="mt-0.5 shadow-lg"
+                onOpenAutoFocus={(e) => e.preventDefault()}
+              >
+                <span className="text-sm">
+                  {t('search.emptySearch')}{' '}
+                  <span className="font-bold">{debouncedQuery || '...'}</span>
+                </span>
+                {debouncedQuery &&
+                  !search.isLoading &&
+                  (search.data ? (
+                    search.data.map((user) => (
+                      <Link
+                        key={user.id}
+                        href={'/' + user.username}
+                        onClick={() => setPopoverOpen(false)}
+                      >
+                        <Separator className="my-3" />
+                        <div className="flex gap-2">
+                          <Avatar>
+                            <AvatarFallback>
+                              {user.fullName.charAt(0).toUpperCase()}
+                            </AvatarFallback>
+                            <AvatarImage src={user.image} />
+                          </Avatar>
+                          <div className="flex flex-col">
+                            <span className="font-medium">{user.fullName}</span>
+                            <span className="text-xs text-muted-foreground">
+                              @{user.username}
+                            </span>
+                          </div>
+                        </div>
+                      </Link>
+                    ))
+                  ) : (
+                    <div>
+                      <Separator className="my-3" />
+                      <span className="text-sm">{t('search.notFound')}</span>
+                    </div>
+                  ))}
+              </PopoverContent>
+            </Popover>
+          </div>
           <ThemeToggle />
           <div className="hidden md:block">
             {auth.isAuthenticated ? (

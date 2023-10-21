@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from '@/services/axios';
 import { useAuth } from '@/context/auth-context';
+import { produce } from 'immer';
 
 export const useUnfollow = () => {
   const queryClient = useQueryClient();
@@ -14,53 +15,37 @@ export const useUnfollow = () => {
         queryClient.setQueryData<User>(
           ['user', followingUsername],
           (old) =>
-            old && {
-              ...old,
-              isFollowing: false,
-              followers: old.followers - 1,
-            },
+            old &&
+            produce(old, (draft) => {
+              draft.isFollowing = false;
+              draft.followers -= 1;
+            }),
         );
 
         queryClient.setQueryData<User>(
           ['user', auth.user?.username],
           (old) =>
-            old && {
-              ...old,
-              following: old.following - 1,
-            },
-        );
-
-        queryClient.setQueriesData<User[]>(
-          ['followers'],
-          (old) =>
             old &&
-            old.map((user) => {
-              if (user.username === followingUsername) {
-                return {
-                  ...user,
-                  isFollowing: false,
-                  followers: user.followers - 1,
-                };
-              }
-              return user;
+            produce(old, (draft) => {
+              draft.following -= 1;
             }),
         );
 
-        queryClient.setQueriesData<User[]>(
-          ['following'],
-          (old) =>
-            old &&
-            old.map((user) => {
-              if (user.username === followingUsername) {
-                return {
-                  ...user,
-                  isFollowing: false,
-                  followers: user.followers - 1,
-                };
-              }
-              return user;
-            }),
-        );
+        ['followers', 'following'].forEach((tab) => {
+          queryClient.setQueriesData<User[]>(
+            [tab],
+            (old) =>
+              old &&
+              produce(old, (draft) => {
+                draft.forEach((user) => {
+                  if (user.username === followingUsername) {
+                    user.isFollowing = false;
+                    user.followers -= 1;
+                  }
+                });
+              }),
+          );
+        });
       },
     },
   );

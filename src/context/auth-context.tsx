@@ -30,7 +30,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const isAuthenticated = !!user;
 
   useEffect(() => {
-    const token = getCookie('bagg.session_token');
+    const token = getCookie('bagg.sessionToken');
 
     if (token) {
       refetch();
@@ -41,7 +41,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const login = async (user: UserSignIn) => {
     const { data } = await axios.post('/auth/login', user);
-    setCookie('bagg.session_token', data.access_token);
+    setCookie('bagg.sessionToken', data.accessToken);
+    setCookie('bagg.refreshToken', data.refreshToken);
 
     refetch();
   };
@@ -56,7 +57,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const logout = () => {
     try {
-      deleteCookie('bagg.session_token');
+      deleteCookie('bagg.sessionToken');
+      deleteCookie('bagg.refreshToken');
       queryClient.setQueryData(['session'], null);
     } catch (error) {
       console.log(error);
