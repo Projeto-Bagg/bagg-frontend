@@ -64,7 +64,7 @@ export const Header = () => {
             <Tooltip>
               <TooltipTrigger asChild>
                 <DropdownMenuTrigger asChild>
-                  <Button size={'icon'} variant={'ghost'}>
+                  <Button className="hidden md:flex" size={'icon'} variant={'ghost'}>
                     <CountryFlag
                       iso2={languages.find((lang) => lang.locale === locale)!.country}
                     />
@@ -75,14 +75,14 @@ export const Header = () => {
             </Tooltip>
             <DropdownMenuContent>
               {languages.map((lang) => (
-                <DropdownMenuItem key={lang.locale} data-active={lang.locale === locale}>
-                  <Link href={pathname} locale={lang.locale}>
+                <Link key={lang.locale} href={pathname} locale={lang.locale}>
+                  <DropdownMenuItem data-active={lang.locale === locale}>
                     <div className="flex gap-2">
                       <CountryFlag iso2={lang.country} />
                       <span>{lang.label}</span>
                     </div>
-                  </Link>
-                </DropdownMenuItem>
+                  </DropdownMenuItem>
+                </Link>
               ))}
             </DropdownMenuContent>
           </DropdownMenu>
@@ -101,16 +101,14 @@ export const Header = () => {
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="min-w-[10rem]">
                     <Link href={'/' + auth.user?.username}>
-                      <div className="h-[118px] p-4 bg-slate-400 flex flex-col items-center justify-center -mx-1 -my-1 overflow-hidden">
+                      <div className="h-[118px] p-4 bg-secondary flex flex-col items-center justify-center -mx-1 -my-1 overflow-hidden">
                         <Avatar className="my-1 h-[48px] w-[48px]">
                           <AvatarFallback>
                             {auth.user?.fullName.charAt(0).toUpperCase()}
                           </AvatarFallback>
                           <AvatarImage src={auth.user?.image} />
                         </Avatar>
-                        <span className="font-medium text-primary-foreground">
-                          {auth.user?.username}
-                        </span>
+                        <span className="font-medium">{auth.user?.username}</span>
                       </div>
                     </Link>
                     <div className="mt-3.5 mb-1">

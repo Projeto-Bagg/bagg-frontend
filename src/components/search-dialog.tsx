@@ -54,7 +54,11 @@ export const Search = () => {
         <DialogHeader className="bg-secondary rounded-t-lg -my-6 -mx-10 overflow-hidden py-6 px-10">
           <div className="relative">
             {search.isFetching ? (
-              <Spinner className={'absolute left-0 top-4 h-[24px] w-[24px]'} />
+              <Spinner
+                className={
+                  'absolute left-0 top-4 h-[24px] w-[24px] [&>circle]:stroke-foreground'
+                }
+              />
             ) : (
               <SearchIcon strokeWidth={3.5} className="absolute left-0 top-4" />
             )}

@@ -23,7 +23,16 @@ import {
 import { usePathname } from 'next-intl/client';
 import { CountryFlag } from '@/components/ui/country-flag';
 import { useTheme } from 'next-themes';
-import { Check, ChevronsUpDown } from 'lucide-react';
+import {
+  BarChart,
+  Check,
+  ChevronsUpDown,
+  Home,
+  LogIn,
+  MapPin,
+  Settings,
+  User2,
+} from 'lucide-react';
 
 export const MobileNav = () => {
   const auth = useAuth();
@@ -37,7 +46,13 @@ export const MobileNav = () => {
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger className="md:hidden">
         <Avatar>
-          <AvatarFallback>{auth.user?.fullName.charAt(0).toUpperCase()}</AvatarFallback>
+          <AvatarFallback>
+            {auth.user ? (
+              auth.user.fullName.charAt(0).toUpperCase()
+            ) : (
+              <User2 className="h-[1.2rem] w-[1.2rem]" />
+            )}
+          </AvatarFallback>
           <AvatarImage src={auth.user?.image} />
         </Avatar>
       </SheetTrigger>
@@ -70,12 +85,18 @@ export const MobileNav = () => {
                 </button>
               </div>
             </div>
-            <div className="space-y-3 flex flex-col mt-3">
+            <div className="space-y-3 flex flex-col mt-4">
               <MobileLink onOpenChange={setOpen} href={'/' + auth.user?.username}>
-                {t('menu.profile')}
+                <div className="flex items-center gap-2">
+                  <User2 size={20} />
+                  <span>{t('menu.profile')}</span>
+                </div>
               </MobileLink>
               <MobileLink onOpenChange={setOpen} href={'/config'}>
-                {t('menu.settings')}
+                <div className="flex items-center gap-2">
+                  <Settings size={20} />
+                  <span>{t('menu.settings')}</span>
+                </div>
               </MobileLink>
             </div>
           </div>
@@ -83,10 +104,16 @@ export const MobileNav = () => {
           <div>
             <div className="flex flex-col space-y-3">
               <MobileLink onOpenChange={setOpen} href={'/login'}>
-                {t('login')}
+                <div className="flex items-center gap-2">
+                  <LogIn size={20} />
+                  <span>{t('login')}</span>
+                </div>
               </MobileLink>
               <MobileLink onOpenChange={setOpen} href={'/signup'}>
-                {t('signup')}
+                <div className="flex items-center gap-2">
+                  <User2 size={20} />
+                  <span>{t('signup')}</span>
+                </div>
               </MobileLink>
             </div>
           </div>
@@ -94,14 +121,24 @@ export const MobileNav = () => {
         <Separator className="my-3" />
         <div className="space-y-3 flex flex-col">
           <MobileLink onOpenChange={setOpen} href={'/'}>
-            {t('home')}
+            <div className="flex items-center gap-2">
+              <Home size={20} />
+              <span>{t('home')}</span>
+            </div>
           </MobileLink>
           <MobileLink onOpenChange={setOpen} href={'/ranking'}>
-            {t('ranking')}
+            <div className="flex items-center gap-2">
+              <BarChart size={20} />
+              <span>{t('ranking')}</span>
+            </div>
           </MobileLink>
           <MobileLink onOpenChange={setOpen} href={'/countries'}>
-            {t('countries')}
+            <div className="flex items-center gap-2">
+              <MapPin size={20} />
+              <span>{t('countries')}</span>
+            </div>
           </MobileLink>
+          <Separator />
           <Collapsible>
             <CollapsibleTrigger asChild>
               <button className="flex w-full justify-between items-center">

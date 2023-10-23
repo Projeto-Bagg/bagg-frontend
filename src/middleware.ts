@@ -10,7 +10,7 @@ export function middleware(request: NextRequest) {
   });
 
   const isAuthenticated = request.cookies.has('bagg.sessionToken');
-  const locale = request.cookies.get('NEXT_LOCALE')?.value || 'en';
+  const locale = request.cookies.get('NEXT_LOCALE')?.value || 'pt';
 
   if (request.nextUrl.pathname.startsWith('/login') && isAuthenticated) {
     return NextResponse.redirect(new URL(locale + '/', request.url));
