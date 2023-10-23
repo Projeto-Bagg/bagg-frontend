@@ -4,19 +4,21 @@
     "home": "Página principal",
     "ranking": "Ranking",
     "search": {
-      "inputPlaceholder": "Procurar por usuários",
-      "emptySearch": "Procurando por",
-      "notFound": "Usuários não encontrados :("
+      "title": "Procurar",
+      "inputPlaceholder": "Digite para pesquisar",
+      "notFound": "Sem resultados",
+      "playerSearchResults": "Resultados de Pesquisa de Usuário"
     },
     "login": "Entrar",
     "signup": "Criar conta",
     "menu": {
       "profile": "Meu perfil",
-      "language": "Linguagens",
       "settings": "Configurações",
       "signout": "Sair"
     },
+    "languages": "Idiomas",
     "themes": {
+      "title": "Temas",
       "light": "Claro",
       "dark": "Escuro",
       "system": "Sistema"

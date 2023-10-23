@@ -19,7 +19,7 @@ import {
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
 import { useTranslations } from 'next-intl';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'next-intl/client';
 import { useOriginTracker } from '@/context/origin-tracker';
 
 const loginSchema = z.object({
@@ -30,13 +30,12 @@ const loginSchema = z.object({
 type LoginType = z.infer<typeof loginSchema>;
 
 export default function Login() {
+  const auth = useAuth();
+  const router = useRouter();
   const [loading, setLoading] = useState<boolean>();
   const { toast } = useToast();
-  const router = useRouter();
   const t = useTranslations('login');
   const isWithinPage = useOriginTracker();
-
-  const auth = useAuth();
 
   const login = useForm<LoginType>({
     resolver: zodResolver(loginSchema),

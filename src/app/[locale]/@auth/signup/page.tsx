@@ -23,7 +23,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'next-intl/client';
 import { useOriginTracker } from '@/context/origin-tracker';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { Info } from 'lucide-react';
@@ -73,12 +73,11 @@ const months = [
 ] as const;
 
 export default function SignUp() {
-  const [loading, setLoading] = useState<boolean>();
   const auth = useAuth();
+  const [loading, setLoading] = useState<boolean>();
   const router = useRouter();
   const t = useTranslations('signup');
   const isWithinPage = useOriginTracker();
-
   const signUp = useForm<SignUpType>({
     resolver: zodResolver(signUpSchema),
   });

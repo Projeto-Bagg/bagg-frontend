@@ -7,11 +7,12 @@ import { Header } from '@/components/header';
 import { Providers } from '@/app/[locale]/providers';
 import { Metadata } from 'next';
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({ subsets: ['latin'], weight: ['400', '500', '600', '700'] });
 
 interface Props {
   children: ReactNode;
   auth: ReactNode;
+  settings: ReactNode;
   params: { locale: string };
 }
 
@@ -48,6 +49,7 @@ export async function generateStaticParams() {
 export default async function LocaleLayout({
   children,
   auth,
+  settings,
   params: { locale },
 }: Props) {
   const messages = await getMessages(locale);
@@ -58,9 +60,10 @@ export default async function LocaleLayout({
         <NextIntlClientProvider locale={locale} messages={messages}>
           <Providers>
             <Header />
-            <div className="container min-h-[calc(100vh-61px)] border-l border-r">
-              {children}
+            <div className="container min-h-[calc(100vh-61px)] md:border-l md:border-r">
+              {settings}
               {auth}
+              {children}
             </div>
           </Providers>
         </NextIntlClientProvider>

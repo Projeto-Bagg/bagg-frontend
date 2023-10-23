@@ -1,12 +1,28 @@
-import createMiddleware from 'next-intl/middleware';
+import createIntlMiddleware from 'next-intl/middleware';
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
 
-export default createMiddleware({
-  locales: ['en', 'pt'],
-  defaultLocale: 'pt',
-  localePrefix: 'never',
-});
+export function middleware(request: NextRequest) {
+  const intlMiddleware = createIntlMiddleware({
+    locales: ['en', 'pt'],
+    defaultLocale: 'pt',
+    localePrefix: 'as-needed',
+  });
+
+  const isAuthenticated = request.cookies.has('bagg.sessionToken');
+  const locale = request.cookies.get('NEXT_LOCALE')?.value || 'en';
+
+  if (request.nextUrl.pathname.startsWith('/login') && isAuthenticated) {
+    return NextResponse.redirect(new URL(locale + '/', request.url));
+  }
+
+  if (request.nextUrl.pathname.startsWith('/signup') && isAuthenticated) {
+    return NextResponse.redirect(new URL(locale + '/', request.url));
+  }
+
+  return intlMiddleware(request);
+}
 
 export const config = {
-  // Skip all paths that should not be internationalized
   matcher: ['/((?!api|_next|_vercel|.*\\..*).*)'],
 };

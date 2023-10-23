@@ -1,6 +1,6 @@
 'use client';
 
-import React, { ReactNode, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -8,7 +8,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Controller, useForm } from 'react-hook-form';
@@ -32,6 +31,8 @@ import { useEditProfile } from '@/hooks/useEditProfile';
 import { useDeleteProfilePic } from '@/hooks/useDeleteProfilePic';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { Info } from 'lucide-react';
+import { useRouter } from 'next-intl/client';
+import { useOriginTracker } from '@/context/origin-tracker';
 
 const editFormSchema = z.object({
   fullName: z.string().min(3).max(64),
@@ -77,13 +78,14 @@ const months = [
   'December',
 ] as const;
 
-export const EditProfile = ({ children }: { children: ReactNode }) => {
-  const [open, setOpen] = useState<boolean>();
-  const [loading, setLoading] = useState<boolean>();
-  const editMutation = useEditProfile();
+export default function EditProfile() {
   const auth = useAuth();
+  const [loading, setLoading] = useState<boolean>();
+  const router = useRouter();
+  const editMutation = useEditProfile();
   const t = useTranslations();
   const deletePic = useDeleteProfilePic();
+  const isWithinPage = useOriginTracker();
   const edit = useForm<EditFormType>({
     resolver: zodResolver(editFormSchema),
   });
@@ -109,9 +111,8 @@ export const EditProfile = ({ children }: { children: ReactNode }) => {
       );
 
       formData.append('birthdate', birthdate.toISOString());
-
       await editMutation.mutateAsync(formData);
-      setOpen(false);
+      router.back();
     } catch (error: any) {
       error.response.data?.username?.code === 'usernameNotAvailable' &&
         edit.setError('username', {
@@ -125,12 +126,13 @@ export const EditProfile = ({ children }: { children: ReactNode }) => {
 
   return (
     <Dialog
-      open={open}
-      onOpenChange={(open) => {
-        setOpen(open), edit.reset();
+      open
+      onOpenChange={() => {
+        isWithinPage
+          ? router.back()
+          : router.push('/', { forceOptimisticNavigation: true } as any);
       }}
     >
-      <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{t('editProfile.title')}</DialogTitle>
@@ -311,4 +313,4 @@ export const EditProfile = ({ children }: { children: ReactNode }) => {
       </DialogContent>
     </Dialog>
   );
-};
+}

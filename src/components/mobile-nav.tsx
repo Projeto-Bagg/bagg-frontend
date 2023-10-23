@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Link, { LinkProps } from 'next/link';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
+import IntlLink from 'next-intl/link';
 import { useRouter } from 'next/navigation';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Separator } from '@/components/ui/separator';
@@ -13,17 +14,32 @@ import {
 } from '@/components/ui/sheet';
 import { useAuth } from '@/context/auth-context';
 import { cn } from '@/lib/utils';
-import { Menu } from 'lucide-react';
+import { languages } from '@/common/languages';
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from '@/components/ui/collapsible';
+import { usePathname } from 'next-intl/client';
+import { CountryFlag } from '@/components/ui/country-flag';
+import { useTheme } from 'next-themes';
+import { Check, ChevronsUpDown } from 'lucide-react';
 
 export const MobileNav = () => {
   const auth = useAuth();
   const [open, setOpen] = useState<boolean>();
+  const pathname = usePathname();
+  const locale = useLocale();
   const t = useTranslations('header');
+  const { themes, theme: activeTheme, setTheme } = useTheme();
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
-      <SheetTrigger asChild>
-        <Menu className="md:hidden" />
+      <SheetTrigger className="md:hidden">
+        <Avatar>
+          <AvatarFallback>{auth.user?.fullName.charAt(0).toUpperCase()}</AvatarFallback>
+          <AvatarImage src={auth.user?.image} />
+        </Avatar>
       </SheetTrigger>
       <SheetContent>
         <SheetHeader className="text-left mb-4">
@@ -37,7 +53,7 @@ export const MobileNav = () => {
           <div>
             <div className="flex gap-2 justify-between items-center">
               <div className="flex gap-2 items-center">
-                <Avatar className="h-[48px] w-[48px]">
+                <Avatar className="h-[72px] w-[72px]">
                   <AvatarFallback>
                     {auth.user?.username.charAt(0).toUpperCase()}
                   </AvatarFallback>
@@ -86,6 +102,51 @@ export const MobileNav = () => {
           <MobileLink onOpenChange={setOpen} href={'/countries'}>
             {t('countries')}
           </MobileLink>
+          <Collapsible>
+            <CollapsibleTrigger asChild>
+              <button className="flex w-full justify-between items-center">
+                <span>{t('languages')}</span>
+                <ChevronsUpDown size={20} />
+              </button>
+            </CollapsibleTrigger>
+            <CollapsibleContent>
+              {languages.map((lang) => (
+                <IntlLink
+                  href={pathname}
+                  key={lang.locale}
+                  className="ml-3 mt-2 flex justify-between"
+                  locale={lang.locale}
+                >
+                  <div className="flex gap-2">
+                    <CountryFlag iso2={lang.country} />
+                    <span className="text-muted-foreground">{lang.label}</span>
+                  </div>
+                  {lang.locale === locale && <Check size={20} className="text-primary" />}
+                </IntlLink>
+              ))}
+            </CollapsibleContent>
+          </Collapsible>
+          <Collapsible>
+            <CollapsibleTrigger asChild>
+              <button className="flex w-full justify-between items-center">
+                <span>{t('themes.title')}</span>
+                <ChevronsUpDown size={20} />
+              </button>
+            </CollapsibleTrigger>
+            <CollapsibleContent>
+              {themes.map((theme) => (
+                <div key={theme} className="ml-3 mt-2 flex justify-between">
+                  <button
+                    onClick={() => setTheme(theme)}
+                    className="text-muted-foreground"
+                  >
+                    {t(`themes.${theme as 'dark' | 'light' | 'system'}`)}
+                  </button>
+                  {activeTheme === theme && <Check size={20} className="text-primary" />}
+                </div>
+              ))}
+            </CollapsibleContent>
+          </Collapsible>
         </div>
       </SheetContent>
     </Sheet>

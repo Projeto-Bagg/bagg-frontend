@@ -1,16 +1,16 @@
 'use client';
 
 import React from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'next-intl/client';
+import Link from 'next-intl/link';
+import { useTranslations } from 'next-intl';
 import axios from '@/services/axios';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useQuery } from '@tanstack/react-query';
 import { useAuth } from '@/context/auth-context';
-import { useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/button';
 import { useFollow } from '@/hooks/useFollow';
 import { useUnfollow } from '@/hooks/useUnfollow';
-import { EditProfile } from '@/components/edit-profile';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { Separator } from '@/components/ui/separator';
 import { UserFollowTabs } from '@/components/user-follow-tabs';
@@ -84,14 +84,14 @@ export default function Profile({ params }: { params: { slug: string } }) {
               {user.data?.isFollowing ? t('following') : t('follow')}
             </Button>
           ) : (
-            <EditProfile>
+            <Link href={'/settings/profile'}>
               <div>
                 <Button className="hidden md:block">{t('editProfile')}</Button>
                 <Button className="flex md:hidden rounded-full items-center justify-center w-10">
                   <UserCog className="shrink-0" size={20} />
                 </Button>
               </div>
-            </EditProfile>
+            </Link>
           )}
         </div>
         <div className="text-sm mt-4">

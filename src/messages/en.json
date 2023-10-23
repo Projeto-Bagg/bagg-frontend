@@ -4,19 +4,21 @@
     "home": "Home",
     "ranking": "Ranking",
     "search": {
-      "inputPlaceholder": "Search for users",
-      "emptySearch": "Searching for",
-      "notFound": "Users not found :("
+      "title": "Search",
+      "inputPlaceholder": "Type to search",
+      "notFound": "No results",
+      "playerSearchResults": "Player Search Results"
     },
     "signup": "Sign up",
     "login": "Login",
     "menu": {
       "profile": "My profile",
-      "language": "Languages",
       "settings": "Settings",
       "signout": "Sign out"
     },
+    "languages": "Languages",
     "themes": {
+      "title": "Themes",
       "light": "Light",
       "dark": "Dark",
       "system": "System"
