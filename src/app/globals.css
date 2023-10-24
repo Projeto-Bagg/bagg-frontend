@@ -65,3 +65,7 @@
 .cropper-view-box {
   outline: 0 !important;
 }
+
+.thumbs-wrapper {
+  margin: 0 !important;
+}

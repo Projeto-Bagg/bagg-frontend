@@ -143,9 +143,6 @@ export default function EditProfile() {
             <ProfilePicDialog onSubmit={(f) => edit.setValue('profilePic', f)}>
               <div className="flex items-center gap-2.5 w-fit">
                 <Avatar className="w-[72px] h-[72px]">
-                  <AvatarFallback>
-                    {auth.user?.fullName.charAt(0).toUpperCase()}
-                  </AvatarFallback>
                   <AvatarImage
                     src={
                       edit.watch('profilePic') === null

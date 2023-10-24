@@ -1,0 +1,25 @@
+import axios from '@/services/axios';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { produce } from 'immer';
+
+export const useLikeDiaryPost = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation(async (id: number) => await axios.post(`/diaryPosts/${id}/like`), {
+    onMutate: (id) => {
+      queryClient.setQueriesData<DiaryPost[]>(
+        ['diaryPosts'],
+        (old) =>
+          old &&
+          produce(old, (draft) => {
+            draft.map((diaryPost) => {
+              if (diaryPost.id === id) {
+                diaryPost.likedBy += 1;
+                diaryPost.isLiked = true;
+              }
+            });
+          }),
+      );
+    },
+  });
+};

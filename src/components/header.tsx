@@ -8,20 +8,21 @@ import { useLocale } from 'next-intl';
 import { useTranslations } from 'next-intl';
 import { useAuth } from '@/context/auth-context';
 import { ThemeToggle } from '@/components/theme-toggle';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { User } from 'lucide-react';
+import { Plus, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { MobileNav } from '@/components/mobile-nav';
 import { languages } from '@/common/languages';
 import { Search } from '@/components/search-dialog';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { CountryFlag } from '@/components/ui/country-flag';
+import { CreatePost } from '@/components/create-post';
 
 export const Header = () => {
   const t = useTranslations('header');
@@ -32,7 +33,7 @@ export const Header = () => {
 
   return (
     <div className="text-sm border-b">
-      <header className="container h-[3.75rem] px-4 lg:px-8 flex gap-2 lg:gap-4 justify-between items-center">
+      <header className="max-w-[900px] m-auto w-full h-[3.75rem] px-4 lg:px-0 flex gap-2 lg:gap-4 justify-between items-center">
         <nav>
           <ul className="flex gap-2 lg:gap-6 font-semibold items-center">
             <li>
@@ -59,6 +60,16 @@ export const Header = () => {
           </ul>
         </nav>
         <div className="flex gap-2 items-center">
+          <Tooltip>
+            <CreatePost>
+              <TooltipTrigger asChild>
+                <Button variant={'ghost'} size={'icon'}>
+                  <Plus />
+                </Button>
+              </TooltipTrigger>
+            </CreatePost>
+            <TooltipContent>Postar</TooltipContent>
+          </Tooltip>
           <Search />
           <DropdownMenu>
             <Tooltip>
@@ -94,18 +105,12 @@ export const Header = () => {
                   <DropdownMenuTrigger>
                     <Avatar>
                       <AvatarImage src={auth.user?.image} />
-                      <AvatarFallback>
-                        {auth.user?.fullName.charAt(0).toUpperCase()}
-                      </AvatarFallback>
                     </Avatar>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="min-w-[10rem]">
                     <Link href={'/' + auth.user?.username}>
                       <div className="h-[118px] p-4 bg-secondary flex flex-col items-center justify-center -mx-1 -my-1 overflow-hidden">
                         <Avatar className="my-1 h-[48px] w-[48px]">
-                          <AvatarFallback>
-                            {auth.user?.fullName.charAt(0).toUpperCase()}
-                          </AvatarFallback>
                           <AvatarImage src={auth.user?.image} />
                         </Avatar>
                         <span className="font-medium">{auth.user?.username}</span>

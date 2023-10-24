@@ -2,7 +2,7 @@ import React from 'react';
 import { useFollow } from '@/hooks/useFollow';
 import { useUnfollow } from '@/hooks/useUnfollow';
 import { useAuth } from '@/context/auth-context';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 
@@ -25,7 +25,6 @@ export const ListUsers = ({ users, showIfUserFollowYou = true }: IListUsers) => 
       <Link href={'/' + user.username}>
         <div className="flex items-center gap-3">
           <Avatar className="h-[48px] w-[48px]">
-            <AvatarFallback>{user.fullName.charAt(0).toUpperCase()}</AvatarFallback>
             <AvatarImage src={user.image} />
           </Avatar>
           <div className="flex flex-col">

@@ -5,7 +5,7 @@ import { useRouter } from 'next-intl/client';
 import Link from 'next-intl/link';
 import { useTranslations } from 'next-intl';
 import axios from '@/services/axios';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { useQuery } from '@tanstack/react-query';
 import { useAuth } from '@/context/auth-context';
 import { Button } from '@/components/ui/button';
@@ -15,6 +15,7 @@ import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { Separator } from '@/components/ui/separator';
 import { UserFollowTabs } from '@/components/user-follow-tabs';
 import { UserCog } from 'lucide-react';
+import { DiaryPost } from '@/components/diary-post';
 
 export default function Profile({ params }: { params: { slug: string } }) {
   const auth = useAuth();
@@ -26,6 +27,11 @@ export default function Profile({ params }: { params: { slug: string } }) {
   const user = useQuery<User>(
     ['user', params.slug],
     async () => (await axios.get<User>('/users/' + params.slug)).data,
+  );
+
+  const diaryPosts = useQuery<DiaryPost[]>(
+    ['diaryPosts', params.slug],
+    async () => (await axios.get<DiaryPost[]>('/diaryPosts/user/' + params.slug)).data,
   );
 
   const handleFollowClick = () => {
@@ -41,29 +47,19 @@ export default function Profile({ params }: { params: { slug: string } }) {
   }
 
   return (
-    <div className="container">
-      <div className="p-4 lg:p-8">
+    <div className="h-full">
+      <div className="p-4 md:px-[52px]">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2 lg:gap-4">
             <Dialog>
               <DialogTrigger>
-                <Avatar className="w-[100px] h-[100px] lg:w-[184px] lg:h-[184px]">
+                <Avatar className="w-[100px] h-[100px] lg:w-[144px] lg:h-[144px]">
                   <AvatarImage src={user.data.image} />
-                  <AvatarFallback>
-                    <span className="text-xl lg:text-4xl">
-                      {user.data.fullName.charAt(0).toUpperCase()}
-                    </span>
-                  </AvatarFallback>
                 </Avatar>
               </DialogTrigger>
-              <DialogContent className="w-[90%] md:w-auto sm:w-auto p-0 sm:rounded-full rounded-full border-none">
-                <Avatar className="w-full h-full lg:w-[480px] lg:h-[480px]">
+              <DialogContent className="w-[90%] h-auto aspect-square md:w-[440px] md:h-[440px] p-0 sm:rounded-full rounded-full border-none">
+                <Avatar className="w-full h-full">
                   <AvatarImage src={user.data.image} />
-                  <AvatarFallback>
-                    <span className="text-4xl">
-                      {user.data.fullName.charAt(0).toUpperCase()}
-                    </span>
-                  </AvatarFallback>
                 </Avatar>
               </DialogContent>
             </Dialog>
@@ -123,6 +119,9 @@ export default function Profile({ params }: { params: { slug: string } }) {
         </div>
       </div>
       <Separator />
+      {diaryPosts.data &&
+        diaryPosts.data.length > 0 &&
+        diaryPosts.data.map((post) => <DiaryPost key={post.id} post={post} />)}
     </div>
   );
 }

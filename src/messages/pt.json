@@ -105,5 +105,35 @@
     "bio": "Biografia",
     "editProfilePic": "Editar foto de perfil",
     "save": "Salvar alterações"
+  },
+  "createPost": {
+    "title": "Criar postagem no diário",
+    "tripDiary": "Diário de viagem",
+    "noTripDiariesFound": "Sem resultados",
+    "createTripDiary": "Criar",
+    "selectTripDiary": "Selecione um diário de viagem",
+    "titleField": "Título",
+    "titleFieldError": "Insira um título",
+    "message": "Mensagem",
+    "messageError": "Insira uma mensagem",
+    "dropzoneError": "Arquivo muito grande ou quantidade máxima excedida",
+    "dropzoneMessage": "Arraste vídeos/imagens ou clique para pesquisar",
+    "dropzoneLimit": "Limite de 100MB ou 10 arquivos",
+    "confirm": "Confirmar"
+  },
+  "createTripDiary": {
+    "title": "Criar diário de viagem",
+    "description": "Crie um diário de viagem e compartilhe suas experiências com a comunidade",
+    "titleField": "Título",
+    "titleFieldError": "Insira um title",
+    "message": "Mensagem",
+    "messageError": "Insira uma message",
+    "confirm": "Confirmar"
+  },
+  "diaryPost": {
+    "share": "Compartilhar",
+    "edit": "Editar",
+    "delete": "Remover",
+    "diaryBadge": "Diário"
   }
 }

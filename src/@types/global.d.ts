@@ -15,6 +15,32 @@ interface User {
   followedBy: boolean;
 }
 
+interface TripDiary {
+  id: number;
+  title: string;
+  message: string;
+  createdAt: Date;
+  user: User;
+}
+
+interface DiaryPost {
+  id: number;
+  title: string;
+  message: string;
+  likedBy: number;
+  isLiked: boolean;
+  createdAt: Date;
+  user: User;
+  diaryPostMedias: Media[];
+  tripDiary: TripDiary;
+}
+
+interface Media {
+  id: number;
+  url: string;
+  createdAt: Date;
+}
+
 interface UserSignIn {
   login: string;
   password: string;

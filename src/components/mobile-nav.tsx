@@ -3,7 +3,7 @@ import Link, { LinkProps } from 'next/link';
 import { useLocale, useTranslations } from 'next-intl';
 import IntlLink from 'next-intl/link';
 import { useRouter } from 'next/navigation';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Separator } from '@/components/ui/separator';
 import {
   Sheet,
@@ -46,13 +46,6 @@ export const MobileNav = () => {
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger className="md:hidden">
         <Avatar>
-          <AvatarFallback>
-            {auth.user ? (
-              auth.user.fullName.charAt(0).toUpperCase()
-            ) : (
-              <User2 className="h-[1.2rem] w-[1.2rem]" />
-            )}
-          </AvatarFallback>
           <AvatarImage src={auth.user?.image} />
         </Avatar>
       </SheetTrigger>
@@ -69,9 +62,6 @@ export const MobileNav = () => {
             <div className="flex gap-2 justify-between items-center">
               <div className="flex gap-2 items-center">
                 <Avatar className="h-[72px] w-[72px]">
-                  <AvatarFallback>
-                    {auth.user?.username.charAt(0).toUpperCase()}
-                  </AvatarFallback>
                   <AvatarImage src={auth.user?.image} />
                 </Avatar>
                 <div>
