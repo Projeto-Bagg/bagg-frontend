@@ -60,16 +60,18 @@ export const Header = () => {
           </ul>
         </nav>
         <div className="flex gap-2 items-center">
-          <Tooltip>
-            <CreatePost>
-              <TooltipTrigger asChild>
-                <Button variant={'ghost'} size={'icon'}>
-                  <Plus />
-                </Button>
-              </TooltipTrigger>
-            </CreatePost>
-            <TooltipContent>Postar</TooltipContent>
-          </Tooltip>
+          {auth.user && (
+            <Tooltip>
+              <CreatePost>
+                <TooltipTrigger asChild>
+                  <Button variant={'ghost'} size={'icon'}>
+                    <Plus />
+                  </Button>
+                </TooltipTrigger>
+              </CreatePost>
+              <TooltipContent>Postar</TooltipContent>
+            </Tooltip>
+          )}
           <Search />
           <DropdownMenu>
             <Tooltip>
@@ -136,7 +138,7 @@ export const Header = () => {
               <div className="flex gap-2">
                 <Link href={'/login'} prefetch>
                   <Button
-                    variant={'outline'}
+                    variant={'ghost'}
                     className="flex gap-2 items-center h-9 cursor-pointer uppercase"
                   >
                     <User className="h-[1.2rem] w-[1.2rem]" />
@@ -145,7 +147,7 @@ export const Header = () => {
                 </Link>
                 <Link href={'/signup'} prefetch>
                   <Button
-                    variant={'ghost'}
+                    variant={'outline'}
                     className="flex gap-2 items-center h-9 cursor-pointer"
                   >
                     <span className="font-bold uppercase">{t('signup')}</span>

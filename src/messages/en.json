@@ -97,7 +97,13 @@
     "followers": "Followers",
     "following": "Following",
     "follow": "Follow",
-    "followYou": "Follow you"
+    "followYou": "Follow you",
+    "options": {
+      "diaries": "Diaries",
+      "likes": "Likes",
+      "replies": "Replies",
+      "ratings": "Ratings"
+    }
   },
   "editProfile": {
     "title": "Edit profile",
@@ -106,9 +112,13 @@
     "editProfilePic": "Edit profile picture",
     "save": "Save changes"
   },
+  "homepage": {
+    "title": "Homepage"
+  },
   "createPost": {
     "title": "Create a diary post",
     "tripDiary": "Trip diary",
+    "tripDiaryError": "Enter a trip diary or create new one",
     "noTripDiariesFound": "No results",
     "createTripDiary": "Create",
     "selectTripDiary": "Select a trip diary",

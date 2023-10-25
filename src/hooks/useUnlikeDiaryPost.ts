@@ -14,7 +14,7 @@ export const useUnlikeDiaryPost = () => {
           produce(old, (draft) => {
             draft.map((diaryPost) => {
               if (diaryPost.id === id) {
-                diaryPost.likedBy += 1;
+                diaryPost.likedBy -= 1;
                 diaryPost.isLiked = false;
               }
             });

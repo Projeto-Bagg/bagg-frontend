@@ -1,3 +1,4 @@
+import { DiaryLikedByList } from '@/components/diary-liked-by-list';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import {
@@ -13,6 +14,7 @@ import { Heart, MoreHorizontal, User2 } from 'lucide-react';
 import { useFormatter, useTranslations } from 'next-intl';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
@@ -22,9 +24,14 @@ export const DiaryPost = ({ post }: { post: DiaryPost }) => {
   const formatter = useFormatter();
   const like = useLikeDiaryPost();
   const unlike = useUnlikeDiaryPost();
+  const router = useRouter();
   const t = useTranslations();
 
   const handleLikeClick = () => {
+    if (!auth.user) {
+      return router.push('/login');
+    }
+
     if (post.isLiked) {
       return unlike.mutate(post.id);
     }
@@ -34,11 +41,11 @@ export const DiaryPost = ({ post }: { post: DiaryPost }) => {
   return (
     <article className="md:m-4 p-4 md:px-7 space-y-3 border-b md:border md:border-border md:rounded-lg">
       <div className="flex gap-3">
-        <Avatar className="h-[44px] w-[44px] shrink-0">
-          <Link href={'/' + post.user.username}>
+        <Link href={'/' + post.user.username}>
+          <Avatar className="h-[44px] w-[44px] shrink-0">
             <AvatarImage src={post.user.image} />
-          </Link>
-        </Avatar>
+          </Avatar>
+        </Link>
         <div className="w-full">
           <div className="flex gap-2 items-start justify-between">
             <Link href={'/' + post.user.username}>
@@ -50,11 +57,14 @@ export const DiaryPost = ({ post }: { post: DiaryPost }) => {
               </div>
             </Link>
             <div className="flex items-center gap-2 text-muted-foreground">
+              <DiaryLikedByList id={post.id}>
+                <span>{post.likedBy}</span>
+              </DiaryLikedByList>
               <Heart
                 onClick={handleLikeClick}
                 data-liked={post.isLiked}
                 size={20}
-                className="data-[liked=true]:fill-red-600 cursor-pointer text-foreground"
+                className="data-[liked=true]:fill-red-600 data-[liked=true]:text-red-600 cursor-pointer text-foreground"
               />
               <span className="text-sm">
                 {formatter.relativeTime(post.createdAt, new Date())}

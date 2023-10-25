@@ -43,7 +43,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const { data } = await axios.post('/auth/login', user);
     setCookie('bagg.sessionToken', data.accessToken);
     setCookie('bagg.refreshToken', data.refreshToken);
-
+    queryClient.invalidateQueries();
     refetch();
   };
 
@@ -60,6 +60,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       deleteCookie('bagg.sessionToken');
       deleteCookie('bagg.refreshToken');
       queryClient.setQueryData(['session'], null);
+      queryClient.invalidateQueries();
     } catch (error) {
       console.log(error);
     }

@@ -42,11 +42,10 @@ export function UserFollowTabs({ username, children, defaultTab }: IUserFollowTa
       }}
     >
       <DialogTrigger>{children}</DialogTrigger>
-      <DialogContent className="p-0">
+      <DialogContent className="p-0 min-h-[560px]">
         <Tabs
           defaultValue={defaultTab}
           onValueChange={(value) => setTab(value as typeof defaultTab)}
-          className="min-h-[560px]"
         >
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="followers">{t('profile.followers')}</TabsTrigger>
@@ -56,6 +55,7 @@ export function UserFollowTabs({ username, children, defaultTab }: IUserFollowTa
             <TabsContent
               value={tabIndex === 0 ? 'followers' : 'following'}
               key={tabIndex}
+              className="px-6 pt-2"
             >
               {!(followers.isLoading || following.isLoading) && tab && (
                 <ListUsers users={tab} showIfUserFollowYou={tabIndex === 1} />

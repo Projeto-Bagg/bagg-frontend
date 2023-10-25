@@ -48,7 +48,7 @@ export default function Profile({ params }: { params: { slug: string } }) {
 
   return (
     <div className="h-full">
-      <div className="p-4 md:px-[52px]">
+      <div className="p-4 md:px-11">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2 lg:gap-4">
             <Dialog>
@@ -119,6 +119,12 @@ export default function Profile({ params }: { params: { slug: string } }) {
         </div>
       </div>
       <Separator />
+      <div className="flex gap-4 px-4 md:px-11 pt-4 text-sm text-primary">
+        <button className="font-bold">{t('options.diaries')}</button>
+        <button>{t('options.likes')}</button>
+        <button>{t('options.replies')}</button>
+        <button>{t('options.ratings')}</button>
+      </div>
       {diaryPosts.data &&
         diaryPosts.data.length > 0 &&
         diaryPosts.data.map((post) => <DiaryPost key={post.id} post={post} />)}

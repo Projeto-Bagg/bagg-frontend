@@ -61,7 +61,7 @@ export const MobileNav = () => {
           <div>
             <div className="flex gap-2 justify-between items-center">
               <div className="flex gap-2 items-center">
-                <Avatar className="h-[72px] w-[72px]">
+                <Avatar className="h-[64px] w-[64px]">
                   <AvatarImage src={auth.user?.image} />
                 </Avatar>
                 <div>

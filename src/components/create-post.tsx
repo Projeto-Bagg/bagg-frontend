@@ -39,7 +39,7 @@ import { z } from 'zod';
 const CreateDiaryPostSchema = z.object({
   tripDiaryId: z.number(),
   title: z.string(),
-  message: z.string(),
+  message: z.string().nonempty(),
   medias: z
     .array(z.object({ file: z.instanceof(File), thumbnail: z.string() }))
     .optional(),
@@ -63,6 +63,8 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
   } = useForm<CreateDiaryPostType>({
     resolver: zodResolver(CreateDiaryPostSchema),
   });
+
+  console.log(errors);
 
   const createDiaryPost = useCreateDiaryPost();
 
@@ -96,12 +98,22 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
         </DialogHeader>
         <div>
           <div className="flex justify-between">
-            <Label>{t('createPost.tripDiary')}</Label>
-            <CreateTripDiary>
-              <span className="text-primary text-sm font-bold">
-                {t('createPost.createTripDiary')}
-              </span>
-            </CreateTripDiary>
+            <div>
+              <Label className="mr-2">{t('createPost.tripDiary')} *</Label>
+              <CreateTripDiary>
+                <span className="text-primary text-sm font-bold">
+                  {t('createPost.createTripDiary')}
+                </span>
+              </CreateTripDiary>
+            </div>
+            {errors.tripDiaryId && (
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Info size={18} className="text-red-600" />
+                </TooltipTrigger>
+                <TooltipContent>{t('createPost.tripDiaryError')}</TooltipContent>
+              </Tooltip>
+            )}
           </div>
           <Popover>
             <PopoverTrigger asChild>
@@ -177,7 +189,7 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
           </div>
           <div>
             <div className="flex justify-between mb-0.5">
-              <Label>{t('createPost.message')}</Label>
+              <Label>{t('createPost.message')} *</Label>
               {errors.message && (
                 <Tooltip>
                   <TooltipTrigger asChild>
