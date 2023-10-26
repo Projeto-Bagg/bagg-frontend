@@ -5,23 +5,26 @@ import { produce } from 'immer';
 export const useUnlikeDiaryPost = () => {
   const queryClient = useQueryClient();
 
-  return useMutation(async (id: number) => await axios.post(`/diaryPosts/${id}/unlike`), {
-    onMutate: (id) => {
-      ['diaryPosts', 'feed'].forEach((tab) =>
-        queryClient.setQueriesData<DiaryPost[]>(
-          [tab],
-          (old) =>
-            old &&
-            produce(old, (draft) => {
-              draft.map((diaryPost) => {
-                if (diaryPost.id === id) {
-                  diaryPost.likedBy -= 1;
-                  diaryPost.isLiked = false;
-                }
-              });
-            }),
-        ),
-      );
+  return useMutation(
+    async (post: DiaryPost) => await axios.post(`/diaryPosts/${post.id}/unlike`),
+    {
+      onMutate: (post) => {
+        ['diaryPosts', 'feed'].forEach((tab) =>
+          queryClient.setQueriesData<DiaryPost[]>(
+            [tab],
+            (old) =>
+              old &&
+              produce(old, (draft) => {
+                draft.map((diaryPost) => {
+                  if (diaryPost.id === post.id) {
+                    diaryPost.likedBy -= 1;
+                    diaryPost.isLiked = false;
+                  }
+                });
+              }),
+          ),
+        );
+      },
     },
-  });
+  );
 };

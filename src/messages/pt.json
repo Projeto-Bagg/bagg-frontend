@@ -94,11 +94,7 @@
     "editProfile": "Editar perfil",
     "createdAt": "Entrou em {joinDate, date, long}",
     "birthdate": "Nasceu em {joinDate, date, long}",
-    "followers": "Seguidores",
-    "following": "Seguindo",
-    "follow": "Seguir",
-    "followYou": "Segue você",
-    "options": {
+    "feed": {
       "diaries": "Diários",
       "likes": "Curtidas",
       "replies": "Respostas",
@@ -116,6 +112,7 @@
     "title": "Página inicial"
   },
   "createPost": {
+    "trigger": "Diário",
     "title": "Criar postagem no diário",
     "tripDiary": "Diário de viagem",
     "tripDiaryError": "Insira um diário de viagem ou crie um novo",
@@ -141,8 +138,21 @@
     "confirm": "Confirmar"
   },
   "diaryPost": {
-    "share": "Compartilhar",
+    "copyLink": "Copiar link",
     "delete": "Remover",
-    "diaryBadge": "Diário"
+    "diaryBadge": "Diário",
+    "likedBy": "Curtido por",
+    "deleteModal": {
+      "title": "Excluir postagem de diário",
+      "description": "Tem certeza que deseja excluir a postagem? Essa ação é irreversível.",
+      "cancel": "Cancelar",
+      "action": "Excluir"
+    }
+  },
+  "follow": {
+    "followers": "Seguidores",
+    "following": "Seguindo",
+    "follow": "Seguir",
+    "followYou": "Segue você"
   }
 }

@@ -64,8 +64,6 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
     resolver: zodResolver(CreateDiaryPostSchema),
   });
 
-  console.log(errors);
-
   const createDiaryPost = useCreateDiaryPost();
 
   const tripDiaries = useQuery<TripDiary[]>(

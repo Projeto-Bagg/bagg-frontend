@@ -20,6 +20,15 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL(locale + '/', request.url));
   }
 
+  if (request.nextUrl.pathname.endsWith('/settings/profile') && !isAuthenticated) {
+    return NextResponse.redirect(
+      new URL(
+        locale + request.nextUrl.pathname.replace('/settings/profile', ''),
+        request.url.replace('/settings/profile', ''),
+      ),
+    );
+  }
+
   return intlMiddleware(request);
 }
 

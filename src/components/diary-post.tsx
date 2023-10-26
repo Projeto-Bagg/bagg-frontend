@@ -48,9 +48,9 @@ export const DiaryPost = ({ post }: { post: DiaryPost }) => {
     }
 
     if (post.isLiked) {
-      return unlike.mutate(post.id);
+      return unlike.mutate(post);
     }
-    return like.mutate(post.id);
+    return like.mutate(post);
   };
 
   const handleShareClick = () => {
@@ -102,7 +102,7 @@ export const DiaryPost = ({ post }: { post: DiaryPost }) => {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
                   <DropdownMenuItem onSelect={handleShareClick}>
-                    {t('diaryPost.share')}
+                    {t('diaryPost.copyLink')}
                   </DropdownMenuItem>
                   {auth.user?.id === post.user.id && (
                     <>
@@ -118,17 +118,18 @@ export const DiaryPost = ({ post }: { post: DiaryPost }) => {
                         <AlertDialogContent>
                           <AlertDialogHeader>
                             <AlertDialogTitle>
-                              Excluir postagem de diário
+                              {t('diaryPost.deleteModal.title')}
                             </AlertDialogTitle>
                             <AlertDialogDescription>
-                              Tem certeza que deseja excluir a postagem? Essa ação é
-                              irreversível.
+                              {t('diaryPost.deleteModal.description')}
                             </AlertDialogDescription>
                           </AlertDialogHeader>
                           <AlertDialogFooter>
-                            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                            <AlertDialogCancel>
+                              {t('diaryPost.deleteModal.cancel')}
+                            </AlertDialogCancel>
                             <AlertDialogAction onClick={handleDeleteClick}>
-                              Excluir
+                              {t('diaryPost.deleteModal.action')}
                             </AlertDialogAction>
                           </AlertDialogFooter>
                         </AlertDialogContent>

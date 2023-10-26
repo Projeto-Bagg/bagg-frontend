@@ -94,11 +94,7 @@
     "editProfile": "Edit profile",
     "createdAt": "Joined in {joinDate, date, long}",
     "birthdate": "Born in {joinDate, date, long}",
-    "followers": "Followers",
-    "following": "Following",
-    "follow": "Follow",
-    "followYou": "Follow you",
-    "options": {
+    "feed": {
       "diaries": "Diaries",
       "likes": "Likes",
       "replies": "Replies",
@@ -116,6 +112,7 @@
     "title": "Homepage"
   },
   "createPost": {
+    "trigger": "Diary",
     "title": "Create a diary post",
     "tripDiary": "Trip diary",
     "tripDiaryError": "Enter a trip diary or create new one",
@@ -141,8 +138,21 @@
     "confirm": "Confirm"
   },
   "diaryPost": {
-    "share": "Share",
+    "copyLink": "Copy link",
     "delete": "Delete",
-    "diaryBadge": "Diary"
+    "diaryBadge": "Diary",
+    "likedBy": "Liked by",
+    "deleteModal": {
+      "title": "Delete diary post",
+      "description": "Are you sure you want to delete this post? This action cannot be undone",
+      "cancel": "Cancel",
+      "action": "Delete"
+    }
+  },
+  "follow": {
+    "followers": "Followers",
+    "following": "Following",
+    "follow": "Follow",
+    "followYou": "Follow you"
   }
 }

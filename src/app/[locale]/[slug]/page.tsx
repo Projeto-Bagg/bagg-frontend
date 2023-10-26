@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { useRouter } from 'next-intl/client';
+import { usePathname, useRouter } from 'next-intl/client';
 import Link from 'next-intl/link';
 import { useTranslations } from 'next-intl';
 import axios from '@/services/axios';
@@ -15,11 +15,12 @@ import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { Separator } from '@/components/ui/separator';
 import { UserFollowTabs } from '@/components/user-follow-tabs';
 import { UserCog } from 'lucide-react';
-import { DiaryPost } from '@/components/diary-post';
+import { cn } from '@/lib/utils';
 
 export default function Profile({ params }: { params: { slug: string } }) {
+  const pathname = usePathname();
   const auth = useAuth();
-  const t = useTranslations('profile');
+  const t = useTranslations();
   const follow = useFollow();
   const unfollow = useUnfollow();
   const router = useRouter();
@@ -27,11 +28,6 @@ export default function Profile({ params }: { params: { slug: string } }) {
   const user = useQuery<User>(
     ['user', params.slug],
     async () => (await axios.get<User>('/users/' + params.slug)).data,
-  );
-
-  const diaryPosts = useQuery<DiaryPost[]>(
-    ['diaryPosts', params.slug],
-    async () => (await axios.get<DiaryPost[]>('/diaryPosts/user/' + params.slug)).data,
   );
 
   const handleFollowClick = () => {
@@ -70,19 +66,19 @@ export default function Profile({ params }: { params: { slug: string } }) {
               </span>
               {user.data?.followedBy && (
                 <span className="text-xs lg:text-base text-muted-foreground">
-                  {t('followYou')}
+                  {t('follow.followYou')}
                 </span>
               )}
             </div>
           </div>
           {auth.user?.id !== user.data.id ? (
             <Button type="button" disabled={follow.isLoading} onClick={handleFollowClick}>
-              {user.data?.isFollowing ? t('following') : t('follow')}
+              {user.data?.isFollowing ? t('follow.following') : t('follow.follow')}
             </Button>
           ) : (
-            <Link href={'/settings/profile'}>
+            <Link href={`/${params.slug}/settings/profile`}>
               <div>
-                <Button className="hidden md:block">{t('editProfile')}</Button>
+                <Button className="hidden md:block">{t('profile.editProfile')}</Button>
                 <Button className="flex md:hidden rounded-full items-center justify-center w-10">
                   <UserCog className="shrink-0" size={20} />
                 </Button>
@@ -96,23 +92,23 @@ export default function Profile({ params }: { params: { slug: string } }) {
           )}
           <div className="mb-1">
             <p className="text-muted-foreground">
-              {t('createdAt', { joinDate: user.data.createdAt })}
+              {t('profile.createdAt', { joinDate: user.data.createdAt })}
             </p>
             <p className="text-muted-foreground">
-              {t('birthdate', { joinDate: user.data.birthdate })}
+              {t('profile.birthdate', { joinDate: user.data.birthdate })}
             </p>
           </div>
           <div className="flex gap-2">
             <UserFollowTabs defaultTab="followers" username={params.slug}>
               <div className="flex gap-1">
                 <span className="font-bold">{user.data.followers}</span>
-                <span className="text-muted-foreground">{t('followers')}</span>
+                <span className="text-muted-foreground">{t('follow.followers')}</span>
               </div>
             </UserFollowTabs>
             <UserFollowTabs defaultTab="following" username={params.slug}>
               <div className="flex gap-1">
                 <span className="font-bold">{user.data.following}</span>
-                <span className="text-muted-foreground">{t('following')}</span>
+                <span className="text-muted-foreground">{t('follow.following')}</span>
               </div>
             </UserFollowTabs>
           </div>
@@ -120,14 +116,18 @@ export default function Profile({ params }: { params: { slug: string } }) {
       </div>
       <Separator />
       <div className="flex gap-4 px-4 md:px-11 pt-4 text-sm text-primary">
-        <button className="font-bold">{t('options.diaries')}</button>
-        <button>{t('options.likes')}</button>
-        <button>{t('options.replies')}</button>
-        <button>{t('options.ratings')}</button>
+        <Link href={'/' + params.slug}>
+          <span className={cn(pathname.endsWith(params.slug) && 'font-bold')}>
+            {t('profile.feed.diaries')}
+          </span>
+        </Link>
+        <Link
+          className={cn(pathname.endsWith('/likes') && 'font-bold')}
+          href={'/' + params.slug + '/likes'}
+        >
+          <span>{t('profile.feed.likes')}</span>
+        </Link>
       </div>
-      {diaryPosts.data &&
-        diaryPosts.data.length > 0 &&
-        diaryPosts.data.map((post) => <DiaryPost key={post.id} post={post} />)}
     </div>
   );
 }

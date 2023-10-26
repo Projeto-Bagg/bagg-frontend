@@ -48,8 +48,8 @@ export function UserFollowTabs({ username, children, defaultTab }: IUserFollowTa
           onValueChange={(value) => setTab(value as typeof defaultTab)}
         >
           <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="followers">{t('profile.followers')}</TabsTrigger>
-            <TabsTrigger value="following">{t('profile.following')}</TabsTrigger>
+            <TabsTrigger value="followers">{t('follow.followers')}</TabsTrigger>
+            <TabsTrigger value="following">{t('follow.following')}</TabsTrigger>
           </TabsList>
           {[followers.data, following.data].map((tab, tabIndex) => (
             <TabsContent

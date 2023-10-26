@@ -10,6 +10,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
 import axios from '@/services/axios';
 import { useQuery } from '@tanstack/react-query';
+import { useTranslations } from 'next-intl';
 import React, { ReactNode, useState } from 'react';
 
 type IDiaryLikedByList = {
@@ -19,6 +20,7 @@ type IDiaryLikedByList = {
 
 export const DiaryLikedByList = ({ id, children }: IDiaryLikedByList) => {
   const [open, setOpen] = useState<boolean>();
+  const t = useTranslations();
 
   const users = useQuery<User[]>(
     ['diaryPostLikedBy', id],
@@ -33,7 +35,7 @@ export const DiaryLikedByList = ({ id, children }: IDiaryLikedByList) => {
       <DialogTrigger>{children}</DialogTrigger>
       <DialogContent className="flex flex-col h-[560px] overflow-hidden">
         <DialogHeader>
-          <DialogTitle>Curtido por</DialogTitle>
+          <DialogTitle>{t('diaryPost.likedBy')}</DialogTitle>
         </DialogHeader>
         <Separator />
         <ScrollArea className="-mr-5 pr-5">

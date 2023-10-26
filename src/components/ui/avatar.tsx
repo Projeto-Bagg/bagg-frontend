@@ -43,7 +43,6 @@ const AvatarFallback = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <AvatarPrimitive.Fallback
     ref={ref}
-    delayMs={400}
     draggable={false}
     className={cn(
       'flex h-full w-full items-center justify-center rounded-full bg-muted',

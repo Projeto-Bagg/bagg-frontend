@@ -5,6 +5,7 @@ import { useAuth } from '@/context/auth-context';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 
 interface IListUsers {
   users: User[];
@@ -16,6 +17,7 @@ export const ListUsers = ({ users, showIfUserFollowYou = true }: IListUsers) => 
   const auth = useAuth();
   const follow = useFollow();
   const unfollow = useUnfollow();
+  const t = useTranslations();
 
   return (
     <div className="space-y-1.5">
@@ -42,7 +44,7 @@ export const ListUsers = ({ users, showIfUserFollowYou = true }: IListUsers) => 
               }
               disabled={!auth.isAuthenticated || follow.isLoading || unfollow.isLoading}
             >
-              {user.isFollowing ? 'Parar de seguir' : 'Seguir'}
+              {user.isFollowing ? t('follow.following') : t('follow.follow')}
             </Button>
           )}
         </div>

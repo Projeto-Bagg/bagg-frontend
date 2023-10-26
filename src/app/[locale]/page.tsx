@@ -11,12 +11,12 @@ export default function Page() {
 
   const feed = useQuery<DiaryPost[]>(
     ['feed'],
-    async () => (await axios.get<DiaryPost[]>('diaryPosts/feed')).data,
+    async () => (await axios.get<DiaryPost[]>('diaryPosts/user/feed')).data,
   );
 
   return (
-    <div className="container min-h-">
-      <div className="px-[52px] pt-4">
+    <div className="container">
+      <div className="px-4 md:px-11 pt-4">
         <h1 className="text-lg font-bold">{t('homepage.title')}</h1>
       </div>
       {feed.data && feed.data.map((post) => <DiaryPost post={post} key={post.id} />)}

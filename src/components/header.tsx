@@ -25,7 +25,7 @@ import { CountryFlag } from '@/components/ui/country-flag';
 import { CreatePost } from '@/components/create-post';
 
 export const Header = () => {
-  const t = useTranslations('header');
+  const t = useTranslations();
   const auth = useAuth();
   const router = useRouter();
   const pathname = usePathname();
@@ -46,7 +46,7 @@ export const Header = () => {
                 href="/ranking"
                 className="text-foreground/60 hover:text-foreground/80 transition"
               >
-                {t('ranking')}
+                {t('header.ranking')}
               </Link>
             </li>
             <li className="hidden lg:block">
@@ -54,23 +54,21 @@ export const Header = () => {
                 href="/countries"
                 className="text-foreground/60 hover:text-foreground/80 transition"
               >
-                {t('countries')}
+                {t('header.countries')}
               </Link>
             </li>
           </ul>
         </nav>
         <div className="flex gap-2 items-center">
           {auth.user && (
-            <Tooltip>
-              <CreatePost>
-                <TooltipTrigger asChild>
-                  <Button variant={'ghost'} size={'icon'}>
-                    <Plus />
-                  </Button>
-                </TooltipTrigger>
-              </CreatePost>
-              <TooltipContent>Postar</TooltipContent>
-            </Tooltip>
+            <CreatePost>
+              <button className="text-primary-foreground flex gap-1 h-[1.2rem] px-2 bg-primary items-center rounded-sm">
+                <Plus size={14} strokeWidth={3} />
+                <span className="font-bold text-xs uppercase">
+                  {t('createPost.trigger')}
+                </span>
+              </button>
+            </CreatePost>
           )}
           <Search />
           <DropdownMenu>
@@ -84,7 +82,7 @@ export const Header = () => {
                   </Button>
                 </DropdownMenuTrigger>
               </TooltipTrigger>
-              <TooltipContent>{t('languages')}</TooltipContent>
+              <TooltipContent>{t('header.languages')}</TooltipContent>
             </Tooltip>
             <DropdownMenuContent>
               {languages.map((lang) => (
@@ -122,13 +120,13 @@ export const Header = () => {
                       <DropdownMenuItem
                         onSelect={() => router.push('/' + auth.user?.username)}
                       >
-                        {t('menu.profile')}
+                        {t('header.menu.profile')}
                       </DropdownMenuItem>
                       <DropdownMenuItem onSelect={() => router.push('/config')}>
-                        {t('menu.settings')}
+                        {t('header.menu.settings')}
                       </DropdownMenuItem>
                       <DropdownMenuItem onSelect={() => auth.logout()}>
-                        {t('menu.signout')}
+                        {t('header.menu.signout')}
                       </DropdownMenuItem>
                     </div>
                   </DropdownMenuContent>
@@ -142,7 +140,7 @@ export const Header = () => {
                     className="flex gap-2 items-center h-9 cursor-pointer uppercase"
                   >
                     <User className="h-[1.2rem] w-[1.2rem]" />
-                    <span className="font-bold">{t('login')}</span>
+                    <span className="font-bold">{t('header.login')}</span>
                   </Button>
                 </Link>
                 <Link href={'/signup'} prefetch>
@@ -150,7 +148,7 @@ export const Header = () => {
                     variant={'outline'}
                     className="flex gap-2 items-center h-9 cursor-pointer"
                   >
-                    <span className="font-bold uppercase">{t('signup')}</span>
+                    <span className="font-bold uppercase">{t('header.signup')}</span>
                   </Button>
                 </Link>
               </div>

@@ -78,7 +78,7 @@ const months = [
   'December',
 ] as const;
 
-export default function EditProfile() {
+export default function EditProfile({ params }: { params: { slug: string } }) {
   const auth = useAuth();
   const [loading, setLoading] = useState<boolean>();
   const router = useRouter();
@@ -130,7 +130,7 @@ export default function EditProfile() {
       onOpenChange={() => {
         isWithinPage
           ? router.back()
-          : router.push('/', { forceOptimisticNavigation: true } as any);
+          : router.push('/' + params.slug, { forceOptimisticNavigation: true } as any);
       }}
     >
       <DialogContent>

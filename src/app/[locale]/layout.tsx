@@ -12,7 +12,6 @@ const inter = Inter({ subsets: ['latin'], weight: ['400', '500', '600', '700'] }
 interface Props {
   children: ReactNode;
   auth: ReactNode;
-  settings: ReactNode;
   params: { locale: string };
 }
 
@@ -49,7 +48,6 @@ export async function generateStaticParams() {
 export default async function LocaleLayout({
   children,
   auth,
-  settings,
   params: { locale },
 }: Props) {
   const messages = await getMessages(locale);
@@ -61,7 +59,6 @@ export default async function LocaleLayout({
           <Providers>
             <Header />
             <div className="container min-h-[calc(100vh-61px)] md:border-l md:border-r">
-              {settings}
               {auth}
               {children}
             </div>
