@@ -7,18 +7,20 @@ export const useLikeDiaryPost = () => {
 
   return useMutation(async (id: number) => await axios.post(`/diaryPosts/${id}/like`), {
     onMutate: (id) => {
-      queryClient.setQueriesData<DiaryPost[]>(
-        ['diaryPosts'],
-        (old) =>
-          old &&
-          produce(old, (draft) => {
-            draft.map((diaryPost) => {
-              if (diaryPost.id === id) {
-                diaryPost.likedBy += 1;
-                diaryPost.isLiked = true;
-              }
-            });
-          }),
+      ['diaryPosts', 'feed'].forEach((tab) =>
+        queryClient.setQueriesData<DiaryPost[]>(
+          [tab],
+          (old) =>
+            old &&
+            produce(old, (draft) => {
+              draft.map((diaryPost) => {
+                if (diaryPost.id === id) {
+                  diaryPost.likedBy += 1;
+                  diaryPost.isLiked = true;
+                }
+              });
+            }),
+        ),
       );
     },
   });

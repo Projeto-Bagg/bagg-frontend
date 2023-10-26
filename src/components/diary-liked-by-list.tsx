@@ -10,7 +10,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
 import axios from '@/services/axios';
 import { useQuery } from '@tanstack/react-query';
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useState } from 'react';
 
 type IDiaryLikedByList = {
   id: number;
@@ -18,13 +18,18 @@ type IDiaryLikedByList = {
 };
 
 export const DiaryLikedByList = ({ id, children }: IDiaryLikedByList) => {
+  const [open, setOpen] = useState<boolean>();
+
   const users = useQuery<User[]>(
     ['diaryPostLikedBy', id],
     async () => (await axios.get<User[]>(`diaryPosts/${id}/like`)).data,
+    {
+      enabled: !!open,
+    },
   );
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger>{children}</DialogTrigger>
       <DialogContent className="flex flex-col h-[560px] overflow-hidden">
         <DialogHeader>

@@ -1,4 +1,15 @@
 import { DiaryLikedByList } from '@/components/diary-liked-by-list';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import {
@@ -7,7 +18,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { useToast } from '@/components/ui/use-toast';
 import { useAuth } from '@/context/auth-context';
+import { useDeleteDiaryPost } from '@/hooks/useDeleteDiaryPost';
 import { useLikeDiaryPost } from '@/hooks/useLikeDiaryPost';
 import { useUnlikeDiaryPost } from '@/hooks/useUnlikeDiaryPost';
 import { Heart, MoreHorizontal, User2 } from 'lucide-react';
@@ -20,10 +33,12 @@ import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
 export const DiaryPost = ({ post }: { post: DiaryPost }) => {
+  const { toast } = useToast();
   const auth = useAuth();
   const formatter = useFormatter();
   const like = useLikeDiaryPost();
   const unlike = useUnlikeDiaryPost();
+  const deletePost = useDeleteDiaryPost();
   const router = useRouter();
   const t = useTranslations();
 
@@ -38,10 +53,20 @@ export const DiaryPost = ({ post }: { post: DiaryPost }) => {
     return like.mutate(post.id);
   };
 
+  const handleShareClick = () => {
+    navigator.clipboard.writeText(window.location.origin + '/diary/' + post.id);
+
+    toast({ title: 'Link copiado para a área de transferência' });
+  };
+
+  const handleDeleteClick = () => {
+    deletePost.mutate(post.id);
+  };
+
   return (
     <article className="md:m-4 p-4 md:px-7 space-y-3 border-b md:border md:border-border md:rounded-lg">
       <div className="flex gap-3">
-        <Link href={'/' + post.user.username}>
+        <Link href={'/' + post.user.username} className="h-fit">
           <Avatar className="h-[44px] w-[44px] shrink-0">
             <AvatarImage src={post.user.image} />
           </Avatar>
@@ -76,13 +101,38 @@ export const DiaryPost = ({ post }: { post: DiaryPost }) => {
                   </div>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
-                  <DropdownMenuItem>{t('diaryPost.share')}</DropdownMenuItem>
+                  <DropdownMenuItem onSelect={handleShareClick}>
+                    {t('diaryPost.share')}
+                  </DropdownMenuItem>
                   {auth.user?.id === post.user.id && (
                     <>
-                      <DropdownMenuItem>{t('diaryPost.edit')}</DropdownMenuItem>
-                      <DropdownMenuItem className="font-bold">
-                        {t('diaryPost.delete')}
-                      </DropdownMenuItem>
+                      <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                          <DropdownMenuItem
+                            onSelect={(e) => e.preventDefault()}
+                            className="font-bold"
+                          >
+                            {t('diaryPost.delete')}
+                          </DropdownMenuItem>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>
+                              Excluir postagem de diário
+                            </AlertDialogTitle>
+                            <AlertDialogDescription>
+                              Tem certeza que deseja excluir a postagem? Essa ação é
+                              irreversível.
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                            <AlertDialogAction onClick={handleDeleteClick}>
+                              Excluir
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
                     </>
                   )}
                 </DropdownMenuContent>
