@@ -42,20 +42,14 @@ export const Header = () => {
               </Link>
             </li>
             <li className="hidden lg:block">
-              <Link
-                href="/ranking"
-                className="text-foreground/60 hover:text-foreground/80 transition"
-              >
+              <span className="text-foreground/60 hover:text-foreground/80 transition">
                 {t('header.ranking')}
-              </Link>
+              </span>
             </li>
             <li className="hidden lg:block">
-              <Link
-                href="/countries"
-                className="text-foreground/60 hover:text-foreground/80 transition"
-              >
+              <span className="text-foreground/60 hover:text-foreground/80 transition">
                 {t('header.countries')}
-              </Link>
+              </span>
             </li>
           </ul>
         </nav>

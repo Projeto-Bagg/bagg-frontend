@@ -22,7 +22,7 @@ import { z } from 'zod';
 
 const createTripDiarySchema = z.object({
   title: z.string().min(3),
-  message: z.string(),
+  message: z.string().max(300),
 });
 
 export type CreateTripDiaryType = z.infer<typeof createTripDiarySchema>;
@@ -34,13 +34,17 @@ export const CreateTripDiary = ({ children }: { children: ReactNode }) => {
   const {
     register,
     handleSubmit,
+    reset,
+    watch,
     formState: { errors },
   } = useForm<CreateTripDiaryType>({
     resolver: zodResolver(createTripDiarySchema),
   });
 
-  const handleCreateTripDiary = (data: CreateTripDiaryType) => {
-    createTripDiary.mutateAsync(data).then(() => setOpen(false));
+  const handleCreateTripDiary = async (data: CreateTripDiaryType) => {
+    await createTripDiary.mutateAsync(data);
+    setOpen(false);
+    reset();
   };
 
   return (
@@ -54,13 +58,24 @@ export const CreateTripDiary = ({ children }: { children: ReactNode }) => {
         <form className="space-y-4" onSubmit={handleSubmit(handleCreateTripDiary)}>
           <div>
             <div className="justify-between flex mb-0.5">
-              <Label>{t('createTripDiary.titleField')}</Label>
+              <div className="flex gap-1 items-end">
+                <Label>{t('createTripDiary.titleField')}</Label>
+                <Label className="text-muted-foreground text-xs">
+                  {watch('title')?.length || 0} / 255
+                </Label>
+              </div>
               {errors.title && (
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Info size={18} className="text-red-600" />
                   </TooltipTrigger>
-                  <TooltipContent>{t('createTripDiary.titleFieldError')}</TooltipContent>
+                  <TooltipContent>
+                    <TooltipContent>
+                      {errors.title.type === 'too_big'
+                        ? t('createTripDiary.titleFieldMaxError')
+                        : t('createTripDiary.titleFieldError')}
+                    </TooltipContent>
+                  </TooltipContent>
                 </Tooltip>
               )}
             </div>
@@ -68,20 +83,29 @@ export const CreateTripDiary = ({ children }: { children: ReactNode }) => {
           </div>
           <div>
             <div className="justify-between flex mb-0.5">
-              <Label>{t('createTripDiary.message')}</Label>
+              <div className="flex gap-1 items-end">
+                <Label>{t('createTripDiary.message')}</Label>
+                <Label className="text-muted-foreground text-xs">
+                  {watch('message')?.length || 0} / 300
+                </Label>
+              </div>
               {errors.message && (
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Info size={18} className="text-red-600" />
                   </TooltipTrigger>
-                  <TooltipContent>{t('createTripDiary.messageError')}</TooltipContent>
+                  <TooltipContent>
+                    {errors.message.type === 'too_big'
+                      ? t('createTripDiary.messageMaxError')
+                      : t('createTripDiary.messageError')}
+                  </TooltipContent>
                 </Tooltip>
               )}
             </div>
             <Textarea {...register('message')} className="max-h-[160px]" />
           </div>
           <DialogFooter>
-            <Button type="submit">{t('createTripDiary.message')}</Button>
+            <Button type="submit">{t('createTripDiary.confirm')}</Button>
           </DialogFooter>
         </form>
       </DialogContent>

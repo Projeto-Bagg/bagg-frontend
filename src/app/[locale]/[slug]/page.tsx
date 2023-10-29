@@ -118,6 +118,11 @@ export default function Profile({ params }: { params: { slug: string } }) {
       <div className="flex gap-4 px-4 md:px-11 pt-4 text-sm text-primary">
         <Link href={'/' + params.slug}>
           <span className={cn(pathname.endsWith(params.slug) && 'font-bold')}>
+            {t('profile.feed.posts')}
+          </span>
+        </Link>
+        <Link href={'/' + params.slug + '/diaries'}>
+          <span className={cn(pathname.endsWith('/diaries') && 'font-bold')}>
             {t('profile.feed.diaries')}
           </span>
         </Link>

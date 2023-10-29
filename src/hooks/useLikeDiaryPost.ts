@@ -21,7 +21,7 @@ export const useLikeDiaryPost = () => {
             }),
         );
 
-        ['diaryPosts', 'feed'].forEach((tab) =>
+        ['diaryPosts', 'feed', 'tripDiaryPosts'].forEach((tab) =>
           queryClient.setQueriesData<DiaryPost[]>(
             [tab],
             (old) =>

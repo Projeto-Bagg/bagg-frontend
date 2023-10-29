@@ -54,7 +54,7 @@ export const DiaryPost = ({ post }: { post: DiaryPost }) => {
   };
 
   const handleShareClick = () => {
-    navigator.clipboard.writeText(window.location.origin + '/diary/' + post.id);
+    navigator.clipboard.writeText(window.location.origin + '/diary/post/' + post.id);
 
     toast({ title: 'Link copiado para a área de transferência' });
   };
@@ -140,14 +140,15 @@ export const DiaryPost = ({ post }: { post: DiaryPost }) => {
               </DropdownMenu>
             </div>
           </div>
-          <div className="flex gap-2 my-2">
-            <Badge>{t('diaryPost.diaryBadge')}</Badge>
-            <span className="text-muted-foreground text-sm">
-              {post.tripDiary.title} {' • '} {post.tripDiary.message}
-            </span>
-          </div>
+          <Link href={'/diary/' + post.tripDiary.id}>
+            <div className="flex gap-2 my-2">
+              <Badge>{t('diaryPost.diaryBadge')}</Badge>
+              <span className="text-muted-foreground text-sm">
+                {post.tripDiary.title}
+              </span>
+            </div>
+          </Link>
           <div className="mb-2">
-            <h3 className="text-xl font-bold">{post.title}</h3>
             <p className="text-sm md:text-base">{post.message}</p>
           </div>
           <div>

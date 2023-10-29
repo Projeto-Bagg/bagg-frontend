@@ -50,7 +50,7 @@ export const Search = () => {
         </TooltipTrigger>
         <TooltipContent>{t('search.title')}</TooltipContent>
       </Tooltip>
-      <DialogContent className="max-w-[48rem] py-6 px-10">
+      <DialogContent className="max-w-[48rem] p-6 md:px-10">
         <DialogHeader className="bg-secondary rounded-t-lg -my-6 -mx-10 overflow-hidden py-6 px-10">
           <div className="relative">
             {search.isFetching ? (
@@ -87,9 +87,6 @@ export const Search = () => {
                     >
                       <div className="flex gap-2 bg-primary-foreground hover:bg-secondary rounded-lg transition-all">
                         <Avatar className="rounded-sm">
-                          <AvatarFallback className="rounded-sm">
-                            {user.fullName.charAt(0).toUpperCase()}
-                          </AvatarFallback>
                           <AvatarImage className="rounded-sm" src={user.image} />
                         </Avatar>
                         <div className="flex items-center gap-1">

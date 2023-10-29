@@ -18,6 +18,11 @@ export const useDeleteDiaryPost = () => {
         ['feed'],
         (old) => old && produce(old, (draft) => draft.filter((post) => post.id !== id)),
       );
+
+      queryClient.setQueriesData<DiaryPost[]>(
+        ['tripDiaryPosts'],
+        (old) => old && produce(old, (draft) => draft.filter((post) => post.id !== id)),
+      );
     },
   });
 };

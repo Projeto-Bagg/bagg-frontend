@@ -19,6 +19,15 @@ export const useCreateDiaryPost = () => {
               draft.unshift(data);
             }),
         );
+
+        queryClient.setQueryData<DiaryPost[]>(
+          ['tripDiaryPosts', data.tripDiary.id],
+          (old) =>
+            old &&
+            produce(old, (draft) => {
+              draft.unshift(data);
+            }),
+        );
       },
     },
   );

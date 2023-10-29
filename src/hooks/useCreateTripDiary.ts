@@ -3,7 +3,6 @@ import { useAuth } from '@/context/auth-context';
 import axios from '@/services/axios';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { produce } from 'immer';
-import React from 'react';
 
 export const useCreateTripDiary = () => {
   const queryClient = useQueryClient();

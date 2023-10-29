@@ -46,6 +46,13 @@ export const useUnfollow = () => {
               }),
           );
         });
+
+        queryClient.setQueryData<User[]>(
+          ['followers', followingUsername],
+          (old) =>
+            old &&
+            produce(old, (draft) => draft.filter((user) => user.id !== auth.user?.id)),
+        );
       },
     },
   );

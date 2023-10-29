@@ -25,7 +25,6 @@ interface TripDiary {
 
 interface DiaryPost {
   id: number;
-  title: string;
   message: string;
   likedBy: number;
   isLiked: boolean;

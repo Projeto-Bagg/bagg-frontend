@@ -28,20 +28,22 @@ import axios from '@/services/axios';
 import { getVideoThumbnail } from '@/utils/getVideoThumbnail';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQuery } from '@tanstack/react-query';
-import { Check, ChevronsUpDown, Info, Trash2 } from 'lucide-react';
+import { Check, ChevronsUpDown, Image, Info, Trash2 } from 'lucide-react';
 import { useFormatter, useTranslations } from 'next-intl';
 import NextImage from 'next/image';
-import React, { ReactNode, useState } from 'react';
-import Dropzone from 'react-dropzone';
+import React, { ReactNode, useRef, useState } from 'react';
+import { Image as ImageIcon } from 'lucide-react';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
+import { useRouter } from 'next/navigation';
+import { useToast } from '@/components/ui/use-toast';
 
 const CreateDiaryPostSchema = z.object({
   tripDiaryId: z.number(),
-  title: z.string(),
-  message: z.string().nonempty(),
+  message: z.string().nonempty().max(300),
   medias: z
     .array(z.object({ file: z.instanceof(File), thumbnail: z.string() }))
+    .max(10)
     .optional(),
 });
 
@@ -51,7 +53,11 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
   const [open, setOpen] = useState<boolean>();
   const formatter = useFormatter();
   const auth = useAuth();
+  const router = useRouter();
+  const { toast } = useToast();
   const t = useTranslations();
+  const createDiaryPost = useCreateDiaryPost();
+  const imageInputFile = useRef<HTMLInputElement>(null);
   const {
     control,
     register,
@@ -59,12 +65,12 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
     setValue,
     watch,
     getValues,
+    setError,
+    reset,
     formState: { errors },
   } = useForm<CreateDiaryPostType>({
     resolver: zodResolver(CreateDiaryPostSchema),
   });
-
-  const createDiaryPost = useCreateDiaryPost();
 
   const tripDiaries = useQuery<TripDiary[]>(
     ['tripDiaries', auth.user?.username],
@@ -79,12 +85,13 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
     const formData = new FormData();
 
     data.medias && data.medias.forEach((media) => formData.append('medias', media.file));
-    formData.append('title', data.title);
     formData.append('message', data.message);
     formData.append('tripDiaryId', data.tripDiaryId.toString());
 
-    await createDiaryPost.mutateAsync(formData);
+    const post = await createDiaryPost.mutateAsync(formData);
+    router.push('/diary/' + post.tripDiary.id);
     setOpen(false);
+    reset();
   };
 
   return (
@@ -97,7 +104,7 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
         <div>
           <div className="flex justify-between">
             <div>
-              <Label className="mr-2">{t('createPost.tripDiary')} *</Label>
+              <Label className="mr-2">{t('createPost.tripDiary')}</Label>
               <CreateTripDiary>
                 <span className="text-primary text-sm font-bold">
                   {t('createPost.createTripDiary')}
@@ -152,9 +159,9 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
                               : 'opacity-0',
                           )}
                         />
-                        <div className="flex justify-between w-full">
+                        <div className="flex items-end justify-between w-full gap-2">
                           <span>{tripDiary.title}</span>
-                          <span>
+                          <span className="text-xs">
                             {formatter.dateTime(tripDiary.createdAt, {
                               timeZone: 'America/Sao_Paulo',
                             })}
@@ -172,90 +179,33 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
         </div>
         <form className="space-y-4" onSubmit={handleSubmit(handleCreatePost)}>
           <div>
-            <div className="justify-between flex mb-0.5">
-              <Label>{t('createPost.titleField')}</Label>
-              {errors.title && (
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Info size={18} className="text-red-600" />
-                  </TooltipTrigger>
-                  <TooltipContent>{t('createPost.titleFieldError')}</TooltipContent>
-                </Tooltip>
-              )}
-            </div>
-            <Input {...register('title')} />
-          </div>
-          <div>
             <div className="flex justify-between mb-0.5">
-              <Label>{t('createPost.message')} *</Label>
+              <div className="flex gap-1 items-end">
+                <Label>{t('createPost.message')}</Label>
+                <Label className="text-muted-foreground text-xs">
+                  {watch('message')?.length || 0} / 300
+                </Label>
+              </div>
               {errors.message && (
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Info size={18} className="text-red-600" />
                   </TooltipTrigger>
-                  <TooltipContent>{t('createPost.messageError')}</TooltipContent>
+                  <TooltipContent>
+                    {errors.message.type === 'too_big'
+                      ? t('createPost.messageMaxError')
+                      : t('createPost.messageError')}
+                  </TooltipContent>
                 </Tooltip>
               )}
             </div>
             <Textarea {...register('message')} className="max-h-[160px]" />
           </div>
-          {!watch('medias') || watch('medias')?.length === 0 ? (
-            <Controller
-              name="medias"
-              control={control}
-              render={({ field }) => (
-                <Dropzone
-                  maxFiles={10}
-                  accept={{
-                    'video/mp4': [],
-                    'image/jpeg': [],
-                    'image/png': [],
-                    'image/webp': [],
-                  }}
-                  onDropAccepted={async (files) => {
-                    field.onChange(
-                      await Promise.all(
-                        files.map(async (file) => {
-                          return {
-                            file,
-                            thumbnail: file.type.startsWith('video')
-                              ? await getVideoThumbnail(file)
-                              : URL.createObjectURL(file),
-                          };
-                        }),
-                      ),
-                    );
-                  }}
-                  onDropRejected={() => {
-                    field.onChange(null);
-                  }}
-                  maxSize={104857600}
-                >
-                  {({ getRootProps, fileRejections }) => (
-                    <div
-                      className="flex justify-center align-center flex-col w-full h-[140px] border-2 border-dashed mt-4 rounded-md p-3 cursor-pointer"
-                      {...getRootProps()}
-                    >
-                      <div className="flex flex-col align-center gap-1 text-center">
-                        {fileRejections.length !== 0 && (
-                          <span>{t('createPost.dropzoneError')}</span>
-                        )}
-                        <Label>{t('createPost.dropzoneMessage')}</Label>
-                        <Label>{t('createPost.dropzoneLimit')}</Label>
-                      </div>
-                    </div>
-                  )}
-                </Dropzone>
-              )}
-            />
-          ) : (
+          {watch('medias') && watch('medias')!.length > 0 && (
             <ScrollArea className="w-96 md:w-[462px] whitespace-nowrap rounded-md border">
               <div className="w-max flex justify-center gap-2 ">
-                {watch('medias')?.map((file) => (
-                  <div
-                    className="overflow-hidden relative w-[110px]"
-                    key={file.file.name}
-                  >
+                {watch('medias')?.map((file, index) => (
+                  <div className="overflow-hidden relative w-[110px]" key={index}>
                     <AspectRatio ratio={1}>
                       <div className="absolute top-1 right-1 z-20 bg-black p-1 rounded-full">
                         <Trash2
@@ -284,9 +234,68 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
               </div>
             </ScrollArea>
           )}
-          <DialogFooter>
+          <div className="flex justify-between">
+            <Controller
+              control={control}
+              name="medias"
+              render={({ field }) => (
+                <button
+                  disabled={watch('medias')?.length === 10}
+                  type="button"
+                  onClick={() => imageInputFile.current?.click()}
+                >
+                  <ImageIcon className="text-blue-500" size={20} />
+                  <Input
+                    multiple
+                    className="hidden"
+                    type="file"
+                    accept="image/jpeg,image/png,image/webp,video/mp4"
+                    onChange={async (e) => {
+                      const maxSize = 104857600;
+                      const currentImages = getValues('medias');
+                      const currentImagesSize =
+                        currentImages?.reduce((acc, curr) => acc + curr.file.size, 0) ||
+                        0;
+                      const files = Array.from(e.target.files as ArrayLike<File>);
+                      const newImagesSize = files.reduce(
+                        (acc, curr) => acc + curr.size,
+                        0,
+                      );
+
+                      if (
+                        newImagesSize > maxSize - currentImagesSize ||
+                        files.length > 10 - (currentImages?.length || 0)
+                      ) {
+                        setError('medias', {
+                          message: 'Max size is 100mb and 10 files',
+                          type: 'max',
+                        });
+                        toast({
+                          title: t('createPost.maxSizeFiles'),
+                        });
+                        return;
+                      }
+
+                      field.onChange(
+                        await Promise.all(
+                          files.map(async (file) => {
+                            return {
+                              file,
+                              thumbnail: file.type.startsWith('video')
+                                ? await getVideoThumbnail(file)
+                                : URL.createObjectURL(file),
+                            };
+                          }),
+                        ).then((arr) => arr.concat(currentImages || [])),
+                      );
+                    }}
+                    ref={imageInputFile}
+                  />
+                </button>
+              )}
+            />
             <Button type="submit">{t('createPost.confirm')}</Button>
-          </DialogFooter>
+          </div>
         </form>
       </DialogContent>
     </Dialog>

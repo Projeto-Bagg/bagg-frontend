@@ -48,9 +48,7 @@ export default function Login() {
       router.back();
     } catch (error) {
       setLoading(false);
-      axios.isAxiosError(error) &&
-        error.response?.status === 401 &&
-        toast({ title: t('unauthorized') });
+      toast({ title: t('unauthorized') });
     }
   };
 

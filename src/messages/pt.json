@@ -95,6 +95,7 @@
     "createdAt": "Entrou em {joinDate, date, long}",
     "birthdate": "Nasceu em {joinDate, date, long}",
     "feed": {
+      "posts": "Postagens",
       "diaries": "Diários",
       "likes": "Curtidas",
       "replies": "Respostas",
@@ -121,21 +122,26 @@
     "selectTripDiary": "Selecione um diário de viagem",
     "titleField": "Título",
     "titleFieldError": "Insira um título",
+    "titleFieldMaxError": "O tamanho máximo é de 255 caracteres",
     "message": "Mensagem",
     "messageError": "Insira uma mensagem",
-    "dropzoneError": "Arquivo muito grande ou quantidade máxima excedida",
-    "dropzoneMessage": "Arraste vídeos/imagens ou clique para pesquisar",
-    "dropzoneLimit": "Limite de 100MB ou 10 arquivos",
+    "messageMaxError": "O tamanho máximo é de 300 caracteres",
+    "maxSizeFiles": "O tamanho máximo é de 10 arquivos e 100mb no total",
     "confirm": "Confirmar"
   },
   "createTripDiary": {
     "title": "Criar diário de viagem",
     "description": "Crie um diário de viagem e compartilhe suas experiências com a comunidade",
     "titleField": "Título",
-    "titleFieldError": "Insira um title",
+    "titleFieldError": "Insira um título",
     "message": "Mensagem",
     "messageError": "Insira uma message",
+    "messageMaxError": "O tamanho máximo é de 300 caracteres",
     "confirm": "Confirmar"
+  },
+  "diary": {
+    "notFound": "Diary não encontrado :(",
+    "posts": "{count, plural, =0 {Sem postagens} =1 {# postagem} other {# postagens}}"
   },
   "diaryPost": {
     "copyLink": "Copiar link",

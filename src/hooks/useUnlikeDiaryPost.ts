@@ -9,7 +9,7 @@ export const useUnlikeDiaryPost = () => {
     async (post: DiaryPost) => await axios.post(`/diaryPosts/${post.id}/unlike`),
     {
       onMutate: (post) => {
-        ['diaryPosts', 'feed'].forEach((tab) =>
+        ['diaryPosts', 'feed', 'tripDiaryPosts'].forEach((tab) =>
           queryClient.setQueriesData<DiaryPost[]>(
             [tab],
             (old) =>
