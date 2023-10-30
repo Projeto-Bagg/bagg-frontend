@@ -5,11 +5,12 @@ import { createContext, useContext, useEffect } from 'react';
 import { getCookie, deleteCookie, setCookie } from 'cookies-next';
 import { Spinner } from '@/assets';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { AxiosResponse } from 'axios';
 
 type AuthContextType = {
   login: (user: UserSignIn) => Promise<void>;
   logout: () => void;
-  signUp: (user: UserSignUp) => Promise<{ status: number }>;
+  signUp: (user: UserSignUp) => Promise<AxiosResponse<any, any>>;
   user: User | null | undefined;
   isAuthenticated: boolean;
   isLoading: boolean;
@@ -48,11 +49,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const signUp = async (user: UserSignUp) => {
-    const { status } = await axios.post('users', user);
-
-    return {
-      status,
-    };
+    return await axios.post('/users', user);
   };
 
   const logout = () => {

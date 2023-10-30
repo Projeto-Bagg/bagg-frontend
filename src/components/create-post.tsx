@@ -10,7 +10,6 @@ import {
 import {
   Dialog,
   DialogContent,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -28,7 +27,7 @@ import axios from '@/services/axios';
 import { getVideoThumbnail } from '@/utils/getVideoThumbnail';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQuery } from '@tanstack/react-query';
-import { Check, ChevronsUpDown, Image, Info, Trash2 } from 'lucide-react';
+import { Check, ChevronsUpDown, Info, Trash2 } from 'lucide-react';
 import { useFormatter, useTranslations } from 'next-intl';
 import NextImage from 'next/image';
 import React, { ReactNode, useRef, useState } from 'react';
@@ -88,16 +87,18 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
     formData.append('message', data.message);
     formData.append('tripDiaryId', data.tripDiaryId.toString());
 
+    setOpen(false);
     const post = await createDiaryPost.mutateAsync(formData);
     router.push('/diary/' + post.tripDiary.id);
-    setOpen(false);
     reset();
   };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent>
+      <DialogContent
+        onInteractOutside={(e) => createDiaryPost.isLoading && e.preventDefault()}
+      >
         <DialogHeader>
           <DialogTitle>{t('createPost.title')}</DialogTitle>
         </DialogHeader>
@@ -294,7 +295,13 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
                 </button>
               )}
             />
-            <Button type="submit">{t('createPost.confirm')}</Button>
+            <Button
+              loading={createDiaryPost.isLoading}
+              disabled={createDiaryPost.isLoading}
+              type="submit"
+            >
+              {t('createPost.confirm')}
+            </Button>
           </div>
         </form>
       </DialogContent>

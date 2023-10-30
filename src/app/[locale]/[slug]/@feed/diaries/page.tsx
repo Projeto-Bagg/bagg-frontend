@@ -21,7 +21,7 @@ export default function Page({ params }: { params: { slug: string } }) {
           <Link
             href={'/diary/' + diary.id}
             key={diary.id}
-            className="block md:m-4 p-4 md:px-7 space-y-3 border-b md:border md:border-border md:rounded-lg"
+            className="block min-h-[100px] md:m-4 p-4 md:px-7 space-y-3 border-b md:border md:border-border md:rounded-lg"
           >
             <div className="flex flex-col w-full">
               <div className="flex justify-between items-center w-full">
@@ -30,7 +30,7 @@ export default function Page({ params }: { params: { slug: string } }) {
                   {formatter.relativeTime(diary.createdAt, new Date())}
                 </span>
               </div>
-              <span className="text-muted-foreground text-sm">{diary.message}</span>
+              <span className="text-muted-foreground text-sm pt-1">{diary.message}</span>
             </div>
           </Link>
         ))}

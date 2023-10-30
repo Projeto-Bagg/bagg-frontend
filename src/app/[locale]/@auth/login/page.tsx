@@ -90,7 +90,12 @@ export default function Login() {
             <Input id="password" type={'password'} {...login.register('password')} />
           </div>
           <DialogFooter>
-            <Button type={'submit'} loading={loading} className="w-full">
+            <Button
+              disabled={loading}
+              type={'submit'}
+              loading={loading}
+              className="w-full"
+            >
               {t('loginSubmit')}
             </Button>
           </DialogFooter>

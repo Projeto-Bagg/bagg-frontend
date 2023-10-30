@@ -40,6 +40,7 @@
     "name": "Nome",
     "nameError": "Digite seu nome de exibição",
     "username": "Nome de usuário",
+    "nameSizeError": "O tamanho máximo é de 64 caracteres",
     "usernameError": {
       "title": "O nome de usuário deve:",
       "condition1": "Ter tamanho de 8 a 20 caracteres",
@@ -48,7 +49,7 @@
     "usernameNotAvailable": "Nome de usuário já cadastrado",
     "birthdate": "Data de nascimento",
     "birthdatePlaceholder": "Selecione uma data",
-    "birthdateError": "Em quue dia você nasceu?",
+    "birthdateError": "Em que dia você nasceu?",
     "email": "Email",
     "emailError": "Escreva um email válido",
     "emailNotAvailable": "Email já cadastrado",
@@ -106,6 +107,7 @@
     "title": "Editar perfil",
     "description": "Faça alterações nos dados do seu perfil. Aperte em salvar quando tiver terminado.",
     "bio": "Biografia",
+    "bioSizeError": "O tamanho máximo é de 300 caracteres",
     "editProfilePic": "Editar foto de perfil",
     "save": "Salvar alterações"
   },

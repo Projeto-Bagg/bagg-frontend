@@ -83,43 +83,44 @@ export default function SignUp() {
   });
 
   const handleSignUp = async (data: SignUpType) => {
-    try {
-      setLoading(true);
+    setLoading(true);
 
-      const {
-        confirmPassword,
-        birthdateDay,
-        birthdateMonth,
-        birthdateYear,
-        ...signUpData
-      } = data;
+    const {
+      confirmPassword,
+      birthdateDay,
+      birthdateMonth,
+      birthdateYear,
+      ...signUpData
+    } = data;
 
-      const birthdate = new Date(+birthdateYear, +birthdateMonth, +birthdateDay);
+    const birthdate = new Date(+birthdateYear, +birthdateMonth, +birthdateDay);
 
-      await auth.signUp({
+    await auth
+      .signUp({
         ...signUpData,
         birthdate,
         fullName: data.fullName.toLowerCase().replace(/\b\w/g, (c) => c.toUpperCase()),
+      })
+      .then(async () => {
+        await new Promise((resolve) => setTimeout(resolve, 700));
+
+        await auth.login({ login: data.username, password: data.password });
+
+        router.back();
+      })
+      .catch((error) => {
+        error.response.data?.email?.code === 'emailNotAvailable' &&
+          signUp.setError('email', {
+            message: t('emailNotAvailable'),
+            type: 'emailNotAvailable',
+          });
+        error.response.data?.username?.code === 'usernameNotAvailable' &&
+          signUp.setError('username', {
+            message: t('usernameNotAvailable'),
+            type: 'usernameNotAvailable',
+          });
+        setLoading(false);
       });
-
-      await new Promise((resolve) => setTimeout(resolve, 700));
-
-      await auth.login({ login: data.username, password: data.password });
-
-      router.back();
-    } catch (error: any) {
-      error.response.data?.email?.code === 'emailNotAvailable' &&
-        signUp.setError('email', {
-          message: t('emailNotAvailable'),
-          type: 'emailNotAvailable',
-        });
-      error.response.data?.username?.code === 'usernameNotAvailable' &&
-        signUp.setError('username', {
-          message: t('usernameNotAvailable'),
-          type: 'usernameNotAvailable',
-        });
-      setLoading(false);
-    }
   };
 
   return (
@@ -139,13 +140,22 @@ export default function SignUp() {
         <form className="space-y-4" onSubmit={signUp.handleSubmit(handleSignUp)}>
           <div>
             <div className="justify-between flex mb-0.5">
-              <Label>{t('name')}</Label>
+              <div className="flex items-end gap-1">
+                <Label>{t('name')}</Label>
+                <Label className="text-muted-foreground text-xs">
+                  {signUp.watch('fullName')?.length || 0} / 64
+                </Label>
+              </div>
               {signUp.formState.errors.fullName && (
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Info size={18} className="text-red-600" />
                   </TooltipTrigger>
-                  <TooltipContent>{t('nameError')}</TooltipContent>
+                  <TooltipContent>
+                    {signUp.formState.errors.fullName.type === 'too_big'
+                      ? t('nameSizeError')
+                      : t('nameError')}
+                  </TooltipContent>
                 </Tooltip>
               )}
             </div>
@@ -153,7 +163,12 @@ export default function SignUp() {
           </div>
           <div>
             <div className="justify-between flex mb-0.5">
-              <Label>{t('username')}</Label>
+              <div className="flex items-end gap-1">
+                <Label>{t('username')}</Label>
+                <Label className="text-muted-foreground text-xs">
+                  {signUp.watch('username')?.length || 0} / 20
+                </Label>
+              </div>
               {signUp.formState.errors.username &&
                 (signUp.formState.errors.username?.type === 'usernameNotAvailable' ? (
                   <span className="text-red-500 text-sm font-bold">
@@ -168,7 +183,7 @@ export default function SignUp() {
                       {t('usernameError.title')}
                       <ul className="list-disc">
                         <li
-                          data-valid={/.{3,20}/.test(signUp.watch('username'))}
+                          data-valid={/^.{3,20}$/.test(signUp.watch('username'))}
                           className="data-[valid=true]:text-green-500"
                         >
                           {t('usernameError.condition1')}

@@ -21,7 +21,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 const createTripDiarySchema = z.object({
-  title: z.string().min(3),
+  title: z.string().nonempty().max(255),
   message: z.string().max(300),
 });
 
@@ -50,7 +50,9 @@ export const CreateTripDiary = ({ children }: { children: ReactNode }) => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger className="text-primary">{children}</DialogTrigger>
-      <DialogContent>
+      <DialogContent
+        onInteractOutside={(e) => createTripDiary.isLoading && e.preventDefault()}
+      >
         <DialogHeader>
           <DialogTitle>{t('createTripDiary.title')}</DialogTitle>
           <DialogDescription>{t('createTripDiary.description')}</DialogDescription>
@@ -105,7 +107,13 @@ export const CreateTripDiary = ({ children }: { children: ReactNode }) => {
             <Textarea {...register('message')} className="max-h-[160px]" />
           </div>
           <DialogFooter>
-            <Button type="submit">{t('createTripDiary.confirm')}</Button>
+            <Button
+              disabled={createTripDiary.isLoading}
+              loading={createTripDiary.isLoading}
+              type="submit"
+            >
+              {t('createTripDiary.confirm')}
+            </Button>
           </DialogFooter>
         </form>
       </DialogContent>

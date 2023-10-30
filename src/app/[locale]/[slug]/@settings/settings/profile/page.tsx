@@ -40,11 +40,11 @@ const editFormSchema = z.object({
     .string()
     .min(3)
     .max(20)
-    .regex(/^[a-zA-Z_]+$/),
+    .regex(/^[a-zA-Z0-9_]+$/),
   birthdateDay: z.string(),
   birthdateMonth: z.string(),
   birthdateYear: z.string(),
-  bio: z.string(),
+  bio: z.string().max(300),
   profilePic: z
     .object({
       file: typeof window === 'undefined' ? z.any() : z.instanceof(File),
@@ -86,7 +86,15 @@ export default function EditProfile({ params }: { params: { slug: string } }) {
   const t = useTranslations();
   const deletePic = useDeleteProfilePic();
   const isWithinPage = useOriginTracker();
-  const edit = useForm<EditFormType>({
+  const {
+    watch,
+    register,
+    handleSubmit,
+    control,
+    setError,
+    setValue,
+    formState: { errors },
+  } = useForm<EditFormType>({
     resolver: zodResolver(editFormSchema),
   });
 
@@ -115,7 +123,7 @@ export default function EditProfile({ params }: { params: { slug: string } }) {
       router.back();
     } catch (error: any) {
       error.response.data?.username?.code === 'usernameNotAvailable' &&
-        edit.setError('username', {
+        setError('username', {
           message: t('signup.usernameNotAvailable'),
           type: 'usernameNotAvailable',
         });
@@ -138,16 +146,16 @@ export default function EditProfile({ params }: { params: { slug: string } }) {
           <DialogTitle>{t('editProfile.title')}</DialogTitle>
           <DialogDescription>{t('editProfile.description')}</DialogDescription>
         </DialogHeader>
-        <form className="space-y-4" onSubmit={edit.handleSubmit(handleEdit)}>
+        <form className="space-y-4" onSubmit={handleSubmit(handleEdit)}>
           <div>
-            <ProfilePicDialog onSubmit={(f) => edit.setValue('profilePic', f)}>
+            <ProfilePicDialog onSubmit={(f) => setValue('profilePic', f)}>
               <div className="flex items-center gap-2.5 w-fit">
                 <Avatar className="w-[72px] h-[72px]">
                   <AvatarImage
                     src={
-                      edit.watch('profilePic') === null
+                      watch('profilePic') === null
                         ? undefined
-                        : edit.watch('profilePic')?.url || auth.user?.image
+                        : watch('profilePic')?.url || auth.user?.image
                     }
                   />
                 </Avatar>
@@ -159,23 +167,37 @@ export default function EditProfile({ params }: { params: { slug: string } }) {
           </div>
           <div>
             <div className="justify-between flex mb-0.5">
-              <Label>{t('signup.name')}</Label>
-              {edit.formState.errors.fullName && (
+              <div className="flex items-end gap-1">
+                <Label>{t('signup.name')}</Label>
+                <Label className="text-muted-foreground text-xs">
+                  {watch('fullName')?.length || auth.user?.fullName.length || 0} / 64
+                </Label>
+              </div>
+              {errors.fullName && (
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Info size={18} className="text-red-600" />
                   </TooltipTrigger>
-                  <TooltipContent>{t('signup.nameError')}</TooltipContent>
+                  <TooltipContent>
+                    {errors.fullName.type === 'too_big'
+                      ? t('signup.nameSizeError')
+                      : t('signup.nameError')}
+                  </TooltipContent>
                 </Tooltip>
               )}
             </div>
-            <Input {...edit.register('fullName')} defaultValue={auth.user?.fullName} />
+            <Input {...register('fullName')} defaultValue={auth.user?.fullName} />
           </div>
           <div>
             <div className="justify-between flex mb-0.5">
-              <Label>{t('signup.username')}</Label>
-              {edit.formState.errors.username &&
-                (edit.formState.errors.username?.type === 'usernameNotAvailable' ? (
+              <div className="flex items-end gap-1">
+                <Label>{t('signup.username')}</Label>
+                <Label className="text-muted-foreground text-xs">
+                  {watch('username')?.length || auth.user?.username.length || 0} / 20
+                </Label>
+              </div>
+              {errors.username &&
+                (errors.username?.type === 'usernameNotAvailable' ? (
                   <span className="text-red-500 text-sm font-bold">
                     {t('signup.usernameNotAvailable')}
                   </span>
@@ -188,13 +210,13 @@ export default function EditProfile({ params }: { params: { slug: string } }) {
                       {t('signup.usernameError.title')}
                       <ul className="list-disc">
                         <li
-                          data-valid={/.{3,20}/.test(edit.watch('username'))}
+                          data-valid={/.{3,20}/.test(watch('username'))}
                           className="data-[valid=true]:text-green-500"
                         >
                           {t('signup.usernameError.condition1')}
                         </li>
                         <li
-                          data-valid={/^[a-zA-Z0-9_]+$/.test(edit.watch('username'))}
+                          data-valid={/^[a-zA-Z0-9_]+$/.test(watch('username'))}
                           className="data-[valid=true]:text-green-500"
                         >
                           {t('signup.usernameError.condition2')}
@@ -204,24 +226,35 @@ export default function EditProfile({ params }: { params: { slug: string } }) {
                   </Tooltip>
                 ))}
             </div>
-            <Input {...edit.register('username')} defaultValue={auth.user?.username} />
+            <Input {...register('username')} defaultValue={auth.user?.username} />
           </div>
           <div>
             <div className="justify-between flex mb-0.5">
-              <Label>{t('editProfile.bio')}</Label>
+              <div className="flex gap-2 items-end">
+                <Label>{t('editProfile.bio')}</Label>
+                <Label className="text-muted-foreground text-xs">
+                  {watch('bio')?.length || auth.user?.bio?.length || 0} / 300
+                </Label>
+              </div>
+              {errors.bio && (
+                <Tooltip>
+                  <TooltipTrigger>
+                    <Info size={18} className="text-red-600" />
+                  </TooltipTrigger>
+                  <TooltipContent>{t('editProfile.bioSizeError')}</TooltipContent>
+                </Tooltip>
+              )}
             </div>
             <Textarea
               className="max-h-[144px]"
-              {...edit.register('bio')}
+              {...register('bio')}
               defaultValue={auth.user?.bio}
             />
           </div>
           <div>
             <div className="flex justify-between mb-0.5">
               <Label>{t('signup.birthdate')}</Label>
-              {(edit.formState.errors.birthdateDay ||
-                edit.formState.errors.birthdateMonth ||
-                edit.formState.errors.birthdateYear) && (
+              {(errors.birthdateDay || errors.birthdateMonth || errors.birthdateYear) && (
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Info size={18} className="text-red-600" />
@@ -233,7 +266,7 @@ export default function EditProfile({ params }: { params: { slug: string } }) {
             <div className="flex gap-2 justify-between">
               <Controller
                 name="birthdateDay"
-                control={edit.control}
+                control={control}
                 defaultValue={auth.user?.birthdate.getDate().toString()}
                 render={({ field }) => (
                   <Select
@@ -255,7 +288,7 @@ export default function EditProfile({ params }: { params: { slug: string } }) {
               />
               <Controller
                 name="birthdateMonth"
-                control={edit.control}
+                control={control}
                 defaultValue={auth.user?.birthdate.getMonth().toString()}
                 render={({ field }) => (
                   <Select
@@ -277,7 +310,7 @@ export default function EditProfile({ params }: { params: { slug: string } }) {
               />
               <Controller
                 name="birthdateYear"
-                control={edit.control}
+                control={control}
                 defaultValue={auth.user?.birthdate.getFullYear().toString()}
                 render={({ field }) => (
                   <Select
