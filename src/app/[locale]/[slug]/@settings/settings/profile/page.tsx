@@ -335,7 +335,12 @@ export default function EditProfile({ params }: { params: { slug: string } }) {
             </div>
           </div>
           <DialogFooter>
-            <Button className="min-w-[85px]" loading={loading} type="submit">
+            <Button
+              disabled={loading}
+              className="min-w-[85px]"
+              loading={loading}
+              type="submit"
+            >
               {t('editProfile.save')}
             </Button>
           </DialogFooter>

@@ -141,9 +141,17 @@
     "messageMaxError": "O tamanho máximo é de 300 caracteres",
     "confirm": "Confirmar"
   },
-  "diary": {
+  "tripDiary": {
     "notFound": "Diary não encontrado :(",
-    "posts": "{count, plural, =0 {Sem postagens} =1 {# postagem} other {# postagens}}"
+    "copyLink": "Copiar link",
+    "delete": "Remover",
+    "posts": "{count, plural, =0 {Sem postagens} =1 {# postagem} other {# postagens}}",
+    "deleteModal": {
+      "title": "Excluir diário de viagem",
+      "description": "Tem certeza que deseja excluir a postagem? Todas as postagens relativas a esse diário serão excluídas.",
+      "cancel": "Cancelar",
+      "action": "Excluir"
+    }
   },
   "diaryPost": {
     "copyLink": "Copiar link",

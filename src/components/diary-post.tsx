@@ -24,18 +24,19 @@ import { useDeleteDiaryPost } from '@/hooks/useDeleteDiaryPost';
 import { useLikeDiaryPost } from '@/hooks/useLikeDiaryPost';
 import { useUnlikeDiaryPost } from '@/hooks/useUnlikeDiaryPost';
 import { Heart, MoreHorizontal, User2 } from 'lucide-react';
-import { useFormatter, useTranslations } from 'next-intl';
+import { useFormatter, useLocale, useTranslations } from 'next-intl';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import { intlFormatDistance } from 'date-fns';
 
 export const DiaryPost = ({ post }: { post: DiaryPost }) => {
   const { toast } = useToast();
   const auth = useAuth();
-  const formatter = useFormatter();
+  const locale = useLocale();
   const like = useLikeDiaryPost();
   const unlike = useUnlikeDiaryPost();
   const deletePost = useDeleteDiaryPost();
@@ -65,15 +66,20 @@ export const DiaryPost = ({ post }: { post: DiaryPost }) => {
 
   return (
     <article className="md:m-4 p-4 md:px-7 space-y-3 border-b md:border md:border-border md:rounded-lg">
-      <div className="flex gap-3">
-        <Link href={'/' + post.user.username} className="h-fit">
-          <Avatar className="h-[44px] w-[44px] shrink-0">
-            <AvatarImage src={post.user.image} />
-          </Avatar>
-        </Link>
-        <div className="w-full">
+      <div className="flex">
+        <div className="basis-[40px] mr-3">
+          <Link href={'/' + post.user.username} className="h-fit">
+            <Avatar className="h-[44px] w-[44px] shrink-0">
+              <AvatarImage src={post.user.image} />
+            </Avatar>
+          </Link>
+        </div>
+        <div className="grow basis-0">
           <div className="flex gap-2 items-start justify-between">
-            <Link href={'/' + post.user.username}>
+            <Link
+              className="inline-block overflow-hidden text-ellipsis whitespace-nowrap"
+              href={'/' + post.user.username}
+            >
               <div className="flex flex-col">
                 <span>{post.user.fullName}</span>
                 <span className="text-sm text-muted-foreground">
@@ -81,9 +87,9 @@ export const DiaryPost = ({ post }: { post: DiaryPost }) => {
                 </span>
               </div>
             </Link>
-            <div className="flex items-center gap-2 text-muted-foreground">
+            <div className="flex shrink-0 items-center gap-2 text-muted-foreground">
               <DiaryLikedByList id={post.id}>
-                <span>{post.likedBy}</span>
+                <span className="text-sm">{post.likedBy}</span>
               </DiaryLikedByList>
               <Heart
                 onClick={handleLikeClick}
@@ -92,7 +98,11 @@ export const DiaryPost = ({ post }: { post: DiaryPost }) => {
                 className="data-[liked=true]:fill-red-600 data-[liked=true]:text-red-600 cursor-pointer text-foreground"
               />
               <span className="text-sm">
-                {formatter.relativeTime(post.createdAt, new Date())}
+                {intlFormatDistance(post.createdAt, new Date(), {
+                  numeric: 'always',
+                  style: 'narrow',
+                  locale,
+                })}
               </span>
               <DropdownMenu>
                 <DropdownMenuTrigger>

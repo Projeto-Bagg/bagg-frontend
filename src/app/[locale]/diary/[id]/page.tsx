@@ -5,16 +5,41 @@ import { DiaryPost } from '@/components/diary-post';
 import { useOriginTracker } from '@/context/origin-tracker';
 import axios from '@/services/axios';
 import { useQuery } from '@tanstack/react-query';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, MoreHorizontal } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useFormatter, useTranslations } from 'next-intl';
+import { useFormatter, useLocale, useTranslations } from 'next-intl';
 import { Separator } from '@/components/ui/separator';
+import {
+  AlertDialogHeader,
+  AlertDialogFooter,
+  AlertDialog,
+  AlertDialogTrigger,
+  AlertDialogContent,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogCancel,
+  AlertDialogAction,
+} from '@/components/ui/alert-dialog';
+
+import { useToast } from '@/components/ui/use-toast';
+import { useDeleteTripDiary } from '@/hooks/useDeleteTripDiary';
+import { useAuth } from '@/context/auth-context';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { intlFormatDistance } from 'date-fns';
 
 export default function Page({ params }: { params: { slug: string; id: string } }) {
   const isWithinPage = useOriginTracker();
   const router = useRouter();
-  const formatter = useFormatter();
+  const locale = useLocale();
   const t = useTranslations();
+  const { toast } = useToast();
+  const auth = useAuth();
+  const deleteTripDiary = useDeleteTripDiary();
 
   const tripDiary = useQuery<TripDiary>(
     ['tripDiary', params.id],
@@ -29,10 +54,30 @@ export default function Page({ params }: { params: { slug: string; id: string } 
   if (tripDiary.isError) {
     return (
       <div className="mt-4 flex w-full justify-center">
-        <span>{t('diary.notFound')}</span>
+        <span>{t('tripDiary.notFound')}</span>
       </div>
     );
   }
+
+  const handleShareClick = () => {
+    if (!tripDiary.data) {
+      return;
+    }
+
+    navigator.clipboard.writeText(window.location.origin + '/diary/' + tripDiary.data.id);
+
+    toast({ title: 'Link copiado para a área de transferência' });
+  };
+
+  const handleDeleteClick = async () => {
+    if (!tripDiary.data) {
+      return;
+    }
+
+    await deleteTripDiary.mutateAsync(tripDiary.data.id).then(() => {
+      router.push('/' + tripDiary.data.user.username);
+    });
+  };
 
   return (
     <div>
@@ -47,14 +92,64 @@ export default function Page({ params }: { params: { slug: string; id: string } 
           <div className="flex flex-col w-full">
             <div className="flex justify-between items-center w-full">
               <span className="font-bold">{tripDiary.data.title}</span>
-              <span className="text-muted-foreground text-sm">
-                {formatter.relativeTime(tripDiary.data.createdAt, new Date())}
-              </span>
+              <div className="flex gap-1 items-center text-muted-foreground">
+                <span className="text-sm">
+                  {intlFormatDistance(tripDiary.data.createdAt, new Date(), {
+                    numeric: 'always',
+                    style: 'narrow',
+                    locale,
+                  })}
+                </span>
+                <DropdownMenu>
+                  <DropdownMenuTrigger>
+                    <div className="hover:bg-primary-foreground p-1.5 [&>svg]:hover:text-primary transition-all rounded-full">
+                      <MoreHorizontal size={20} className="transition-all" />
+                    </div>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuItem onSelect={handleShareClick}>
+                      {t('tripDiary.copyLink')}
+                    </DropdownMenuItem>
+                    {auth.user?.id === tripDiary.data.user.id && (
+                      <>
+                        <AlertDialog>
+                          <AlertDialogTrigger asChild>
+                            <DropdownMenuItem
+                              onSelect={(e) => e.preventDefault()}
+                              className="font-bold"
+                            >
+                              {t('tripDiary.delete')}
+                            </DropdownMenuItem>
+                          </AlertDialogTrigger>
+                          <AlertDialogContent>
+                            <AlertDialogHeader>
+                              <AlertDialogTitle>
+                                {t('tripDiary.deleteModal.title')}
+                              </AlertDialogTitle>
+                              <AlertDialogDescription>
+                                {t('tripDiary.deleteModal.description')}
+                              </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                              <AlertDialogCancel>
+                                {t('diaryPost.deleteModal.cancel')}
+                              </AlertDialogCancel>
+                              <AlertDialogAction onClick={handleDeleteClick}>
+                                {t('diaryPost.deleteModal.action')}
+                              </AlertDialogAction>
+                            </AlertDialogFooter>
+                          </AlertDialogContent>
+                        </AlertDialog>
+                      </>
+                    )}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
             </div>
             <span className="text-muted-foreground">{tripDiary.data.message}</span>
             {tripDiary.data && (
               <span className="text-muted-foreground text-sm">
-                {t('diary.posts', { count: tripDiaryPosts.data?.length })}
+                {t('tripDiary.posts', { count: tripDiaryPosts.data?.length })}
               </span>
             )}
           </div>

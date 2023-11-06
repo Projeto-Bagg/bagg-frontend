@@ -141,9 +141,17 @@
     "messageMaxError": "The maximum length is 300 characters",
     "confirm": "Confirm"
   },
-  "diary": {
-    "notFound": "Diary not found :(",
-    "posts": "{count, plural, =0 {No posts yet} =1 {# post} other {# posts}}"
+  "tripDiary": {
+    "notFound": "Trip diary not found :(",
+    "copyLink": "Copy link",
+    "delete": "Delete",
+    "posts": "{count, plural, =0 {No posts yet} =1 {# post} other {# posts}}",
+    "deleteModal": {
+      "title": "Delete trip diary",
+      "description": "Are you sure you want to delete this trip diary? All posts relating to this diary will be deleted forever.",
+      "cancel": "Cancel",
+      "action": "Delete"
+    }
   },
   "diaryPost": {
     "copyLink": "Copy link",

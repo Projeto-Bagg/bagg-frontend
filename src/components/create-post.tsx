@@ -1,3 +1,5 @@
+import NextImage from 'next/image';
+import React, { ReactNode, useRef, useState } from 'react';
 import { CreateTripDiary } from '@/components/create-trip-diary';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { Button } from '@/components/ui/button';
@@ -29,8 +31,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useQuery } from '@tanstack/react-query';
 import { Check, ChevronsUpDown, Info, Trash2 } from 'lucide-react';
 import { useFormatter, useTranslations } from 'next-intl';
-import NextImage from 'next/image';
-import React, { ReactNode, useRef, useState } from 'react';
 import { Image as ImageIcon } from 'lucide-react';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -148,6 +148,7 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
                       <CommandItem
                         value={tripDiary.title}
                         key={tripDiary.id}
+                        className="cursor-pointer"
                         onSelect={() => {
                           setValue('tripDiaryId', tripDiary.id);
                         }}
