@@ -23,10 +23,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { useRouter } from 'next-intl/client';
 import { useOriginTracker } from '@/context/origin-tracker';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { Info } from 'lucide-react';
+import { useRouter } from '@/common/navigation';
 
 const signUpSchema = z
   .object({

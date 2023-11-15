@@ -24,7 +24,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     data: user,
     isLoading,
     refetch,
-  } = useQuery<User>(['session'], async () => (await axios.get('users/me')).data, {
+  } = useQuery<User>({
+    queryKey: ['session'],
+    queryFn: async () => (await axios.get('users/me')).data,
     enabled: false,
   });
 

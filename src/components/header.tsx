@@ -1,9 +1,6 @@
 'use client';
 
 import React from 'react';
-import Link from 'next-intl/link';
-import { useRouter } from 'next-intl/client';
-import { usePathname } from 'next-intl/client';
 import { useLocale } from 'next-intl';
 import { useTranslations } from 'next-intl';
 import { useAuth } from '@/context/auth-context';
@@ -23,13 +20,14 @@ import { Search } from '@/components/search-dialog';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { CountryFlag } from '@/components/ui/country-flag';
 import { CreatePost } from '@/components/create-post';
+import { Link, useRouter, usePathname } from '@/common/navigation';
 
 export const Header = () => {
   const t = useTranslations();
-  const auth = useAuth();
   const router = useRouter();
   const pathname = usePathname();
   const locale = useLocale();
+  const auth = useAuth();
 
   return (
     <div className="text-sm border-b">
@@ -80,7 +78,7 @@ export const Header = () => {
             </Tooltip>
             <DropdownMenuContent>
               {languages.map((lang) => (
-                <Link key={lang.locale} href={pathname} locale={lang.locale}>
+                <Link key={lang.locale} href={{ pathname: '/' }} locale={lang.locale}>
                   <DropdownMenuItem data-active={lang.locale === locale}>
                     <div className="flex gap-2">
                       <CountryFlag iso2={lang.country} />
@@ -102,7 +100,12 @@ export const Header = () => {
                     </Avatar>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="min-w-[10rem]">
-                    <Link href={'/' + auth.user?.username}>
+                    <Link
+                      href={{
+                        pathname: '/[slug]',
+                        params: { slug: auth.user!.username },
+                      }}
+                    >
                       <div className="h-[118px] p-4 bg-secondary flex flex-col items-center justify-center -mx-1 -my-1 overflow-hidden">
                         <Avatar className="my-1 h-[48px] w-[48px]">
                           <AvatarImage src={auth.user?.image} />
@@ -112,7 +115,12 @@ export const Header = () => {
                     </Link>
                     <div className="mt-3.5 mb-1">
                       <DropdownMenuItem
-                        onSelect={() => router.push('/' + auth.user?.username)}
+                        onSelect={() =>
+                          router.push({
+                            pathname: '/[slug]',
+                            params: { slug: auth.user!.username },
+                          })
+                        }
                       >
                         {t('header.menu.profile')}
                       </DropdownMenuItem>

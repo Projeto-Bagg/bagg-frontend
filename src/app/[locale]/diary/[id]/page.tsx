@@ -41,15 +41,16 @@ export default function Page({ params }: { params: { slug: string; id: string } 
   const auth = useAuth();
   const deleteTripDiary = useDeleteTripDiary();
 
-  const tripDiary = useQuery<TripDiary>(
-    ['tripDiary', params.id],
-    async () => (await axios.get<TripDiary>('tripDiaries/' + params.id)).data,
-  );
+  const tripDiary = useQuery<TripDiary>({
+    queryKey: ['tripDiary', params.id],
+    queryFn: async () => (await axios.get<TripDiary>('tripDiaries/' + params.id)).data,
+  });
 
-  const tripDiaryPosts = useQuery<DiaryPost[]>(
-    ['tripDiaryPosts', +params.id],
-    async () => (await axios.get<DiaryPost[]>(`tripDiaries/${params.id}/posts`)).data,
-  );
+  const tripDiaryPosts = useQuery<DiaryPost[]>({
+    queryKey: ['tripDiaryPosts', +params.id],
+    queryFn: async () =>
+      (await axios.get<DiaryPost[]>(`tripDiaries/${params.id}/posts`)).data,
+  });
 
   if (tripDiary.isError) {
     return (

@@ -1,8 +1,6 @@
 'use client';
 
 import React from 'react';
-import { usePathname, useRouter } from 'next-intl/client';
-import Link from 'next-intl/link';
 import { useTranslations } from 'next-intl';
 import axios from '@/services/axios';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
@@ -16,6 +14,8 @@ import { Separator } from '@/components/ui/separator';
 import { UserFollowTabs } from '@/components/user-follow-tabs';
 import { UserCog } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useRouter, Link } from '@/common/navigation';
+import { usePathname } from 'next/navigation';
 
 export default function Profile({ params }: { params: { slug: string } }) {
   const pathname = usePathname();
@@ -25,10 +25,10 @@ export default function Profile({ params }: { params: { slug: string } }) {
   const unfollow = useUnfollow();
   const router = useRouter();
 
-  const user = useQuery<User>(
-    ['user', params.slug],
-    async () => (await axios.get<User>('/users/' + params.slug)).data,
-  );
+  const user = useQuery<User>({
+    queryKey: ['user', params.slug],
+    queryFn: async () => (await axios.get<User>('/users/' + params.slug)).data,
+  });
 
   const handleFollowClick = () => {
     if (!auth.isAuthenticated) {
@@ -72,11 +72,16 @@ export default function Profile({ params }: { params: { slug: string } }) {
             </div>
           </div>
           {auth.user?.id !== user.data.id ? (
-            <Button type="button" disabled={follow.isLoading} onClick={handleFollowClick}>
+            <Button type="button" disabled={follow.isPending} onClick={handleFollowClick}>
               {user.data?.isFollowing ? t('follow.following') : t('follow.follow')}
             </Button>
           ) : (
-            <Link href={`/${params.slug}/settings/profile`}>
+            <Link
+              href={{
+                pathname: '/[slug]/settings/profile',
+                params: { slug: params.slug },
+              }}
+            >
               <div>
                 <Button className="hidden md:block">{t('profile.editProfile')}</Button>
                 <Button className="flex md:hidden rounded-full items-center justify-center w-10">
@@ -116,19 +121,19 @@ export default function Profile({ params }: { params: { slug: string } }) {
       </div>
       <Separator />
       <div className="flex gap-4 px-4 md:px-11 pt-4 text-sm text-primary">
-        <Link href={'/' + params.slug}>
+        <Link href={{ pathname: '/[slug]', params: { slug: params.slug } }}>
           <span className={cn(pathname.endsWith(params.slug) && 'font-bold')}>
             {t('profile.feed.posts')}
           </span>
         </Link>
-        <Link href={'/' + params.slug + '/diaries'}>
+        <Link href={{ pathname: '/[slug]/diaries', params: { slug: params.slug } }}>
           <span className={cn(pathname.endsWith('/diaries') && 'font-bold')}>
             {t('profile.feed.diaries')}
           </span>
         </Link>
         <Link
           className={cn(pathname.endsWith('/likes') && 'font-bold')}
-          href={'/' + params.slug + '/likes'}
+          href={{ pathname: '/[slug]/likes', params: { slug: params.slug } }}
         >
           <span>{t('profile.feed.likes')}</span>
         </Link>

@@ -9,10 +9,10 @@ import React from 'react';
 export default function Page() {
   const t = useTranslations();
 
-  const feed = useQuery<DiaryPost[]>(
-    ['feed'],
-    async () => (await axios.get<DiaryPost[]>('diaryPosts/user/feed')).data,
-  );
+  const feed = useQuery<DiaryPost[]>({
+    queryKey: ['feed'],
+    queryFn: async () => (await axios.get<DiaryPost[]>('diaryPosts/user/feed')).data,
+  });
 
   return (
     <div className="container">

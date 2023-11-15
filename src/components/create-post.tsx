@@ -1,3 +1,5 @@
+'use client';
+
 import NextImage from 'next/image';
 import React, { ReactNode, useRef, useState } from 'react';
 import { CreateTripDiary } from '@/components/create-trip-diary';
@@ -71,14 +73,12 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
     resolver: zodResolver(CreateDiaryPostSchema),
   });
 
-  const tripDiaries = useQuery<TripDiary[]>(
-    ['tripDiaries', auth.user?.username],
-    async () =>
+  const tripDiaries = useQuery<TripDiary[]>({
+    queryFn: async () =>
       (await axios.get<TripDiary[]>('/tripDiaries/user/' + auth.user?.username)).data,
-    {
-      enabled: !!open,
-    },
-  );
+    queryKey: ['tripDiaries', auth.user?.username],
+    enabled: !!open,
+  });
 
   const handleCreatePost = async (data: CreateDiaryPostType) => {
     const formData = new FormData();
@@ -87,8 +87,8 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
     formData.append('message', data.message);
     formData.append('tripDiaryId', data.tripDiaryId.toString());
 
-    setOpen(false);
     const post = await createDiaryPost.mutateAsync(formData);
+    setOpen(false);
     router.push('/diary/' + post.tripDiary.id);
     reset();
   };
@@ -97,7 +97,7 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent
-        onInteractOutside={(e) => createDiaryPost.isLoading && e.preventDefault()}
+        onInteractOutside={(e) => createDiaryPost.isPending && e.preventDefault()}
       >
         <DialogHeader>
           <DialogTitle>{t('createPost.title')}</DialogTitle>
@@ -297,8 +297,8 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
               )}
             />
             <Button
-              loading={createDiaryPost.isLoading}
-              disabled={createDiaryPost.isLoading}
+              loading={createDiaryPost.isPending}
+              disabled={createDiaryPost.isPending}
               type="submit"
             >
               {t('createPost.confirm')}

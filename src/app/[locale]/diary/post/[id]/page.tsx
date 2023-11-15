@@ -12,10 +12,10 @@ export default function Page({ params }: { params: { slug: string; id: string } 
   const isWithinPage = useOriginTracker();
   const router = useRouter();
 
-  const diaryPost = useQuery<DiaryPost>(
-    ['diaryPost', params.id],
-    async () => (await axios.get<DiaryPost>('/diaryPosts/' + params.id)).data,
-  );
+  const diaryPost = useQuery<DiaryPost>({
+    queryKey: ['diaryPost', params.id],
+    queryFn: async () => (await axios.get<DiaryPost>('/diaryPosts/' + params.id)).data,
+  });
 
   return (
     <div>

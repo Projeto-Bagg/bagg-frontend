@@ -5,21 +5,17 @@ import { produce } from 'immer';
 export const useDeleteProfilePic = () => {
   const queryClient = useQueryClient();
 
-  return useMutation(
-    async () => {
-      return await axios.delete('/users/profilePic');
+  return useMutation({
+    mutationFn: async () => await axios.delete('/users/profilePic'),
+    onSuccess: () => {
+      queryClient.setQueryData<User>(
+        ['session'],
+        (old) =>
+          old &&
+          produce(old, (draft) => {
+            draft.image = undefined;
+          }),
+      );
     },
-    {
-      onSuccess: () => {
-        queryClient.setQueryData<User>(
-          ['session'],
-          (old) =>
-            old &&
-            produce(old, (draft) => {
-              draft.image = undefined;
-            }),
-        );
-      },
-    },
-  );
+  });
 };

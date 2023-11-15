@@ -22,13 +22,11 @@ export const DiaryLikedByList = ({ id, children }: IDiaryLikedByList) => {
   const [open, setOpen] = useState<boolean>();
   const t = useTranslations();
 
-  const users = useQuery<User[]>(
-    ['diaryPostLikedBy', id],
-    async () => (await axios.get<User[]>(`diaryPosts/${id}/like`)).data,
-    {
-      enabled: !!open,
-    },
-  );
+  const users = useQuery<User[]>({
+    queryKey: ['diaryPostLikedBy', id],
+    queryFn: async () => (await axios.get<User[]>(`diaryPosts/${id}/like`)).data,
+    enabled: !!open,
+  });
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>

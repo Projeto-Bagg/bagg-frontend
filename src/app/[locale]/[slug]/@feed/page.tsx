@@ -6,10 +6,11 @@ import axios from '@/services/axios';
 import { useQuery } from '@tanstack/react-query';
 
 export default function Default({ params }: { params: { slug: string } }) {
-  const diaryPosts = useQuery<DiaryPost[]>(
-    ['diaryPosts', params.slug],
-    async () => (await axios.get<DiaryPost[]>('/diaryPosts/user/' + params.slug)).data,
-  );
+  const diaryPosts = useQuery<DiaryPost[]>({
+    queryKey: ['diaryPosts', params.slug],
+    queryFn: async () =>
+      (await axios.get<DiaryPost[]>('/diaryPosts/user/' + params.slug)).data,
+  });
 
   return (
     diaryPosts.data &&

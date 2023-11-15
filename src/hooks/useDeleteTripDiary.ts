@@ -6,11 +6,12 @@ export const useDeleteTripDiary = () => {
   const queryClient = useQueryClient();
   const auth = useAuth();
 
-  return useMutation(async (id: number) => axios.delete('/tripDiaries/' + id), {
+  return useMutation({
+    mutationFn: async (id: number) => axios.delete('/tripDiaries/' + id),
     onSuccess: () => {
-      queryClient.invalidateQueries(['feed']);
-      queryClient.invalidateQueries(['diaryPosts', auth.user?.username]);
-      queryClient.invalidateQueries(['tripDiaries', auth.user?.username]);
+      queryClient.invalidateQueries({ queryKey: ['feed'] });
+      queryClient.invalidateQueries({ queryKey: ['diaryPosts', auth.user?.username] });
+      queryClient.invalidateQueries({ queryKey: ['tripDiaries', auth.user?.username] });
     },
   });
 };

@@ -1,3 +1,9 @@
+'use client';
+
+import React from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { DiaryLikedByList } from '@/components/diary-liked-by-list';
 import {
   AlertDialog,
@@ -23,12 +29,8 @@ import { useAuth } from '@/context/auth-context';
 import { useDeleteDiaryPost } from '@/hooks/useDeleteDiaryPost';
 import { useLikeDiaryPost } from '@/hooks/useLikeDiaryPost';
 import { useUnlikeDiaryPost } from '@/hooks/useUnlikeDiaryPost';
-import { Heart, MoreHorizontal, User2 } from 'lucide-react';
-import { useFormatter, useLocale, useTranslations } from 'next-intl';
-import Image from 'next/image';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import React from 'react';
+import { Heart, MoreHorizontal } from 'lucide-react';
+import { useLocale, useTranslations } from 'next-intl';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { intlFormatDistance } from 'date-fns';

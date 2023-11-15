@@ -6,7 +6,7 @@ export function middleware(request: NextRequest) {
   const intlMiddleware = createIntlMiddleware({
     locales: ['en', 'pt'],
     defaultLocale: 'pt',
-    localePrefix: 'as-needed',
+    localePrefix: 'always',
   });
 
   const isAuthenticated = request.cookies.has('bagg.sessionToken');

@@ -1,11 +1,11 @@
 import clsx from 'clsx';
 import { Inter } from 'next/font/google';
-import { notFound } from 'next/navigation';
 import { NextIntlClientProvider } from 'next-intl';
 import { ReactNode } from 'react';
 import { Header } from '@/components/header';
 import { Providers } from '@/app/[locale]/providers';
 import { Metadata } from 'next';
+import { getMessages } from 'next-intl/server';
 
 const inter = Inter({ subsets: ['latin'], weight: ['400', '500', '600', '700'] });
 
@@ -33,24 +33,12 @@ export const metadata: Metadata = {
   },
 };
 
-async function getMessages(locale: string) {
-  try {
-    return (await import(`../../messages/${locale}.json`)).default;
-  } catch (error) {
-    notFound();
-  }
-}
-
-export async function generateStaticParams() {
-  return ['en', 'pt'].map((locale) => ({ locale }));
-}
-
 export default async function LocaleLayout({
   children,
   auth,
   params: { locale },
 }: Props) {
-  const messages = await getMessages(locale);
+  const messages = await getMessages();
 
   return (
     <html className="h-full" lang={locale} suppressHydrationWarning>

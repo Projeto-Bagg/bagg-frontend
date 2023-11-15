@@ -1,3 +1,5 @@
+'use client';
+
 import { Spinner } from '@/assets';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -14,7 +16,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Search as SearchIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDebounce } from 'use-debounce';
 
 export const Search = () => {
@@ -24,14 +26,18 @@ export const Search = () => {
   const [isFirstFetchSucess, setIsFirstFetchSucess] = useState<boolean>();
   const t = useTranslations('header');
 
-  const search = useQuery<User[]>(
-    ['search', debouncedQuery],
-    async () => (await axios.get<User[]>('/users/search/' + debouncedQuery)).data,
-    {
-      enabled: !!debouncedQuery,
-      onSuccess: () => setIsFirstFetchSucess(true),
-    },
-  );
+  const search = useQuery<User[]>({
+    queryKey: ['search', debouncedQuery],
+    queryFn: async () =>
+      (await axios.get<User[]>('/users/search/' + debouncedQuery)).data,
+    enabled: !!debouncedQuery,
+  });
+
+  useEffect(() => {
+    if (isFirstFetchSucess === undefined) {
+      setIsFirstFetchSucess(true);
+    }
+  }, [isFirstFetchSucess, search.data]);
 
   const onOpenChange = (open: boolean) => {
     setQuery(undefined);

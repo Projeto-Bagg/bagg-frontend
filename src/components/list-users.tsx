@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { useFollow } from '@/hooks/useFollow';
 import { useUnfollow } from '@/hooks/useUnfollow';
@@ -42,7 +44,7 @@ export const ListUsers = ({ users, showIfUserFollowYou = true }: IListUsers) => 
                   ? unfollow.mutate(user.username)
                   : follow.mutate(user.username)
               }
-              disabled={!auth.isAuthenticated || follow.isLoading || unfollow.isLoading}
+              disabled={!auth.isAuthenticated || follow.isPending || unfollow.isPending}
             >
               {user.isFollowing ? t('follow.following') : t('follow.follow')}
             </Button>

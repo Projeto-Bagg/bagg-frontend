@@ -1,7 +1,8 @@
+'use client';
+
 import React, { useState } from 'react';
 import Link, { LinkProps } from 'next/link';
 import { useLocale, useTranslations } from 'next-intl';
-import IntlLink from 'next-intl/link';
 import { useRouter } from 'next/navigation';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Separator } from '@/components/ui/separator';
@@ -20,7 +21,6 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from '@/components/ui/collapsible';
-import { usePathname } from 'next-intl/client';
 import { CountryFlag } from '@/components/ui/country-flag';
 import { useTheme } from 'next-themes';
 import {
@@ -33,6 +33,7 @@ import {
   Settings,
   User2,
 } from 'lucide-react';
+import { usePathname, Link as IntlLink } from '@/common/navigation';
 
 export const MobileNav = () => {
   const auth = useAuth();
@@ -139,7 +140,7 @@ export const MobileNav = () => {
             <CollapsibleContent>
               {languages.map((lang) => (
                 <IntlLink
-                  href={pathname}
+                  href={'/'}
                   key={lang.locale}
                   className="ml-3 mt-2 flex justify-between"
                   locale={lang.locale}

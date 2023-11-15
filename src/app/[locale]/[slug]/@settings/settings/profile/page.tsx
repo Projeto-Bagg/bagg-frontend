@@ -31,7 +31,7 @@ import { useEditProfile } from '@/hooks/useEditProfile';
 import { useDeleteProfilePic } from '@/hooks/useDeleteProfilePic';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { Info } from 'lucide-react';
-import { useRouter } from 'next-intl/client';
+import { useRouter } from '@/common/navigation';
 import { useOriginTracker } from '@/context/origin-tracker';
 
 const editFormSchema = z.object({
@@ -138,7 +138,9 @@ export default function EditProfile({ params }: { params: { slug: string } }) {
       onOpenChange={() => {
         isWithinPage
           ? router.back()
-          : router.push('/' + params.slug, { forceOptimisticNavigation: true } as any);
+          : router.push({ pathname: '/[slug]', params: { slug: params.slug } }, {
+              forceOptimisticNavigation: true,
+            } as any);
       }}
     >
       <DialogContent>

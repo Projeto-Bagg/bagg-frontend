@@ -1,12 +1,14 @@
+import { locales } from '@/common/navigation';
+
 export const languages = [
   {
     label: 'Português',
-    locale: 'pt',
+    locale: 'pt' as (typeof locales)[number],
     country: 'br',
   },
   {
     label: 'English',
-    locale: 'en',
+    locale: 'en' as (typeof locales)[number],
     country: 'gb',
   },
 ];

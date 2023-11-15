@@ -9,10 +9,11 @@ import React from 'react';
 export default function Page({ params }: { params: { slug: string } }) {
   const formatter = useFormatter();
 
-  const tripDiaries = useQuery<TripDiary[]>(
-    ['tripDiaries', params.slug],
-    async () => (await axios.get<TripDiary[]>('/tripDiaries/user/' + params.slug)).data,
-  );
+  const tripDiaries = useQuery<TripDiary[]>({
+    queryKey: ['tripDiaries', params.slug],
+    queryFn: async () =>
+      (await axios.get<TripDiary[]>('/tripDiaries/user/' + params.slug)).data,
+  });
 
   return (
     <div>

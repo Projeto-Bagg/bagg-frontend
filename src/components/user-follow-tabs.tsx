@@ -1,3 +1,5 @@
+'use client';
+
 import React, { ReactNode, useState } from 'react';
 import { ListUsers } from '@/components/list-users';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
@@ -17,21 +19,19 @@ export function UserFollowTabs({ username, children, defaultTab }: IUserFollowTa
   const [tab, setTab] = useState<typeof defaultTab>(defaultTab);
   const t = useTranslations();
 
-  const following = useQuery<User[]>(
-    ['following', username],
-    async () => (await axios.get<User[]>('/users/' + username + '/following')).data,
-    {
-      enabled: open,
-    },
-  );
+  const following = useQuery<User[]>({
+    queryFn: async () =>
+      (await axios.get<User[]>('/users/' + username + '/following')).data,
+    queryKey: ['following', username],
+    enabled: open,
+  });
 
-  const followers = useQuery<User[]>(
-    ['followers', username],
-    async () => (await axios.get<User[]>('/users/' + username + '/followers')).data,
-    {
-      enabled: open,
-    },
-  );
+  const followers = useQuery<User[]>({
+    queryKey: ['followers', username],
+    queryFn: async () =>
+      (await axios.get<User[]>('/users/' + username + '/followers')).data,
+    enabled: open,
+  });
 
   return (
     <Dialog

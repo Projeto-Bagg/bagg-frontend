@@ -51,7 +51,7 @@ export const CreateTripDiary = ({ children }: { children: ReactNode }) => {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger className="text-primary">{children}</DialogTrigger>
       <DialogContent
-        onInteractOutside={(e) => createTripDiary.isLoading && e.preventDefault()}
+        onInteractOutside={(e) => createTripDiary.isPending && e.preventDefault()}
       >
         <DialogHeader>
           <DialogTitle>{t('createTripDiary.title')}</DialogTitle>
@@ -108,8 +108,8 @@ export const CreateTripDiary = ({ children }: { children: ReactNode }) => {
           </div>
           <DialogFooter>
             <Button
-              disabled={createTripDiary.isLoading}
-              loading={createTripDiary.isLoading}
+              disabled={createTripDiary.isPending}
+              loading={createTripDiary.isPending}
               type="submit"
             >
               {t('createTripDiary.confirm')}
