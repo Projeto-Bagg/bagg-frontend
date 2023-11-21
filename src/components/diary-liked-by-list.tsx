@@ -1,3 +1,5 @@
+'use client';
+
 import { ListUsers } from '@/components/list-users';
 import {
   Dialog,

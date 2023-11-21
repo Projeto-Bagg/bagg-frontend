@@ -1,11 +1,11 @@
+import { ReactNode } from 'react';
+import { Metadata } from 'next';
+import { getMessages } from 'next-intl/server';
 import clsx from 'clsx';
 import { Inter } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
-import { ReactNode } from 'react';
 import { Header } from '@/components/header';
 import { Providers } from '@/app/[locale]/providers';
-import { Metadata } from 'next';
-import { getMessages } from 'next-intl/server';
 
 const inter = Inter({ subsets: ['latin'], weight: ['400', '500', '600', '700'] });
 
