@@ -32,7 +32,7 @@ export const useFollow = () => {
 
       ['followers', 'following', 'diaryPostLikedBy'].forEach((tab) => {
         queryClient.setQueriesData<User[]>(
-          { queryKey: ['tab'] },
+          { queryKey: [tab] },
           (old) =>
             old &&
             produce(old, (draft) => {

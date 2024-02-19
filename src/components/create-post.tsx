@@ -41,7 +41,7 @@ import { useToast } from '@/components/ui/use-toast';
 
 const CreateDiaryPostSchema = z.object({
   tripDiaryId: z.number(),
-  message: z.string().nonempty().max(300),
+  message: z.string().min(1).max(300),
   medias: z
     .array(z.object({ file: z.instanceof(File), thumbnail: z.string() }))
     .max(10)

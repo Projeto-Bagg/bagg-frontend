@@ -52,3 +52,51 @@ interface UserSignUp {
   email: string;
   password: string;
 }
+
+interface Country {
+  id: number;
+  name: string;
+  capital: string;
+  iso2: string;
+  latitude: string;
+  longitude: string;
+  states: Region[];
+}
+
+interface Region {
+  id: number;
+  name: string;
+  latitude: string;
+  longitude: string;
+  cities: City[];
+  country: Country;
+}
+
+interface City {
+  id: number;
+  name: string;
+  latitude: string;
+  longitude: string;
+  isVisited: boolean;
+  isInterested: boolean;
+  region: Region;
+}
+
+interface Ranking {
+  mostInterestedCountries: CountryInterestRanking;
+  mostInterestedCities: CityInterestRanking;
+}
+
+type CountryInterestRanking = {
+  iso2: string;
+  name: string;
+  totalInterest: number;
+}[];
+
+type CityInterestRanking = {
+  id: number;
+  countryIso2: string;
+  countryName: string;
+  name: string;
+  totalInterest: number;
+}[];

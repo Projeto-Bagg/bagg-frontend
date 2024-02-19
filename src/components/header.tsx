@@ -40,9 +40,12 @@ export const Header = () => {
               </Link>
             </li>
             <li className="hidden lg:block">
-              <span className="text-foreground/60 hover:text-foreground/80 transition">
+              <Link
+                href={'/ranking'}
+                className="text-foreground/60 hover:text-foreground/80 transition"
+              >
                 {t('header.ranking')}
-              </span>
+              </Link>
             </li>
             <li className="hidden lg:block">
               <span className="text-foreground/60 hover:text-foreground/80 transition">

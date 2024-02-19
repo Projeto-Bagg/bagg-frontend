@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import UserHoverCard from '@/components/user-hovercard';
 import axios from '@/services/axios';
 import { useQuery } from '@tanstack/react-query';
 import { Search as SearchIcon } from 'lucide-react';
@@ -85,25 +86,26 @@ export const Search = () => {
               <div className="space-y-0.5 mt-4">
                 {search.data && search.data.length > 0 ? (
                   search.data.map((user) => (
-                    <Link
-                      onClick={() => setOpen(false)}
-                      key={user.id}
-                      className="block"
-                      href={'/' + user.username}
-                    >
-                      <div className="flex gap-2 bg-primary-foreground hover:bg-secondary rounded-lg transition-all">
-                        <Avatar className="rounded-sm">
-                          <AvatarImage className="rounded-sm" src={user.image} />
-                        </Avatar>
-                        <div className="flex items-center gap-1">
-                          <span className="font-medium">{user.fullName}</span>
-                          <span className="text-muted-foreground text-xs">{' • '}</span>
-                          <span className="text-xs text-muted-foreground">
-                            @{user.username}
-                          </span>
+                    <UserHoverCard user={user} key={user.id}>
+                      <Link
+                        onClick={() => setOpen(false)}
+                        className="block"
+                        href={'/' + user.username}
+                      >
+                        <div className="flex gap-2 bg-primary-foreground hover:bg-secondary rounded-lg transition-all">
+                          <Avatar className="rounded-sm">
+                            <AvatarImage className="rounded-sm" src={user.image} />
+                          </Avatar>
+                          <div className="flex items-center gap-1">
+                            <span className="font-medium">{user.fullName}</span>
+                            <span className="text-muted-foreground text-xs">{' • '}</span>
+                            <span className="text-xs text-muted-foreground">
+                              @{user.username}
+                            </span>
+                          </div>
                         </div>
-                      </div>
-                    </Link>
+                      </Link>
+                    </UserHoverCard>
                   ))
                 ) : (
                   <span className="text-muted-foreground">{t('search.notFound')}</span>

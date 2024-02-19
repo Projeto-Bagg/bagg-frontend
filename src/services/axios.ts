@@ -1,6 +1,6 @@
 import { default as instance } from 'axios';
 import { parseISO } from 'date-fns';
-import { getCookie, setCookie } from 'cookies-next';
+import { getCookie, setCookie, deleteCookie } from 'cookies-next';
 
 const isoDateFormat =
   /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d*)?(?:[-+]\d{2}:?\d{2}|Z)?$/;
@@ -48,12 +48,23 @@ axios.interceptors.response.use(
     if (error.response.status === 401 && accessToken) {
       const refreshToken = getCookie('bagg.refreshToken');
 
-      const response = await axios.post('/auth/refresh', {
-        refreshToken,
-      });
-
-      setCookie('bagg.sessionToken', response.data.accessToken);
-      setCookie('bagg.refreshToken', response.data.refreshToken);
+      await instance
+        .post(
+          process.env.NODE_ENV === 'production'
+            ? `https://bagg-api.azurewebsites.net/auth/refresh`
+            : 'http://localhost:3001/auth/refresh',
+          {
+            refreshToken,
+          },
+        )
+        .then((response) => {
+          setCookie('bagg.sessionToken', response.data.accessToken);
+          setCookie('bagg.refreshToken', response.data.refreshToken);
+        })
+        .catch(() => {
+          deleteCookie('bagg.sessionToken');
+          deleteCookie('bagg.refreshToken');
+        });
 
       return axios(error.config);
     }

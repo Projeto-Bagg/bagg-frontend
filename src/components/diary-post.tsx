@@ -34,6 +34,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { intlFormatDistance } from 'date-fns';
+import UserHoverCard from '@/components/user-hovercard';
 
 export const DiaryPost = ({ post }: { post: DiaryPost }) => {
   const { toast } = useToast();
@@ -70,11 +71,13 @@ export const DiaryPost = ({ post }: { post: DiaryPost }) => {
     <article className="md:m-4 p-4 md:px-7 space-y-3 border-b md:border md:border-border md:rounded-lg">
       <div className="flex">
         <div className="basis-[40px] mr-3">
-          <Link href={'/' + post.user.username} className="h-fit">
-            <Avatar className="h-[44px] w-[44px] shrink-0">
-              <AvatarImage src={post.user.image} />
-            </Avatar>
-          </Link>
+          <UserHoverCard user={post.user}>
+            <Link href={'/' + post.user.username} className="h-fit">
+              <Avatar className="h-[44px] w-[44px] shrink-0">
+                <AvatarImage src={post.user.image} />
+              </Avatar>
+            </Link>
+          </UserHoverCard>
         </div>
         <div className="grow basis-0">
           <div className="flex gap-2 items-start justify-between">
