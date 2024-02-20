@@ -7,7 +7,9 @@
       "title": "Procurar",
       "inputPlaceholder": "Digite para pesquisar",
       "notFound": "Sem resultados",
-      "playerSearchResults": "Resultados de pesquisa de usuário"
+      "userSearchResults": "Resultados de pesquisa de usuário",
+      "countrySearchResults": "Resultados de pesquisa de países",
+      "citySearchResults": "Resultados de pesquisa de cidades"
     },
     "login": "Entrar",
     "signup": "Criar conta",

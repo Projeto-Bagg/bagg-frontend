@@ -33,13 +33,13 @@ export const Header = () => {
     <div className="text-sm border-b">
       <header className="max-w-[900px] m-auto w-full h-[3.75rem] px-4 lg:px-0 flex gap-2 lg:gap-4 justify-between items-center">
         <nav>
-          <ul className="flex gap-2 lg:gap-6 font-semibold items-center">
+          <ul className="flex gap-6 font-semibold items-center">
             <li>
               <Link href="/" className="font-extrabold text-xl">
                 Bagg
               </Link>
             </li>
-            <li className="hidden lg:block">
+            <li className="hidden md:block">
               <Link
                 href={'/ranking'}
                 className="text-foreground/60 hover:text-foreground/80 transition"
@@ -47,7 +47,7 @@ export const Header = () => {
                 {t('header.ranking')}
               </Link>
             </li>
-            <li className="hidden lg:block">
+            <li className="hidden md:block">
               <span className="text-foreground/60 hover:text-foreground/80 transition">
                 {t('header.countries')}
               </span>

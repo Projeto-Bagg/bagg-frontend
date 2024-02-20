@@ -38,7 +38,6 @@ import { usePathname, Link as IntlLink } from '@/common/navigation';
 export const MobileNav = () => {
   const auth = useAuth();
   const [open, setOpen] = useState<boolean>();
-  const pathname = usePathname();
   const locale = useLocale();
   const t = useTranslations('header');
   const { themes, theme: activeTheme, setTheme } = useTheme();

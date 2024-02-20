@@ -25,7 +25,7 @@ export const Providers = ({ children }: { children: ReactNode }) => {
 
   return (
     <OriginTrackerProvider>
-      <TooltipProvider delayDuration={200} disableHoverableContent>
+      <TooltipProvider delayDuration={200}>
         <QueryClientProvider client={queryClient}>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <AuthProvider>

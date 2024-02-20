@@ -69,3 +69,7 @@
 .thumbs-wrapper {
   margin: 0 !important;
 }
+
+.leaflet-container {
+  z-index: 40;
+}

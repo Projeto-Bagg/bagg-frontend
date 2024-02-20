@@ -58,16 +58,16 @@ interface Country {
   name: string;
   capital: string;
   iso2: string;
-  latitude: string;
-  longitude: string;
+  latitude: number;
+  longitude: number;
   states: Region[];
 }
 
 interface Region {
   id: number;
   name: string;
-  latitude: string;
-  longitude: string;
+  latitude: number;
+  longitude: number;
   cities: City[];
   country: Country;
 }
@@ -75,16 +75,28 @@ interface Region {
 interface City {
   id: number;
   name: string;
-  latitude: string;
-  longitude: string;
+  latitude: number;
+  longitude: number;
   isVisited: boolean;
   isInterested: boolean;
   region: Region;
 }
 
+interface CityFromSearch {
+  id: number;
+  name: string;
+  latitude: number;
+  longitude: number;
+  iso2: string;
+  region: string;
+  country: string;
+}
+
 interface Ranking {
-  mostInterestedCountries: CountryInterestRanking;
-  mostInterestedCities: CityInterestRanking;
+  countryInterestRanking: CountryInterestRanking;
+  countryVisitRanking: CountryVisitRanking;
+  cityInterestRanking: CityInterestRanking;
+  cityVisitRanking: CityVisitRanking;
 }
 
 type CountryInterestRanking = {
@@ -93,10 +105,28 @@ type CountryInterestRanking = {
   totalInterest: number;
 }[];
 
+type CountryVisitRanking = {
+  iso2: string;
+  name: string;
+  totalVisit: number;
+}[];
+
 type CityInterestRanking = {
   id: number;
-  countryIso2: string;
-  countryName: string;
+  region: Region;
   name: string;
   totalInterest: number;
 }[];
+
+type CityVisitRanking = {
+  id: number;
+  region: Region;
+  name: string;
+  totalVisit: number;
+}[];
+
+interface FullSearch {
+  users: User[];
+  countries: Country[];
+  cities: CityFromSearch[];
+}

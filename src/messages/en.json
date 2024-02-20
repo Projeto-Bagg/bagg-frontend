@@ -7,7 +7,9 @@
       "title": "Search",
       "inputPlaceholder": "Type to search",
       "notFound": "No results",
-      "playerSearchResults": "User search results"
+      "userSearchResults": "User search results",
+      "countrySearchResults": "Country search results",
+      "citySearchResults": "City search results"
     },
     "signup": "Sign up",
     "login": "Login",
