@@ -56,7 +56,6 @@ export const Search = () => {
   }, [isFirstFetchSucess, search.data]);
 
   const onOpenChange = (open: boolean) => {
-    setQuery(undefined);
     setOpen(open);
   };
 

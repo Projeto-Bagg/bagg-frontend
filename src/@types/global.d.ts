@@ -95,8 +95,10 @@ interface CityFromSearch {
 interface Ranking {
   countryInterestRanking: CountryInterestRanking;
   countryVisitRanking: CountryVisitRanking;
+  countryRatingRanking: CountryRatingRanking;
   cityInterestRanking: CityInterestRanking;
   cityVisitRanking: CityVisitRanking;
+  cityRatingRanking: CityRatingRanking;
 }
 
 type CountryInterestRanking = {
@@ -111,6 +113,12 @@ type CountryVisitRanking = {
   totalVisit: number;
 }[];
 
+type CountryRatingRanking = {
+  iso2: string;
+  name: string;
+  averageRating: number;
+}[];
+
 type CityInterestRanking = {
   id: number;
   region: Region;
@@ -123,6 +131,15 @@ type CityVisitRanking = {
   region: Region;
   name: string;
   totalVisit: number;
+}[];
+
+type CityRatingRanking = {
+  id: number;
+  iso2: string;
+  region: string;
+  country: string;
+  name: string;
+  averageRating: number;
 }[];
 
 interface FullSearch {

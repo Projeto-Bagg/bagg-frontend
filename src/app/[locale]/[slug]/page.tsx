@@ -119,25 +119,39 @@ export default function Profile({ params }: { params: { slug: string } }) {
           </div>
         </div>
       </div>
-      <Separator />
-      <div className="flex gap-4 px-4 md:px-11 pt-4 text-sm text-primary">
+      <div className="flex justify-center px-4 md:px-11 text-sm text-primary">
         <Link href={{ pathname: '/[slug]', params: { slug: params.slug } }}>
-          <span className={cn(pathname.endsWith(params.slug) && 'font-bold')}>
+          <span
+            className={cn(
+              pathname.endsWith(params.slug) && 'font-bold border-b-2 border-blue-600',
+              'py-2 flex justify-center min-w-[144px]',
+            )}
+          >
             {t('profile.feed.posts')}
           </span>
         </Link>
         <Link href={{ pathname: '/[slug]/diaries', params: { slug: params.slug } }}>
-          <span className={cn(pathname.endsWith('/diaries') && 'font-bold')}>
+          <span
+            className={cn(
+              pathname.endsWith('/diaries') && 'font-bold border-b-2 border-blue-600',
+              'py-2 flex justify-center min-w-[144px]',
+            )}
+          >
             {t('profile.feed.diaries')}
           </span>
         </Link>
-        <Link
-          className={cn(pathname.endsWith('/likes') && 'font-bold')}
-          href={{ pathname: '/[slug]/likes', params: { slug: params.slug } }}
-        >
-          <span>{t('profile.feed.likes')}</span>
+        <Link href={{ pathname: '/[slug]/likes', params: { slug: params.slug } }}>
+          <span
+            className={cn(
+              pathname.endsWith('/likes') && 'font-bold border-b-2 border-blue-600',
+              'py-2 flex justify-center min-w-[144px]',
+            )}
+          >
+            {t('profile.feed.likes')}
+          </span>
         </Link>
       </div>
+      <Separator />
     </div>
   );
 }

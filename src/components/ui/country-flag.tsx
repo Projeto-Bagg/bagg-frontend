@@ -3,21 +3,21 @@
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import Image from 'next/image';
 import React from 'react';
+import { twMerge } from 'tailwind-merge';
 
 type ICountryFlag = Omit<React.ComponentProps<typeof Image>, 'alt' | 'src'> & {
   iso2: string;
   tooltip?: string;
 };
 
-export const CountryFlag = ({ iso2, tooltip, ...props }: ICountryFlag) => {
+export const CountryFlag = ({ iso2, tooltip, className, ...props }: ICountryFlag) => {
   if (!tooltip) {
     return (
-      <Image
-        src={`https://flagicons.lipis.dev/flags/4x3/${iso2.toLowerCase()}.svg`}
-        alt=""
-        width={20}
-        height={15}
-        {...props}
+      <span
+        className={twMerge(
+          `fi-${iso2.toLocaleLowerCase()} w-[20px] aspect-[4/3] block rounded-sm`,
+          className,
+        )}
       />
     );
   }
@@ -25,12 +25,11 @@ export const CountryFlag = ({ iso2, tooltip, ...props }: ICountryFlag) => {
   return (
     <Tooltip>
       <TooltipTrigger asChild>
-        <Image
-          src={`https://flagicons.lipis.dev/flags/4x3/${iso2.toLowerCase()}.svg`}
-          alt=""
-          width={20}
-          height={15}
-          {...props}
+        <span
+          className={twMerge(
+            `fi-${iso2.toLocaleLowerCase()} w-[20px] aspect-[4/3] block rounded-sm`,
+            className,
+          )}
         />
       </TooltipTrigger>
       <TooltipContent>
