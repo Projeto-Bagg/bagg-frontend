@@ -84,7 +84,7 @@ export const Header = () => {
                 <Link key={lang.locale} href={{ pathname: '/' }} locale={lang.locale}>
                   <DropdownMenuItem data-active={lang.locale === locale}>
                     <div className="flex gap-2">
-                      <CountryFlag iso2={lang.country} />
+                      <CountryFlag className="self-center" iso2={lang.country} />
                       <span>{lang.label}</span>
                     </div>
                   </DropdownMenuItem>

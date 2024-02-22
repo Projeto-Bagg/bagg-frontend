@@ -5,6 +5,7 @@ import axios from '@/services/axios';
 import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 import React from 'react';
+import { Rating } from '@smastrom/react-rating';
 
 export default function Page() {
   const ranking = useQuery<Ranking>({
@@ -77,8 +78,13 @@ export default function Page() {
                     <CountryFlag className="w-[36px]" iso2={country.iso2} />
                     <span>{country.name}</span>
                   </div>
-                  <div>
-                    <span>{country.averageRating}</span>
+                  <div className="flex items-center gap-1">
+                    <Rating
+                      className="max-w-[92px]"
+                      value={country.averageRating}
+                      readOnly
+                    />
+                    <span className="font-bold">{country.averageRating}</span>
                   </div>
                 </Link>
               ))}
@@ -103,8 +109,13 @@ export default function Page() {
                     <CountryFlag className="w-[36px]" iso2={city.iso2} />
                     <span>{city.name}</span>
                   </div>
-                  <div>
-                    <span>{city.averageRating}</span>
+                  <div className="flex items-center gap-1">
+                    <Rating
+                      className="max-w-[92px]"
+                      value={city.averageRating}
+                      readOnly
+                    />
+                    <span className="font-bold">{city.averageRating}</span>
                   </div>
                 </Link>
               ))}

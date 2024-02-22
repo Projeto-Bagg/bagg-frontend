@@ -119,36 +119,33 @@ export default function Profile({ params }: { params: { slug: string } }) {
           </div>
         </div>
       </div>
-      <div className="flex justify-center px-4 md:px-11 text-sm text-primary">
-        <Link href={{ pathname: '/[slug]', params: { slug: params.slug } }}>
-          <span
-            className={cn(
-              pathname.endsWith(params.slug) && 'font-bold border-b-2 border-blue-600',
-              'py-2 flex justify-center min-w-[144px]',
-            )}
-          >
-            {t('profile.feed.posts')}
-          </span>
+      <div className="flex justify-center m-auto px-4 md:px-11 text-sm text-primary w-full md:w-[432px]">
+        <Link
+          className={cn(
+            pathname.endsWith(params.slug) && 'font-bold border-b-2 border-blue-600',
+            'py-2 flex justify-center flex-1',
+          )}
+          href={{ pathname: '/[slug]', params: { slug: params.slug } }}
+        >
+          {t('profile.feed.posts')}
         </Link>
-        <Link href={{ pathname: '/[slug]/diaries', params: { slug: params.slug } }}>
-          <span
-            className={cn(
-              pathname.endsWith('/diaries') && 'font-bold border-b-2 border-blue-600',
-              'py-2 flex justify-center min-w-[144px]',
-            )}
-          >
-            {t('profile.feed.diaries')}
-          </span>
+        <Link
+          className={cn(
+            pathname.endsWith('/diaries') && 'font-bold border-b-2 border-blue-600',
+            'py-2 flex justify-center flex-1',
+          )}
+          href={{ pathname: '/[slug]/diaries', params: { slug: params.slug } }}
+        >
+          {t('profile.feed.diaries')}
         </Link>
-        <Link href={{ pathname: '/[slug]/likes', params: { slug: params.slug } }}>
-          <span
-            className={cn(
-              pathname.endsWith('/likes') && 'font-bold border-b-2 border-blue-600',
-              'py-2 flex justify-center min-w-[144px]',
-            )}
-          >
-            {t('profile.feed.likes')}
-          </span>
+        <Link
+          className={cn(
+            pathname.endsWith('/likes') && 'font-bold border-b-2 border-blue-600',
+            'py-2 flex justify-center flex-1',
+          )}
+          href={{ pathname: '/[slug]/likes', params: { slug: params.slug } }}
+        >
+          {t('profile.feed.likes')}
         </Link>
       </div>
       <Separator />
