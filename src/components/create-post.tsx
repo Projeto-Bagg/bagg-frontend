@@ -43,7 +43,12 @@ const CreateDiaryPostSchema = z.object({
   tripDiaryId: z.number(),
   message: z.string().min(1).max(300),
   medias: z
-    .array(z.object({ file: z.instanceof(File), thumbnail: z.string() }))
+    .array(
+      z.object({
+        file: typeof window !== undefined ? z.instanceof(File) : z.any(),
+        thumbnail: z.string(),
+      }),
+    )
     .max(10)
     .optional(),
 });
@@ -256,7 +261,10 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
                     accept="image/jpeg,image/png,image/webp,video/mp4"
                     onChange={async (e) => {
                       const maxSize = 104857600;
-                      const currentImages = getValues('medias');
+                      const currentImages = getValues('medias') as {
+                        file: File;
+                        thumbnail: string;
+                      }[];
                       const currentImagesSize =
                         currentImages?.reduce((acc, curr) => acc + curr.file.size, 0) ||
                         0;
