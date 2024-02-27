@@ -4,7 +4,7 @@ const cspHeader = `
     default-src 'self' http://localhost:3001 https://bagg-api.azurewebsites.net;
     script-src 'self' 'unsafe-eval' 'unsafe-inline' http://localhost:3001 https://bagg-api.azurewebsites.net;
     style-src 'self' 'unsafe-inline';
-    img-src 'self' blob: data: https://baggstorage.blob.core.windows.net;
+    img-src 'self' blob: data: https://baggstorage.blob.core.windows.net https://tiles.stadiamaps.com;
     font-src 'self';
     object-src 'none';
     base-uri 'self';

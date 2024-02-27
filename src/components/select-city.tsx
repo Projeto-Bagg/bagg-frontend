@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import {
   Command,
-  CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
@@ -19,14 +18,27 @@ import { useTranslations } from 'next-intl';
 
 interface SelectCityProps {
   onSelect: (value: string) => void;
+  defaultValue?: City;
 }
 
-export default function SelectCity({ onSelect }: SelectCityProps) {
+export default function SelectCity({ onSelect, defaultValue }: SelectCityProps) {
+  const t = useTranslations('selectCity');
   const [open, setOpen] = React.useState(false);
-  const [selectedValue, setSelectedValue] = React.useState<string>();
   const [query, setQuery] = useState<string>();
   const [debouncedQuery] = useDebounce(query, 1000);
-  const t = useTranslations('selectCity');
+  const [selectedCity, setSelectedCity] = React.useState<CityFromSearch | undefined>(
+    defaultValue
+      ? {
+          id: defaultValue.id,
+          country: defaultValue.region.country.name,
+          iso2: defaultValue.region.country.iso2,
+          latitude: defaultValue.latitude,
+          longitude: defaultValue.longitude,
+          name: defaultValue.name,
+          region: defaultValue.region.name,
+        }
+      : undefined,
+  );
 
   const enabled = !!debouncedQuery;
 
@@ -40,8 +52,6 @@ export default function SelectCity({ onSelect }: SelectCityProps) {
 
   const isLoading = enabled && cities.isLoading;
 
-  const selectedCity = cities.data?.find((city) => city.id.toString() === selectedValue);
-
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -51,7 +61,7 @@ export default function SelectCity({ onSelect }: SelectCityProps) {
           aria-expanded={open}
           className="w-full justify-between"
         >
-          {cities.data && selectedValue && selectedCity ? (
+          {selectedCity ? (
             <div className="flex gap-2">
               <CountryFlag iso2={selectedCity.iso2} />
               <div className="flex gap-1">
@@ -83,7 +93,9 @@ export default function SelectCity({ onSelect }: SelectCityProps) {
                 key={city.id}
                 value={city.id.toString()}
                 onSelect={(currentValue) => {
-                  setSelectedValue(currentValue === selectedValue ? '' : currentValue);
+                  setSelectedCity(
+                    currentValue === selectedCity?.id.toString() ? undefined : city,
+                  );
                   onSelect(currentValue);
                   setOpen(false);
                 }}
@@ -91,7 +103,7 @@ export default function SelectCity({ onSelect }: SelectCityProps) {
                 <Check
                   className={cn(
                     'mr-2 h-4 w-4',
-                    selectedValue === city.id.toString() ? 'opacity-100' : 'opacity-0',
+                    selectedCity?.id === city.id ? 'opacity-100' : 'opacity-0',
                   )}
                 />
                 <div className="flex gap-2">

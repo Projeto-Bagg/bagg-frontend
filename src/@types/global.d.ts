@@ -13,10 +13,7 @@ interface User {
   followers: number;
   isFollowing: boolean;
   followedBy: boolean;
-}
-
-interface UserWithCity extends User {
-  city: City;
+  city?: City;
 }
 
 interface TripDiary {

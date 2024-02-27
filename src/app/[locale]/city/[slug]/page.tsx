@@ -86,7 +86,7 @@ export default function Page({ params }: { params: { slug: string; id: string } 
           />
           <LazyMarker position={[city.data.latitude, city.data.longitude]} />
         </LazyMap>
-        <div className="col-span-2">
+        <div className="md:col-span-2">
           <CityVisits visits={city.data.visits} />
         </div>
       </div>

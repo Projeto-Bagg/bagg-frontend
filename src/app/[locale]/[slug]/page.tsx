@@ -26,9 +26,9 @@ export default function Profile({ params }: { params: { slug: string } }) {
   const unfollow = useUnfollow();
   const router = useRouter();
 
-  const user = useQuery<UserWithCity>({
+  const user = useQuery<User>({
     queryKey: ['user', params.slug],
-    queryFn: async () => (await axios.get<UserWithCity>('/users/' + params.slug)).data,
+    queryFn: async () => (await axios.get<User>('/users/' + params.slug)).data,
   });
 
   const handleFollowClick = () => {
@@ -103,17 +103,22 @@ export default function Profile({ params }: { params: { slug: string } }) {
             <p className="text-muted-foreground">
               {t('profile.birthdate', { joinDate: user.data.birthdate })}
             </p>
-            <div className="text-muted-foreground flex gap-1">
-              <p>{t('profile.city')}</p>
-              <Link
-                href={{ params: { slug: user.data.city.id }, pathname: '/city/[slug]' }}
-                className="text-foreground flex"
-              >
-                {user.data.city.name}, {user.data.city.region.name},{' '}
-                {user.data.city.region.country.name}
-                <CountryFlag className="ml-1" iso2={user.data.city.region.country.iso2} />
-              </Link>
-            </div>
+            {user.data.city && (
+              <div className="text-muted-foreground flex gap-1">
+                <p>{t('profile.city')}</p>
+                <Link
+                  href={{ params: { slug: user.data.city.id }, pathname: '/city/[slug]' }}
+                  className="text-foreground flex"
+                >
+                  {user.data.city.name}, {user.data.city.region.name},{' '}
+                  {user.data.city.region.country.name}
+                  <CountryFlag
+                    className="ml-1"
+                    iso2={user.data.city.region.country.iso2}
+                  />
+                </Link>
+              </div>
+            )}
           </div>
           <div className="flex gap-2">
             <UserFollowTabs defaultTab="followers" username={params.slug}>

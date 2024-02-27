@@ -251,7 +251,10 @@ export default function EditProfile({ params }: { params: { slug: string } }) {
               name="cityId"
               control={control}
               render={({ field }) => (
-                <SelectCity onSelect={(value) => field.onChange(+value)} />
+                <SelectCity
+                  defaultValue={auth.user?.city}
+                  onSelect={(value) => field.onChange(+value)}
+                />
               )}
             />
           </div>

@@ -1,7 +1,7 @@
 'use client';
 
 import axios from '@/services/axios';
-import { createContext, useContext, useEffect } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import { getCookie, deleteCookie, setCookie } from 'cookies-next';
 import { Spinner } from '@/assets';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
@@ -19,12 +19,9 @@ type AuthContextType = {
 export const AuthContext = createContext({} as AuthContextType);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const queryClient = useQueryClient();
-  const {
-    data: user,
-    isLoading,
-    refetch,
-  } = useQuery<User>({
+  const { data: user, refetch } = useQuery<User>({
     queryKey: ['session'],
     queryFn: async () => (await axios.get('users/me')).data,
     enabled: false,
@@ -33,13 +30,18 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const isAuthenticated = !!user;
 
   useEffect(() => {
-    const token = getCookie('bagg.sessionToken');
+    const fetchUser = async () => {
+      const token = getCookie('bagg.sessionToken');
 
-    if (token) {
-      refetch();
-    } else {
-      queryClient.setQueryData(['session'], null);
-    }
+      if (token) {
+        await refetch();
+      } else {
+        queryClient.setQueryData(['session'], null);
+      }
+    };
+    fetchUser().then(() => {
+      setIsLoading(false);
+    });
   }, [queryClient, refetch]);
 
   const login = async (user: UserSignIn) => {

@@ -29,7 +29,7 @@ export const Header = () => {
   const auth = useAuth();
 
   return (
-    <header className="text-sm m-auto border-b fixed top-0 left-0 right-0 w-full px-4 lg:px-0 z-10 bg-background/65">
+    <header className="text-sm m-auto border-b fixed top-0 left-0 right-0 w-full px-4 lg:px-0 z-10 bg-background/75">
       <div className="flex m-auto gap-2 lg:gap-4 justify-between items-center max-w-[900px] min-h-[3.75rem] backdrop-blur-xl">
         <nav>
           <ul className="flex gap-6 font-semibold items-center">
