@@ -97,6 +97,7 @@
     "editProfile": "Editar perfil",
     "createdAt": "Entrou em {joinDate, date, long}",
     "birthdate": "Nasceu em {joinDate, date, long}",
+    "city": "Mora em",
     "feed": {
       "posts": "Postagens",
       "diaries": "Diários",
@@ -138,6 +139,8 @@
     "description": "Crie um diário de viagem e compartilhe suas experiências com a comunidade",
     "titleField": "Título",
     "titleFieldError": "Insira um título",
+    "city": "Cidade",
+    "cityFieldError": "Insira uma cidade",
     "message": "Mensagem",
     "messageError": "Insira uma message",
     "messageMaxError": "O tamanho máximo é de 300 caracteres",
@@ -154,6 +157,13 @@
       "cancel": "Cancelar",
       "action": "Excluir"
     }
+  },
+  "selectCity": {
+    "title": "Selecione uma cidade...",
+    "search": "Procurar uma cidade...",
+    "searching": "Procurando",
+    "notFound": "Sem resultados",
+    "error": "Algo deu errado..."
   },
   "diaryPost": {
     "copyLink": "Copiar link",

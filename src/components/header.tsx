@@ -20,18 +20,17 @@ import { Search } from '@/components/search-dialog';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { CountryFlag } from '@/components/ui/country-flag';
 import { CreatePost } from '@/components/create-post';
-import { Link, useRouter, usePathname } from '@/common/navigation';
+import { Link, useRouter } from '@/common/navigation';
 
 export const Header = () => {
   const t = useTranslations();
   const router = useRouter();
-  const pathname = usePathname();
   const locale = useLocale();
   const auth = useAuth();
 
   return (
-    <div className="text-sm border-b">
-      <header className="max-w-[900px] m-auto w-full h-[3.75rem] px-4 lg:px-0 flex gap-2 lg:gap-4 justify-between items-center">
+    <header className="text-sm m-auto border-b fixed top-0 left-0 right-0 w-full px-4 lg:px-0 z-10 bg-background/65">
+      <div className="flex m-auto gap-2 lg:gap-4 justify-between items-center max-w-[900px] min-h-[3.75rem] backdrop-blur-xl">
         <nav>
           <ul className="flex gap-6 font-semibold items-center">
             <li>
@@ -84,7 +83,7 @@ export const Header = () => {
                 <Link key={lang.locale} href={{ pathname: '/' }} locale={lang.locale}>
                   <DropdownMenuItem data-active={lang.locale === locale}>
                     <div className="flex gap-2">
-                      <CountryFlag className="self-center" iso2={lang.country} />
+                      <CountryFlag iso2={lang.country} />
                       <span>{lang.label}</span>
                     </div>
                   </DropdownMenuItem>
@@ -161,7 +160,7 @@ export const Header = () => {
           </div>
           <MobileNav />
         </div>
-      </header>
-    </div>
+      </div>
+    </header>
   );
 };

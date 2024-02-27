@@ -15,7 +15,7 @@ export const CountryFlag = ({ iso2, tooltip, className, ...props }: ICountryFlag
     return (
       <span
         className={twMerge(
-          `fi-${iso2.toLocaleLowerCase()} w-[20px] aspect-[4/3] block rounded-sm`,
+          `fi-${iso2.toLocaleLowerCase()} w-[20px] aspect-[4/3] rounded-sm block self-center`,
           className,
         )}
       />
@@ -27,7 +27,7 @@ export const CountryFlag = ({ iso2, tooltip, className, ...props }: ICountryFlag
       <TooltipTrigger asChild>
         <span
           className={twMerge(
-            `fi-${iso2.toLocaleLowerCase()} w-[20px] aspect-[4/3] block rounded-sm`,
+            `fi-${iso2.toLocaleLowerCase()} w-[20px] aspect-[4/3] rounded-sm block self-center`,
             className,
           )}
         />

@@ -68,7 +68,7 @@ export const DiaryPost = ({ post }: { post: DiaryPost }) => {
   };
 
   return (
-    <article className="md:m-4 p-4 md:px-7 space-y-3 border-b md:border md:border-border md:rounded-lg">
+    <article className="md:m-4 px-4 py-6 md:px-7 space-y-3 border-b md:border md:border-border md:rounded-lg">
       <div className="flex">
         <div className="basis-[40px] mr-3">
           <UserHoverCard user={post.user}>
@@ -163,63 +163,34 @@ export const DiaryPost = ({ post }: { post: DiaryPost }) => {
               </span>
             </div>
           </Link>
-          <div className="mb-2">
+          <div>
             <p className="text-sm md:text-base">{post.message}</p>
           </div>
-          <div>
-            {post.diaryPostMedias.length === 1 && (
-              <div className="relative aspect-square max-w-[752px] max-h-[423px]">
-                {post.diaryPostMedias[0].url.endsWith('mp4') ? (
-                  <div
-                    key={post.diaryPostMedias[0].id}
-                    className="h-full flex justify-center items-center bg-black rounded-lg"
-                  >
-                    <video controls src={post.diaryPostMedias[0].url} />
-                  </div>
-                ) : (
-                  <Image
-                    src={post.diaryPostMedias[0].url}
-                    alt=""
-                    fill
-                    className="h-full w-full rounded-lg aspect-square object-cover"
-                  />
-                )}
-              </div>
-            )}
-            {post.diaryPostMedias.length === 2 && (
-              <div className="grid aspect-[16/9] grid-cols-[minmax(0px,_75fr)_minmax(0px,_75fr)] grid-rows-[100%] w-full">
-                {post.diaryPostMedias.map((media) =>
-                  media.url.endsWith('mp4') ? (
+          {post.diaryPostMedias.length !== 0 && (
+            <div className="mt-2">
+              {post.diaryPostMedias.length === 1 && (
+                <div className="relative aspect-square max-w-[752px] max-h-[423px]">
+                  {post.diaryPostMedias[0].url.endsWith('mp4') ? (
                     <div
-                      key={media.id}
+                      key={post.diaryPostMedias[0].id}
                       className="h-full flex justify-center items-center bg-black rounded-lg"
                     >
-                      <video controls src={media.url} />
+                      <video controls src={post.diaryPostMedias[0].url} />
                     </div>
                   ) : (
-                    <div key={media.id} className="relative mr-1">
-                      <Image
-                        src={media.url}
-                        alt=""
-                        fill
-                        className="h-full rounded-lg object-cover"
-                      />
-                    </div>
-                  ),
-                )}
-              </div>
-            )}
-            {post.diaryPostMedias.length > 2 && (
-              <Carousel
-                centerMode
-                centerSlidePercentage={45}
-                emulateTouch
-                showIndicators={false}
-                showStatus={false}
-              >
-                {post.diaryPostMedias.map((media) => (
-                  <div key={media.id} className="mr-1">
-                    {media.url.endsWith('mp4') ? (
+                    <Image
+                      src={post.diaryPostMedias[0].url}
+                      alt=""
+                      fill
+                      className="h-full w-full rounded-lg aspect-square object-cover"
+                    />
+                  )}
+                </div>
+              )}
+              {post.diaryPostMedias.length === 2 && (
+                <div className="grid aspect-[16/9] grid-cols-[minmax(0px,_75fr)_minmax(0px,_75fr)] grid-rows-[100%] w-full">
+                  {post.diaryPostMedias.map((media) =>
+                    media.url.endsWith('mp4') ? (
                       <div
                         key={media.id}
                         className="h-full flex justify-center items-center bg-black rounded-lg"
@@ -227,19 +198,50 @@ export const DiaryPost = ({ post }: { post: DiaryPost }) => {
                         <video controls src={media.url} />
                       </div>
                     ) : (
-                      <Image
-                        src={media.url}
-                        alt=""
-                        height={532}
-                        width={532}
-                        className="h-full rounded-lg aspect-square object-cover"
-                      />
-                    )}
-                  </div>
-                ))}
-              </Carousel>
-            )}
-          </div>
+                      <div key={media.id} className="relative mr-1">
+                        <Image
+                          src={media.url}
+                          alt=""
+                          fill
+                          className="h-full rounded-lg object-cover"
+                        />
+                      </div>
+                    ),
+                  )}
+                </div>
+              )}
+              {post.diaryPostMedias.length > 2 && (
+                <Carousel
+                  centerMode
+                  centerSlidePercentage={45}
+                  emulateTouch
+                  showIndicators={false}
+                  showStatus={false}
+                >
+                  {post.diaryPostMedias.map((media) => (
+                    <div key={media.id} className="mr-1">
+                      {media.url.endsWith('mp4') ? (
+                        <div
+                          key={media.id}
+                          className="h-full flex justify-center items-center bg-black rounded-lg"
+                        >
+                          <video controls src={media.url} />
+                        </div>
+                      ) : (
+                        <Image
+                          src={media.url}
+                          alt=""
+                          height={532}
+                          width={532}
+                          className="h-full rounded-lg aspect-square object-cover"
+                        />
+                      )}
+                    </div>
+                  ))}
+                </Carousel>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </article>

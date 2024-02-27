@@ -33,6 +33,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip
 import { Info } from 'lucide-react';
 import { useRouter } from '@/common/navigation';
 import { useOriginTracker } from '@/context/origin-tracker';
+import SelectCity from '@/components/select-city';
 
 const editFormSchema = z.object({
   fullName: z.string().min(3).max(64),
@@ -41,6 +42,7 @@ const editFormSchema = z.object({
     .min(3)
     .max(20)
     .regex(/^[a-zA-Z0-9_]+$/),
+  cityId: z.number().optional(),
   birthdateDay: z.string(),
   birthdateMonth: z.string(),
   birthdateYear: z.string(),
@@ -111,6 +113,7 @@ export default function EditProfile({ params }: { params: { slug: string } }) {
       formData.append('fullName', data.fullName);
       formData.append('bio', data.bio);
       formData.append('username', data.username);
+      data.cityId && formData.append('cityId', data.cityId.toString());
 
       const birthdate = new Date(
         +data.birthdateYear,
@@ -229,6 +232,28 @@ export default function EditProfile({ params }: { params: { slug: string } }) {
                 ))}
             </div>
             <Input {...register('username')} defaultValue={auth.user?.username} />
+          </div>
+          <div>
+            <div className="justify-between flex mb-0.5">
+              <div className="flex gap-1 items-end">
+                <Label>{t('createTripDiary.city')}</Label>
+              </div>
+              {errors.cityId && (
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Info size={18} className="text-red-600" />
+                  </TooltipTrigger>
+                  <TooltipContent>{t('createTripDiary.cityFieldError')}</TooltipContent>
+                </Tooltip>
+              )}
+            </div>
+            <Controller
+              name="cityId"
+              control={control}
+              render={({ field }) => (
+                <SelectCity onSelect={(value) => field.onChange(+value)} />
+              )}
+            />
           </div>
           <div>
             <div className="justify-between flex mb-0.5">

@@ -3,8 +3,9 @@
 import axios from '@/services/axios';
 import { useQuery } from '@tanstack/react-query';
 import { useFormatter } from 'next-intl';
-import Link from 'next/link';
+import { Link } from '@/common/navigation';
 import React from 'react';
+import { CountryFlag } from '@/components/ui/country-flag';
 
 export default function Page({ params }: { params: { slug: string } }) {
   const formatter = useFormatter();
@@ -20,13 +21,22 @@ export default function Page({ params }: { params: { slug: string } }) {
       {tripDiaries.data &&
         tripDiaries.data.map((diary) => (
           <Link
-            href={'/diary/' + diary.id}
+            href={{ params: { slug: diary.id }, pathname: '/diary/[slug]' }}
             key={diary.id}
             className="block min-h-[100px] md:m-4 p-4 md:px-7 space-y-3 border-b md:border md:border-border md:rounded-lg"
           >
             <div className="flex flex-col w-full">
               <div className="flex justify-between items-center w-full">
-                <span className="font-bold">{diary.title}</span>
+                <div>
+                  <span className="font-bold">{diary.title}</span>
+                  <div className="flex gap-1 text-sm text-muted-foreground">
+                    <span>
+                      {diary.city.name}, {diary.city.region.name},{' '}
+                      {diary.city.region.country.name}
+                    </span>
+                    <CountryFlag className="ml-1" iso2={diary.city.region.country.iso2} />
+                  </div>
+                </div>
                 <span className="text-muted-foreground text-sm">
                   {formatter.relativeTime(diary.createdAt, new Date())}
                 </span>

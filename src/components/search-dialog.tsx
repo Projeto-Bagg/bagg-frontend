@@ -17,7 +17,7 @@ import axios from '@/services/axios';
 import { useQuery } from '@tanstack/react-query';
 import { Search as SearchIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import Link from 'next/link';
+import { Link } from '@/common/navigation';
 import { useEffect, useState } from 'react';
 import { useDebounce } from 'use-debounce';
 
@@ -104,7 +104,7 @@ export const Search = () => {
                       <Link
                         onClick={() => setOpen(false)}
                         className="block"
-                        href={'/' + user.username}
+                        href={{ params: { slug: user.username }, pathname: '/[slug]' }}
                       >
                         <div className="flex gap-2 bg-primary-foreground hover:bg-secondary rounded-lg transition-all">
                           <Avatar className="rounded-sm bg-muted">
@@ -137,7 +137,10 @@ export const Search = () => {
                       key={index}
                       onClick={() => setOpen(false)}
                       className="block"
-                      href={'/country/' + country.iso2}
+                      href={{
+                        params: { slug: country.iso2 },
+                        pathname: '/country/[slug]',
+                      }}
                     >
                       <div className="flex items-center gap-2 bg-primary-foreground hover:bg-secondary rounded-lg transition-all">
                         <CountryFlag
@@ -165,7 +168,7 @@ export const Search = () => {
                       key={index}
                       onClick={() => setOpen(false)}
                       className="block"
-                      href={'/city/' + city.id}
+                      href={{ params: { slug: city.id }, pathname: '/city/[slug]' }}
                     >
                       <div className="flex items-center gap-2 bg-primary-foreground hover:bg-secondary rounded-lg transition-all">
                         <CountryFlag

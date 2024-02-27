@@ -1,10 +1,10 @@
 'use client';
 
+import React from 'react';
 import { CountryFlag } from '@/components/ui/country-flag';
 import axios from '@/services/axios';
 import { useQuery } from '@tanstack/react-query';
-import Link from 'next/link';
-import React from 'react';
+import { Link } from '@/common/navigation';
 import { Rating } from '@smastrom/react-rating';
 
 export default function Page() {
@@ -70,7 +70,7 @@ export default function Page() {
             <ul className="divide-y-2 min-h-[440px]">
               {ranking.data.countryRatingRanking.map((country) => (
                 <Link
-                  href={'/country/' + country.iso2}
+                  href={{ params: { slug: country.iso2 }, pathname: '/country/[slug]' }}
                   key={country.iso2}
                   className="flex items-center h-[44px] p-4 justify-between"
                 >
@@ -101,13 +101,16 @@ export default function Page() {
             <ul className="divide-y-2 min-h-[440px]">
               {ranking.data.cityRatingRanking.map((city) => (
                 <Link
-                  href={'/country/' + city.iso2}
-                  key={city.iso2}
+                  href={{ params: { slug: city.id }, pathname: '/city/[slug]' }}
+                  key={city.id}
                   className="flex items-center h-[44px] p-4 justify-between"
                 >
                   <div className="flex gap-3 items-center">
                     <CountryFlag className="w-[36px]" iso2={city.iso2} />
-                    <span>{city.name}</span>
+                    <div className="flex gap-1">
+                      <span>{city.name}</span>
+                      <span className="text-muted-foreground">{city.region}</span>
+                    </div>
                   </div>
                   <div className="flex items-center gap-1">
                     <Rating
@@ -132,7 +135,7 @@ export default function Page() {
             <ul className="divide-y-2 min-h-[440px]">
               {ranking.data.countryInterestRanking.map((country) => (
                 <Link
-                  href={'/country/' + country.iso2}
+                  href={{ params: { slug: country.iso2 }, pathname: '/country/[slug]' }}
                   key={country.iso2}
                   className="flex items-center h-[44px] p-4 justify-between"
                 >
@@ -157,12 +160,17 @@ export default function Page() {
           <ul className="divide-y-2 min-h-[440px]">
             {ranking.data.cityInterestRanking.map((city, index) => (
               <Link
-                href={'/city/' + city.id}
+                href={{ params: { slug: city.id }, pathname: '/city/[slug]' }}
                 key={index}
                 className="flex items-center h-[44px] p-4 justify-between"
               >
                 <div className="flex gap-3 items-center">
-                  <Link href={'/country/' + city.region.country.iso2}>
+                  <Link
+                    href={{
+                      params: { slug: city.region.country.iso2 },
+                      pathname: '/country/[slug]',
+                    }}
+                  >
                     <CountryFlag
                       className="w-[36px]"
                       iso2={city.region.country.iso2}
@@ -191,7 +199,7 @@ export default function Page() {
             <ul className="divide-y-2 min-h-[440px]">
               {ranking.data.countryVisitRanking.map((country) => (
                 <Link
-                  href={'/country/' + country.iso2}
+                  href={{ params: { slug: country.iso2 }, pathname: '/country/[slug]' }}
                   key={country.iso2}
                   className="flex items-center h-[44px] p-4 justify-between"
                 >
@@ -216,12 +224,17 @@ export default function Page() {
           <ul className="divide-y-2 min-h-[440px]">
             {ranking.data.cityVisitRanking.map((city, index) => (
               <Link
-                href={'/city/' + city.id}
+                href={{ params: { slug: city.id }, pathname: '/city/[slug]' }}
                 key={index}
                 className="flex items-center h-[44px] p-4 justify-between"
               >
                 <div className="flex gap-3 items-center">
-                  <Link href={'/country/' + city.region.country.iso2}>
+                  <Link
+                    href={{
+                      params: { slug: city.region.country.iso2 },
+                      pathname: '/country/[slug]',
+                    }}
+                  >
                     <CountryFlag
                       className="w-[36px] rounded-sm"
                       iso2={city.region.country.iso2}

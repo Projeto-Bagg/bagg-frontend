@@ -7,7 +7,7 @@ import axios from '@/services/axios';
 import { useQuery } from '@tanstack/react-query';
 import { ArrowLeft, MoreHorizontal } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useFormatter, useLocale, useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { Separator } from '@/components/ui/separator';
 import {
   AlertDialogHeader,

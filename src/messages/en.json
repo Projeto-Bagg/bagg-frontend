@@ -97,6 +97,7 @@
     "editProfile": "Edit profile",
     "createdAt": "Joined in {joinDate, date, long}",
     "birthdate": "Born in {joinDate, date, long}",
+    "city": "Lives in",
     "feed": {
       "posts": "Posts",
       "diaries": "Diaries",
@@ -138,6 +139,8 @@
     "titleField": "Title",
     "titleFieldError": "Enter a title",
     "titleFieldMaxError": "The maximum length is 255 characters",
+    "city": "City",
+    "cityFieldError": "Enter a city",
     "message": "Message",
     "messageError": "Enter a message",
     "messageMaxError": "The maximum length is 300 characters",
@@ -154,6 +157,13 @@
       "cancel": "Cancel",
       "action": "Delete"
     }
+  },
+  "selectCity": {
+    "title": "Select a city...",
+    "search": "Search a city...",
+    "searching": "Searching",
+    "notFound": "No cities found",
+    "error": "Something went wrong"
   },
   "diaryPost": {
     "copyLink": "Copy link",

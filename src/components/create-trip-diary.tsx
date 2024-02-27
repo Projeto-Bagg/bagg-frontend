@@ -1,5 +1,6 @@
 'use client';
 
+import SelectCity from '@/components/select-city';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -19,12 +20,13 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Info } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import React, { ReactNode, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 const createTripDiarySchema = z.object({
   title: z.string().nonempty().max(255),
   message: z.string().max(300),
+  cityId: z.number(),
 });
 
 export type CreateTripDiaryType = z.infer<typeof createTripDiarySchema>;
@@ -38,12 +40,14 @@ export const CreateTripDiary = ({ children }: { children: ReactNode }) => {
     handleSubmit,
     reset,
     watch,
+    control,
     formState: { errors },
   } = useForm<CreateTripDiaryType>({
     resolver: zodResolver(createTripDiarySchema),
   });
 
   const handleCreateTripDiary = async (data: CreateTripDiaryType) => {
+    console.log(data);
     await createTripDiary.mutateAsync(data);
     setOpen(false);
     reset();
@@ -84,6 +88,28 @@ export const CreateTripDiary = ({ children }: { children: ReactNode }) => {
               )}
             </div>
             <Input {...register('title')} />
+          </div>
+          <div>
+            <div className="justify-between flex mb-0.5">
+              <div className="flex gap-1 items-end">
+                <Label>{t('createTripDiary.city')}</Label>
+              </div>
+              {errors.cityId && (
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Info size={18} className="text-red-600" />
+                  </TooltipTrigger>
+                  <TooltipContent>{t('createTripDiary.cityFieldError')}</TooltipContent>
+                </Tooltip>
+              )}
+            </div>
+            <Controller
+              name="cityId"
+              control={control}
+              render={({ field }) => (
+                <SelectCity onSelect={(value) => field.onChange(+value)} />
+              )}
+            />
           </div>
           <div>
             <div className="justify-between flex mb-0.5">

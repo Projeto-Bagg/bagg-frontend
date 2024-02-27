@@ -24,7 +24,13 @@ const nextConfig = {
   reactStrictMode: true,
   output: 'standalone',
   images: {
-    domains: ['baggstorage.blob.core.windows.net'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'baggstorage.blob.core.windows.net',
+        port: '',
+      },
+    ],
   },
 };
 

@@ -33,7 +33,7 @@ import {
   Settings,
   User2,
 } from 'lucide-react';
-import { usePathname, Link as IntlLink } from '@/common/navigation';
+import { Link as IntlLink } from '@/common/navigation';
 
 export const MobileNav = () => {
   const auth = useAuth();

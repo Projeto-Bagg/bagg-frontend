@@ -139,7 +139,7 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
                 <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-full p-0">
+            <PopoverContent className="p-0">
               <Command>
                 <CommandInput placeholder="Procurar..." />
                 <CommandGroup>
@@ -162,7 +162,9 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
                           )}
                         />
                         <div className="flex items-end justify-between w-full gap-2">
-                          <span>{tripDiary.title}</span>
+                          <div className="flex gap-2">
+                            <span>{tripDiary.title}</span>
+                          </div>
                           <span className="text-xs">
                             {formatter.dateTime(tripDiary.createdAt, {
                               timeZone: 'America/Sao_Paulo',

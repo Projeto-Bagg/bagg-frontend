@@ -1,6 +1,6 @@
 'use client';
 
-import { LazyMap, LazyMarker, LazyTileLayer } from '@/components/leaflet-map';
+import { LazyMap, LazyMarker, LazyPopup, LazyTileLayer } from '@/components/leaflet-map';
 import { CountryFlag } from '@/components/ui/country-flag';
 import axios from '@/services/axios';
 import { useQuery } from '@tanstack/react-query';
@@ -31,11 +31,10 @@ export default function Page({ params }: { params: { slug: string; id: string } 
         <div>somthing</div>
         <LazyMap
           center={[country.data.latitude, country.data.longitude]}
-          zoom={5}
+          zoom={3}
           className="w-full aspect-square rounded-lg"
           scrollWheelZoom={false}
           dragging={false}
-          zoomControl={false}
         >
           <LazyTileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

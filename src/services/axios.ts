@@ -25,7 +25,7 @@ const axios = instance.create({
   },
   baseURL:
     process.env.NODE_ENV === 'production'
-      ? `https://bagg-api.azurewebsites.net/`
+      ? 'https://bagg-api.azurewebsites.net/'
       : 'http://localhost:3001/',
 });
 

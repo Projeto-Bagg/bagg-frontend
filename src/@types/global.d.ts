@@ -15,10 +15,15 @@ interface User {
   followedBy: boolean;
 }
 
+interface UserWithCity extends User {
+  city: City;
+}
+
 interface TripDiary {
   id: number;
   title: string;
   message: string;
+  city: City;
   createdAt: Date;
   user: User;
 }
@@ -72,6 +77,14 @@ interface Region {
   country: Country;
 }
 
+interface CityVisit {
+  id: number;
+  createdAt: Date;
+  rating: number;
+  message: string;
+  user: User;
+}
+
 interface City {
   id: number;
   name: string;
@@ -80,6 +93,7 @@ interface City {
   isVisited: boolean;
   isInterested: boolean;
   region: Region;
+  visits: CityVisit[];
 }
 
 interface CityFromSearch {

@@ -6,7 +6,7 @@ import { useUnfollow } from '@/hooks/useUnfollow';
 import { useAuth } from '@/context/auth-context';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import Link from 'next/link';
+import { Link } from '@/common/navigation';
 import { useTranslations } from 'next-intl';
 import UserHoverCard from '@/components/user-hovercard';
 
@@ -27,7 +27,7 @@ export const ListUsers = ({ users, showIfUserFollowYou = true }: IListUsers) => 
       {users.map((user) => (
         <div key={user.id} className="flex justify-between items-center transition-all">
           <UserHoverCard user={user}>
-            <Link href={'/' + user.username}>
+            <Link href={{ params: { slug: user.username }, pathname: '/[slug]' }}>
               <div className="flex items-center gap-3">
                 <Avatar className="h-[48px] w-[48px]">
                   <AvatarImage src={user.image} />
