@@ -45,7 +45,7 @@ const CreateDiaryPostSchema = z.object({
   medias: z
     .array(
       z.object({
-        file: typeof window !== undefined ? z.instanceof(File) : z.any(),
+        file: z.any(),
         thumbnail: z.string(),
       }),
     )

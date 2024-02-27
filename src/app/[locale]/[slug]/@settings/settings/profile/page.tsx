@@ -49,7 +49,7 @@ const editFormSchema = z.object({
   bio: z.string().max(300),
   profilePic: z
     .object({
-      file: typeof window === 'undefined' ? z.any() : z.instanceof(File),
+      file: z.any(),
       url: z.string(),
     })
     .nullable()
