@@ -16,7 +16,7 @@ export const useUnfollow = () => {
         (old) =>
           old &&
           produce(old, (draft) => {
-            draft.isFollowing = false;
+            draft.friendshipStatus.isFollowing = false;
             draft.followers -= 1;
           }),
       );
@@ -38,7 +38,7 @@ export const useUnfollow = () => {
             produce(old, (draft) => {
               draft.forEach((user) => {
                 if (user.username === followingUsername) {
-                  user.isFollowing = false;
+                  user.friendshipStatus.isFollowing = false;
                   user.followers -= 1;
                 }
               });

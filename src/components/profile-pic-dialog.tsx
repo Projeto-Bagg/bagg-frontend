@@ -18,6 +18,7 @@ import { MoveLeft, ZoomIn, ZoomOut } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import 'cropperjs/dist/cropper.css';
 import { Slider } from '@/components/ui/slider';
+import { cn } from '@/lib/utils';
 
 interface IProfilePicDialog {
   children: ReactNode;
@@ -45,15 +46,14 @@ export const ProfilePicDialog = ({ children, onSubmit }: IProfilePicDialog) => {
     }
 
     const minZoom = modalWidth / (width < height ? width : height);
-
     setMinZoom(minZoom);
 
     if (e.detail.oldRatio > e.detail.ratio && e.detail.ratio < minZoom) {
       setZoom(minZoom);
     }
 
-    if (e.detail.ratio > 2) {
-      setZoom(2);
+    if (e.detail.ratio > minZoom * 2.5) {
+      setZoom(minZoom * 2.5);
       e.preventDefault();
     } else {
       setZoom(e.detail.ratio);
@@ -97,7 +97,7 @@ export const ProfilePicDialog = ({ children, onSubmit }: IProfilePicDialog) => {
       }}
     >
       <DialogTrigger>{children}</DialogTrigger>
-      <DialogContent ref={modalRef} className="gap-0 px-0 py-0 pt-6">
+      <DialogContent ref={modalRef} className="gap-0 p-0 pt-6">
         <DialogHeader className="mb-6">
           <DialogTitle className="text-center">{t('title')}</DialogTitle>
         </DialogHeader>
@@ -112,24 +112,27 @@ export const ProfilePicDialog = ({ children, onSubmit }: IProfilePicDialog) => {
             </button>
             <div className="relative">
               <Cropper
-                className={`w-full h-[100vw] aspect-square lg:w-full lg:h-[510px]`}
+                className={`w-screen h-[100vw] sm:w-full sm:h-[510px]`}
                 ref={cropperRef}
                 center
                 zoom={handleZoom}
                 zoomTo={zoom}
                 src={img}
                 viewMode={3}
-                cropBoxResizable={false}
-                wheelZoomRatio={0.1}
                 background={false}
+                wheelZoomRatio={0.1}
+                initialAspectRatio={1}
+                aspectRatio={1}
                 autoCropArea={1}
+                responsive
+                restore
                 guides={true}
               ></Cropper>
               <div className="absolute right-4 bottom-4 w-[50%] bg-slate-700 border-muted-foreground border p-1 bg-opacity-30 rounded-xl flex gap-1.5 text-primary">
                 <ZoomOut size={26} strokeWidth={2.5} />
                 <Slider
                   min={minZoom}
-                  max={2}
+                  max={(minZoom || 1) * 2.5}
                   value={[zoom || 0]}
                   onValueChange={(zoom) => setZoom(zoom[0])}
                   step={0.01}

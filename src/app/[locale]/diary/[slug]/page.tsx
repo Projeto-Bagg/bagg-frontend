@@ -32,7 +32,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { intlFormatDistance } from 'date-fns';
 
-export default function Page({ params }: { params: { slug: string; id: string } }) {
+export default function Page({ params }: { params: { slug: string } }) {
   const isWithinPage = useOriginTracker();
   const router = useRouter();
   const locale = useLocale();
@@ -42,14 +42,14 @@ export default function Page({ params }: { params: { slug: string; id: string } 
   const deleteTripDiary = useDeleteTripDiary();
 
   const tripDiary = useQuery<TripDiary>({
-    queryKey: ['tripDiary', params.id],
-    queryFn: async () => (await axios.get<TripDiary>('tripDiaries/' + params.id)).data,
+    queryKey: ['tripDiary', params.slug],
+    queryFn: async () => (await axios.get<TripDiary>('tripDiaries/' + params.slug)).data,
   });
 
   const tripDiaryPosts = useQuery<DiaryPost[]>({
-    queryKey: ['tripDiaryPosts', +params.id],
+    queryKey: ['tripDiaryPosts', +params.slug],
     queryFn: async () =>
-      (await axios.get<DiaryPost[]>(`tripDiaries/${params.id}/posts`)).data,
+      (await axios.get<DiaryPost[]>(`tripDiaries/${params.slug}/posts`)).data,
   });
 
   if (tripDiary.isError) {
@@ -82,7 +82,7 @@ export default function Page({ params }: { params: { slug: string; id: string } 
 
   return (
     <div>
-      <div className="flex pt-4 md:px-11 items-start">
+      <div className="flex pt-4 sm:px-11 items-start">
         <div
           onClick={() => (isWithinPage ? router.back() : router.push('/'))}
           className="flex mr-6 items-center justify-center rounded-full w-8 h-8 cursor-pointer"

@@ -182,5 +182,11 @@
     "following": "Following",
     "follow": "Follow",
     "followYou": "Follow you"
+  },
+  "cityPage": {
+    "gallery": "Gallery",
+    "noImages": "No images yet :(",
+    "reviews": "Last reviews",
+    "noReviews": "No reviews"
   }
 }

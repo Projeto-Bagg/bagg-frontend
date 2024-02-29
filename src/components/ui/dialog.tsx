@@ -40,7 +40,7 @@ const DialogContent = React.forwardRef<
       ref={ref}
       onCloseAutoFocus={(e) => e.preventDefault()}
       className={cn(
-        'fixed left-[50%] md:top-[50%] w-screen md:h-fit z-50 flex flex-col max-w-lg translate-x-[-50%] md:translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 md:data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 md:data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg md:w-full',
+        'fixed left-[50%] sm:top-[50%] w-screen sm:h-fit z-50 flex flex-col sm:max-w-lg translate-x-[-50%] sm:translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 sm:data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 sm:data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg',
         className,
       )}
       {...props}

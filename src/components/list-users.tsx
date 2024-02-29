@@ -26,9 +26,9 @@ export const ListUsers = ({ users, showIfUserFollowYou = true }: IListUsers) => 
     <div className="space-y-1.5">
       {users.map((user) => (
         <div key={user.id} className="flex justify-between items-center transition-all">
-          <UserHoverCard user={user}>
+          <UserHoverCard username={user.username}>
             <Link href={{ params: { slug: user.username }, pathname: '/[slug]' }}>
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2">
                 <Avatar className="h-[48px] w-[48px]">
                   <AvatarImage src={user.image} />
                 </Avatar>
@@ -43,13 +43,15 @@ export const ListUsers = ({ users, showIfUserFollowYou = true }: IListUsers) => 
             <Button
               size={'sm'}
               onClick={() =>
-                user.isFollowing
+                user.friendshipStatus.isFollowing
                   ? unfollow.mutate(user.username)
                   : follow.mutate(user.username)
               }
               disabled={!auth.isAuthenticated || follow.isPending || unfollow.isPending}
             >
-              {user.isFollowing ? t('follow.following') : t('follow.follow')}
+              {user.friendshipStatus.isFollowing
+                ? t('follow.following')
+                : t('follow.follow')}
             </Button>
           )}
         </div>

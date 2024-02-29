@@ -211,7 +211,7 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
             <Textarea {...register('message')} className="max-h-[160px]" />
           </div>
           {watch('medias') && watch('medias')!.length > 0 && (
-            <ScrollArea className="w-96 md:w-[462px] whitespace-nowrap rounded-md border">
+            <ScrollArea className="w-96 sm:w-[462px] whitespace-nowrap rounded-md border">
               <div className="w-max flex justify-center gap-2 ">
                 {watch('medias')?.map((file, index) => (
                   <div className="overflow-hidden relative w-[110px]" key={index}>

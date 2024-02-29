@@ -10,10 +10,14 @@ import { CountryFlag } from '@/components/ui/country-flag';
 import { LazyMap, LazyMarker, LazyTileLayer } from '@/components/leaflet-map';
 import { Link } from '@/common/navigation';
 import { CityVisits } from '@/components/city-visits';
+import { Carousel } from 'react-responsive-carousel';
+import Image from 'next/image';
+import { useTranslations } from 'next-intl';
 
 export default function Page({ params }: { params: { slug: string; id: string } }) {
   const createCityInterest = useCreateCityInterest();
   const deleteCityInterest = useDeleteCityInterest();
+  const t = useTranslations('cityPage');
 
   const city = useQuery<City>({
     queryFn: async () => (await axios.get<City>('/cities/' + params.slug)).data,
@@ -71,12 +75,48 @@ export default function Page({ params }: { params: { slug: string; id: string } 
           </button>
         </div>
       </div>
-      <div className="grid gap-x-2 gap-y-6 grid-cols-1 md:grid-cols-2">
-        <div>somthing</div>
+      <div className="grid gap-x-4 gap-y-6 grid-cols-1 md:grid-cols-2">
+        <div className="relative border-2 rounded-lg">
+          <div className="absolute pointer-events-none p-2 w-full h-full top-0 left-0 z-50">
+            <div className="bg-white w-fit rounded-lg px-1">
+              <span className="font-bold text-xs text-black uppercase">
+                {t('gallery')}
+              </span>
+            </div>
+          </div>
+          {city.data.images.length > 0 ? (
+            <Carousel emulateTouch showIndicators={false} showStatus={false}>
+              {city.data.images.map((media) => (
+                <div key={media.id}>
+                  {media.url.endsWith('mp4') ? (
+                    <div
+                      key={media.id}
+                      className="h-full flex justify-center items-center bg-black rounded-lg"
+                    >
+                      <video controls src={media.url} />
+                    </div>
+                  ) : (
+                    <Image
+                      src={media.url}
+                      alt=""
+                      height={532}
+                      width={532}
+                      className="h-full rounded-lg aspect-square object-cover"
+                    />
+                  )}
+                </div>
+              ))}
+            </Carousel>
+          ) : (
+            <div className="justify-center flex h-full w-full items-center font-bold">
+              <span>{t('noImages')}</span>
+            </div>
+          )}
+        </div>
         <LazyMap
           center={[city.data.latitude, city.data.longitude]}
           zoom={8}
-          className="w-full aspect-square rounded-lg"
+          className="w-full aspect-square rounded-lg border-2"
           scrollWheelZoom={false}
           dragging={false}
         >

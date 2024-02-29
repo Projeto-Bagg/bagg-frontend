@@ -17,17 +17,17 @@ export default function Page({ params }: { params: { slug: string; id: string } 
   }
 
   return (
-    <div className="px-4 md:px-11 relative">
+    <div className="px-4 sm:px-11 relative">
       <CountryFlag
         className="w-full left-0 right-0 m-auto absolute -z-10 gradient-mask-b-[rgba(0,0,0,1.0)_4px] rounded-none"
         iso2={country.data.iso2}
       />
-      <div className="flex pt-[200px] md:pt-[480px] justify-between items-center pb-[40px] md:pb-[120px]">
+      <div className="flex pt-[200px] sm:pt-[480px] justify-between items-center pb-[40px] sm:pb-[120px]">
         <div>
           <h2 className="font-bold text-5xl">{country.data.name}</h2>
         </div>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2">
+      <div className="grid grid-cols-1 sm:grid-cols-2">
         <div>somthing</div>
         <LazyMap
           center={[country.data.latitude, country.data.longitude]}

@@ -11,8 +11,10 @@ interface User {
   image?: string;
   following: number;
   followers: number;
-  isFollowing: boolean;
-  followedBy: boolean;
+  friendshipStatus: {
+    isFollowing: boolean;
+    followedBy: boolean;
+  };
   city?: City;
 }
 
@@ -91,6 +93,7 @@ interface City {
   isInterested: boolean;
   region: Region;
   visits: CityVisit[];
+  images: Media[];
 }
 
 interface CityFromSearch {

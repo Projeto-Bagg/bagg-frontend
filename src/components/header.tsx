@@ -20,17 +20,20 @@ import { Search } from '@/components/search-dialog';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { CountryFlag } from '@/components/ui/country-flag';
 import { CreatePost } from '@/components/create-post';
-import { Link, useRouter } from '@/common/navigation';
+import { Link, usePathname, useRouter } from '@/common/navigation';
+import { useParams } from 'next/navigation';
 
 export const Header = () => {
   const t = useTranslations();
   const router = useRouter();
   const locale = useLocale();
   const auth = useAuth();
+  const pathname = usePathname();
+  const params = useParams();
 
   return (
-    <header className="text-sm m-auto border-b fixed top-0 left-0 right-0 w-full px-4 lg:px-0 z-10 bg-background/75">
-      <div className="flex m-auto gap-2 lg:gap-4 justify-between items-center max-w-[900px] min-h-[3.75rem] backdrop-blur-xl">
+    <header className="text-sm m-auto border-b fixed top-0 left-0 right-0 w-full px-4 sm:px-0 z-10 bg-background/75">
+      <div className="flex m-auto gap-2 sm:gap-4 justify-between items-center max-w-[900px] min-h-[3.75rem] backdrop-blur-xl">
         <nav>
           <ul className="flex gap-6 font-semibold items-center">
             <li>
@@ -38,7 +41,7 @@ export const Header = () => {
                 Bagg
               </Link>
             </li>
-            <li className="hidden md:block">
+            <li className="hidden sm:block">
               <Link
                 href={'/ranking'}
                 className="text-foreground/60 hover:text-foreground/80 transition"
@@ -46,7 +49,7 @@ export const Header = () => {
                 {t('header.ranking')}
               </Link>
             </li>
-            <li className="hidden md:block">
+            <li className="hidden sm:block">
               <span className="text-foreground/60 hover:text-foreground/80 transition">
                 {t('header.countries')}
               </span>
@@ -69,7 +72,7 @@ export const Header = () => {
             <Tooltip>
               <TooltipTrigger asChild>
                 <DropdownMenuTrigger asChild>
-                  <Button className="hidden md:flex" size={'icon'} variant={'ghost'}>
+                  <Button className="hidden sm:flex" size={'icon'} variant={'ghost'}>
                     <CountryFlag
                       iso2={languages.find((lang) => lang.locale === locale)!.country}
                     />
@@ -80,7 +83,11 @@ export const Header = () => {
             </Tooltip>
             <DropdownMenuContent>
               {languages.map((lang) => (
-                <Link key={lang.locale} href={{ pathname: '/' }} locale={lang.locale}>
+                <Link
+                  key={lang.locale}
+                  href={{ params: { slug: params.slug as string }, pathname }}
+                  locale={lang.locale}
+                >
                   <DropdownMenuItem data-active={lang.locale === locale}>
                     <div className="flex gap-2">
                       <CountryFlag iso2={lang.country} />
@@ -92,7 +99,7 @@ export const Header = () => {
             </DropdownMenuContent>
           </DropdownMenu>
           <ThemeToggle />
-          <div className="hidden md:block">
+          <div className="hidden sm:block">
             {auth.isAuthenticated ? (
               <div className="flex items-center gap-2">
                 <DropdownMenu>

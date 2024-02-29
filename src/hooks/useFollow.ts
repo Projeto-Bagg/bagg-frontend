@@ -16,7 +16,7 @@ export const useFollow = () => {
         (old) =>
           old &&
           produce(old, (draft) => {
-            draft.isFollowing = true;
+            draft.friendshipStatus.isFollowing = true;
             draft.followers += 1;
           }),
       );
@@ -38,7 +38,7 @@ export const useFollow = () => {
             produce(old, (draft) => {
               draft.map((user) => {
                 if (user.username === followingUsername) {
-                  user.isFollowing = true;
+                  user.friendshipStatus.isFollowing = true;
                   user.followers += 1;
                 }
               });

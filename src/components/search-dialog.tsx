@@ -71,7 +71,7 @@ export const Search = () => {
         </TooltipTrigger>
         <TooltipContent>{t('search.title')}</TooltipContent>
       </Tooltip>
-      <DialogContent className="max-w-[48rem] p-6 md:px-10">
+      <DialogContent className="sm:max-w-[48rem] p-6 sm:px-10">
         <DialogHeader className="bg-secondary rounded-t-lg -my-6 -mx-10 overflow-hidden py-6 px-10">
           <div className="relative">
             {search.isFetching ? (
@@ -100,26 +100,33 @@ export const Search = () => {
               <div className="space-y-0.5 mt-4">
                 {search.data && search.data.users.length > 0 ? (
                   search.data.users.map((user) => (
-                    <UserHoverCard user={user} key={user.id}>
-                      <Link
-                        onClick={() => setOpen(false)}
-                        className="block"
-                        href={{ params: { slug: user.username }, pathname: '/[slug]' }}
-                      >
-                        <div className="flex gap-2 bg-primary-foreground hover:bg-secondary rounded-lg transition-all">
+                    <Link
+                      href={{
+                        params: { slug: user.username },
+                        pathname: '/[slug]',
+                      }}
+                      key={user.id}
+                      onClick={() => setOpen(false)}
+                      className="block"
+                    >
+                      <div className="flex gap-2 bg-primary-foreground hover:bg-secondary rounded-lg transition-all">
+                        <UserHoverCard username={user.username}>
                           <Avatar className="rounded-sm bg-muted">
                             <AvatarImage src={user.image} />
                           </Avatar>
-                          <div className="flex items-center gap-1">
+                        </UserHoverCard>
+                        <div className="flex items-center gap-1">
+                          <UserHoverCard username={user.username}>
                             <span className="font-medium">{user.fullName}</span>
-                            <span className="text-muted-foreground text-xs">{' • '}</span>
-                            <span className="text-xs text-muted-foreground">
+                          </UserHoverCard>
+                          <UserHoverCard username={user.username}>
+                            <span className="text-sm text-muted-foreground">
                               @{user.username}
                             </span>
-                          </div>
+                          </UserHoverCard>
                         </div>
-                      </Link>
-                    </UserHoverCard>
+                      </div>
+                    </Link>
                   ))
                 ) : (
                   <span className="text-muted-foreground">{t('search.notFound')}</span>

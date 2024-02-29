@@ -32,7 +32,6 @@ import { useUnlikeDiaryPost } from '@/hooks/useUnlikeDiaryPost';
 import { Heart, MoreHorizontal } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
 import { Carousel } from 'react-responsive-carousel';
-import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { intlFormatDistance } from 'date-fns';
 import UserHoverCard from '@/components/user-hovercard';
 
@@ -68,10 +67,10 @@ export const DiaryPost = ({ post }: { post: DiaryPost }) => {
   };
 
   return (
-    <article className="md:m-4 px-4 py-6 md:px-7 space-y-3 border-b md:border md:border-border md:rounded-lg">
+    <article className="sm:m-4 px-4 py-6 sm:px-7 space-y-3 border-b sm:border sm:border-border sm:rounded-lg">
       <div className="flex">
         <div className="basis-[40px] mr-3">
-          <UserHoverCard user={post.user}>
+          <UserHoverCard username={post.user.username}>
             <Link href={'/' + post.user.username} className="h-fit">
               <Avatar className="h-[44px] w-[44px] shrink-0">
                 <AvatarImage src={post.user.image} />
@@ -81,17 +80,16 @@ export const DiaryPost = ({ post }: { post: DiaryPost }) => {
         </div>
         <div className="grow basis-0">
           <div className="flex gap-2 items-start justify-between">
-            <Link
-              className="inline-block overflow-hidden text-ellipsis whitespace-nowrap"
-              href={'/' + post.user.username}
-            >
+            <div className="inline-block overflow-hidden text-ellipsis whitespace-nowrap ">
               <div className="flex flex-col">
-                <span>{post.user.fullName}</span>
-                <span className="text-sm text-muted-foreground">
-                  @{post.user.username}
-                </span>
+                <Link href={'/' + post.user.username}>
+                  <span>{post.user.fullName}</span>
+                </Link>
+                <Link href={'/' + post.user.username} className="text-muted-foreground">
+                  <span className="text-sm">@{post.user.username}</span>
+                </Link>
               </div>
-            </Link>
+            </div>
             <div className="flex shrink-0 items-center gap-2 text-muted-foreground">
               <DiaryLikedByList id={post.id}>
                 <span className="text-sm">{post.likedBy}</span>
@@ -155,16 +153,17 @@ export const DiaryPost = ({ post }: { post: DiaryPost }) => {
               </DropdownMenu>
             </div>
           </div>
-          <Link href={'/diary/' + post.tripDiary.id}>
-            <div className="flex gap-2 my-2">
-              <Badge>{t('diaryPost.diaryBadge')}</Badge>
-              <span className="text-muted-foreground text-sm">
-                {post.tripDiary.title}
-              </span>
-            </div>
-          </Link>
+          <div className="flex gap-2 my-2 items-center">
+            <Badge>{t('diaryPost.diaryBadge')}</Badge>
+            <Link
+              className="text-muted-foreground text-sm"
+              href={'/diary/' + post.tripDiary.id}
+            >
+              <span>{post.tripDiary.title}</span>
+            </Link>
+          </div>
           <div>
-            <p className="text-sm md:text-base">{post.message}</p>
+            <p className="text-sm sm:text-base">{post.message}</p>
           </div>
           {post.diaryPostMedias.length !== 0 && (
             <div className="mt-2">

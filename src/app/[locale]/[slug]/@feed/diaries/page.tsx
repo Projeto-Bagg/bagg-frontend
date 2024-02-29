@@ -23,7 +23,7 @@ export default function Page({ params }: { params: { slug: string } }) {
           <Link
             href={{ params: { slug: diary.id }, pathname: '/diary/[slug]' }}
             key={diary.id}
-            className="block min-h-[100px] md:m-4 p-4 md:px-7 space-y-3 border-b md:border md:border-border md:rounded-lg"
+            className="block min-h-[100px] sm:m-4 p-4 sm:px-7 hover:no-underline space-y-3 border-b sm:border sm:border-border sm:rounded-lg"
           >
             <div className="flex flex-col w-full">
               <div className="flex justify-between items-center w-full">

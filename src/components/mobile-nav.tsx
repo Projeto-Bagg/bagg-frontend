@@ -44,7 +44,7 @@ export const MobileNav = () => {
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
-      <SheetTrigger className="md:hidden">
+      <SheetTrigger className="sm:hidden">
         <Avatar>
           <AvatarImage src={auth.user?.image} />
         </Avatar>

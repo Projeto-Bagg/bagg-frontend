@@ -8,13 +8,13 @@ import { useQuery } from '@tanstack/react-query';
 import { ArrowLeft } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
-export default function Page({ params }: { params: { slug: string; id: string } }) {
+export default function Page({ params }: { params: { slug: string } }) {
   const isWithinPage = useOriginTracker();
   const router = useRouter();
 
   const diaryPost = useQuery<DiaryPost>({
-    queryKey: ['diaryPost', params.id],
-    queryFn: async () => (await axios.get<DiaryPost>('/diaryPosts/' + params.id)).data,
+    queryKey: ['diaryPost', params.slug],
+    queryFn: async () => (await axios.get<DiaryPost>('/diaryPosts/' + params.slug)).data,
   });
 
   return (

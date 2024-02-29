@@ -36,7 +36,9 @@ export default function Profile({ params }: { params: { slug: string } }) {
       return router.push('/login');
     }
 
-    user.data?.isFollowing ? unfollow.mutate(params.slug) : follow.mutate(params.slug);
+    user.data?.friendshipStatus.isFollowing
+      ? unfollow.mutate(params.slug)
+      : follow.mutate(params.slug);
   };
 
   if (!user.data || !params.slug || user.isLoading) {
@@ -45,28 +47,28 @@ export default function Profile({ params }: { params: { slug: string } }) {
 
   return (
     <div className="h-full">
-      <div className="p-4 md:px-11">
+      <div className="p-4 sm:px-11">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2 lg:gap-4">
+          <div className="flex items-center gap-2 sm:gap-4">
             <Dialog>
               <DialogTrigger>
-                <Avatar className="w-[100px] h-[100px] lg:w-[144px] lg:h-[144px]">
+                <Avatar className="w-[100px] h-[100px] sm:w-[144px] sm:h-[144px]">
                   <AvatarImage src={user.data.image} />
                 </Avatar>
               </DialogTrigger>
-              <DialogContent className="w-[90%] h-auto aspect-square md:w-[440px] md:h-[440px] p-0 sm:rounded-full rounded-full border-none">
+              <DialogContent className="w-[90%] h-auto aspect-square sm:w-[440px] sm:h-[440px] p-0 sm:rounded-full rounded-full border-none">
                 <Avatar className="w-full h-full">
                   <AvatarImage src={user.data.image} />
                 </Avatar>
               </DialogContent>
             </Dialog>
             <div className="flex flex-col">
-              <span className="text-lg lg:text-2xl">{user.data.fullName}</span>
-              <span className="text-xs lg:text-base text-muted-foreground ">
+              <span className="text-lg sm:text-2xl">{user.data.fullName}</span>
+              <span className="text-xs sm:text-base text-muted-foreground ">
                 @{user.data.username}
               </span>
-              {user.data?.followedBy && (
-                <span className="text-xs lg:text-base text-muted-foreground">
+              {user.data?.friendshipStatus.followedBy && (
+                <span className="text-xs sm:text-base text-muted-foreground">
                   {t('follow.followYou')}
                 </span>
               )}
@@ -74,7 +76,9 @@ export default function Profile({ params }: { params: { slug: string } }) {
           </div>
           {auth.user?.id !== user.data.id ? (
             <Button type="button" disabled={follow.isPending} onClick={handleFollowClick}>
-              {user.data?.isFollowing ? t('follow.following') : t('follow.follow')}
+              {user.data?.friendshipStatus.isFollowing
+                ? t('follow.following')
+                : t('follow.follow')}
             </Button>
           ) : (
             <Link
@@ -84,8 +88,8 @@ export default function Profile({ params }: { params: { slug: string } }) {
               }}
             >
               <div>
-                <Button className="hidden md:block">{t('profile.editProfile')}</Button>
-                <Button className="flex md:hidden rounded-full items-center justify-center w-10">
+                <Button className="hidden sm:block">{t('profile.editProfile')}</Button>
+                <Button className="flex sm:hidden rounded-full items-center justify-center w-10">
                   <UserCog className="shrink-0" size={20} />
                 </Button>
               </div>
@@ -108,7 +112,7 @@ export default function Profile({ params }: { params: { slug: string } }) {
                 <p>{t('profile.city')}</p>
                 <Link
                   href={{ params: { slug: user.data.city.id }, pathname: '/city/[slug]' }}
-                  className="text-foreground flex"
+                  className="text-foreground flex hover:underline"
                 >
                   {user.data.city.name}, {user.data.city.region.name},{' '}
                   {user.data.city.region.country.name}
@@ -136,7 +140,7 @@ export default function Profile({ params }: { params: { slug: string } }) {
           </div>
         </div>
       </div>
-      <div className="flex justify-center m-auto px-4 md:px-11 text-sm text-primary w-full md:w-[432px]">
+      <div className="flex justify-center m-auto px-4 sm:px-11 text-sm text-primary w-full sm:w-[432px]">
         <Link
           className={cn(
             pathname.endsWith(params.slug) && 'font-bold border-b-2 border-blue-600',
