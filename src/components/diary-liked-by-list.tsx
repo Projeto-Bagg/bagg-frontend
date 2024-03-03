@@ -33,7 +33,7 @@ export const DiaryLikedByList = ({ id, children }: IDiaryLikedByList) => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger>{children}</DialogTrigger>
-      <DialogContent className="flex flex-col h-[560px] overflow-hidden">
+      <DialogContent className="flex flex-col h-[560px] sm:h-[560px] overflow-hidden">
         <DialogHeader>
           <DialogTitle>{t('diaryPost.likedBy')}</DialogTitle>
         </DialogHeader>

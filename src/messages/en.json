@@ -125,8 +125,6 @@
     "noTripDiariesFound": "No results",
     "createTripDiary": "Create",
     "selectTripDiary": "Select a trip diary",
-    "titleField": "Title",
-    "titleFieldError": "Enter a title",
     "message": "Message",
     "messageError": "Enter a message",
     "messageMaxError": "The maximum length is 300 characters",
@@ -157,6 +155,15 @@
       "cancel": "Cancel",
       "action": "Delete"
     }
+  },
+  "createTip": {
+    "trigger": "Tip",
+    "title": "Create a tip",
+    "message": "Message",
+    "messageError": "Enter a message",
+    "messageMaxError": "The maximum length is 300 characters",
+    "maxSizeFiles": "Max size is 10 files and 100mb in total",
+    "confirm": "Confirm"
   },
   "selectCity": {
     "title": "Select a city...",

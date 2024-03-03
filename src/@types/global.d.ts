@@ -34,7 +34,7 @@ interface DiaryPost {
   isLiked: boolean;
   createdAt: Date;
   user: User;
-  diaryPostMedias: Media[];
+  diaryPostMedias: DiaryPostMedia[];
   tripDiary: TripDiary;
 }
 
@@ -42,6 +42,33 @@ interface Media {
   id: number;
   url: string;
   createdAt: Date;
+}
+
+interface DiaryPostMedia extends Media {
+  diaryId: number;
+}
+
+interface TipMedia extends Media {
+  tipId: number;
+}
+
+interface Tip {
+  id: number;
+  message: string;
+  likedBy: number;
+  isLiked: boolean;
+  createdAt: Date;
+  user: User;
+  tipMedias: TipMedia[];
+  tipComments: TipComment[];
+}
+
+interface TipComment {
+  id: number;
+  message: string;
+  createdAt: Date;
+  user: User;
+  tipId: number;
 }
 
 interface UserSignIn {

@@ -1,6 +1,6 @@
 'use client';
 
-import SelectCity from '@/components/select-city';
+import { SelectCity } from '@/components/select-city';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,

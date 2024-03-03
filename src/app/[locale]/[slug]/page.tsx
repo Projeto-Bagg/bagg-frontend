@@ -17,6 +17,7 @@ import { cn } from '@/lib/utils';
 import { useRouter, Link } from '@/common/navigation';
 import { usePathname } from 'next/navigation';
 import { CountryFlag } from '@/components/ui/country-flag';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export default function Profile({ params }: { params: { slug: string } }) {
   const pathname = usePathname();
@@ -41,105 +42,115 @@ export default function Profile({ params }: { params: { slug: string } }) {
       : follow.mutate(params.slug);
   };
 
-  if (!user.data || !params.slug || user.isLoading) {
+  if (!params.slug) {
     return;
   }
 
   return (
     <div className="h-full">
-      <div className="p-4 sm:px-11">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2 sm:gap-4">
-            <Dialog>
-              <DialogTrigger>
-                <Avatar className="w-[100px] h-[100px] sm:w-[144px] sm:h-[144px]">
-                  <AvatarImage src={user.data.image} />
-                </Avatar>
-              </DialogTrigger>
-              <DialogContent className="w-[90%] h-auto aspect-square sm:w-[440px] sm:h-[440px] p-0 sm:rounded-full rounded-full border-none">
-                <Avatar className="w-full h-full">
-                  <AvatarImage src={user.data.image} />
-                </Avatar>
-              </DialogContent>
-            </Dialog>
-            <div className="flex flex-col">
-              <span className="text-lg sm:text-2xl">{user.data.fullName}</span>
-              <span className="text-xs sm:text-base text-muted-foreground ">
-                @{user.data.username}
-              </span>
-              {user.data?.friendshipStatus.followedBy && (
-                <span className="text-xs sm:text-base text-muted-foreground">
-                  {t('follow.followYou')}
+      {user.isLoading && <ProfileSkeleton />}
+      {user.data && (
+        <div className="p-4 sm:px-11">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2 sm:gap-4">
+              <Dialog>
+                <DialogTrigger>
+                  <Avatar className="w-[100px] h-[100px] sm:w-[144px] sm:h-[144px]">
+                    <AvatarImage src={user.data.image} />
+                  </Avatar>
+                </DialogTrigger>
+                <DialogContent className="w-[90%] h-auto aspect-square sm:w-[440px] sm:h-[440px] p-0 sm:rounded-full rounded-full border-none">
+                  <Avatar className="w-full h-full">
+                    <AvatarImage src={user.data.image} />
+                  </Avatar>
+                </DialogContent>
+              </Dialog>
+              <div className="flex flex-col">
+                <span className="text-lg sm:text-2xl">{user.data.fullName}</span>
+                <span className="text-xs sm:text-base text-muted-foreground ">
+                  @{user.data.username}
                 </span>
-              )}
+                {user.data?.friendshipStatus.followedBy && (
+                  <span className="text-xs sm:text-base text-muted-foreground">
+                    {t('follow.followYou')}
+                  </span>
+                )}
+              </div>
             </div>
-          </div>
-          {auth.user?.id !== user.data.id ? (
-            <Button type="button" disabled={follow.isPending} onClick={handleFollowClick}>
-              {user.data?.friendshipStatus.isFollowing
-                ? t('follow.following')
-                : t('follow.follow')}
-            </Button>
-          ) : (
-            <Link
-              href={{
-                pathname: '/[slug]/settings/profile',
-                params: { slug: params.slug },
-              }}
-            >
-              <div>
-                <Button className="hidden sm:block">{t('profile.editProfile')}</Button>
-                <Button className="flex sm:hidden rounded-full items-center justify-center w-10">
-                  <UserCog className="shrink-0" size={20} />
-                </Button>
-              </div>
-            </Link>
-          )}
-        </div>
-        <div className="text-sm mt-4">
-          {user.data.bio && (
-            <p className="mb-1 break-words whitespace-pre-wrap">{user.data.bio}</p>
-          )}
-          <div className="mb-1">
-            <p className="text-muted-foreground">
-              {t('profile.createdAt', { joinDate: user.data.createdAt })}
-            </p>
-            <p className="text-muted-foreground">
-              {t('profile.birthdate', { joinDate: user.data.birthdate })}
-            </p>
-            {user.data.city && (
-              <div className="text-muted-foreground flex gap-1">
-                <p>{t('profile.city')}</p>
-                <Link
-                  href={{ params: { slug: user.data.city.id }, pathname: '/city/[slug]' }}
-                  className="text-foreground flex hover:underline"
-                >
-                  {user.data.city.name}, {user.data.city.region.name},{' '}
-                  {user.data.city.region.country.name}
-                  <CountryFlag
-                    className="ml-1"
-                    iso2={user.data.city.region.country.iso2}
-                  />
-                </Link>
-              </div>
+            {auth.user?.id !== user.data.id ? (
+              <Button
+                type="button"
+                disabled={follow.isPending}
+                onClick={handleFollowClick}
+              >
+                {user.data?.friendshipStatus.isFollowing
+                  ? t('follow.following')
+                  : t('follow.follow')}
+              </Button>
+            ) : (
+              <Link
+                href={{
+                  pathname: '/[slug]/settings/profile',
+                  params: { slug: params.slug },
+                }}
+              >
+                <div>
+                  <Button className="hidden sm:block">{t('profile.editProfile')}</Button>
+                  <Button className="flex sm:hidden rounded-full items-center justify-center w-10">
+                    <UserCog className="shrink-0" size={20} />
+                  </Button>
+                </div>
+              </Link>
             )}
           </div>
-          <div className="flex gap-2">
-            <UserFollowTabs defaultTab="followers" username={params.slug}>
-              <div className="flex gap-1">
-                <span className="font-bold">{user.data.followers}</span>
-                <span className="text-muted-foreground">{t('follow.followers')}</span>
-              </div>
-            </UserFollowTabs>
-            <UserFollowTabs defaultTab="following" username={params.slug}>
-              <div className="flex gap-1">
-                <span className="font-bold">{user.data.following}</span>
-                <span className="text-muted-foreground">{t('follow.following')}</span>
-              </div>
-            </UserFollowTabs>
+          <div className="text-sm mt-4">
+            {user.data.bio && (
+              <p className="mb-1 break-words whitespace-pre-wrap">{user.data.bio}</p>
+            )}
+            <div className="mb-1">
+              <p className="text-muted-foreground">
+                {t('profile.createdAt', { joinDate: user.data.createdAt })}
+              </p>
+              <p className="text-muted-foreground">
+                {t('profile.birthdate', { joinDate: user.data.birthdate })}
+              </p>
+              {user.data.city && (
+                <div className="text-muted-foreground flex gap-1">
+                  <p>{t('profile.city')}</p>
+                  <Link
+                    href={{
+                      params: { slug: user.data.city.id },
+                      pathname: '/city/[slug]',
+                    }}
+                    className="text-foreground flex hover:underline"
+                  >
+                    {user.data.city.name}, {user.data.city.region.name},{' '}
+                    {user.data.city.region.country.name}
+                    <CountryFlag
+                      className="ml-1"
+                      iso2={user.data.city.region.country.iso2}
+                    />
+                  </Link>
+                </div>
+              )}
+            </div>
+            <div className="flex gap-2">
+              <UserFollowTabs defaultTab="followers" username={params.slug}>
+                <div className="flex gap-1">
+                  <span className="font-bold">{user.data.followers}</span>
+                  <span className="text-muted-foreground">{t('follow.followers')}</span>
+                </div>
+              </UserFollowTabs>
+              <UserFollowTabs defaultTab="following" username={params.slug}>
+                <div className="flex gap-1">
+                  <span className="font-bold">{user.data.following}</span>
+                  <span className="text-muted-foreground">{t('follow.following')}</span>
+                </div>
+              </UserFollowTabs>
+            </div>
           </div>
         </div>
-      </div>
+      )}
       <div className="flex justify-center m-auto px-4 sm:px-11 text-sm text-primary w-full sm:w-[432px]">
         <Link
           className={cn(
@@ -173,3 +184,30 @@ export default function Profile({ params }: { params: { slug: string } }) {
     </div>
   );
 }
+
+const ProfileSkeleton = () => {
+  return (
+    <div className="p-4 sm:px-11">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2 sm:gap-4">
+          <Skeleton className="w-[100px] h-[100px] sm:w-[144px] sm:h-[144px] rounded-full" />
+          <div className="flex flex-col gap-3">
+            <Skeleton className="w-[110px] sm:w-[172px] h-5" />
+            <Skeleton className="w-[80px] sm:w-[110px] h-4" />
+          </div>
+        </div>
+        <Skeleton className="w-[96px] h-10" />
+      </div>
+      <div className="text-sm mt-4">
+        <Skeleton className="w-[144px] mb-2 h-4" />
+        <Skeleton className="w-[220px] mb-1.5 h-4" />
+        <Skeleton className="w-[220px] mb-1.5 h-4" />
+        <Skeleton className="w-[280px] mb-2 h-4" />
+        <div className="flex gap-2">
+          <Skeleton className="w-[86px] h-4" />
+          <Skeleton className="w-[86px] h-4" />
+        </div>
+      </div>
+    </div>
+  );
+};

@@ -39,7 +39,7 @@ import { z } from 'zod';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/components/ui/use-toast';
 
-const CreateDiaryPostSchema = z.object({
+const createDiaryPostSchema = z.object({
   tripDiaryId: z.number(),
   message: z.string().min(1).max(300),
   medias: z
@@ -53,7 +53,7 @@ const CreateDiaryPostSchema = z.object({
     .optional(),
 });
 
-export type CreateDiaryPostType = z.infer<typeof CreateDiaryPostSchema>;
+export type CreateDiaryPostType = z.infer<typeof createDiaryPostSchema>;
 
 export const CreatePost = ({ children }: { children: ReactNode }) => {
   const [open, setOpen] = useState<boolean>();
@@ -75,7 +75,7 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
     reset,
     formState: { errors },
   } = useForm<CreateDiaryPostType>({
-    resolver: zodResolver(CreateDiaryPostSchema),
+    resolver: zodResolver(createDiaryPostSchema),
   });
 
   const tripDiaries = useQuery<TripDiary[]>({

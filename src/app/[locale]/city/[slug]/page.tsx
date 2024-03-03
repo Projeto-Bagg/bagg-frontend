@@ -76,7 +76,7 @@ export default function Page({ params }: { params: { slug: string; id: string } 
         </div>
       </div>
       <div className="grid gap-x-4 gap-y-6 grid-cols-1 md:grid-cols-2">
-        <div className="relative border-2 rounded-lg">
+        <div className="relative border-2 rounded-lg aspect-square">
           <div className="absolute pointer-events-none p-2 w-full h-full top-0 left-0 z-50">
             <div className="bg-white w-fit rounded-lg px-1">
               <span className="font-bold text-xs text-black uppercase">

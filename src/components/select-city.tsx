@@ -21,7 +21,7 @@ interface SelectCityProps {
   defaultValue?: City;
 }
 
-export default function SelectCity({ onSelect, defaultValue }: SelectCityProps) {
+export const SelectCity = ({ onSelect, defaultValue }: SelectCityProps) => {
   const t = useTranslations('selectCity');
   const [open, setOpen] = React.useState(false);
   const [query, setQuery] = useState<string>();
@@ -43,7 +43,7 @@ export default function SelectCity({ onSelect, defaultValue }: SelectCityProps) 
   const enabled = !!debouncedQuery;
 
   const cities = useQuery<CityFromSearch[]>({
-    queryKey: ['search', debouncedQuery],
+    queryKey: ['searchCity', debouncedQuery],
     queryFn: async () =>
       (await axios.get<CityFromSearch[]>(`/cities/search?q=${debouncedQuery}&count=5`))
         .data,
@@ -56,7 +56,7 @@ export default function SelectCity({ onSelect, defaultValue }: SelectCityProps) 
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
-          variant="outline"
+          variant="outlineNoHover"
           role="combobox"
           aria-expanded={open}
           className="w-full justify-between"
@@ -120,4 +120,4 @@ export default function SelectCity({ onSelect, defaultValue }: SelectCityProps) 
       </PopoverContent>
     </Popover>
   );
-}
+};

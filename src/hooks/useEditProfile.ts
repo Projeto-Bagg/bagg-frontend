@@ -6,13 +6,13 @@ import { useRouter } from 'next/navigation';
 export const useEditProfile = () => {
   const queryClient = useQueryClient();
   const auth = useAuth();
-  const route = useRouter();
+  const router = useRouter();
 
   return useMutation({
     mutationFn: async (editForm: FormData) => await axios.put<User>('/users', editForm),
-    onSuccess(data) {
+    onSuccess(data, editForm) {
       if (auth.user?.username !== data.data.username) {
-        route.push('/' + data.data.username);
+        router.push('/' + data.data.username);
         queryClient.setQueryData(['user', auth.user?.username], null);
       }
 

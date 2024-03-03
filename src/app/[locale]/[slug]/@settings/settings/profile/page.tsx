@@ -25,7 +25,7 @@ import {
 } from '@/components/ui/select';
 import { useAuth } from '@/context/auth-context';
 import { ProfilePicDialog } from '@/components/profile-pic-dialog';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Textarea } from '@/components/ui/textarea';
 import { useEditProfile } from '@/hooks/useEditProfile';
 import { useDeleteProfilePic } from '@/hooks/useDeleteProfilePic';
@@ -33,7 +33,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip
 import { Info } from 'lucide-react';
 import { useRouter } from '@/common/navigation';
 import { useOriginTracker } from '@/context/origin-tracker';
-import SelectCity from '@/components/select-city';
+import { SelectCity } from '@/components/select-city';
 
 const editFormSchema = z.object({
   fullName: z.string().min(3).max(64),
