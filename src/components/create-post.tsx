@@ -2,7 +2,6 @@
 
 import NextImage from 'next/image';
 import React, { ReactNode, useRef, useState } from 'react';
-import { CreateTripDiary } from '@/components/create-trip-diary';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { Button } from '@/components/ui/button';
 import {
@@ -38,6 +37,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/components/ui/use-toast';
+import { CreateTripDiary } from '@/components/create-trip-diary';
 
 const createDiaryPostSchema = z.object({
   tripDiaryId: z.number(),
@@ -64,6 +64,7 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
   const t = useTranslations();
   const createDiaryPost = useCreateDiaryPost();
   const imageInputFile = useRef<HTMLInputElement>(null);
+  const [isCreatingTripDiary, setIsCreatingTripDiary] = useState<boolean>(false);
   const {
     control,
     register,
@@ -73,9 +74,12 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
     getValues,
     setError,
     reset,
-    formState: { errors },
+    formState: { errors, isDirty, defaultValues },
   } = useForm<CreateDiaryPostType>({
     resolver: zodResolver(createDiaryPostSchema),
+    defaultValues: {
+      message: '',
+    },
   });
 
   const tripDiaries = useQuery<TripDiary[]>({
@@ -95,226 +99,251 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
     const post = await createDiaryPost.mutateAsync(formData);
     setOpen(false);
     router.push('/diary/' + post.tripDiary.id);
-    reset();
+    reset(defaultValues, { keepDefaultValues: true });
+  };
+
+  const onOpenChange = (open: boolean) => {
+    if (open) {
+      return setOpen(true);
+    }
+
+    if (isDirty) {
+      const shouldClose = window.confirm(t('modal.close'));
+      if (!shouldClose) return;
+    }
+
+    setIsCreatingTripDiary(false);
+    setOpen(false);
+    reset(defaultValues, { keepDefaultValues: true });
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent
         onInteractOutside={(e) => createDiaryPost.isPending && e.preventDefault()}
       >
-        <DialogHeader>
-          <DialogTitle>{t('createPost.title')}</DialogTitle>
-        </DialogHeader>
-        <div>
-          <div className="flex justify-between">
+        {isCreatingTripDiary && (
+          <CreateTripDiary setIsCreatingTripDiary={setIsCreatingTripDiary} />
+        )}
+        {!isCreatingTripDiary && (
+          <>
+            <DialogHeader>
+              <DialogTitle>{t('createPost.title')}</DialogTitle>
+            </DialogHeader>
             <div>
-              <Label className="mr-2">{t('createPost.tripDiary')}</Label>
-              <CreateTripDiary>
-                <span className="text-primary text-sm font-bold">
-                  {t('createPost.createTripDiary')}
-                </span>
-              </CreateTripDiary>
-            </div>
-            {errors.tripDiaryId && (
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Info size={18} className="text-red-600" />
-                </TooltipTrigger>
-                <TooltipContent>{t('createPost.tripDiaryError')}</TooltipContent>
-              </Tooltip>
-            )}
-          </div>
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button
-                variant="outlineNoHover"
-                role="combobox"
-                className={cn(
-                  'w-full justify-between',
-                  !watch('tripDiaryId') && 'text-muted-foreground',
+              <div className="flex justify-between">
+                <div>
+                  <Label className="mr-2">{t('createPost.tripDiary')}</Label>
+                  <button
+                    onClick={() => setIsCreatingTripDiary(true)}
+                    className="text-primary text-sm font-bold"
+                  >
+                    {t('createPost.createTripDiary')}
+                  </button>
+                </div>
+                {errors.tripDiaryId && (
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Info size={18} className="text-red-600" />
+                    </TooltipTrigger>
+                    <TooltipContent>{t('createPost.tripDiaryError')}</TooltipContent>
+                  </Tooltip>
                 )}
-              >
-                {watch('tripDiaryId')
-                  ? tripDiaries.data?.find(
-                      (tripDiary) => tripDiary.id === watch('tripDiaryId'),
-                    )?.title
-                  : t('createPost.selectTripDiary')}
-                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="p-0">
-              <Command>
-                <CommandInput placeholder="Procurar..." />
-                <CommandGroup>
-                  {tripDiaries.data && tripDiaries.data.length > 0 ? (
-                    tripDiaries.data.map((tripDiary) => (
-                      <CommandItem
-                        value={tripDiary.title}
-                        key={tripDiary.id}
-                        className="cursor-pointer"
-                        onSelect={() => {
-                          setValue('tripDiaryId', tripDiary.id);
-                        }}
-                      >
-                        <Check
-                          className={cn(
-                            'mr-2 h-4 w-4',
-                            watch('tripDiaryId') === tripDiary.id
-                              ? 'opacity-100'
-                              : 'opacity-0',
-                          )}
-                        />
-                        <div className="flex items-end justify-between w-full gap-2">
-                          <div className="flex gap-2">
-                            <span>{tripDiary.title}</span>
-                          </div>
-                          <span className="text-xs">
-                            {formatter.dateTime(tripDiary.createdAt, {
-                              timeZone: 'America/Sao_Paulo',
-                            })}
-                          </span>
-                        </div>
-                      </CommandItem>
-                    ))
-                  ) : (
-                    <CommandItem>{t('createPost.noTripDiariesFound')}</CommandItem>
-                  )}
-                </CommandGroup>
-              </Command>
-            </PopoverContent>
-          </Popover>
-        </div>
-        <form className="space-y-4" onSubmit={handleSubmit(handleCreatePost)}>
-          <div>
-            <div className="flex justify-between mb-0.5">
-              <div className="flex gap-1 items-end">
-                <Label>{t('createPost.message')}</Label>
-                <Label className="text-muted-foreground text-xs">
-                  {watch('message')?.length || 0} / 300
-                </Label>
               </div>
-              {errors.message && (
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Info size={18} className="text-red-600" />
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    {errors.message.type === 'too_big'
-                      ? t('createPost.messageMaxError')
-                      : t('createPost.messageError')}
-                  </TooltipContent>
-                </Tooltip>
-              )}
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outlineNoHover"
+                    role="combobox"
+                    className={cn(
+                      'w-full justify-between',
+                      !watch('tripDiaryId') && 'text-muted-foreground',
+                    )}
+                  >
+                    {watch('tripDiaryId')
+                      ? tripDiaries.data?.find(
+                          (tripDiary) => tripDiary.id === watch('tripDiaryId'),
+                        )?.title
+                      : t('createPost.selectTripDiary')}
+                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="p-0">
+                  <Command>
+                    <CommandInput placeholder="Procurar..." />
+                    <CommandGroup>
+                      {tripDiaries.data && tripDiaries.data.length > 0 ? (
+                        tripDiaries.data.map((tripDiary) => (
+                          <CommandItem
+                            value={tripDiary.title}
+                            key={tripDiary.id}
+                            className="cursor-pointer"
+                            onSelect={() => {
+                              setValue('tripDiaryId', tripDiary.id);
+                            }}
+                          >
+                            <Check
+                              className={cn(
+                                'mr-2 h-4 w-4',
+                                watch('tripDiaryId') === tripDiary.id
+                                  ? 'opacity-100'
+                                  : 'opacity-0',
+                              )}
+                            />
+                            <div className="flex items-end justify-between w-full gap-2">
+                              <div className="flex gap-2">
+                                <span>{tripDiary.title}</span>
+                              </div>
+                              <span className="text-xs">
+                                {formatter.dateTime(tripDiary.createdAt, {
+                                  timeZone: 'America/Sao_Paulo',
+                                })}
+                              </span>
+                            </div>
+                          </CommandItem>
+                        ))
+                      ) : (
+                        <CommandItem>{t('createPost.noTripDiariesFound')}</CommandItem>
+                      )}
+                    </CommandGroup>
+                  </Command>
+                </PopoverContent>
+              </Popover>
             </div>
-            <Textarea {...register('message')} className="max-h-[160px]" />
-          </div>
-          {watch('medias') && watch('medias')!.length > 0 && (
-            <ScrollArea className="w-96 sm:w-[462px] whitespace-nowrap rounded-md border">
-              <div className="w-max flex justify-center gap-2 ">
-                {watch('medias')?.map((file, index) => (
-                  <div className="overflow-hidden relative w-[110px]" key={index}>
-                    <AspectRatio ratio={1}>
-                      <div className="absolute top-1 right-1 z-20 bg-black p-1 rounded-full">
-                        <Trash2
-                          onClick={() =>
-                            setValue(
-                              'medias',
-                              getValues('medias')?.filter(
-                                (media) => media.file.name !== file.file.name,
-                              ),
-                            )
-                          }
-                          size={16}
-                          className="text-red-500"
-                        />
-                      </div>
-                      <NextImage
-                        src={file.thumbnail}
-                        className="object-cover"
-                        alt=""
-                        fill
-                      />
-                    </AspectRatio>
+            <form className="space-y-4" onSubmit={handleSubmit(handleCreatePost)}>
+              <div>
+                <div className="flex justify-between mb-0.5">
+                  <div className="flex gap-1 items-end">
+                    <Label>{t('createPost.message')}</Label>
+                    <Label className="text-muted-foreground text-xs">
+                      {watch('message')?.length || 0} / 300
+                    </Label>
                   </div>
-                ))}
-                <ScrollBar orientation="horizontal" />
+                  {errors.message && (
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Info size={18} className="text-red-600" />
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        {errors.message.type === 'too_big'
+                          ? t('createPost.messageMaxError')
+                          : t('createPost.messageError')}
+                      </TooltipContent>
+                    </Tooltip>
+                  )}
+                </div>
+                <Textarea {...register('message')} className="max-h-[160px]" />
               </div>
-            </ScrollArea>
-          )}
-          <div className="flex justify-between">
-            <Controller
-              control={control}
-              name="medias"
-              render={({ field }) => (
-                <button
-                  disabled={watch('medias')?.length === 10}
-                  type="button"
-                  onClick={() => imageInputFile.current?.click()}
-                >
-                  <ImageIcon className="text-blue-500" size={20} />
-                  <Input
-                    multiple
-                    className="hidden"
-                    type="file"
-                    accept="image/jpeg,image/png,image/webp,video/mp4"
-                    onChange={async (e) => {
-                      const maxSize = 104857600;
-                      const currentImages = getValues('medias') as {
-                        file: File;
-                        thumbnail: string;
-                      }[];
-                      const currentImagesSize =
-                        currentImages?.reduce((acc, curr) => acc + curr.file.size, 0) ||
-                        0;
-                      const files = Array.from(e.target.files as ArrayLike<File>);
-                      const newImagesSize = files.reduce(
-                        (acc, curr) => acc + curr.size,
-                        0,
-                      );
-
-                      if (
-                        newImagesSize > maxSize - currentImagesSize ||
-                        files.length > 10 - (currentImages?.length || 0)
-                      ) {
-                        setError('medias', {
-                          message: 'Max size is 100mb and 10 files',
-                          type: 'max',
-                        });
-                        toast({
-                          title: t('createPost.maxSizeFiles'),
-                        });
-                        return;
-                      }
-
-                      field.onChange(
-                        await Promise.all(
-                          files.map(async (file) => {
-                            return {
-                              file,
-                              thumbnail: file.type.startsWith('video')
-                                ? await getVideoThumbnail(file)
-                                : URL.createObjectURL(file),
-                            };
-                          }),
-                        ).then((arr) => arr.concat(currentImages || [])),
-                      );
-                    }}
-                    ref={imageInputFile}
-                  />
-                </button>
+              {watch('medias') && watch('medias')!.length > 0 && (
+                <ScrollArea className="w-96 sm:w-[462px] whitespace-nowrap rounded-md border">
+                  <div className="w-max flex justify-center gap-2 ">
+                    {watch('medias')?.map((file, index) => (
+                      <div className="overflow-hidden relative w-[110px]" key={index}>
+                        <AspectRatio ratio={1}>
+                          <div className="absolute top-1 right-1 z-20 bg-black p-1 rounded-full">
+                            <Trash2
+                              onClick={() =>
+                                setValue(
+                                  'medias',
+                                  getValues('medias')?.filter(
+                                    (media) => media.file.name !== file.file.name,
+                                  ),
+                                )
+                              }
+                              size={16}
+                              className="text-red-500"
+                            />
+                          </div>
+                          <NextImage
+                            src={file.thumbnail}
+                            className="object-cover"
+                            alt=""
+                            fill
+                          />
+                        </AspectRatio>
+                      </div>
+                    ))}
+                    <ScrollBar orientation="horizontal" />
+                  </div>
+                </ScrollArea>
               )}
-            />
-            <Button
-              loading={createDiaryPost.isPending}
-              disabled={createDiaryPost.isPending}
-              type="submit"
-            >
-              {t('createPost.confirm')}
-            </Button>
-          </div>
-        </form>
+              <div className="flex justify-between">
+                <Controller
+                  control={control}
+                  name="medias"
+                  render={({ field }) => (
+                    <button
+                      disabled={watch('medias')?.length === 10}
+                      type="button"
+                      onClick={() => imageInputFile.current?.click()}
+                    >
+                      <ImageIcon className="text-blue-500" size={20} />
+                      <Input
+                        multiple
+                        className="hidden"
+                        type="file"
+                        accept="image/jpeg,image/png,image/webp,video/mp4"
+                        onChange={async (e) => {
+                          const maxSize = 104857600;
+                          const currentImages = getValues('medias') as {
+                            file: File;
+                            thumbnail: string;
+                          }[];
+                          const currentImagesSize =
+                            currentImages?.reduce(
+                              (acc, curr) => acc + curr.file.size,
+                              0,
+                            ) || 0;
+                          const files = Array.from(e.target.files as ArrayLike<File>);
+                          const newImagesSize = files.reduce(
+                            (acc, curr) => acc + curr.size,
+                            0,
+                          );
+
+                          if (
+                            newImagesSize > maxSize - currentImagesSize ||
+                            files.length > 10 - (currentImages?.length || 0)
+                          ) {
+                            setError('medias', {
+                              message: 'Max size is 100mb and 10 files',
+                              type: 'max',
+                            });
+                            toast({
+                              title: t('createPost.maxSizeFiles'),
+                            });
+                            return;
+                          }
+
+                          field.onChange(
+                            await Promise.all(
+                              files.map(async (file) => {
+                                return {
+                                  file,
+                                  thumbnail: file.type.startsWith('video')
+                                    ? await getVideoThumbnail(file)
+                                    : URL.createObjectURL(file),
+                                };
+                              }),
+                            ).then((arr) => arr.concat(currentImages || [])),
+                          );
+                        }}
+                        ref={imageInputFile}
+                      />
+                    </button>
+                  )}
+                />
+                <Button
+                  loading={createDiaryPost.isPending}
+                  disabled={createDiaryPost.isPending}
+                  type="submit"
+                >
+                  {t('createPost.confirm')}
+                </Button>
+              </div>
+            </form>
+          </>
+        )}
       </DialogContent>
     </Dialog>
   );

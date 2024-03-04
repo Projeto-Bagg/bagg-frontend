@@ -37,15 +37,15 @@ export default function Page({ params }: { params: { slug: string; id: string } 
   };
 
   return (
-    <div className="px-4 pb-4 md:px-11 relative">
+    <div className="px-4 pb-4 sm:px-11 relative">
       <CountryFlag
         className="w-full left-0 right-0 m-auto absolute -z-10 gradient-mask-b-[rgba(0,0,0,1.0)_4px] rounded-none"
         iso2={city.data.region.country.iso2}
       />
-      <div className="flex pt-[200px] md:pt-[480px] justify-between items-center pb-[40px] md:pb-[120px]">
+      <div className="flex pt-[200px] sm:pt-[480px] justify-between items-center pb-[40px] sm:pb-[120px]">
         <div>
-          <h2 className="font-bold text-5xl">{city.data.name}</h2>
-          <div className="font-bold text-2xl text-muted-foreground">
+          <h2 className="font-bold text-3xl sm:text-5xl">{city.data.name}</h2>
+          <div className="font-bold text-lg sm:text-2xl text-muted-foreground">
             <span>
               {city.data.region.name}
               {', '}
@@ -69,13 +69,13 @@ export default function Page({ params }: { params: { slug: string; id: string } 
                 <CheckCircle strokeWidth={2.5} />
               )}
             </div>
-            <span className="font-semibold">
+            <span className="font-semibold text-sm sm:text-base">
               {city.data.isInterested ? 'Desmarcar interesse' : 'Marcar interesse'}
             </span>
           </button>
         </div>
       </div>
-      <div className="grid gap-x-4 gap-y-6 grid-cols-1 md:grid-cols-2">
+      <div className="grid gap-x-4 gap-y-6 grid-cols-1 sm:grid-cols-2">
         <div className="relative border-2 rounded-lg aspect-square">
           <div className="absolute pointer-events-none p-2 w-full h-full top-0 left-0 z-50">
             <div className="bg-white w-fit rounded-lg px-1">
@@ -126,7 +126,7 @@ export default function Page({ params }: { params: { slug: string; id: string } 
           />
           <LazyMarker position={[city.data.latitude, city.data.longitude]} />
         </LazyMap>
-        <div className="md:col-span-2">
+        <div className="sm:col-span-2">
           <CityVisits visits={city.data.visits} />
         </div>
       </div>

@@ -33,11 +33,21 @@ export default function Login() {
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>();
   const { toast } = useToast();
-  const t = useTranslations('login');
+  const t = useTranslations();
   const isWithinPage = useOriginTracker();
 
-  const login = useForm<LoginType>({
+  const {
+    control,
+    formState: { errors, isDirty },
+    watch,
+    register,
+    handleSubmit,
+  } = useForm<LoginType>({
     resolver: zodResolver(loginSchema),
+    defaultValues: {
+      login: '',
+      password: '',
+    },
   });
 
   const handleSignIn = async (data: LoginType) => {
@@ -47,46 +57,48 @@ export default function Login() {
       router.back();
     } catch (error) {
       setLoading(false);
-      toast({ title: t('unauthorized') });
+      toast({ title: t('login.unauthorized') });
     }
   };
 
+  const onOpenChange = () => {
+    if (isDirty) {
+      const shouldClose = window.confirm(t('modal.close'));
+      if (!shouldClose) return;
+    }
+
+    isWithinPage ? router.back() : router.replace({ pathname: '/' });
+  };
+
   return (
-    <Dialog
-      open
-      onOpenChange={() =>
-        isWithinPage
-          ? router.back()
-          : router.push('/', { forceOptimisticNavigation: true } as any)
-      }
-    >
-      <DialogContent onPointerDownOutside={(e) => e.preventDefault()}>
+    <Dialog open onOpenChange={onOpenChange}>
+      <DialogContent>
         <DialogHeader>
-          <DialogTitle className="text-2xl">{t('title')}</DialogTitle>
-          <DialogDescription>{t('description')}</DialogDescription>
+          <DialogTitle className="text-2xl">{t('login.title')}</DialogTitle>
+          <DialogDescription>{t('login.description')}</DialogDescription>
         </DialogHeader>
-        <form onSubmit={login.handleSubmit(handleSignIn)}>
+        <form onSubmit={handleSubmit(handleSignIn)}>
           <div className="mb-4">
             <div className="flex justify-between mb-2">
-              <Label htmlFor="email">{t('login')}</Label>
-              {login.formState.errors.login && (
+              <Label htmlFor="email">{t('login.login')}</Label>
+              {errors.login && (
                 <span className="text-red-600 text-sm leading-none font-bold">
-                  {t('loginError')}
+                  {t('login.loginError')}
                 </span>
               )}
             </div>
-            <Input id="login" {...login.register('login')} />
+            <Input id="login" {...register('login')} />
           </div>
           <div className="mb-4">
             <div className="flex justify-between mb-2">
-              <Label htmlFor="password">{t('password')}</Label>
-              {login.formState.errors.password && (
+              <Label htmlFor="password">{t('login.password')}</Label>
+              {errors.password && (
                 <span className="text-red-600 text-sm leading-none font-bold">
-                  {t('passwordError')}
+                  {t('login.passwordError')}
                 </span>
               )}
             </div>
-            <Input id="password" type={'password'} {...login.register('password')} />
+            <Input id="password" type={'password'} {...register('password')} />
           </div>
           <DialogFooter>
             <Button
@@ -95,7 +107,7 @@ export default function Login() {
               loading={loading}
               className="w-full"
             >
-              {t('loginSubmit')}
+              {t('login.loginSubmit')}
             </Button>
           </DialogFooter>
         </form>

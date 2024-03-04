@@ -100,7 +100,7 @@ export const Header = () => {
           </DropdownMenu>
           <ThemeToggle />
           <div className="hidden sm:block">
-            {auth.isAuthenticated ? (
+            {auth.user ? (
               <div className="flex items-center gap-2">
                 <DropdownMenu>
                   <DropdownMenuTrigger>
@@ -115,11 +115,19 @@ export const Header = () => {
                         params: { slug: auth.user!.username },
                       }}
                     >
-                      <div className="h-[118px] p-4 bg-secondary flex flex-col items-center justify-center -mx-1 -my-1 overflow-hidden">
-                        <Avatar className="my-1 h-[48px] w-[48px]">
-                          <AvatarImage src={auth.user?.image} />
-                        </Avatar>
-                        <span className="font-medium">{auth.user?.username}</span>
+                      <div className="h-[118px] relative p-4 -mx-1 -my-1 border-b">
+                        {auth.user?.city?.region.country && (
+                          <CountryFlag
+                            className="absolute top-0 left-0 w-full h-full gradient-mask-b-[rgba(0,0,0,1.0)_8px] opacity-70"
+                            iso2={auth.user.city.region.country.iso2}
+                          />
+                        )}
+                        <div className="flex flex-col items-center justify-center relative">
+                          <Avatar className="my-1 h-[48px] w-[48px]">
+                            <AvatarImage src={auth.user?.image} />
+                          </Avatar>
+                          <span className="font-medium">{auth.user?.username}</span>
+                        </div>
                       </div>
                     </Link>
                     <div className="mt-3.5 mb-1">

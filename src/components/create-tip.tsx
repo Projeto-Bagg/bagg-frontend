@@ -57,7 +57,7 @@ export const CreateTip = ({ children }: { children: ReactNode }) => {
     getValues,
     setError,
     reset,
-    formState: { errors },
+    formState: { errors, isDirty },
   } = useForm<CreateTipType>({
     resolver: zodResolver(createTipSchema),
   });
@@ -71,11 +71,25 @@ export const CreateTip = ({ children }: { children: ReactNode }) => {
 
     await createTip.mutateAsync(formData);
     setOpen(false);
-    reset();
+    reset(undefined, { keepDefaultValues: true });
+  };
+
+  const onOpenChange = (open: boolean) => {
+    if (open) {
+      return setOpen(true);
+    }
+
+    if (isDirty) {
+      const shouldClose = window.confirm(t('modal.close'));
+      if (!shouldClose) return;
+    }
+
+    setOpen(false);
+    reset(undefined, { keepDefaultValues: true });
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent onInteractOutside={(e) => createTip.isPending && e.preventDefault()}>
         <DialogHeader>

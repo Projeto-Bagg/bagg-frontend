@@ -33,7 +33,7 @@ import { Heart, MoreHorizontal } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
 import { Carousel } from 'react-responsive-carousel';
 import { intlFormatDistance } from 'date-fns';
-import UserHoverCard from '@/components/user-hovercard';
+import { UserHoverCard } from '@/components/user-hovercard';
 
 export const DiaryPost = ({ post }: { post: DiaryPost }) => {
   const { toast } = useToast();

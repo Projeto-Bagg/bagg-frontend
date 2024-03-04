@@ -76,10 +76,27 @@ export default function SignUp() {
   const auth = useAuth();
   const [loading, setLoading] = useState<boolean>();
   const router = useRouter();
-  const t = useTranslations('signup');
+  const t = useTranslations();
   const isWithinPage = useOriginTracker();
-  const signUp = useForm<SignUpType>({
+  const {
+    control,
+    formState: { isDirty, errors },
+    setError,
+    register,
+    handleSubmit,
+    watch,
+  } = useForm<SignUpType>({
     resolver: zodResolver(signUpSchema),
+    defaultValues: {
+      confirmPassword: '',
+      email: '',
+      fullName: '',
+      password: '',
+      username: '',
+      birthdateDay: '',
+      birthdateMonth: '',
+      birthdateYear: '',
+    },
   });
 
   const handleSignUp = async (data: SignUpType) => {
@@ -110,69 +127,71 @@ export default function SignUp() {
       })
       .catch((error) => {
         error.response.data?.email?.code === 'emailNotAvailable' &&
-          signUp.setError('email', {
-            message: t('emailNotAvailable'),
+          setError('email', {
+            message: t('signup.emailNotAvailable'),
             type: 'emailNotAvailable',
           });
         error.response.data?.username?.code === 'usernameNotAvailable' &&
-          signUp.setError('username', {
-            message: t('usernameNotAvailable'),
+          setError('username', {
+            message: t('signup.usernameNotAvailable'),
             type: 'usernameNotAvailable',
           });
         setLoading(false);
       });
   };
 
+  const onOpenChange = () => {
+    if (isDirty) {
+      const shouldClose = window.confirm(t('modal.close'));
+      if (!shouldClose) return;
+    }
+
+    isWithinPage ? router.back() : router.replace({ pathname: '/' });
+  };
+
   return (
-    <Dialog
-      open
-      onOpenChange={() =>
-        isWithinPage
-          ? router.back()
-          : router.push('/', { forceOptimisticNavigation: true } as any)
-      }
-    >
-      <DialogContent onPointerDownOutside={(e) => e.preventDefault()}>
+    <Dialog open onOpenChange={onOpenChange}>
+      <DialogContent>
         <DialogHeader>
-          <DialogTitle className="text-2xl">{t('title')}</DialogTitle>
-          <DialogDescription>{t('description')}</DialogDescription>
+          <DialogTitle className="text-2xl">{t('signup.title')}</DialogTitle>
+          <DialogDescription>{t('signup.description')}</DialogDescription>
         </DialogHeader>
-        <form className="space-y-4" onSubmit={signUp.handleSubmit(handleSignUp)}>
+        <form className="space-y-4" onSubmit={handleSubmit(handleSignUp)}>
           <div>
             <div className="justify-between flex mb-0.5">
               <div className="flex items-end gap-1">
-                <Label>{t('name')}</Label>
+                <Label>{t('signup.name')}</Label>
                 <Label className="text-muted-foreground text-xs">
-                  {signUp.watch('fullName')?.length || 0} / 64
+                  {watch('fullName')?.length || 0} / 64
                 </Label>
               </div>
-              {signUp.formState.errors.fullName && (
+              {errors.fullName && (
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Info size={18} className="text-red-600" />
                   </TooltipTrigger>
                   <TooltipContent>
-                    {signUp.formState.errors.fullName.type === 'too_big'
-                      ? t('nameSizeError')
-                      : t('nameError')}
+                    {errors.fullName.type === 'too_big'
+                      ? t('signup.nameSizeError')
+                      : t('signup.nameError')}
                   </TooltipContent>
                 </Tooltip>
               )}
             </div>
-            <Input {...signUp.register('fullName')} />
+            <Input {...register('fullName')} />
           </div>
           <div>
             <div className="justify-between flex mb-0.5">
               <div className="flex items-end gap-1">
-                <Label>{t('username')}</Label>
+                <Label>{t('signup.username')}</Label>
                 <Label className="text-muted-foreground text-xs">
-                  {signUp.watch('username')?.length || 0} / 20
+                  {watch('username')?.length || 0} / 20
                 </Label>
               </div>
-              {signUp.formState.errors.username &&
-                (signUp.formState.errors.username?.type === 'usernameNotAvailable' ? (
+              {errors.username &&
+                (errors.username?.type === 'usernameNotAvailable' ? (
                   <span className="text-red-500 text-sm font-bold">
-                    {t('usernameNotAvailable')}
+                    {t('signup.usernameNotAvailable')}
                   </span>
                 ) : (
                   <Tooltip>
@@ -180,49 +199,47 @@ export default function SignUp() {
                       <Info size={18} className="text-red-600" />
                     </TooltipTrigger>
                     <TooltipContent className="pl-7">
-                      {t('usernameError.title')}
+                      {t('signup.usernameError.title')}
                       <ul className="list-disc">
                         <li
-                          data-valid={/^.{3,20}$/.test(signUp.watch('username'))}
+                          data-valid={/^.{3,20}$/.test(watch('username'))}
                           className="data-[valid=true]:text-green-500"
                         >
-                          {t('usernameError.condition1')}
+                          {t('signup.usernameError.condition1')}
                         </li>
                         <li
-                          data-valid={/^[a-zA-Z0-9_]+$/.test(signUp.watch('username'))}
+                          data-valid={/^[a-zA-Z0-9_]+$/.test(watch('username'))}
                           className="data-[valid=true]:text-green-500"
                         >
-                          {t('usernameError.condition2')}
+                          {t('signup.usernameError.condition2')}
                         </li>
                       </ul>
                     </TooltipContent>
                   </Tooltip>
                 ))}
             </div>
-            <Input {...signUp.register('username')} />
+            <Input {...register('username')} />
           </div>
           <div>
             <div className="flex justify-between mb-0.5">
-              <Label>{t('birthdate')}</Label>
-              {(signUp.formState.errors.birthdateDay ||
-                signUp.formState.errors.birthdateMonth ||
-                signUp.formState.errors.birthdateYear) && (
+              <Label>{t('signup.birthdate')}</Label>
+              {(errors.birthdateDay || errors.birthdateMonth || errors.birthdateYear) && (
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Info size={18} className="text-red-600" />
                   </TooltipTrigger>
-                  <TooltipContent>{t('birthdateError')}</TooltipContent>
+                  <TooltipContent>{t('signup.birthdateError')}</TooltipContent>
                 </Tooltip>
               )}
             </div>
             <div className="flex gap-2 justify-between">
               <Controller
                 name="birthdateDay"
-                control={signUp.control}
+                control={control}
                 render={({ field }) => (
                   <Select onValueChange={field.onChange}>
                     <SelectTrigger>
-                      <SelectValue placeholder={t('day')} />
+                      <SelectValue placeholder={t('signup.day')} />
                     </SelectTrigger>
                     <SelectContent className="max-h-[400px]">
                       {[...Array(31)].map((_, index) => (
@@ -236,16 +253,16 @@ export default function SignUp() {
               />
               <Controller
                 name="birthdateMonth"
-                control={signUp.control}
+                control={control}
                 render={({ field }) => (
                   <Select onValueChange={field.onChange}>
                     <SelectTrigger>
-                      <SelectValue placeholder={t('month')} />
+                      <SelectValue placeholder={t('signup.month')} />
                     </SelectTrigger>
                     <SelectContent className="max-h-[400px]">
                       {months.map((month, index) => (
                         <SelectItem key={month} value={index.toString()}>
-                          {t(`months.${month}`)}
+                          {t(`signup.months.${month}`)}
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -254,11 +271,11 @@ export default function SignUp() {
               />
               <Controller
                 name="birthdateYear"
-                control={signUp.control}
+                control={control}
                 render={({ field }) => (
                   <Select onValueChange={field.onChange}>
                     <SelectTrigger>
-                      <SelectValue placeholder={t('year')} />
+                      <SelectValue placeholder={t('signup.year')} />
                     </SelectTrigger>
                     <SelectContent className="max-h-[400px]">
                       {Array.apply(0, Array(104 - 1))
@@ -276,61 +293,61 @@ export default function SignUp() {
           </div>
           <div>
             <div className="flex justify-between mb-0.5">
-              <Label>{t('email')}</Label>
-              {signUp.formState.errors.email &&
-                (signUp.formState.errors.email.type === 'emailNotAvailable' ? (
+              <Label>{t('signup.email')}</Label>
+              {errors.email &&
+                (errors.email.type === 'emailNotAvailable' ? (
                   <span className="text-sm text-red-500 font-bold">
-                    {t('emailNotAvailable')}
+                    {t('signup.emailNotAvailable')}
                   </span>
                 ) : (
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <Info size={18} className="text-red-600" />
                     </TooltipTrigger>
-                    <TooltipContent>{t('emailError')}</TooltipContent>
+                    <TooltipContent>{t('signup.emailError')}</TooltipContent>
                   </Tooltip>
                 ))}
             </div>
-            <Input {...signUp.register('email')} />
+            <Input {...register('email')} />
           </div>
           <div>
             <div className="flex justify-between mb-0.5">
-              <Label>{t('password')}</Label>
-              {signUp.formState.errors.password && (
+              <Label>{t('signup.password')}</Label>
+              {errors.password && (
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Info size={18} className="text-red-600" />
                   </TooltipTrigger>
                   <TooltipContent className="pl-7">
-                    <span>{t('passwordTooWeak.title')}</span>
+                    <span>{t('signup.passwordTooWeak.title')}</span>
                     <ul className="list-disc">
                       <li
-                        data-valid={/.{8,}/.test(signUp.watch('password'))}
+                        data-valid={/.{8,}/.test(watch('password'))}
                         className="data-[valid=true]:text-green-500"
                       >
-                        {t('passwordTooWeak.condition1')}
+                        {t('signup.passwordTooWeak.condition1')}
                       </li>
                       <li
-                        data-valid={/(?=(.*[0-9]){1,})/.test(signUp.watch('password'))}
+                        data-valid={/(?=(.*[0-9]){1,})/.test(watch('password'))}
                         className="data-[valid=true]:text-green-500"
                       >
-                        {t('passwordTooWeak.condition2')}
+                        {t('signup.passwordTooWeak.condition2')}
                       </li>
                       <li
                         data-valid={/(?=(.*[a-z]){1,})(?=(.*[A-Z]){1,})/.test(
-                          signUp.watch('password'),
+                          watch('password'),
                         )}
                         className="data-[valid=true]:text-green-500"
                       >
-                        {t('passwordTooWeak.condition3')}
+                        {t('signup.passwordTooWeak.condition3')}
                       </li>
                       <li
                         data-valid={/(?=(.*[-!$%^&*()_+|~=`{}\[\]:\/;<>?,.@#]){1,})/.test(
-                          signUp.watch('password'),
+                          watch('password'),
                         )}
                         className="data-[valid=true]:text-green-500"
                       >
-                        {t('passwordTooWeak.condition4', {
+                        {t('signup.passwordTooWeak.condition4', {
                           characters: '!@#$%&*()-_=+<>:;/|,.^`}{[]',
                         })}
                       </li>
@@ -339,28 +356,28 @@ export default function SignUp() {
                 </Tooltip>
               )}
             </div>
-            <Input type={'password'} {...signUp.register('password')} />
+            <Input type={'password'} {...register('password')} />
           </div>
           <div>
             <div className="flex justify-between mb-0.5">
-              <Label>{t('confirmPassword')}</Label>
-              {signUp.formState.errors.confirmPassword && (
+              <Label>{t('signup.confirmPassword')}</Label>
+              {errors.confirmPassword && (
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Info size={18} className="text-red-600" />
                   </TooltipTrigger>
-                  <TooltipContent>{t('confirmPasswordError')}</TooltipContent>
+                  <TooltipContent>{t('signup.confirmPasswordError')}</TooltipContent>
                 </Tooltip>
               )}
             </div>
-            <Input type={'password'} {...signUp.register('confirmPassword')} />
+            <Input type={'password'} {...register('confirmPassword')} />
           </div>
           <span className="text-center block text-sm font-medium text-muted-foreground">
-            {t('confirm')}
+            {t('signup.confirm')}
           </span>
           <div className="flex justify-end mb-2">
             <Button type={'submit'} loading={loading} className="w-full">
-              {t('signup')}
+              {t('signup.signup')}
             </Button>
           </div>
         </form>

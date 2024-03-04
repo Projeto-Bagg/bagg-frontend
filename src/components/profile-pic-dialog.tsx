@@ -18,7 +18,6 @@ import { MoveLeft, ZoomIn, ZoomOut } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import 'cropperjs/dist/cropper.css';
 import { Slider } from '@/components/ui/slider';
-import { cn } from '@/lib/utils';
 
 interface IProfilePicDialog {
   children: ReactNode;

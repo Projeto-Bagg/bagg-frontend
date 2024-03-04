@@ -20,7 +20,7 @@ interface UserHoverCardProps {
   children: ReactNode;
 }
 
-export default function UserHoverCard({ username, children }: UserHoverCardProps) {
+export const UserHoverCard = ({ username, children }: UserHoverCardProps) => {
   const auth = useAuth();
   const follow = useFollow();
   const unfollow = useUnfollow();
@@ -122,4 +122,4 @@ export default function UserHoverCard({ username, children }: UserHoverCardProps
       </HoverCardContent>
     </HoverCard>
   );
-}
+};

@@ -8,7 +8,7 @@ import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Link } from '@/common/navigation';
 import { useTranslations } from 'next-intl';
-import UserHoverCard from '@/components/user-hovercard';
+import { UserHoverCard } from '@/components/user-hovercard';
 
 interface IListUsers {
   users: User[];

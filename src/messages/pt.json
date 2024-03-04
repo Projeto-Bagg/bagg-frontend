@@ -134,6 +134,7 @@
   },
   "createTripDiary": {
     "title": "Criar diário de viagem",
+    "cancel": "Cancelar",
     "description": "Crie um diário de viagem e compartilhe suas experiências com a comunidade",
     "titleField": "Título",
     "titleFieldError": "Insira um título",
@@ -195,5 +196,8 @@
     "noImages": "Sem imagens :(",
     "reviews": "Últimas avaliações",
     "noReviews": "Sem avaliações"
+  },
+  "modal": {
+    "close": "Tem certeza que deseja fechar o formulário?"
   }
 }

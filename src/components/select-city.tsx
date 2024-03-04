@@ -70,7 +70,7 @@ export const SelectCity = ({ onSelect, defaultValue }: SelectCityProps) => {
               </div>
             </div>
           ) : (
-            t('title')
+            <span className="text-muted-foreground">{t('title')}</span>
           )}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>

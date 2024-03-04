@@ -133,6 +133,7 @@
   },
   "createTripDiary": {
     "title": "Create trip diary",
+    "cancel": "Cancel",
     "description": "Create a travel diary and share your experiences with the community",
     "titleField": "Title",
     "titleFieldError": "Enter a title",
@@ -195,5 +196,8 @@
     "noImages": "No images yet :(",
     "reviews": "Last reviews",
     "noReviews": "No reviews"
+  },
+  "modal": {
+    "close": "Are you sure you want to abandon this entry?"
   }
 }

@@ -95,9 +95,18 @@ export default function EditProfile({ params }: { params: { slug: string } }) {
     control,
     setError,
     setValue,
-    formState: { errors },
+    formState: { errors, isDirty },
   } = useForm<EditFormType>({
     resolver: zodResolver(editFormSchema),
+    defaultValues: {
+      username: auth.user?.username,
+      bio: auth.user?.bio,
+      fullName: auth.user?.fullName,
+      cityId: auth.user?.city?.id,
+      birthdateDay: auth.user?.birthdate.getDate().toString(),
+      birthdateMonth: auth.user?.birthdate.getMonth().toString(),
+      birthdateYear: auth.user?.birthdate.getFullYear().toString(),
+    },
   });
 
   const handleEdit = async (data: EditFormType) => {
@@ -135,17 +144,19 @@ export default function EditProfile({ params }: { params: { slug: string } }) {
     }
   };
 
+  const onOpenChange = () => {
+    if (isDirty) {
+      const shouldClose = window.confirm(t('modal.close'));
+      if (!shouldClose) return;
+    }
+
+    isWithinPage
+      ? router.back()
+      : router.replace({ pathname: '/[slug]', params: { slug: params.slug } });
+  };
+
   return (
-    <Dialog
-      open
-      onOpenChange={() => {
-        isWithinPage
-          ? router.back()
-          : router.push({ pathname: '/[slug]', params: { slug: params.slug } }, {
-              forceOptimisticNavigation: true,
-            } as any);
-      }}
-    >
+    <Dialog open onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{t('editProfile.title')}</DialogTitle>
@@ -191,7 +202,7 @@ export default function EditProfile({ params }: { params: { slug: string } }) {
                 </Tooltip>
               )}
             </div>
-            <Input {...register('fullName')} defaultValue={auth.user?.fullName} />
+            <Input {...register('fullName')} />
           </div>
           <div>
             <div className="justify-between flex mb-0.5">
@@ -231,7 +242,7 @@ export default function EditProfile({ params }: { params: { slug: string } }) {
                   </Tooltip>
                 ))}
             </div>
-            <Input {...register('username')} defaultValue={auth.user?.username} />
+            <Input {...register('username')} />
           </div>
           <div>
             <div className="justify-between flex mb-0.5">
@@ -275,11 +286,7 @@ export default function EditProfile({ params }: { params: { slug: string } }) {
                 </Tooltip>
               )}
             </div>
-            <Textarea
-              className="max-h-[144px]"
-              {...register('bio')}
-              defaultValue={auth.user?.bio}
-            />
+            <Textarea className="max-h-[144px]" {...register('bio')} />
           </div>
           <div>
             <div className="flex justify-between mb-0.5">
@@ -297,12 +304,8 @@ export default function EditProfile({ params }: { params: { slug: string } }) {
               <Controller
                 name="birthdateDay"
                 control={control}
-                defaultValue={auth.user?.birthdate.getDate().toString()}
                 render={({ field }) => (
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={auth.user?.birthdate.getDate().toString()}
-                  >
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <SelectTrigger>
                       <SelectValue placeholder={t('signup.day')} />
                     </SelectTrigger>
@@ -319,12 +322,8 @@ export default function EditProfile({ params }: { params: { slug: string } }) {
               <Controller
                 name="birthdateMonth"
                 control={control}
-                defaultValue={auth.user?.birthdate.getMonth().toString()}
                 render={({ field }) => (
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={auth.user?.birthdate.getMonth().toString()}
-                  >
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <SelectTrigger>
                       <SelectValue placeholder={t('signup.month')} />
                     </SelectTrigger>
@@ -341,12 +340,8 @@ export default function EditProfile({ params }: { params: { slug: string } }) {
               <Controller
                 name="birthdateYear"
                 control={control}
-                defaultValue={auth.user?.birthdate.getFullYear().toString()}
                 render={({ field }) => (
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={auth.user?.birthdate.getFullYear().toString()}
-                  >
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <SelectTrigger>
                       <SelectValue placeholder={t('signup.year')} />
                     </SelectTrigger>

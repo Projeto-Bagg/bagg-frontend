@@ -1,11 +1,10 @@
+import React from 'react';
+import { UserHoverCard } from '@/components/user-hovercard';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
-import { Separator } from '@/components/ui/separator';
-import UserHoverCard from '@/components/user-hovercard';
 import { Rating } from '@smastrom/react-rating';
 import { intlFormatDistance } from 'date-fns';
 import { useLocale, useTranslations } from 'next-intl';
 import { Link } from '@/common/navigation';
-import React from 'react';
 
 interface Props {
   visits: CityVisit[];
@@ -17,9 +16,8 @@ export const CityVisits = ({ visits }: Props) => {
 
   return (
     <div>
-      <div className="text-sm uppercase">{t('reviews')}</div>
-      <Separator className="my-2" />
-      <div className="divide-y space-y-2">
+      <h3 className="text-sm sm:text-base uppercase">{t('reviews')}</h3>
+      <div className="pt-2">
         {visits.length === 0 && (
           <div className="py-3 text-sm">
             <span>{t('noReviews')}</span>
@@ -27,7 +25,7 @@ export const CityVisits = ({ visits }: Props) => {
         )}
         {visits.length !== 0 &&
           visits.map((visit) => (
-            <div key={visit.id} className="flex">
+            <div key={visit.id} className="flex border-t py-2">
               <div className="basis-[40px] mr-3">
                 <UserHoverCard username={visit.user.username}>
                   <Link
