@@ -3,7 +3,7 @@ import axios from '@/services/axios';
 import { useAuth } from '@/context/auth-context';
 import { useRouter } from 'next/navigation';
 
-export const useEditProfile = () => {
+export const useUpdateProfile = () => {
   const queryClient = useQueryClient();
   const auth = useAuth();
   const router = useRouter();

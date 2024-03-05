@@ -17,6 +17,7 @@ export const pathnames = {
   '/[slug]': '/[slug]',
   '/[slug]/likes': '/[slug]/likes',
   '/[slug]/diaries': '/[slug]/diaries',
+  '/[slug]/visits': '/[slug]/visits',
   '/[slug]/settings/profile': '/[slug]/settings/profile',
 } satisfies Pathnames<typeof locales>;
 

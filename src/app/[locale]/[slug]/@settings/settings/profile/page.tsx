@@ -27,7 +27,7 @@ import { useAuth } from '@/context/auth-context';
 import { ProfilePicDialog } from '@/components/profile-pic-dialog';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Textarea } from '@/components/ui/textarea';
-import { useEditProfile } from '@/hooks/useEditProfile';
+import { useUpdateProfile } from '@/hooks/useUpdateProfile';
 import { useDeleteProfilePic } from '@/hooks/useDeleteProfilePic';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { Info } from 'lucide-react';
@@ -84,7 +84,7 @@ export default function EditProfile({ params }: { params: { slug: string } }) {
   const auth = useAuth();
   const [loading, setLoading] = useState<boolean>();
   const router = useRouter();
-  const editMutation = useEditProfile();
+  const updateProfile = useUpdateProfile();
   const t = useTranslations();
   const deletePic = useDeleteProfilePic();
   const isWithinPage = useOriginTracker();
@@ -131,7 +131,7 @@ export default function EditProfile({ params }: { params: { slug: string } }) {
       );
 
       formData.append('birthdate', birthdate.toISOString());
-      await editMutation.mutateAsync(formData);
+      await updateProfile.mutateAsync(formData);
       router.back();
     } catch (error: any) {
       error.response.data?.username?.code === 'usernameNotAvailable' &&
