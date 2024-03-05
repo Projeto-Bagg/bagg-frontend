@@ -102,6 +102,7 @@
       "posts": "Posts",
       "diaries": "Diaries",
       "likes": "Likes",
+      "visits": "Visits",
       "replies": "Replies",
       "ratings": "Ratings"
     }
@@ -193,9 +194,25 @@
   },
   "cityPage": {
     "gallery": "Gallery",
+    "location": "Location",
+    "visited": "Visited",
+    "interested": "Interested",
+    "interest": "Interest",
+    "rate": "Rate",
+    "review": "Review",
     "noImages": "No images yet :(",
     "reviews": "Last reviews",
     "noReviews": "No reviews"
+  },
+  "createCityVisit": {
+    "title": "Create a city review",
+    "description": "How was your trip? Write about your experiences in that city, citing points such as safety, climate, food, etc...",
+    "message": "Message",
+    "messageError": "Enter a message",
+    "messageMaxError": "The maximum length is 300 characters",
+    "rating": "Rating",
+    "ratingError": "Enter a rating",
+    "confirm": "Confirm"
   },
   "modal": {
     "close": "Are you sure you want to abandon this entry?"

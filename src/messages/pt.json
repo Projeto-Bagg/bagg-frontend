@@ -102,6 +102,7 @@
       "posts": "Postagens",
       "diaries": "Diários",
       "likes": "Curtidas",
+      "visits": "Visitas",
       "replies": "Respostas",
       "ratings": "Avaliações"
     }
@@ -193,9 +194,25 @@
   },
   "cityPage": {
     "gallery": "Galeria",
+    "location": "Localização",
+    "visited": "Visitado",
+    "interested": "Interessado",
+    "interest": "Interesse",
+    "rate": "Dar nota",
+    "review": "Avaliar",
     "noImages": "Sem imagens :(",
     "reviews": "Últimas avaliações",
     "noReviews": "Sem avaliações"
+  },
+  "createCityVisit": {
+    "title": "Avaliar cidade",
+    "description": "Como foi sua viagem? Escreva como foram suas experiências nessa cidade, citando pontos como segurança, clima, comida, etc...",
+    "message": "Mensagem",
+    "messageError": "Insira uma mensagem",
+    "messageMaxError": "O tamanho máximo é de 300 caracteres",
+    "rating": "Nota",
+    "ratingError": "Escolha uma nota",
+    "confirm": "Confirmar"
   },
   "modal": {
     "close": "Tem certeza que deseja fechar o formulário?"

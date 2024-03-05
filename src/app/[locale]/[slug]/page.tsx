@@ -179,6 +179,15 @@ export default function Profile({ params }: { params: { slug: string } }) {
         >
           {t('profile.feed.likes')}
         </Link>
+        <Link
+          className={cn(
+            pathname.endsWith('/visits') && 'font-bold border-b-2 border-blue-600',
+            'py-2 flex justify-center flex-1',
+          )}
+          href={{ pathname: '/[slug]/visits', params: { slug: params.slug } }}
+        >
+          {t('profile.feed.visits')}
+        </Link>
       </div>
       <Separator />
     </div>
