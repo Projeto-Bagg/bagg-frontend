@@ -103,12 +103,26 @@ interface Region {
   country: Country;
 }
 
+interface CreateCityVisit {
+  rating?: number;
+  message?: string;
+  cityId: number;
+}
+
 interface CityVisit {
   id: number;
   createdAt: Date;
-  rating: number;
-  message: string;
+  rating?: number;
+  message?: string;
   user: User;
+}
+
+interface UserCityVisit {
+  id: number;
+  createdAt: Date;
+  rating?: number;
+  message?: string;
+  city: City;
 }
 
 interface City {
@@ -116,11 +130,18 @@ interface City {
   name: string;
   latitude: number;
   longitude: number;
+  region: Region;
+}
+
+interface CityPage extends City {
   isVisited: boolean;
   isInterested: boolean;
-  region: Region;
   visits: CityVisit[];
   images: Media[];
+  userVisit: CityVisit | null;
+  averageRating: number;
+  interestsCount: number;
+  visitsCount: number;
 }
 
 interface CityFromSearch {

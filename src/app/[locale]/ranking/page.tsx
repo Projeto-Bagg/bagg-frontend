@@ -127,12 +127,14 @@ export default function Page() {
                       </Link>
                       <div className="flex gap-1">
                         <Link
-                          className="hover:underline"
+                          className="hover:underline shrink-0"
                           href={{ params: { slug: city.id }, pathname: '/city/[slug]' }}
                         >
                           <span>{city.name}</span>
                         </Link>
-                        <span className="text-muted-foreground">{city.region}</span>
+                        <span className="text-muted-foreground text-ellipsis w-fit overflow-hidden whitespace-nowrap">
+                          {city.region}
+                        </span>
                       </div>
                     </div>
                     <div className="flex items-center gap-1">
@@ -147,85 +149,6 @@ export default function Page() {
                 ))}
             </ul>
           </div>
-        </div>
-        <div>
-          <div className="mb-2">
-            <h2 className="font-bold text-xl border-b-2 border-primary pb-1">
-              Países com maior interesse
-            </h2>
-          </div>
-          <div>
-            <ul className="divide-y-2 min-h-[440px]">
-              {ranking.isLoading && <RankingSkeleton />}
-              {ranking.data &&
-                ranking.data.countryInterestRanking.map((country) => (
-                  <li
-                    key={country.iso2}
-                    className="flex items-center h-[44px] p-4 justify-between"
-                  >
-                    <div className="flex gap-2 items-center">
-                      <CountryFlag className="w-[36px]" iso2={country.iso2} />
-                      <Link
-                        className="hover:underline"
-                        href={{
-                          params: { slug: country.iso2 },
-                          pathname: '/country/[slug]',
-                        }}
-                      >
-                        <span>{country.name}</span>
-                      </Link>
-                    </div>
-                    <div>
-                      <span>{country.totalInterest}</span>
-                    </div>
-                  </li>
-                ))}
-            </ul>
-          </div>
-        </div>
-        <div>
-          <div className="mb-2">
-            <h2 className="font-bold text-xl border-b-2 border-primary pb-1">
-              Cidades com maior interesse
-            </h2>
-          </div>
-          <ul className="divide-y-2 min-h-[440px]">
-            {ranking.isLoading && <RankingSkeleton />}
-            {ranking.data &&
-              ranking.data.cityInterestRanking.map((city, index) => (
-                <li
-                  key={index}
-                  className="flex items-center h-[44px] p-4 justify-between"
-                >
-                  <div className="flex gap-2 items-center">
-                    <Link
-                      href={{
-                        params: { slug: city.region.country.iso2 },
-                        pathname: '/country/[slug]',
-                      }}
-                    >
-                      <CountryFlag
-                        className="w-[36px]"
-                        iso2={city.region.country.iso2}
-                        tooltip={city.region.country.name}
-                      />
-                    </Link>
-                    <div className="flex gap-1">
-                      <Link
-                        className="hover:underline"
-                        href={{ params: { slug: city.id }, pathname: '/city/[slug]' }}
-                      >
-                        <span>{city.name}</span>
-                      </Link>
-                      <span className="text-muted-foreground">{city.region.name}</span>
-                    </div>
-                  </div>
-                  <div>
-                    <span>{city.totalInterest}</span>
-                  </div>
-                </li>
-              ))}
-          </ul>
         </div>
         <div>
           <div className="mb-2">
@@ -303,6 +226,85 @@ export default function Page() {
                     <span>{city.totalVisit}</span>
                   </div>
                 </div>
+              ))}
+          </ul>
+        </div>
+        <div>
+          <div className="mb-2">
+            <h2 className="font-bold text-xl border-b-2 border-primary pb-1">
+              Países com maior interesse
+            </h2>
+          </div>
+          <div>
+            <ul className="divide-y-2 min-h-[440px]">
+              {ranking.isLoading && <RankingSkeleton />}
+              {ranking.data &&
+                ranking.data.countryInterestRanking.map((country) => (
+                  <li
+                    key={country.iso2}
+                    className="flex items-center h-[44px] p-4 justify-between"
+                  >
+                    <div className="flex gap-2 items-center">
+                      <CountryFlag className="w-[36px]" iso2={country.iso2} />
+                      <Link
+                        className="hover:underline"
+                        href={{
+                          params: { slug: country.iso2 },
+                          pathname: '/country/[slug]',
+                        }}
+                      >
+                        <span>{country.name}</span>
+                      </Link>
+                    </div>
+                    <div>
+                      <span>{country.totalInterest}</span>
+                    </div>
+                  </li>
+                ))}
+            </ul>
+          </div>
+        </div>
+        <div>
+          <div className="mb-2">
+            <h2 className="font-bold text-xl border-b-2 border-primary pb-1">
+              Cidades com maior interesse
+            </h2>
+          </div>
+          <ul className="divide-y-2 min-h-[440px]">
+            {ranking.isLoading && <RankingSkeleton />}
+            {ranking.data &&
+              ranking.data.cityInterestRanking.map((city, index) => (
+                <li
+                  key={index}
+                  className="flex items-center h-[44px] p-4 justify-between"
+                >
+                  <div className="flex gap-2 items-center">
+                    <Link
+                      href={{
+                        params: { slug: city.region.country.iso2 },
+                        pathname: '/country/[slug]',
+                      }}
+                    >
+                      <CountryFlag
+                        className="w-[36px]"
+                        iso2={city.region.country.iso2}
+                        tooltip={city.region.country.name}
+                      />
+                    </Link>
+                    <div className="flex gap-1">
+                      <Link
+                        className="hover:underline"
+                        href={{ params: { slug: city.id }, pathname: '/city/[slug]' }}
+                      >
+                        <span>{city.name}</span>
+                      </Link>
+                      <span className="text-muted-foreground">{city.region.name}</span>
+                    </div>
+                  </div>
+                  <div>
+                    <span>{city.totalInterest}</span>
+                  </div>
+                </li>
               ))}
           </ul>
         </div>
