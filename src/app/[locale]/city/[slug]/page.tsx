@@ -147,11 +147,11 @@ export default function Page({ params }: { params: { slug: string; id: string } 
               onChange={onRate}
             />
           </div>
-          <div className="flex justify-center py-3">
-            <CreateCityVisit city={city.data}>
+          <CreateCityVisit city={city.data}>
+            <div className="flex justify-center py-3">
               <span>{t('review')}</span>
-            </CreateCityVisit>
-          </div>
+            </div>
+          </CreateCityVisit>
         </div>
       </div>
       <div className="grid gap-x-4 gap-y-6 grid-cols-1 sm:grid-cols-2">
