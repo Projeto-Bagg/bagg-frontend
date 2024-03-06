@@ -62,7 +62,7 @@ export const CityVisits = ({ visits }: Props) => {
                     </span>
                   </div>
                   <div className="flex gap-1">
-                    <Rating className="max-w-[72px]" readOnly value={visit.rating} />
+                    <Rating className="max-w-[72px]" readOnly value={visit.rating || 0} />
                     <span className="font-bold">{visit.rating}</span>
                   </div>
                 </div>

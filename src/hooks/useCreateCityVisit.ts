@@ -9,7 +9,7 @@ export const useCreateCityVisit = () => {
     mutationFn: async (visit: CreateCityVisit) =>
       await axios.post<CityVisit>('/city-visits', visit),
     onSuccess(data, variables) {
-      queryClient.setQueryData<City>(
+      queryClient.setQueryData<CityPage>(
         ['city', variables.cityId],
         (old) =>
           old &&

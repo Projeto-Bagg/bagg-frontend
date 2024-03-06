@@ -9,7 +9,7 @@ export const useDeleteCityVisit = () => {
     mutationFn: async ({ cityId }: { cityId: number }) =>
       await axios.delete('/city-visits/' + cityId),
     onSuccess(_, { cityId }) {
-      queryClient.setQueryData<City>(
+      queryClient.setQueryData<CityPage>(
         ['city', cityId],
         (old) =>
           old &&
