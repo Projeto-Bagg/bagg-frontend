@@ -23,7 +23,7 @@ import { z } from 'zod';
 
 interface CreateCityVisitProps {
   children: ReactNode;
-  city: City;
+  city: CityPage;
 }
 
 const createCityVisitSchema = z.object({
