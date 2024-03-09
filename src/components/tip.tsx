@@ -2,9 +2,6 @@
 
 import React from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { DiaryLikedByList } from '@/components/diary-liked-by-list';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -36,15 +33,25 @@ import { useUnlikeTip } from '@/hooks/useUnlikeTip';
 import { useDeleteTip } from '@/hooks/useDeleteTip';
 import { TipLikedByList } from '@/components/tip-liked-by-list';
 import { CountryFlag } from '@/components/ui/country-flag';
+import { TipComments } from '@/components/tip-comments';
+import { Link, usePathname, useRouter } from '@/common/navigation';
+import { useQueryClient } from '@tanstack/react-query';
 
-export const Tip = ({ tip }: { tip: Tip }) => {
+interface TipProps {
+  tip: Tip;
+  withComments?: boolean;
+}
+
+export const Tip = ({ tip, withComments }: TipProps) => {
   const { toast } = useToast();
   const auth = useAuth();
+  const queryClient = useQueryClient();
   const locale = useLocale();
   const like = useLikeTip();
   const unlike = useUnlikeTip();
   const deleteTip = useDeleteTip();
   const router = useRouter();
+  const pathname = usePathname();
   const t = useTranslations();
 
   const handleLikeClick = () => {
@@ -64,8 +71,18 @@ export const Tip = ({ tip }: { tip: Tip }) => {
     toast({ title: 'Link copiado para a área de transferência' });
   };
 
-  const handleDeleteClick = () => {
-    deleteTip.mutate(tip.id);
+  const handleDeleteClick = async () => {
+    await deleteTip.mutateAsync(tip.id);
+
+    if (pathname === '/tip/[slug]') {
+      router.push({ pathname: '/' });
+    }
+  };
+
+  const handleClickSeeComments = () => {
+    queryClient.setQueryData<Tip>(['tip', tip.id], tip);
+
+    router.push({ params: { slug: tip.id }, pathname: '/tip/[slug]' });
   };
 
   return (
@@ -73,7 +90,10 @@ export const Tip = ({ tip }: { tip: Tip }) => {
       <div className="flex">
         <div className="basis-[40px] mr-3">
           <UserHoverCard username={tip.user.username}>
-            <Link href={'/' + tip.user.username} className="h-fit">
+            <Link
+              href={{ params: { slug: tip.user.username }, pathname: '/[slug]' }}
+              className="h-fit"
+            >
               <Avatar className="h-[44px] w-[44px] shrink-0">
                 <AvatarImage src={tip.user.image} />
               </Avatar>
@@ -83,14 +103,21 @@ export const Tip = ({ tip }: { tip: Tip }) => {
         <div className="grow basis-0">
           <div className="flex gap-2 items-start justify-between">
             <div className="inline-block overflow-hidden text-ellipsis whitespace-nowrap ">
-              <div className="flex flex-col">
-                <Link href={'/' + tip.user.username}>
-                  <span>{tip.user.fullName}</span>
-                </Link>
-                <Link href={'/' + tip.user.username} className="text-muted-foreground">
-                  <span className="text-sm">@{tip.user.username}</span>
-                </Link>
-              </div>
+              <UserHoverCard username={tip.user.username}>
+                <div className="flex flex-col">
+                  <Link
+                    href={{ params: { slug: tip.user.username }, pathname: '/[slug]' }}
+                  >
+                    <span>{tip.user.fullName}</span>
+                  </Link>
+                  <Link
+                    href={{ params: { slug: tip.user.username }, pathname: '/[slug]' }}
+                    className="text-muted-foreground"
+                  >
+                    <span className="text-sm">@{tip.user.username}</span>
+                  </Link>
+                </div>
+              </UserHoverCard>
             </div>
             <div className="flex shrink-0 items-center gap-2 text-muted-foreground">
               <TipLikedByList id={tip.id}>
@@ -161,9 +188,9 @@ export const Tip = ({ tip }: { tip: Tip }) => {
             </Badge>
             <Link
               className="text-muted-foreground hover:underline"
-              href={'/city/' + tip.city.id}
+              href={{ params: { slug: tip.city.id }, pathname: '/city/[slug]' }}
             >
-              <div className="flex gap-2">
+              <div className="flex gap-2 text-sm">
                 <span>
                   {tip.city.name}, {tip.city.region.name}, {tip.city.region.country.name}
                 </span>
@@ -250,8 +277,19 @@ export const Tip = ({ tip }: { tip: Tip }) => {
               )}
             </div>
           )}
+          {!withComments && (
+            <div className="mt-1">
+              <button
+                className="text-muted-foreground text-sm"
+                onClick={handleClickSeeComments}
+              >
+                Ver comentários
+              </button>
+            </div>
+          )}
         </div>
       </div>
+      {withComments && <TipComments tip={tip} />}
     </article>
   );
 };

@@ -80,15 +80,17 @@ export const DiaryPost = ({ post }: { post: DiaryPost }) => {
         </div>
         <div className="grow basis-0">
           <div className="flex gap-2 items-start justify-between">
-            <div className="inline-block overflow-hidden text-ellipsis whitespace-nowrap ">
-              <div className="flex flex-col">
-                <Link href={'/' + post.user.username}>
-                  <span>{post.user.fullName}</span>
-                </Link>
-                <Link href={'/' + post.user.username} className="text-muted-foreground">
-                  <span className="text-sm">@{post.user.username}</span>
-                </Link>
-              </div>
+            <div className="inline-block overflow-hidden text-ellipsis whitespace-nowrap">
+              <UserHoverCard username={post.user.username}>
+                <div className="flex flex-col">
+                  <Link href={'/' + post.user.username}>
+                    <span>{post.user.fullName}</span>
+                  </Link>
+                  <Link href={'/' + post.user.username} className="text-muted-foreground">
+                    <span className="text-sm">@{post.user.username}</span>
+                  </Link>
+                </div>
+              </UserHoverCard>
             </div>
             <div className="flex shrink-0 items-center gap-2 text-muted-foreground">
               <DiaryLikedByList id={post.id}>
