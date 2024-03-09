@@ -177,10 +177,22 @@
   "diaryPost": {
     "copyLink": "Copiar link",
     "delete": "Remover",
-    "diaryBadge": "Diário",
+    "badge": "Diário",
     "likedBy": "Curtido por",
     "deleteModal": {
       "title": "Excluir postagem de diário",
+      "description": "Tem certeza que deseja excluir a postagem? Essa ação é irreversível.",
+      "cancel": "Cancelar",
+      "action": "Excluir"
+    }
+  },
+  "tip": {
+    "copyLink": "Copiar link",
+    "delete": "Remover",
+    "badge": "Tip",
+    "likedBy": "Curtido por",
+    "deleteModal": {
+      "title": "Excluir tip",
       "description": "Tem certeza que deseja excluir a postagem? Essa ação é irreversível.",
       "cancel": "Cancelar",
       "action": "Excluir"

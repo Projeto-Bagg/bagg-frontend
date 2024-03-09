@@ -22,6 +22,7 @@ import { CountryFlag } from '@/components/ui/country-flag';
 import { CreatePost } from '@/components/create-post';
 import { Link, usePathname, useRouter } from '@/common/navigation';
 import { useParams } from 'next/navigation';
+import { CreateTip } from '@/components/create-tip';
 
 export const Header = () => {
   const t = useTranslations();
@@ -58,14 +59,24 @@ export const Header = () => {
         </nav>
         <div className="flex gap-2 items-center">
           {auth.user && (
-            <CreatePost>
-              <button className="text-primary-foreground flex gap-1 h-[1.2rem] px-2 bg-primary items-center rounded-sm">
-                <Plus size={14} strokeWidth={3} />
-                <span className="font-bold text-xs uppercase">
-                  {t('createPost.trigger')}
-                </span>
-              </button>
-            </CreatePost>
+            <React.Fragment>
+              <CreateTip>
+                <button className="text-primary-foreground flex gap-1 h-[1.2rem] px-2 bg-orange-400 items-center rounded-sm">
+                  <Plus size={14} strokeWidth={3} />
+                  <span className="font-bold text-xs uppercase">
+                    {t('createTip.trigger')}
+                  </span>
+                </button>
+              </CreateTip>
+              <CreatePost>
+                <button className="text-primary-foreground flex gap-1 h-[1.2rem] px-2 bg-primary items-center rounded-sm">
+                  <Plus size={14} strokeWidth={3} />
+                  <span className="font-bold text-xs uppercase">
+                    {t('createPost.trigger')}
+                  </span>
+                </button>
+              </CreatePost>
+            </React.Fragment>
           )}
           <Search />
           <DropdownMenu>

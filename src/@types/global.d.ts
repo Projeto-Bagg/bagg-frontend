@@ -59,8 +59,8 @@ interface Tip {
   isLiked: boolean;
   createdAt: Date;
   user: User;
+  city: City;
   tipMedias: TipMedia[];
-  tipComments: TipComment[];
 }
 
 interface TipComment {
