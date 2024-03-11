@@ -1,25 +1,48 @@
 'use client';
 
-import { DiaryPost } from '@/components/diary-post';
+import { Tip } from '@/components/tip';
 import axios from '@/services/axios';
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useInView } from 'react-intersection-observer';
 
 export default function Page() {
   const t = useTranslations();
+  const { ref, inView } = useInView();
 
-  const feed = useQuery<DiaryPost[]>({
+  const { data, fetchNextPage, hasNextPage } = useInfiniteQuery<Tip[]>({
     queryKey: ['feed'],
-    queryFn: async () => (await axios.get<DiaryPost[]>('diaryPosts/user/feed')).data,
+    queryFn: async ({ pageParam }) =>
+      (await axios.get<Tip[]>('/tips/feed?page=' + pageParam)).data,
+    initialPageParam: 1,
+    getNextPageParam: (page, allPages) =>
+      page.length === 10 ? allPages.length + 1 : null,
   });
+
+  console.log(data);
+
+  useEffect(() => {
+    if (inView && hasNextPage) {
+      fetchNextPage();
+    }
+  }, [inView, fetchNextPage, hasNextPage]);
 
   return (
     <div className="container">
       <div className="px-4 md:px-11 pt-4">
         <h1 className="text-lg font-bold">{t('homepage.title')}</h1>
       </div>
-      {feed.data && feed.data.map((post) => <DiaryPost post={post} key={post.id} />)}
+      {data &&
+        data.pages.map((page) =>
+          page.map((tip, index) => (
+            <Tip
+              ref={page.length - 1 === index ? ref : undefined}
+              tip={tip}
+              key={tip.id}
+            />
+          )),
+        )}
     </div>
   );
 }

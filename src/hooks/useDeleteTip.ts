@@ -1,23 +1,21 @@
-import { useAuth } from '@/context/auth-context';
 import axios from '@/services/axios';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { produce } from 'immer';
 
-export const useCreateTip = () => {
+export const useDeleteTip = () => {
   const queryClient = useQueryClient();
-  const auth = useAuth();
 
   return useMutation({
-    mutationFn: async (data: FormData) => (await axios.post<Tip>('/tips', data)).data,
-    onSuccess: (data) => {
-      queryClient.setQueryData<Tip>(['tip', data.id], data);
+    mutationFn: async (id: number) => axios.delete('/tips/ ' + id),
+    onSuccess: (_, id) => {
+      queryClient.setQueryData<Tip>(['tip', id], undefined);
 
       queryClient.setQueryData<Pagination<Tip>>(
         ['feed'],
         (old) =>
           old &&
           produce(old, (draft) => {
-            draft.pages[0].unshift(data);
+            draft.pages = draft.pages.map((page) => page.filter((tip) => tip.id !== id));
           }),
       );
     },

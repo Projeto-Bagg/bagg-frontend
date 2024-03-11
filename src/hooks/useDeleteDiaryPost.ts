@@ -15,11 +15,6 @@ export const useDeleteDiaryPost = () => {
         (old) => old && produce(old, (draft) => draft.filter((post) => post.id !== id)),
       );
 
-      queryClient.setQueryData<DiaryPost[]>(
-        ['feed'],
-        (old) => old && produce(old, (draft) => draft.filter((post) => post.id !== id)),
-      );
-
       queryClient.setQueriesData<DiaryPost[]>(
         { queryKey: ['tripDiaryPosts'] },
         (old) => old && produce(old, (draft) => draft.filter((post) => post.id !== id)),
