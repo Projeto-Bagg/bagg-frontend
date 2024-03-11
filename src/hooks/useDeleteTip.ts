@@ -10,9 +10,13 @@ export const useDeleteTip = () => {
     onSuccess: (_, id) => {
       queryClient.setQueryData<Tip>(['tip', id], undefined);
 
-      queryClient.setQueryData<Tip[]>(
+      queryClient.setQueryData<Pagination<Tip>>(
         ['feed'],
-        (old) => old && produce(old, (draft) => draft.filter((post) => post.id !== id)),
+        (old) =>
+          old &&
+          produce(old, (draft) => {
+            draft.pages = draft.pages.map((page) => page.filter((tip) => tip.id !== id));
+          }),
       );
     },
   });

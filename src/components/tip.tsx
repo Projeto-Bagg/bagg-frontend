@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { HTMLProps, forwardRef } from 'react';
 import Image from 'next/image';
 import {
   AlertDialog,
@@ -37,12 +37,13 @@ import { TipComments } from '@/components/tip-comments';
 import { Link, usePathname, useRouter } from '@/common/navigation';
 import { useQueryClient } from '@tanstack/react-query';
 
-interface TipProps {
-  tip: Tip;
-  withComments?: boolean;
-}
-
-export const Tip = ({ tip, withComments }: TipProps) => {
+export const Tip = forwardRef<
+  HTMLDivElement,
+  HTMLProps<HTMLDivElement> & {
+    tip: Tip;
+    withComments?: boolean;
+  }
+>(({ tip, withComments, ...props }, forwardRef) => {
   const { toast } = useToast();
   const auth = useAuth();
   const queryClient = useQueryClient();
@@ -86,7 +87,11 @@ export const Tip = ({ tip, withComments }: TipProps) => {
   };
 
   return (
-    <article className="sm:m-4 px-4 py-6 sm:px-7 space-y-3 border-b sm:border sm:border-border sm:rounded-lg">
+    <div
+      {...props}
+      ref={forwardRef}
+      className="sm:m-4 px-4 py-6 sm:px-7 space-y-3 border-b sm:border sm:border-border sm:rounded-lg"
+    >
       <div className="flex">
         <div className="basis-[40px] mr-3">
           <UserHoverCard username={tip.user.username}>
@@ -283,13 +288,17 @@ export const Tip = ({ tip, withComments }: TipProps) => {
                 className="text-muted-foreground text-sm"
                 onClick={handleClickSeeComments}
               >
-                Ver comentários
+                {tip.commentsAmount === 0
+                  ? 'Criar comentário'
+                  : `Ver ${tip.commentsAmount} comentários`}
               </button>
             </div>
           )}
         </div>
       </div>
       {withComments && <TipComments tip={tip} />}
-    </article>
+    </div>
   );
-};
+});
+
+Tip.displayName = 'Tip';

@@ -7,25 +7,27 @@ export const useLikeTip = () => {
 
   return useMutation({
     mutationFn: async (tip: Tip) => await axios.post(`/tip-likes/${tip.id}`),
-    onMutate: (tip) => {
+    onMutate: (data) => {
       ['feed', 'tips'].forEach((tab) =>
-        queryClient.setQueriesData<Tip[]>(
+        queryClient.setQueriesData<Pagination<Tip>>(
           { queryKey: [tab] },
           (old) =>
             old &&
             produce(old, (draft) => {
-              draft.map((tip) => {
-                if (tip.id === tip.id) {
-                  tip.likedBy += 1;
-                  tip.isLiked = true;
-                }
+              draft.pages.map((page) => {
+                page.map((tip) => {
+                  if (tip.id === data.id) {
+                    tip.likedBy += 1;
+                    tip.isLiked = true;
+                  }
+                });
               });
             }),
         ),
       );
 
       queryClient.setQueryData<Tip>(
-        ['tip', tip.id],
+        ['tip', data.id],
         (old) =>
           old &&
           produce(old, (draft) => {
