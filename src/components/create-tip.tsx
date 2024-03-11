@@ -25,6 +25,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { useToast } from '@/components/ui/use-toast';
 import { useCreateTip } from '@/hooks/useCreateTip';
+import { SelectCity } from '@/components/select-city';
 
 const createTipSchema = z.object({
   cityId: z.number(),
@@ -60,6 +61,9 @@ export const CreateTip = ({ children }: { children: ReactNode }) => {
     formState: { errors, isDirty },
   } = useForm<CreateTipType>({
     resolver: zodResolver(createTipSchema),
+    defaultValues: {
+      message: '',
+    },
   });
 
   const handleCreatePost = async (data: CreateTipType) => {
@@ -96,6 +100,28 @@ export const CreateTip = ({ children }: { children: ReactNode }) => {
           <DialogTitle>{t('createTip.title')}</DialogTitle>
         </DialogHeader>
         <form className="space-y-4" onSubmit={handleSubmit(handleCreatePost)}>
+          <div>
+            <div className="justify-between flex mb-0.5">
+              <div className="flex gap-1 items-end">
+                <Label>{t('createTripDiary.city')}</Label>
+              </div>
+              {errors.cityId && (
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Info size={18} className="text-red-600" />
+                  </TooltipTrigger>
+                  <TooltipContent>{t('createTripDiary.cityFieldError')}</TooltipContent>
+                </Tooltip>
+              )}
+            </div>
+            <Controller
+              name="cityId"
+              control={control}
+              render={({ field }) => (
+                <SelectCity onSelect={(value) => field.onChange(+value)} />
+              )}
+            />
+          </div>
           <div>
             <div className="flex justify-between mb-0.5">
               <div className="flex gap-1 items-end">

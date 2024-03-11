@@ -60,6 +60,7 @@
     "react-dom": "latest",
     "react-dropzone": "^14.2.3",
     "react-hook-form": "^7.49.3",
+    "react-intersection-observer": "^9.8.1",
     "react-leaflet": "^4.2.1",
     "react-responsive-carousel": "^3.2.23",
     "sharp": "^0.33.2",

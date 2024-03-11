@@ -177,10 +177,22 @@
   "diaryPost": {
     "copyLink": "Copy link",
     "delete": "Delete",
-    "diaryBadge": "Diary",
+    "badge": "Diary",
     "likedBy": "Liked by",
     "deleteModal": {
       "title": "Delete diary post",
+      "description": "Are you sure you want to delete this post? This action cannot be undone",
+      "cancel": "Cancel",
+      "action": "Delete"
+    }
+  },
+  "tip": {
+    "copyLink": "Copy link",
+    "delete": "Delete",
+    "badge": "Tip",
+    "likedBy": "Liked by",
+    "deleteModal": {
+      "title": "Delete tip",
       "description": "Are you sure you want to delete this post? This action cannot be undone",
       "cancel": "Cancel",
       "action": "Delete"

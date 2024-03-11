@@ -1,10 +1,7 @@
 'use client';
 
-import React from 'react';
+import React, { HTMLProps, forwardRef } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { DiaryLikedByList } from '@/components/diary-liked-by-list';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -26,23 +23,36 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useToast } from '@/components/ui/use-toast';
 import { useAuth } from '@/context/auth-context';
-import { useDeleteDiaryPost } from '@/hooks/useDeleteDiaryPost';
-import { useLikeDiaryPost } from '@/hooks/useLikeDiaryPost';
-import { useUnlikeDiaryPost } from '@/hooks/useUnlikeDiaryPost';
 import { Heart, MoreHorizontal } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
 import { Carousel } from 'react-responsive-carousel';
 import { intlFormatDistance } from 'date-fns';
 import { UserHoverCard } from '@/components/user-hovercard';
+import { useLikeTip } from '@/hooks/useLikeTip';
+import { useUnlikeTip } from '@/hooks/useUnlikeTip';
+import { useDeleteTip } from '@/hooks/useDeleteTip';
+import { TipLikedByList } from '@/components/tip-liked-by-list';
+import { CountryFlag } from '@/components/ui/country-flag';
+import { TipComments } from '@/components/tip-comments';
+import { Link, usePathname, useRouter } from '@/common/navigation';
+import { useQueryClient } from '@tanstack/react-query';
 
-export const DiaryPost = ({ post }: { post: DiaryPost }) => {
+export const Tip = forwardRef<
+  HTMLDivElement,
+  HTMLProps<HTMLDivElement> & {
+    tip: Tip;
+    withComments?: boolean;
+  }
+>(({ tip, withComments, ...props }, forwardRef) => {
   const { toast } = useToast();
   const auth = useAuth();
+  const queryClient = useQueryClient();
   const locale = useLocale();
-  const like = useLikeDiaryPost();
-  const unlike = useUnlikeDiaryPost();
-  const deletePost = useDeleteDiaryPost();
+  const like = useLikeTip();
+  const unlike = useUnlikeTip();
+  const deleteTip = useDeleteTip();
   const router = useRouter();
+  const pathname = usePathname();
   const t = useTranslations();
 
   const handleLikeClick = () => {
@@ -50,60 +60,82 @@ export const DiaryPost = ({ post }: { post: DiaryPost }) => {
       return router.push('/login');
     }
 
-    if (post.isLiked) {
-      return unlike.mutate(post);
+    if (tip.isLiked) {
+      return unlike.mutate(tip);
     }
-    return like.mutate(post);
+    return like.mutate(tip);
   };
 
   const handleShareClick = () => {
-    navigator.clipboard.writeText(window.location.origin + '/diary/post/' + post.id);
+    navigator.clipboard.writeText(window.location.origin + '/tip/' + tip.id);
 
     toast({ title: 'Link copiado para a área de transferência' });
   };
 
-  const handleDeleteClick = () => {
-    deletePost.mutate(post.id);
+  const handleDeleteClick = async () => {
+    await deleteTip.mutateAsync(tip.id);
+
+    if (pathname === '/tip/[slug]') {
+      router.push({ pathname: '/' });
+    }
+  };
+
+  const handleClickSeeComments = () => {
+    queryClient.setQueryData<Tip>(['tip', tip.id], tip);
+
+    router.push({ params: { slug: tip.id }, pathname: '/tip/[slug]' });
   };
 
   return (
-    <article className="sm:m-4 px-4 py-6 sm:px-7 space-y-3 border-b sm:border sm:border-border sm:rounded-lg">
+    <div
+      {...props}
+      ref={forwardRef}
+      className="sm:m-4 px-4 py-6 sm:px-7 space-y-3 border-b sm:border sm:border-border sm:rounded-lg"
+    >
       <div className="flex">
         <div className="basis-[40px] mr-3">
-          <UserHoverCard username={post.user.username}>
-            <Link href={'/' + post.user.username} className="h-fit">
+          <UserHoverCard username={tip.user.username}>
+            <Link
+              href={{ params: { slug: tip.user.username }, pathname: '/[slug]' }}
+              className="h-fit"
+            >
               <Avatar className="h-[44px] w-[44px] shrink-0">
-                <AvatarImage src={post.user.image} />
+                <AvatarImage src={tip.user.image} />
               </Avatar>
             </Link>
           </UserHoverCard>
         </div>
         <div className="grow basis-0">
           <div className="flex gap-2 items-start justify-between">
-            <div className="inline-block overflow-hidden text-ellipsis whitespace-nowrap">
-              <UserHoverCard username={post.user.username}>
+            <div className="inline-block overflow-hidden text-ellipsis whitespace-nowrap ">
+              <UserHoverCard username={tip.user.username}>
                 <div className="flex flex-col">
-                  <Link href={'/' + post.user.username}>
-                    <span>{post.user.fullName}</span>
+                  <Link
+                    href={{ params: { slug: tip.user.username }, pathname: '/[slug]' }}
+                  >
+                    <span>{tip.user.fullName}</span>
                   </Link>
-                  <Link href={'/' + post.user.username} className="text-muted-foreground">
-                    <span className="text-sm">@{post.user.username}</span>
+                  <Link
+                    href={{ params: { slug: tip.user.username }, pathname: '/[slug]' }}
+                    className="text-muted-foreground"
+                  >
+                    <span className="text-sm">@{tip.user.username}</span>
                   </Link>
                 </div>
               </UserHoverCard>
             </div>
             <div className="flex shrink-0 items-center gap-2 text-muted-foreground">
-              <DiaryLikedByList id={post.id}>
-                <span className="text-sm">{post.likedBy}</span>
-              </DiaryLikedByList>
+              <TipLikedByList id={tip.id}>
+                <span className="text-sm">{tip.likedBy}</span>
+              </TipLikedByList>
               <Heart
                 onClick={handleLikeClick}
-                data-liked={post.isLiked}
+                data-liked={tip.isLiked}
                 size={20}
                 className="data-[liked=true]:fill-red-600 data-[liked=true]:text-red-600 cursor-pointer text-foreground"
               />
               <span className="text-sm">
-                {intlFormatDistance(post.createdAt, new Date(), {
+                {intlFormatDistance(tip.createdAt, new Date(), {
                   numeric: 'always',
                   style: 'narrow',
                   locale,
@@ -117,9 +149,9 @@ export const DiaryPost = ({ post }: { post: DiaryPost }) => {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
                   <DropdownMenuItem onSelect={handleShareClick}>
-                    {t('diaryPost.copyLink')}
+                    {t('tip.copyLink')}
                   </DropdownMenuItem>
-                  {auth.user?.id === post.user.id && (
+                  {auth.user?.id === tip.user.id && (
                     <>
                       <AlertDialog>
                         <AlertDialogTrigger asChild>
@@ -127,24 +159,24 @@ export const DiaryPost = ({ post }: { post: DiaryPost }) => {
                             onSelect={(e) => e.preventDefault()}
                             className="font-bold"
                           >
-                            {t('diaryPost.delete')}
+                            {t('tip.delete')}
                           </DropdownMenuItem>
                         </AlertDialogTrigger>
                         <AlertDialogContent>
                           <AlertDialogHeader>
                             <AlertDialogTitle>
-                              {t('diaryPost.deleteModal.title')}
+                              {t('tip.deleteModal.title')}
                             </AlertDialogTitle>
                             <AlertDialogDescription>
-                              {t('diaryPost.deleteModal.description')}
+                              {t('tip.deleteModal.description')}
                             </AlertDialogDescription>
                           </AlertDialogHeader>
                           <AlertDialogFooter>
                             <AlertDialogCancel>
-                              {t('diaryPost.deleteModal.cancel')}
+                              {t('tip.deleteModal.cancel')}
                             </AlertDialogCancel>
                             <AlertDialogAction onClick={handleDeleteClick}>
-                              {t('diaryPost.deleteModal.action')}
+                              {t('tip.deleteModal.action')}
                             </AlertDialogAction>
                           </AlertDialogFooter>
                         </AlertDialogContent>
@@ -155,32 +187,39 @@ export const DiaryPost = ({ post }: { post: DiaryPost }) => {
               </DropdownMenu>
             </div>
           </div>
-          <div className="flex gap-2 my-2 items-center">
-            <Badge className="uppercase">{t('diaryPost.badge')}</Badge>
+          <div className="flex items-center gap-2 my-2">
+            <Badge className="bg-orange-400 hover:bg-orange-500 uppercase">
+              {t('tip.badge')}
+            </Badge>
             <Link
-              className="text-muted-foreground text-sm"
-              href={'/diary/' + post.tripDiary.id}
+              className="text-muted-foreground hover:underline"
+              href={{ params: { slug: tip.city.id }, pathname: '/city/[slug]' }}
             >
-              <span>{post.tripDiary.title}</span>
+              <div className="flex gap-2 text-sm">
+                <span>
+                  {tip.city.name}, {tip.city.region.name}, {tip.city.region.country.name}
+                </span>
+                <CountryFlag iso2={tip.city.region.country.iso2} />
+              </div>
             </Link>
           </div>
           <div>
-            <p className="text-sm sm:text-base">{post.message}</p>
+            <p className="text-sm sm:text-base">{tip.message}</p>
           </div>
-          {post.diaryPostMedias.length !== 0 && (
+          {tip.tipMedias.length !== 0 && (
             <div className="mt-2">
-              {post.diaryPostMedias.length === 1 && (
+              {tip.tipMedias.length === 1 && (
                 <div className="relative aspect-square max-w-[752px] max-h-[423px]">
-                  {post.diaryPostMedias[0].url.endsWith('mp4') ? (
+                  {tip.tipMedias[0].url.endsWith('mp4') ? (
                     <div
-                      key={post.diaryPostMedias[0].id}
+                      key={tip.tipMedias[0].id}
                       className="h-full flex justify-center items-center bg-black rounded-lg"
                     >
-                      <video controls src={post.diaryPostMedias[0].url} />
+                      <video controls src={tip.tipMedias[0].url} />
                     </div>
                   ) : (
                     <Image
-                      src={post.diaryPostMedias[0].url}
+                      src={tip.tipMedias[0].url}
                       alt=""
                       fill
                       className="h-full w-full rounded-lg aspect-square object-cover"
@@ -188,9 +227,9 @@ export const DiaryPost = ({ post }: { post: DiaryPost }) => {
                   )}
                 </div>
               )}
-              {post.diaryPostMedias.length === 2 && (
+              {tip.tipMedias.length === 2 && (
                 <div className="grid aspect-[16/9] grid-cols-[minmax(0px,_75fr)_minmax(0px,_75fr)] grid-rows-[100%] w-full">
-                  {post.diaryPostMedias.map((media) =>
+                  {tip.tipMedias.map((media) =>
                     media.url.endsWith('mp4') ? (
                       <div
                         key={media.id}
@@ -211,7 +250,7 @@ export const DiaryPost = ({ post }: { post: DiaryPost }) => {
                   )}
                 </div>
               )}
-              {post.diaryPostMedias.length > 2 && (
+              {tip.tipMedias.length > 2 && (
                 <Carousel
                   centerMode
                   centerSlidePercentage={45}
@@ -219,7 +258,7 @@ export const DiaryPost = ({ post }: { post: DiaryPost }) => {
                   showIndicators={false}
                   showStatus={false}
                 >
-                  {post.diaryPostMedias.map((media) => (
+                  {tip.tipMedias.map((media) => (
                     <div key={media.id} className="mr-1">
                       {media.url.endsWith('mp4') ? (
                         <div
@@ -243,8 +282,23 @@ export const DiaryPost = ({ post }: { post: DiaryPost }) => {
               )}
             </div>
           )}
+          {!withComments && (
+            <div className="mt-1">
+              <button
+                className="text-muted-foreground text-sm"
+                onClick={handleClickSeeComments}
+              >
+                {tip.commentsAmount === 0
+                  ? 'Criar comentário'
+                  : `Ver ${tip.commentsAmount} comentários`}
+              </button>
+            </div>
+          )}
         </div>
       </div>
-    </article>
+      {withComments && <TipComments tip={tip} />}
+    </div>
   );
-};
+});
+
+Tip.displayName = 'Tip';

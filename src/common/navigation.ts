@@ -13,6 +13,7 @@ export const pathnames = {
   '/country/[slug]': '/country/[slug]',
   '/diary/[slug]': '/diary/[slug]',
   '/diary/post/[slug]': '/diary/post/[slug]',
+  '/tip/[slug]': '/tip/[slug]',
   '/config': '/config',
   '/[slug]': '/[slug]',
   '/[slug]/likes': '/[slug]/likes',

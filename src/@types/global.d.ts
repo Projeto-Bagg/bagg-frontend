@@ -44,6 +44,11 @@ interface Media {
   createdAt: Date;
 }
 
+interface Pagination<T> {
+  pageParams: number[];
+  pages: T[][];
+}
+
 interface DiaryPostMedia extends Media {
   diaryId: number;
 }
@@ -59,8 +64,9 @@ interface Tip {
   isLiked: boolean;
   createdAt: Date;
   user: User;
+  city: City;
   tipMedias: TipMedia[];
-  tipComments: TipComment[];
+  commentsAmount: number;
 }
 
 interface TipComment {
