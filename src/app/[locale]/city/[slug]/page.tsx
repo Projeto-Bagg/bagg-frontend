@@ -19,7 +19,6 @@ import { useUpdateCityVisit } from '@/hooks/useUpdateCityVisit';
 import { cn } from '@/lib/utils';
 import { CreateCityVisit } from '@/components/create-city-visit';
 import { useDeleteCityVisit } from '@/hooks/useDeleteCityVisit';
-import { toast } from '@/components/ui/use-toast';
 
 export default function Page({ params }: { params: { slug: string; id: string } }) {
   const createCityInterest = useCreateCityInterest();
@@ -27,7 +26,7 @@ export default function Page({ params }: { params: { slug: string; id: string } 
   const createCityVisit = useCreateCityVisit();
   const updateCityVisit = useUpdateCityVisit();
   const deleteCityVisit = useDeleteCityVisit();
-  const t = useTranslations('cityPage');
+  const t = useTranslations('city-page');
 
   const city = useQuery<CityPage>({
     queryFn: async () => (await axios.get<CityPage>('/cities/' + params.slug)).data,
@@ -185,7 +184,7 @@ export default function Page({ params }: { params: { slug: string; id: string } 
               </Carousel>
             ) : (
               <div className="justify-center flex h-full w-full items-center font-bold">
-                <span>{t('noImages')}</span>
+                <span>{t('no-images')}</span>
               </div>
             )}
           </div>

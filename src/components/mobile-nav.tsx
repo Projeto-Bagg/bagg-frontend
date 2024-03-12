@@ -122,12 +122,6 @@ export const MobileNav = () => {
               <span>{t('ranking')}</span>
             </div>
           </MobileLink>
-          <MobileLink onOpenChange={setOpen} href={'/countries'}>
-            <div className="flex items-center gap-2">
-              <MapPin size={20} />
-              <span>{t('countries')}</span>
-            </div>
-          </MobileLink>
           <Separator />
           <Collapsible>
             <CollapsibleTrigger asChild>

@@ -6,7 +6,7 @@ export const useDeleteCityInterest = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (cityId: number) => axios.delete('/cityInterests/' + cityId),
+    mutationFn: async (cityId: number) => axios.delete('/city-interests/' + cityId),
     onSuccess: (_, cityId) => {
       queryClient.setQueryData<CityPage>(
         ['city', cityId],

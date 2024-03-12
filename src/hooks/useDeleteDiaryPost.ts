@@ -8,17 +8,20 @@ export const useDeleteDiaryPost = () => {
   const auth = useAuth();
 
   return useMutation({
-    mutationFn: async (id: number) => axios.delete('/diaryPosts/ ' + id),
+    mutationFn: async (id: number) => axios.delete('/diary-posts/ ' + id),
     onSuccess: (_, id) => {
-      queryClient.setQueryData<DiaryPost[]>(
-        ['diaryPosts', auth.user?.username],
-        (old) => old && produce(old, (draft) => draft.filter((post) => post.id !== id)),
-      );
-
-      queryClient.setQueriesData<DiaryPost[]>(
-        { queryKey: ['tripDiaryPosts'] },
-        (old) => old && produce(old, (draft) => draft.filter((post) => post.id !== id)),
-      );
+      [['diary-posts', auth.user?.username], ['trip-diary-posts']].forEach((key) => {
+        queryClient.setQueryData<Pagination<DiaryPost>>(
+          key,
+          (old) =>
+            old &&
+            produce(old, (draft) => {
+              draft.pages = draft.pages.map((page) =>
+                page.filter((post) => post.id !== id),
+              );
+            }),
+        );
+      });
     },
   });
 };

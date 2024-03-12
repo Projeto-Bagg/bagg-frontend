@@ -7,19 +7,24 @@ export const useUnlikeDiaryPost = () => {
 
   return useMutation({
     mutationFn: async (post: DiaryPost) =>
-      await axios.post(`/diaryPosts/${post.id}/unlike`),
+      await axios.delete(`/diary-post-likes/${post.id}`),
     onMutate: (post) => {
-      ['diaryPosts', 'feed', 'tripDiaryPosts'].forEach((tab) =>
-        queryClient.setQueriesData<DiaryPost[]>(
-          { queryKey: [tab] },
+      [
+        ['diary-posts', post.user.username],
+        ['trip-diary-posts', post.tripDiary.id],
+      ].forEach((key) =>
+        queryClient.setQueryData<Pagination<DiaryPost>>(
+          key,
           (old) =>
             old &&
             produce(old, (draft) => {
-              draft.map((diaryPost) => {
-                if (diaryPost.id === post.id) {
-                  diaryPost.likedBy -= 1;
-                  diaryPost.isLiked = false;
-                }
+              draft.pages.map((page) => {
+                page.map((diaryPost) => {
+                  if (diaryPost.id === post.id) {
+                    diaryPost.likedBy -= 1;
+                    diaryPost.isLiked = false;
+                  }
+                });
               });
             }),
         ),

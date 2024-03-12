@@ -85,7 +85,7 @@ export const Search = () => {
             )}
 
             <Input
-              placeholder={t('search.inputPlaceholder')}
+              placeholder={t('search.input-placeholder')}
               onChange={(e) => setQuery(e.target.value)}
               className="pl-9 text-xl placeholder:text-xl h-14 bg-transparent rounded-none focus-visible:ring-0 focus-visible:ring-offset-0 border-0 border-b-2 border-muted-foreground"
             />
@@ -95,7 +95,7 @@ export const Search = () => {
           <div className="mt-8 space-y-2">
             <div>
               <h3 className="font-semibold border-b-2 border-primary pb-1 w-fit">
-                {t('search.userSearchResults')}
+                {t('search.user-search-results')}
               </h3>
               <div className="space-y-0.5 mt-4">
                 {search.data && search.data.users.length > 0 ? (
@@ -129,13 +129,13 @@ export const Search = () => {
                     </Link>
                   ))
                 ) : (
-                  <span className="text-muted-foreground">{t('search.notFound')}</span>
+                  <span className="text-muted-foreground">{t('search.not-found')}</span>
                 )}
               </div>
             </div>
             <div>
               <h3 className="font-semibold border-b-2 border-primary pb-1 w-fit">
-                {t('search.countrySearchResults')}
+                {t('search.country-search-results')}
               </h3>
               <div className="space-y-0.5 mt-4">
                 {search.data && search.data.countries.length > 0 ? (
@@ -160,13 +160,13 @@ export const Search = () => {
                     </Link>
                   ))
                 ) : (
-                  <span className="text-muted-foreground">{t('search.notFound')}</span>
+                  <span className="text-muted-foreground">{t('search.not-found')}</span>
                 )}
               </div>
             </div>
             <div>
               <h3 className="font-semibold border-b-2 border-primary pb-1 w-fit">
-                {t('search.citySearchResults')}
+                {t('search.city-search-results')}
               </h3>
               <div className="space-y-0.5 mt-4">
                 {search.data && search.data.cities.length > 0 ? (
@@ -193,7 +193,7 @@ export const Search = () => {
                     </Link>
                   ))
                 ) : (
-                  <span className="text-muted-foreground">{t('search.notFound')}</span>
+                  <span className="text-muted-foreground">{t('search.not-found')}</span>
                 )}
               </div>
             </div>

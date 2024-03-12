@@ -9,7 +9,7 @@ export const useUnfollow = () => {
 
   return useMutation({
     mutationFn: async (followingUsername: string) =>
-      await axios.delete('/users/following/' + followingUsername),
+      await axios.delete('/follows/' + followingUsername),
     onMutate(followingUsername) {
       queryClient.setQueryData<User>(
         ['user', followingUsername],
@@ -30,7 +30,7 @@ export const useUnfollow = () => {
           }),
       );
 
-      ['followers', 'following', 'diaryPostLikedBy'].forEach((tab) => {
+      ['followers', 'following', 'diary-post-liked-by'].forEach((tab) => {
         queryClient.setQueriesData<User[]>(
           { queryKey: [tab] },
           (old) =>

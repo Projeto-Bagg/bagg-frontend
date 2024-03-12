@@ -6,7 +6,7 @@ export const useDeleteProfilePic = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async () => await axios.delete('/users/profilePic'),
+    mutationFn: async () => await axios.delete('/users/profile-pic'),
     onSuccess: () => {
       queryClient.setQueryData<User>(
         ['session'],

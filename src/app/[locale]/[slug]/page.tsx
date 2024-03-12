@@ -70,9 +70,9 @@ export default function Profile({ params }: { params: { slug: string } }) {
                 <span className="text-xs sm:text-base text-muted-foreground ">
                   @{user.data.username}
                 </span>
-                {user.data?.friendshipStatus.followedBy && (
-                  <span className="text-xs sm:text-base text-muted-foreground">
-                    {t('follow.followYou')}
+                {user.data.friendshipStatus.followedBy && (
+                  <span className="text-xs sm:text-sm text-muted-foreground">
+                    {t('follow.follow-you')}
                   </span>
                 )}
               </div>
@@ -95,7 +95,7 @@ export default function Profile({ params }: { params: { slug: string } }) {
                 }}
               >
                 <div>
-                  <Button className="hidden sm:block">{t('profile.editProfile')}</Button>
+                  <Button className="hidden sm:block">{t('profile.edit-profile')}</Button>
                   <Button className="flex sm:hidden rounded-full items-center justify-center w-10">
                     <UserCog className="shrink-0" size={20} />
                   </Button>
@@ -109,7 +109,7 @@ export default function Profile({ params }: { params: { slug: string } }) {
             )}
             <div className="mb-1">
               <p className="text-muted-foreground">
-                {t('profile.createdAt', { joinDate: user.data.createdAt })}
+                {t('profile.created-at', { joinDate: user.data.createdAt })}
               </p>
               <p className="text-muted-foreground">
                 {t('profile.birthdate', { joinDate: user.data.birthdate })}
@@ -159,6 +159,15 @@ export default function Profile({ params }: { params: { slug: string } }) {
           )}
           href={{ pathname: '/[slug]', params: { slug: params.slug } }}
         >
+          {t('profile.feed.tips')}
+        </Link>
+        <Link
+          className={cn(
+            pathname.endsWith('/diary-posts') && 'font-bold border-b-2 border-blue-600',
+            'py-2 flex justify-center flex-1',
+          )}
+          href={{ pathname: '/[slug]/diary-posts', params: { slug: params.slug } }}
+        >
           {t('profile.feed.posts')}
         </Link>
         <Link
@@ -169,15 +178,6 @@ export default function Profile({ params }: { params: { slug: string } }) {
           href={{ pathname: '/[slug]/diaries', params: { slug: params.slug } }}
         >
           {t('profile.feed.diaries')}
-        </Link>
-        <Link
-          className={cn(
-            pathname.endsWith('/likes') && 'font-bold border-b-2 border-blue-600',
-            'py-2 flex justify-center flex-1',
-          )}
-          href={{ pathname: '/[slug]/likes', params: { slug: params.slug } }}
-        >
-          {t('profile.feed.likes')}
         </Link>
         <Link
           className={cn(

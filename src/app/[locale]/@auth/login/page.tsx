@@ -83,7 +83,7 @@ export default function Login() {
               <Label htmlFor="email">{t('login.login')}</Label>
               {errors.login && (
                 <span className="text-red-600 text-sm leading-none font-bold">
-                  {t('login.loginError')}
+                  {t('login.login-error')}
                 </span>
               )}
             </div>
@@ -94,7 +94,7 @@ export default function Login() {
               <Label htmlFor="password">{t('login.password')}</Label>
               {errors.password && (
                 <span className="text-red-600 text-sm leading-none font-bold">
-                  {t('login.passwordError')}
+                  {t('login.password-error')}
                 </span>
               )}
             </div>
@@ -107,7 +107,7 @@ export default function Login() {
               loading={loading}
               className="w-full"
             >
-              {t('login.loginSubmit')}
+              {t('login.login-submit')}
             </Button>
           </DialogFooter>
         </form>

@@ -25,6 +25,7 @@ interface TripDiary {
   city: City;
   createdAt: Date;
   user: User;
+  postsAmount?: number;
 }
 
 interface DiaryPost {

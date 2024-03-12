@@ -10,7 +10,7 @@ export const useUpdateProfile = () => {
 
   return useMutation({
     mutationFn: async (editForm: FormData) => await axios.put<User>('/users', editForm),
-    onSuccess(data, editForm) {
+    onSuccess(data) {
       if (auth.user?.username !== data.data.username) {
         router.push('/' + data.data.username);
         queryClient.setQueryData(['user', auth.user?.username], null);

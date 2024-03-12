@@ -20,9 +20,9 @@ export function UserFollowTabs({ username, children, defaultTab }: IUserFollowTa
   const t = useTranslations();
 
   const following = useQuery<User[]>({
+    queryKey: ['following', username],
     queryFn: async () =>
       (await axios.get<User[]>('/users/' + username + '/following')).data,
-    queryKey: ['following', username],
     enabled: open,
   });
 
