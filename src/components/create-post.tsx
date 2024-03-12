@@ -84,8 +84,8 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
 
   const tripDiaries = useQuery<TripDiary[]>({
     queryFn: async () =>
-      (await axios.get<TripDiary[]>('/tripDiaries/user/' + auth.user?.username)).data,
-    queryKey: ['tripDiaries', auth.user?.username],
+      (await axios.get<TripDiary[]>('/trip-diaries/user/' + auth.user?.username)).data,
+    queryKey: ['trip-diaries', auth.user?.username],
     enabled: !!open,
   });
 
@@ -129,17 +129,17 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
         {!isCreatingTripDiary && (
           <>
             <DialogHeader>
-              <DialogTitle>{t('createPost.title')}</DialogTitle>
+              <DialogTitle>{t('create-post.title')}</DialogTitle>
             </DialogHeader>
             <div>
               <div className="flex justify-between">
                 <div>
-                  <Label className="mr-2">{t('createPost.tripDiary')}</Label>
+                  <Label className="mr-2">{t('create-post.trip-diary')}</Label>
                   <button
                     onClick={() => setIsCreatingTripDiary(true)}
                     className="text-primary text-sm font-bold"
                   >
-                    {t('createPost.createTripDiary')}
+                    {t('create-post.create-trip-diary')}
                   </button>
                 </div>
                 {errors.tripDiaryId && (
@@ -147,7 +147,7 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
                     <TooltipTrigger asChild>
                       <Info size={18} className="text-red-600" />
                     </TooltipTrigger>
-                    <TooltipContent>{t('createPost.tripDiaryError')}</TooltipContent>
+                    <TooltipContent>{t('create-post.trip-diary-error')}</TooltipContent>
                   </Tooltip>
                 )}
               </div>
@@ -165,7 +165,7 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
                       ? tripDiaries.data?.find(
                           (tripDiary) => tripDiary.id === watch('tripDiaryId'),
                         )?.title
-                      : t('createPost.selectTripDiary')}
+                      : t('create-post.select-trip-diary')}
                     <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                   </Button>
                 </PopoverTrigger>
@@ -204,7 +204,9 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
                           </CommandItem>
                         ))
                       ) : (
-                        <CommandItem>{t('createPost.noTripDiariesFound')}</CommandItem>
+                        <CommandItem>
+                          {t('create-post.no-trip-diaries-found')}
+                        </CommandItem>
                       )}
                     </CommandGroup>
                   </Command>
@@ -215,7 +217,7 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
               <div>
                 <div className="flex justify-between mb-0.5">
                   <div className="flex gap-1 items-end">
-                    <Label>{t('createPost.message')}</Label>
+                    <Label>{t('create-post.message')}</Label>
                     <Label className="text-muted-foreground text-xs">
                       {watch('message')?.length || 0} / 300
                     </Label>
@@ -227,8 +229,8 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
                       </TooltipTrigger>
                       <TooltipContent>
                         {errors.message.type === 'too_big'
-                          ? t('createPost.messageMaxError')
-                          : t('createPost.messageError')}
+                          ? t('create-post.message-max-error')
+                          : t('create-post.message-error')}
                       </TooltipContent>
                     </Tooltip>
                   )}
@@ -310,7 +312,7 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
                               type: 'max',
                             });
                             toast({
-                              title: t('createPost.maxSizeFiles'),
+                              title: t('create-post.max-size-files'),
                             });
                             return;
                           }
@@ -338,7 +340,7 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
                   disabled={createDiaryPost.isPending}
                   type="submit"
                 >
-                  {t('createPost.confirm')}
+                  {t('create-post.confirm')}
                 </Button>
               </div>
             </form>

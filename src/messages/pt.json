@@ -1,15 +1,14 @@
 {
   "header": {
-    "countries": "Países",
     "home": "Página principal",
     "ranking": "Ranking",
     "search": {
       "title": "Procurar",
-      "inputPlaceholder": "Digite para pesquisar",
-      "notFound": "Sem resultados",
-      "userSearchResults": "Resultados de pesquisa de usuário",
-      "countrySearchResults": "Resultados de pesquisa de países",
-      "citySearchResults": "Resultados de pesquisa de cidades"
+      "input-placeholder": "Digite para pesquisar",
+      "not-found": "Sem resultados",
+      "user-search-results": "Resultados de pesquisa de usuário",
+      "country-search-results": "Resultados de pesquisa de países",
+      "city-search-results": "Resultados de pesquisa de cidades"
     },
     "login": "Entrar",
     "signup": "Criar conta",
@@ -30,36 +29,36 @@
     "title": "Login",
     "description": "Use seu email e senha para fazer login no Bagg",
     "password": "Senha",
-    "passwordError": "Senha inválida",
-    "loginSubmit": "Logar",
+    "password-error": "Senha inválida",
+    "login-submit": "Logar",
     "login": "Email ou nome de usuário",
-    "loginError": "Login inválido",
+    "login-error": "Login inválido",
     "unauthorized": "Login ou senha incorretos"
   },
   "signup": {
     "title": "Cadastrar-se",
     "description": "Preencha o formulário para se cadastrar no Bagg",
     "name": "Nome",
-    "nameError": "Digite seu nome de exibição",
+    "name-error": "Digite seu nome de exibição",
     "username": "Nome de usuário",
-    "nameSizeError": "O tamanho máximo é de 64 caracteres",
-    "usernameError": {
+    "name-size-error": "O tamanho máximo é de 64 caracteres",
+    "username-error": {
       "title": "O nome de usuário deve:",
       "condition1": "Ter tamanho de 8 a 20 caracteres",
       "condition2": "Conter apenas letras, números ou \"_\""
     },
-    "usernameNotAvailable": "Nome de usuário já cadastrado",
+    "username-not-available": "Nome de usuário já cadastrado",
     "birthdate": "Data de nascimento",
-    "birthdatePlaceholder": "Selecione uma data",
-    "birthdateError": "Em que dia você nasceu?",
+    "birthdate-placeholder": "Selecione uma data",
+    "birthdate-error": "Em que dia você nasceu?",
     "email": "Email",
-    "emailError": "Escreva um email válido",
-    "emailNotAvailable": "Email já cadastrado",
+    "email-error": "Escreva um email válido",
+    "email-not-available": "Email já cadastrado",
     "password": "Senha",
-    "passwordError": "Senha inválida",
-    "confirmPassword": "Confirmar senha",
-    "confirmPasswordError": "As senhas não concidem",
-    "passwordTooWeak": {
+    "password-error": "Senha inválida",
+    "confirm-password": "Confirmar senha",
+    "confirm-password-error": "As senhas não concidem",
+    "password-too-weak": {
       "title": "A senha não é suficientemente forte. A senha deve:",
       "condition1": "Ter pelo menos oito caracteres",
       "condition2": "Conter um ou mais números",
@@ -86,7 +85,7 @@
       "December": "Dezembro"
     }
   },
-  "profilePicModal": {
+  "profile-pic-modal": {
     "title": "Alterar foto do perfil",
     "confirm": "Enviar foto",
     "upload": "Carregar foto",
@@ -94,92 +93,94 @@
     "cancel": "Cancelar"
   },
   "profile": {
-    "editProfile": "Editar perfil",
-    "createdAt": "Entrou em {joinDate, date, long}",
+    "edit-profile": "Editar perfil",
+    "created-at": "Entrou em {joinDate, date, long}",
     "birthdate": "Nasceu em {joinDate, date, long}",
     "city": "Mora em",
     "feed": {
+      "tips": "Tips",
       "posts": "Postagens",
       "diaries": "Diários",
-      "likes": "Curtidas",
       "visits": "Visitas",
       "replies": "Respostas",
       "ratings": "Avaliações"
     }
   },
-  "editProfile": {
+  "edit-profile": {
     "title": "Editar perfil",
     "description": "Faça alterações nos dados do seu perfil. Aperte em salvar quando tiver terminado.",
     "bio": "Biografia",
-    "bioSizeError": "O tamanho máximo é de 300 caracteres",
-    "editProfilePic": "Editar foto de perfil",
+    "bio-size-error": "O tamanho máximo é de 300 caracteres",
+    "edit-profile-pic": "Editar foto de perfil",
     "save": "Salvar alterações"
   },
   "homepage": {
     "title": "Página inicial"
   },
-  "createPost": {
+  "create-post": {
     "trigger": "Diário",
     "title": "Criar postagem no diário",
-    "tripDiary": "Diário de viagem",
-    "tripDiaryError": "Insira um diário de viagem ou crie um novo",
-    "noTripDiariesFound": "Sem resultados",
-    "createTripDiary": "Criar",
-    "selectTripDiary": "Selecione um diário de viagem",
-    "titleFieldMaxError": "O tamanho máximo é de 255 caracteres",
+    "trip-diary": "Diário de viagem",
+    "trip-diary-error": "Insira um diário de viagem ou crie um novo",
+    "no-trip-diaries-found": "Sem resultados",
+    "create-trip-diary": "Criar",
+    "select-trip-diary": "Selecione um diário de viagem",
+    "title-field-max-error": "O tamanho máximo é de 255 caracteres",
     "message": "Mensagem",
-    "messageError": "Insira uma mensagem",
-    "messageMaxError": "O tamanho máximo é de 300 caracteres",
-    "maxSizeFiles": "O tamanho máximo é de 10 arquivos e 100mb no total",
+    "message-error": "Insira uma mensagem",
+    "message-max-error": "O tamanho máximo é de 300 caracteres",
+    "max-size-files": "O tamanho máximo é de 10 arquivos e 100mb no total",
     "confirm": "Confirmar"
   },
-  "createTripDiary": {
+  "create-trip-diary": {
     "title": "Criar diário de viagem",
     "cancel": "Cancelar",
     "description": "Crie um diário de viagem e compartilhe suas experiências com a comunidade",
-    "titleField": "Título",
-    "titleFieldError": "Insira um título",
+    "title-field": "Título",
+    "title-field-error": "Insira um título",
     "city": "Cidade",
-    "cityFieldError": "Insira uma cidade",
+    "city-field-error": "Insira uma cidade",
     "message": "Mensagem",
-    "messageError": "Insira uma message",
-    "messageMaxError": "O tamanho máximo é de 300 caracteres",
+    "message-error": "Insira uma message",
+    "message-max-error": "O tamanho máximo é de 300 caracteres",
     "confirm": "Confirmar"
   },
-  "tripDiary": {
-    "notFound": "Diary não encontrado :(",
-    "copyLink": "Copiar link",
+  "trip-diary": {
+    "trip-diary": "Diário de viagem",
+    "not-found": "Diary não encontrado :(",
+    "copy-link": "Copiar link",
     "delete": "Remover",
     "posts": "{count, plural, =0 {Sem postagens} =1 {# postagem} other {# postagens}}",
-    "deleteModal": {
+    "see-posts-anchor": "Ver postagens",
+    "delete-modal": {
       "title": "Excluir diário de viagem",
       "description": "Tem certeza que deseja excluir a postagem? Todas as postagens relativas a esse diário serão excluídas.",
       "cancel": "Cancelar",
       "action": "Excluir"
     }
   },
-  "createTip": {
+  "create-tip": {
     "trigger": "Tip",
     "title": "Criar tip",
     "message": "Mensagem",
-    "messageError": "Insira uma mensagem",
-    "messageMaxError": "O tamanho máximo é de 300 caracteres",
-    "maxSizeFiles": "O tamanho máximo é de 10 arquivos e 100mb no total",
+    "message-error": "Insira uma mensagem",
+    "message-max-error": "O tamanho máximo é de 300 caracteres",
+    "max-size-files": "O tamanho máximo é de 10 arquivos e 100mb no total",
     "confirm": "Confirmar"
   },
-  "selectCity": {
+  "select-city": {
     "title": "Selecione uma cidade...",
     "search": "Procurar uma cidade...",
     "searching": "Procurando",
-    "notFound": "Sem resultados",
+    "not-found": "Sem resultados",
     "error": "Algo deu errado..."
   },
-  "diaryPost": {
-    "copyLink": "Copiar link",
+  "diary-post": {
+    "copy-link": "Copiar link",
     "delete": "Remover",
     "badge": "Diário",
-    "likedBy": "Curtido por",
-    "deleteModal": {
+    "liked-by": "Curtido por",
+    "delete-modal": {
       "title": "Excluir postagem de diário",
       "description": "Tem certeza que deseja excluir a postagem? Essa ação é irreversível.",
       "cancel": "Cancelar",
@@ -187,11 +188,12 @@
     }
   },
   "tip": {
-    "copyLink": "Copiar link",
+    "copy-link": "Copiar link",
     "delete": "Remover",
     "badge": "Tip",
-    "likedBy": "Curtido por",
-    "deleteModal": {
+    "liked-by": "Curtido por",
+    "comments": "{count, plural, =0 {Comentar} =1 {Ver # comentário} other {Ver # comentários}}",
+    "delete-modal": {
       "title": "Excluir tip",
       "description": "Tem certeza que deseja excluir a postagem? Essa ação é irreversível.",
       "cancel": "Cancelar",
@@ -202,9 +204,9 @@
     "followers": "Seguidores",
     "following": "Seguindo",
     "follow": "Seguir",
-    "followYou": "Segue você"
+    "follow-you": "Segue você"
   },
-  "cityPage": {
+  "city-page": {
     "gallery": "Galeria",
     "location": "Localização",
     "visited": "Visitado",
@@ -212,19 +214,27 @@
     "interest": "Interesse",
     "rate": "Dar nota",
     "review": "Avaliar",
-    "noImages": "Sem imagens :(",
+    "no-images": "Sem imagens :(",
     "reviews": "Últimas avaliações",
-    "noReviews": "Sem avaliações"
+    "no-reviews": "Sem avaliações"
   },
-  "createCityVisit": {
+  "create-city-visit": {
     "title": "Avaliar cidade",
     "description": "Como foi sua viagem? Escreva como foram suas experiências nessa cidade, citando pontos como segurança, clima, comida, etc...",
     "message": "Mensagem",
-    "messageError": "Insira uma mensagem",
-    "messageMaxError": "O tamanho máximo é de 300 caracteres",
+    "message-error": "Insira uma mensagem",
+    "message-max-error": "O tamanho máximo é de 300 caracteres",
     "rating": "Nota",
     "ratingError": "Escolha uma nota",
     "confirm": "Confirmar"
+  },
+  "ranking": {
+    "top-rated-countries": "Países com melhor avaliaçãos",
+    "most-visited-countries": "Países mais visitados",
+    "countries-with-gratest-interest": "Países com maior interesse",
+    "top-rated-cities": "Cidades com melhor avaliação",
+    "most-visited-cities": "Cidades mais visitadas",
+    "cities-with-gratest-interest": "Cidades com maior interesse"
   },
   "modal": {
     "close": "Tem certeza que deseja fechar o formulário?"

@@ -9,25 +9,21 @@ export const useCreateDiaryPost = () => {
 
   return useMutation({
     mutationFn: async (data: FormData) =>
-      (await axios.post<DiaryPost>('/diaryPosts', data)).data,
+      (await axios.post<DiaryPost>('/diary-posts', data)).data,
     onSuccess: (data) => {
-      queryClient.setQueryData<DiaryPost[]>(
-        ['diaryPosts', auth.user?.username],
-        (old) =>
-          old &&
-          produce(old, (draft) => {
-            draft.unshift(data);
-          }),
-      );
-
-      queryClient.setQueryData<DiaryPost[]>(
-        ['tripDiaryPosts', data.tripDiary.id],
-        (old) =>
-          old &&
-          produce(old, (draft) => {
-            draft.unshift(data);
-          }),
-      );
+      [
+        ['diary-posts', auth.user?.username],
+        ['trip-diary-posts', data.tripDiary],
+      ].forEach((key) => {
+        queryClient.setQueryData<Pagination<DiaryPost>>(
+          key,
+          (old) =>
+            old &&
+            produce(old, (draft) => {
+              draft.pages[0].unshift(data);
+            }),
+        );
+      });
     },
   });
 };

@@ -20,7 +20,6 @@ import { useLocale } from 'next-intl';
 import { Settings } from 'lucide-react';
 import { useDeleteTipComment } from '@/hooks/useDeleteTipComment';
 import { useCreateTipComment } from '@/hooks/useCreateTipComment';
-import { Separator } from '@/components/ui/separator';
 
 interface TipCommentProps {
   tip: Tip;

@@ -12,15 +12,15 @@ interface Props {
 
 export const CityVisits = ({ visits }: Props) => {
   const locale = useLocale();
-  const t = useTranslations('cityPage');
+  const t = useTranslations();
 
   return (
     <div>
-      <h3 className="text-sm sm:text-base uppercase">{t('reviews')}</h3>
+      <h3 className="text-sm sm:text-base uppercase">{t('city-page.reviews')}</h3>
       <div className="pt-2">
         {visits.length === 0 && (
           <div className="py-3 text-sm">
-            <span>{t('noReviews')}</span>
+            <span>{t('city-page.no-reviews')}</span>
           </div>
         )}
         {visits.length !== 0 &&

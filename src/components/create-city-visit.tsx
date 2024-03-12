@@ -93,7 +93,7 @@ export const CreateCityVisit = ({ children, city }: CreateCityVisitProps) => {
       <DialogTrigger>{children}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{t('createCityVisit.title')}</DialogTitle>
+          <DialogTitle>{t('create-city-visit.title')}</DialogTitle>
           <DialogDescription>
             <div className="flex items-center gap-2 text-foreground">
               <span>
@@ -101,14 +101,14 @@ export const CreateCityVisit = ({ children, city }: CreateCityVisitProps) => {
               </span>
               <CountryFlag iso2={city.region.country.iso2} />
             </div>
-            <div>{t('createCityVisit.description')}</div>
+            <div>{t('create-city-visit.description')}</div>
           </DialogDescription>
         </DialogHeader>
         <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
           <div>
             <div className="flex justify-between mb-0.5">
               <div className="flex gap-1 items-end">
-                <Label>{t('createCityVisit.message')}</Label>
+                <Label>{t('create-city-visit.message')}</Label>
                 <Label className="text-muted-foreground text-xs">
                   {watch('message')?.length || 0} / 300
                 </Label>
@@ -120,8 +120,8 @@ export const CreateCityVisit = ({ children, city }: CreateCityVisitProps) => {
                   </TooltipTrigger>
                   <TooltipContent>
                     {errors.message.type === 'too_big'
-                      ? t('createCityVisit.messageMaxError')
-                      : t('createCityVisit.messageError')}
+                      ? t('create-city-visit.message-max-error')
+                      : t('create-city-visit.message-error')}
                   </TooltipContent>
                 </Tooltip>
               )}
@@ -131,14 +131,14 @@ export const CreateCityVisit = ({ children, city }: CreateCityVisitProps) => {
           <div>
             <div className="flex justify-between mb-0.5">
               <div>
-                <Label>{t('createCityVisit.rating')}</Label>
+                <Label>{t('create-city-visit.rating')}</Label>
               </div>
               {errors.rating && (
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Info size={18} className="text-red-600" />
                   </TooltipTrigger>
-                  <TooltipContent>{t('createCityVisit.ratingError')}</TooltipContent>
+                  <TooltipContent>{t('create-city-visit.ratingError')}</TooltipContent>
                 </Tooltip>
               )}
             </div>
@@ -166,7 +166,7 @@ export const CreateCityVisit = ({ children, city }: CreateCityVisitProps) => {
               disabled={createCityVisit.isPending || updateCityVisit.isPending}
               type="submit"
             >
-              {t('createCityVisit.confirm')}
+              {t('create-city-visit.confirm')}
             </Button>
           </div>
         </form>

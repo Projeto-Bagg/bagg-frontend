@@ -55,13 +55,13 @@ export const CreateTripDiary = ({ setIsCreatingTripDiary }: Props) => {
   return (
     <form className="space-y-4" onSubmit={handleSubmit(handleCreateTripDiary)}>
       <DialogHeader>
-        <DialogTitle>{t('createTripDiary.title')}</DialogTitle>
-        <DialogDescription>{t('createTripDiary.description')}</DialogDescription>
+        <DialogTitle>{t('create-trip-diary.title')}</DialogTitle>
+        <DialogDescription>{t('create-trip-diary.description')}</DialogDescription>
       </DialogHeader>
       <div>
         <div className="justify-between flex mb-0.5">
           <div className="flex gap-1 items-end">
-            <Label>{t('createTripDiary.titleField')}</Label>
+            <Label>{t('create-trip-diary.title-field')}</Label>
             <Label className="text-muted-foreground text-xs">
               {watch('title')?.length || 0} / 255
             </Label>
@@ -74,8 +74,8 @@ export const CreateTripDiary = ({ setIsCreatingTripDiary }: Props) => {
               <TooltipContent>
                 <TooltipContent>
                   {errors.title.type === 'too_big'
-                    ? t('createTripDiary.titleFieldMaxError')
-                    : t('createTripDiary.titleFieldError')}
+                    ? t('create-trip-diary.title-field-max-error')
+                    : t('create-trip-diary.title-field-error')}
                 </TooltipContent>
               </TooltipContent>
             </Tooltip>
@@ -86,14 +86,14 @@ export const CreateTripDiary = ({ setIsCreatingTripDiary }: Props) => {
       <div>
         <div className="justify-between flex mb-0.5">
           <div className="flex gap-1 items-end">
-            <Label>{t('createTripDiary.city')}</Label>
+            <Label>{t('create-trip-diary.city')}</Label>
           </div>
           {errors.cityId && (
             <Tooltip>
               <TooltipTrigger asChild>
                 <Info size={18} className="text-red-600" />
               </TooltipTrigger>
-              <TooltipContent>{t('createTripDiary.cityFieldError')}</TooltipContent>
+              <TooltipContent>{t('create-trip-diary.city-field-error')}</TooltipContent>
             </Tooltip>
           )}
         </div>
@@ -108,7 +108,7 @@ export const CreateTripDiary = ({ setIsCreatingTripDiary }: Props) => {
       <div>
         <div className="justify-between flex mb-0.5">
           <div className="flex gap-1 items-end">
-            <Label>{t('createTripDiary.message')}</Label>
+            <Label>{t('create-trip-diary.message')}</Label>
             <Label className="text-muted-foreground text-xs">
               {watch('message')?.length || 0} / 300
             </Label>
@@ -120,8 +120,8 @@ export const CreateTripDiary = ({ setIsCreatingTripDiary }: Props) => {
               </TooltipTrigger>
               <TooltipContent>
                 {errors.message.type === 'too_big'
-                  ? t('createTripDiary.messageMaxError')
-                  : t('createTripDiary.messageError')}
+                  ? t('create-trip-diary.message-max-error')
+                  : t('create-trip-diary.message-error')}
               </TooltipContent>
             </Tooltip>
           )}
@@ -130,14 +130,14 @@ export const CreateTripDiary = ({ setIsCreatingTripDiary }: Props) => {
       </div>
       <DialogFooter>
         <Button variant={'destructive'} onClick={() => setIsCreatingTripDiary(false)}>
-          {t('createTripDiary.cancel')}
+          {t('create-trip-diary.cancel')}
         </Button>
         <Button
           disabled={createTripDiary.isPending}
           loading={createTripDiary.isPending}
           type="submit"
         >
-          {t('createTripDiary.confirm')}
+          {t('create-trip-diary.confirm')}
         </Button>
       </DialogFooter>
     </form>

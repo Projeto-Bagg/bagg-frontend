@@ -134,10 +134,10 @@ export default function EditProfile({ params }: { params: { slug: string } }) {
       await updateProfile.mutateAsync(formData);
       router.back();
     } catch (error: any) {
-      error.response.data?.username?.code === 'usernameNotAvailable' &&
+      error.response.data?.username?.code === 'username-not-available' &&
         setError('username', {
-          message: t('signup.usernameNotAvailable'),
-          type: 'usernameNotAvailable',
+          message: t('signup.username-not-available'),
+          type: 'username-not-available',
         });
     } finally {
       setLoading(false);
@@ -159,8 +159,8 @@ export default function EditProfile({ params }: { params: { slug: string } }) {
     <Dialog open onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{t('editProfile.title')}</DialogTitle>
-          <DialogDescription>{t('editProfile.description')}</DialogDescription>
+          <DialogTitle>{t('edit-profile.title')}</DialogTitle>
+          <DialogDescription>{t('edit-profile.description')}</DialogDescription>
         </DialogHeader>
         <form className="space-y-4" onSubmit={handleSubmit(handleEdit)}>
           <div>
@@ -176,7 +176,7 @@ export default function EditProfile({ params }: { params: { slug: string } }) {
                   />
                 </Avatar>
                 <span className="text-sm font-bold text-blue-600">
-                  {t('editProfile.editProfilePic')}
+                  {t('edit-profile.edit-profile-pic')}
                 </span>
               </div>
             </ProfilePicDialog>
@@ -196,8 +196,8 @@ export default function EditProfile({ params }: { params: { slug: string } }) {
                   </TooltipTrigger>
                   <TooltipContent>
                     {errors.fullName.type === 'too_big'
-                      ? t('signup.nameSizeError')
-                      : t('signup.nameError')}
+                      ? t('signup.name-size-error')
+                      : t('signup.name-error')}
                   </TooltipContent>
                 </Tooltip>
               )}
@@ -213,9 +213,9 @@ export default function EditProfile({ params }: { params: { slug: string } }) {
                 </Label>
               </div>
               {errors.username &&
-                (errors.username?.type === 'usernameNotAvailable' ? (
+                (errors.username?.type === 'username-not-available' ? (
                   <span className="text-red-500 text-sm font-bold">
-                    {t('signup.usernameNotAvailable')}
+                    {t('signup.username-not-available')}
                   </span>
                 ) : (
                   <Tooltip>
@@ -223,19 +223,19 @@ export default function EditProfile({ params }: { params: { slug: string } }) {
                       <Info size={18} className="text-red-600" />
                     </TooltipTrigger>
                     <TooltipContent className="pl-7">
-                      {t('signup.usernameError.title')}
+                      {t('signup.username-error.title')}
                       <ul className="list-disc">
                         <li
                           data-valid={/.{3,20}/.test(watch('username'))}
                           className="data-[valid=true]:text-green-500"
                         >
-                          {t('signup.usernameError.condition1')}
+                          {t('signup.username-error.condition1')}
                         </li>
                         <li
                           data-valid={/^[a-zA-Z0-9_]+$/.test(watch('username'))}
                           className="data-[valid=true]:text-green-500"
                         >
-                          {t('signup.usernameError.condition2')}
+                          {t('signup.username-error.condition2')}
                         </li>
                       </ul>
                     </TooltipContent>
@@ -247,14 +247,16 @@ export default function EditProfile({ params }: { params: { slug: string } }) {
           <div>
             <div className="justify-between flex mb-0.5">
               <div className="flex gap-1 items-end">
-                <Label>{t('createTripDiary.city')}</Label>
+                <Label>{t('create-trip-diary.city')}</Label>
               </div>
               {errors.cityId && (
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Info size={18} className="text-red-600" />
                   </TooltipTrigger>
-                  <TooltipContent>{t('createTripDiary.cityFieldError')}</TooltipContent>
+                  <TooltipContent>
+                    {t('create-trip-diary.city-field-error')}
+                  </TooltipContent>
                 </Tooltip>
               )}
             </div>
@@ -272,7 +274,7 @@ export default function EditProfile({ params }: { params: { slug: string } }) {
           <div>
             <div className="justify-between flex mb-0.5">
               <div className="flex gap-2 items-end">
-                <Label>{t('editProfile.bio')}</Label>
+                <Label>{t('edit-profile.bio')}</Label>
                 <Label className="text-muted-foreground text-xs">
                   {watch('bio')?.length || auth.user?.bio?.length || 0} / 300
                 </Label>
@@ -282,7 +284,7 @@ export default function EditProfile({ params }: { params: { slug: string } }) {
                   <TooltipTrigger>
                     <Info size={18} className="text-red-600" />
                   </TooltipTrigger>
-                  <TooltipContent>{t('editProfile.bioSizeError')}</TooltipContent>
+                  <TooltipContent>{t('edit-profile.bio-size-error')}</TooltipContent>
                 </Tooltip>
               )}
             </div>
@@ -296,7 +298,7 @@ export default function EditProfile({ params }: { params: { slug: string } }) {
                   <TooltipTrigger asChild>
                     <Info size={18} className="text-red-600" />
                   </TooltipTrigger>
-                  <TooltipContent>{t('signup.birthdateError')}</TooltipContent>
+                  <TooltipContent>{t('signup.birthdate-error')}</TooltipContent>
                 </Tooltip>
               )}
             </div>
@@ -366,7 +368,7 @@ export default function EditProfile({ params }: { params: { slug: string } }) {
               loading={loading}
               type="submit"
             >
-              {t('editProfile.save')}
+              {t('edit-profile.save')}
             </Button>
           </DialogFooter>
         </form>

@@ -25,8 +25,8 @@ export const DiaryLikedByList = ({ id, children }: IDiaryLikedByList) => {
   const t = useTranslations();
 
   const users = useQuery<User[]>({
-    queryKey: ['diaryPostLikedBy', id],
-    queryFn: async () => (await axios.get<User[]>(`diaryPosts/${id}/like`)).data,
+    queryKey: ['diary-post-liked-by', id],
+    queryFn: async () => (await axios.get<User[]>(`diary-posts/${id}/like`)).data,
     enabled: !!open,
   });
 
@@ -35,7 +35,7 @@ export const DiaryLikedByList = ({ id, children }: IDiaryLikedByList) => {
       <DialogTrigger>{children}</DialogTrigger>
       <DialogContent className="flex flex-col h-[560px] sm:h-[560px] overflow-hidden">
         <DialogHeader>
-          <DialogTitle>{t('diaryPost.likedBy')}</DialogTitle>
+          <DialogTitle>{t('diary-post.liked-by')}</DialogTitle>
         </DialogHeader>
         <Separator />
         <ScrollArea className="-mr-5 pr-5">

@@ -25,7 +25,7 @@ export const TipLikedByList = ({ id, children }: TipLikedByListProps) => {
   const t = useTranslations();
 
   const users = useQuery<User[]>({
-    queryKey: ['tipLikedBy', id],
+    queryKey: ['tip-liked-by', id],
     queryFn: async () => (await axios.get<User[]>(`tips/${id}/like`)).data,
     enabled: !!open,
   });
@@ -35,7 +35,7 @@ export const TipLikedByList = ({ id, children }: TipLikedByListProps) => {
       <DialogTrigger>{children}</DialogTrigger>
       <DialogContent className="flex flex-col h-[560px] sm:h-[560px] overflow-hidden">
         <DialogHeader>
-          <DialogTitle>{t('tip.likedBy')}</DialogTitle>
+          <DialogTitle>{t('tip.liked-by')}</DialogTitle>
         </DialogHeader>
         <Separator />
         <ScrollArea className="-mr-5 pr-5">

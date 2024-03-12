@@ -10,15 +10,16 @@ export const useCreateTripDiary = () => {
 
   return useMutation({
     mutationFn: async (data: CreateTripDiaryType) =>
-      (await axios.post<TripDiary>('tripDiaries', data)).data,
+      (await axios.post<TripDiary>('trip-diaries', data)).data,
     onSuccess: (data: TripDiary) => {
       queryClient.setQueryData<TripDiary[]>(
-        ['tripDiaries', auth.user?.username],
+        ['trip-diaries', auth.user?.username],
         (old) =>
-          old &&
-          produce(old, (draft) => {
-            draft.unshift(data);
-          }),
+          old
+            ? produce(old, (draft) => {
+                draft.unshift(data);
+              })
+            : [data],
       );
     },
   });

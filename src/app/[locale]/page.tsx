@@ -20,8 +20,6 @@ export default function Page() {
       page.length === 10 ? allPages.length + 1 : null,
   });
 
-  console.log(data);
-
   useEffect(() => {
     if (inView && hasNextPage) {
       fetchNextPage();

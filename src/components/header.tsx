@@ -50,11 +50,6 @@ export const Header = () => {
                 {t('header.ranking')}
               </Link>
             </li>
-            <li className="hidden sm:block">
-              <span className="text-foreground/60 hover:text-foreground/80 transition">
-                {t('header.countries')}
-              </span>
-            </li>
           </ul>
         </nav>
         <div className="flex gap-2 items-center">
@@ -64,7 +59,7 @@ export const Header = () => {
                 <button className="text-primary-foreground flex gap-1 h-[1.2rem] px-2 bg-orange-400 items-center rounded-sm">
                   <Plus size={14} strokeWidth={3} />
                   <span className="font-bold text-xs uppercase">
-                    {t('createTip.trigger')}
+                    {t('create-tip.trigger')}
                   </span>
                 </button>
               </CreateTip>
@@ -72,7 +67,7 @@ export const Header = () => {
                 <button className="text-primary-foreground flex gap-1 h-[1.2rem] px-2 bg-primary items-center rounded-sm">
                   <Plus size={14} strokeWidth={3} />
                   <span className="font-bold text-xs uppercase">
-                    {t('createPost.trigger')}
+                    {t('create-post.trigger')}
                   </span>
                 </button>
               </CreatePost>

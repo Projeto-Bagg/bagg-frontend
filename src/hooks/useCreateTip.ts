@@ -12,14 +12,16 @@ export const useCreateTip = () => {
     onSuccess: (data) => {
       queryClient.setQueryData<Tip>(['tip', data.id], data);
 
-      queryClient.setQueryData<Pagination<Tip>>(
-        ['feed'],
-        (old) =>
-          old &&
-          produce(old, (draft) => {
-            draft.pages[0].unshift(data);
-          }),
-      );
+      [['feed'], ['tips', auth.user?.username]].forEach((key) => {
+        queryClient.setQueryData<Pagination<Tip>>(
+          key,
+          (old) =>
+            old &&
+            produce(old, (draft) => {
+              draft.pages[0].unshift(data);
+            }),
+        );
+      });
     },
   });
 };
