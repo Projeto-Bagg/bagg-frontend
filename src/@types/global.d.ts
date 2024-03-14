@@ -143,12 +143,15 @@ interface City {
 interface CityPage extends City {
   isVisited: boolean;
   isInterested: boolean;
-  visits: CityVisit[];
-  images: Media[];
   userVisit: CityVisit | null;
   averageRating: number;
   interestsCount: number;
   visitsCount: number;
+}
+
+interface CityImage extends Media {
+  userId: number;
+  user: User;
 }
 
 interface CityFromSearch {

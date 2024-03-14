@@ -11,6 +11,7 @@ export const pathnames = {
   '/ranking': '/ranking',
   '/config': '/config',
   '/city/[slug]': '/city/[slug]',
+  '/city/[slug]/visits': '/city/[slug]/visits',
   '/country/[slug]': '/country/[slug]',
   '/diary/[slug]': '/diary/[slug]',
   '/diary/post/[slug]': '/diary/post/[slug]',

@@ -1,214 +1,150 @@
 'use client';
 
-import { useCreateCityInterest } from '@/hooks/useCreateCityInterest';
 import axios from '@/services/axios';
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import React from 'react';
-import { CheckCircle, MapPin, XCircle } from 'lucide-react';
-import { useDeleteCityInterest } from '@/hooks/useDeleteCityInterest';
-import { CountryFlag } from '@/components/ui/country-flag';
 import { LazyMap, LazyMarker, LazyTileLayer } from '@/components/leaflet-map';
-import { Link } from '@/common/navigation';
-import { CityVisits } from '@/components/city-visits';
+import { CityVisit } from '@/components/city-visit';
 import { Carousel } from 'react-responsive-carousel';
 import Image from 'next/image';
-import { useTranslations } from 'next-intl';
-import { Rating } from '@smastrom/react-rating';
-import { useCreateCityVisit } from '@/hooks/useCreateCityVisit';
-import { useUpdateCityVisit } from '@/hooks/useUpdateCityVisit';
-import { cn } from '@/lib/utils';
-import { CreateCityVisit } from '@/components/create-city-visit';
-import { useDeleteCityVisit } from '@/hooks/useDeleteCityVisit';
+import { useLocale, useTranslations } from 'next-intl';
+import { Link } from '@/common/navigation';
+import { Avatar, AvatarImage } from '@/components/ui/avatar';
+import { intlFormatDistance } from 'date-fns';
+import { UserHoverCard } from '@/components/user-hovercard';
 
-export default function Page({ params }: { params: { slug: string; id: string } }) {
-  const createCityInterest = useCreateCityInterest();
-  const deleteCityInterest = useDeleteCityInterest();
-  const createCityVisit = useCreateCityVisit();
-  const updateCityVisit = useUpdateCityVisit();
-  const deleteCityVisit = useDeleteCityVisit();
-  const t = useTranslations('city-page');
+export default function Page({ params }: { params: { slug: string } }) {
+  const t = useTranslations();
+  const locale = useLocale();
 
   const city = useQuery<CityPage>({
-    queryFn: async () => (await axios.get<CityPage>('/cities/' + params.slug)).data,
+    queryFn: async () => (await axios.get<CityPage>(`/cities/${params.slug}`)).data,
     queryKey: ['city', +params.slug],
   });
 
-  if (!city.data) {
+  const images = useQuery<CityImage[]>({
+    queryFn: async () =>
+      (await axios.get<CityImage[]>(`/cities/${params.slug}/images`)).data,
+    queryKey: ['city-images', +params.slug],
+  });
+
+  const { data: visits } = useInfiniteQuery<CityVisit[]>({
+    queryKey: ['city-visits', +params.slug],
+    queryFn: async () =>
+      (await axios.get<CityVisit[]>(`/city-visits/${params.slug}`)).data,
+    initialPageParam: 1,
+    getNextPageParam: (page, allPages) =>
+      page.length === 10 ? allPages.length + 1 : null,
+  });
+
+  if (!images.data || !city.data || !visits) {
     return;
   }
 
-  const checkInterest = () => {
-    if (city.data.isInterested) {
-      return deleteCityInterest.mutateAsync(city.data.id);
-    }
-
-    createCityInterest.mutateAsync(city.data.id);
-  };
-
-  const checkVisit = async () => {
-    if (city.data.userVisit) {
-      await deleteCityVisit.mutateAsync({ cityId: city.data.id });
-      return;
-    }
-
-    await createCityVisit.mutateAsync({ cityId: city.data.id });
-  };
-
-  const onRate = async (value: number) => {
-    if (city.data.userVisit) {
-      await updateCityVisit.mutateAsync({ rating: value, cityId: city.data.id });
-      return;
-    }
-
-    await createCityVisit.mutateAsync({ rating: value, cityId: city.data.id });
-  };
-
   return (
-    <div className="px-4 pb-4 sm:px-11 relative">
-      <CountryFlag
-        className="w-full left-0 right-0 m-auto absolute -z-10 gradient-mask-b-[rgba(0,0,0,1.0)_4px] rounded-none"
-        iso2={city.data.region.country.iso2}
-      />
-      <div className="flex flex-col gap-6 sm:flex-row pt-[200px] sm:pt-[440px] justify-between pb-[24px]">
-        <div>
-          <h2 className="font-bold text-3xl sm:text-5xl">{city.data.name}</h2>
-          <div className="font-bold text-lg sm:text-2xl text-muted-foreground">
-            <span>
-              {city.data.region.name}
-              {', '}
-            </span>
-            <Link
-              href={{
-                params: { slug: city.data.region.country.iso2 },
-                pathname: '/country/[slug]',
-              }}
-            >
-              {city.data.region.country.name}
-            </Link>
-          </div>
-          <div className="flex items-center gap-2 text-muted-foreground">
-            <div>
-              <Rating
-                value={city.data.averageRating}
-                readOnly
-                className="max-w-[120px] sm:max-w-[144px]"
-              />
-            </div>
-            <span>{city.data.averageRating}</span>
-            <div className="text-sm flex gap-2 items-center">
-              <div className="flex items-center gap-0.5">
-                <MapPin className="w-[18px] text-blue-400" />
-                <span>{city.data.visitsCount}</span>
-              </div>
-              <div className="flex items-center gap-0.5">
-                <CheckCircle className="w-[18px] text-green-400" />
-                <span>{city.data.interestsCount}</span>
-              </div>
-            </div>
-          </div>
+    <div className="grid gap-x-4 gap-y-6 grid-cols-1 sm:grid-cols-2">
+      <div>
+        <div className="mb-2">
+          <span className="uppercase">{t('city-page.gallery')}</span>
         </div>
-        <div className="flex flex-col font-semibold text-sm bg-accent rounded-lg w-full sm:w-[200px] space-y-1 divide-y-2 divide-background">
-          <div className="flex justify-center gap-4 py-3">
-            <button onClick={checkVisit} className="flex flex-col gap-1 items-center">
-              <MapPin
-                strokeWidth={2.5}
-                className={cn(
-                  'w-[24px] h-[24px]',
-                  city.data.userVisit && 'text-blue-400',
-                )}
-              />
-              <span>{t('visited')}</span>
-            </button>
-            <button className="flex flex-col gap-1 items-center" onClick={checkInterest}>
-              <div>
-                <CheckCircle
-                  className={cn(
-                    'w-[24px] h-[24px]',
-                    city.data.isInterested && 'text-green-400',
-                  )}
-                  strokeWidth={2.5}
-                />
-              </div>
-              <span>{city.data.isInterested ? t('interested') : t('interest')}</span>
-            </button>
-          </div>
-          <div className="flex flex-col items-center py-3">
-            <span>{t('rate')}</span>
-            <Rating
-              className="max-w-[120px]"
-              value={
-                city.data.userVisit
-                  ? city.data.userVisit.rating
-                    ? city.data.userVisit.rating
-                    : 0
-                  : 0
-              }
-              onChange={onRate}
-            />
-          </div>
-          <CreateCityVisit city={city.data}>
-            <div className="flex justify-center py-3">
-              <span>{t('review')}</span>
+        <div className="border-2 rounded-lg aspect-square overflow-hidden">
+          {images.data.length > 0 ? (
+            <Carousel emulateTouch showIndicators={false} showStatus={false}>
+              {images.data.map((media) => (
+                <div key={media.id} className="relative">
+                  <Image
+                    src={media.url}
+                    alt=""
+                    height={532}
+                    width={532}
+                    className="h-full aspect-square object-cover"
+                  />
+                  <div className="absolute h-1/3 bottom-0 left-0 w-full">
+                    <div className="absolute w-full h-full bg-black gradient-mask-t-[rgba(0,0,0,1.0)]" />
+                    <div className="flex h-full py-3 px-4 relative items-end">
+                      <div className="flex w-full items-center text-sm justify-between">
+                        <div className="flex items-center gap-2">
+                          <UserHoverCard username={media.user.username}>
+                            <Avatar>
+                              <AvatarImage src={media.user.image} />
+                            </Avatar>
+                          </UserHoverCard>
+                          <UserHoverCard username={media.user.username}>
+                            <Link
+                              href={{
+                                params: { slug: media.user.username },
+                                pathname: '/[slug]',
+                              }}
+                            >
+                              <div className="flex flex-col items-center">
+                                <span>{media.user.fullName}</span>
+                                <span>@{media.user.username}</span>
+                              </div>
+                            </Link>
+                          </UserHoverCard>
+                        </div>
+                        <div>
+                          {intlFormatDistance(media.createdAt, new Date(), {
+                            numeric: 'always',
+                            style: 'narrow',
+                            locale,
+                          })}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </Carousel>
+          ) : (
+            <div className="justify-center flex h-full w-full items-center font-bold">
+              <span>{t('city-page.no-images')}</span>
             </div>
-          </CreateCityVisit>
+          )}
         </div>
       </div>
-      <div className="grid gap-x-4 gap-y-6 grid-cols-1 sm:grid-cols-2">
+      <div>
+        <div className="mb-2">
+          <span className="uppercase">{t('city-page.location')}</span>
+        </div>
+        <LazyMap
+          center={[city.data.latitude, city.data.longitude]}
+          zoom={8}
+          className="w-full aspect-square rounded-lg border-2"
+          scrollWheelZoom={false}
+          dragging={false}
+        >
+          <LazyTileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
+          />
+          <LazyMarker position={[city.data.latitude, city.data.longitude]} />
+        </LazyMap>
+      </div>
+      <div className="sm:col-span-2">
         <div>
-          <div className="mb-2">
-            <span className="uppercase">{t('gallery')}</span>
-          </div>
-          <div className="border-2 rounded-lg aspect-square">
-            {city.data.images.length > 0 ? (
-              <Carousel emulateTouch showIndicators={false} showStatus={false}>
-                {city.data.images.map((media) => (
-                  <div key={media.id}>
-                    {media.url.endsWith('mp4') ? (
-                      <div
-                        key={media.id}
-                        className="h-full flex justify-center items-center bg-black rounded-lg"
-                      >
-                        <video controls src={media.url} />
-                      </div>
-                    ) : (
-                      <Image
-                        src={media.url}
-                        alt=""
-                        height={532}
-                        width={532}
-                        className="h-full rounded-lg aspect-square object-cover"
-                      />
-                    )}
-                  </div>
-                ))}
-              </Carousel>
-            ) : (
-              <div className="justify-center flex h-full w-full items-center font-bold">
-                <span>{t('no-images')}</span>
+          <h3 className="text-sm sm:text-base uppercase">{t('city-page.reviews')}</h3>
+          <div className="pt-2">
+            {visits.pages[0].length === 0 && (
+              <div className="py-3 text-sm">
+                <span>{t('city-page.no-reviews')}</span>
               </div>
             )}
+            {visits.pages[0].length !== 0 &&
+              visits.pages[0]
+                .slice(0, 5)
+                .map((visit) => <CityVisit key={visit.id} visit={visit} />)}
           </div>
-        </div>
-        <div>
-          <div className="mb-2">
-            <span className="uppercase">{t('location')}</span>
-          </div>
-          <LazyMap
-            center={[city.data.latitude, city.data.longitude]}
-            zoom={8}
-            className="w-full aspect-square rounded-lg border-2"
-            scrollWheelZoom={false}
-            dragging={false}
-          >
-            <LazyTileLayer
-              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-              url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
-            />
-            <LazyMarker position={[city.data.latitude, city.data.longitude]} />
-          </LazyMap>
-        </div>
-        <div className="sm:col-span-2">
-          <CityVisits visits={city.data.visits} />
+          {visits.pages[0].length !== 0 && (
+            <div className="w-full text-right">
+              <Link
+                href={{ params: { slug: city.data.id }, pathname: '/city/[slug]/visits' }}
+                className="text-primary text-sm font-bold uppercase"
+              >
+                {t('city-page.view-more-reviews')}
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </div>
