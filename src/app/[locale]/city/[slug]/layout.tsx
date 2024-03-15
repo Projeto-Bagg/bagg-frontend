@@ -28,7 +28,7 @@ export default function Layout({
   const createCityVisit = useCreateCityVisit();
   const updateCityVisit = useUpdateCityVisit();
   const deleteCityVisit = useDeleteCityVisit();
-  const t = useTranslations('city-page');
+  const t = useTranslations();
 
   const city = useQuery<CityPage>({
     queryFn: async () => (await axios.get<CityPage>('/cities/' + params.slug)).data,
@@ -66,12 +66,12 @@ export default function Layout({
   };
 
   return (
-    <div className="px-4 pb-4 sm:px-11 relative">
+    <div className="px-4 pb-4 relative">
       <CountryFlag
         className="w-full left-0 right-0 m-auto absolute -z-10 gradient-mask-b-[rgba(0,0,0,1.0)_4px] rounded-none"
         iso2={city.data.region.country.iso2}
       />
-      <div className="flex flex-col gap-6 sm:flex-row pt-[200px] sm:pt-[440px] justify-between pb-[24px]">
+      <div className="flex flex-col gap-6 sm:flex-row pt-[160px] sm:pt-[400px] justify-between pb-[24px]">
         <div>
           <h2 className="font-bold text-3xl sm:text-5xl">{city.data.name}</h2>
           <div className="font-bold text-lg sm:text-2xl text-muted-foreground">
@@ -80,6 +80,7 @@ export default function Layout({
               {', '}
             </span>
             <Link
+              className="hover:underline"
               href={{
                 params: { slug: city.data.region.country.iso2 },
                 pathname: '/country/[slug]',
@@ -91,7 +92,7 @@ export default function Layout({
           <div className="flex items-center gap-2 text-muted-foreground">
             <div>
               <Rating
-                value={city.data.averageRating}
+                value={city.data.averageRating || 0}
                 readOnly
                 className="max-w-[120px] sm:max-w-[144px]"
               />
@@ -119,7 +120,7 @@ export default function Layout({
                   city.data.userVisit && 'text-blue-400',
                 )}
               />
-              <span>{t('visited')}</span>
+              <span>{t('country-city-page.visited')}</span>
             </button>
             <button className="flex flex-col gap-1 items-center" onClick={checkInterest}>
               <div>
@@ -131,11 +132,15 @@ export default function Layout({
                   strokeWidth={2.5}
                 />
               </div>
-              <span>{city.data.isInterested ? t('interested') : t('interest')}</span>
+              <span>
+                {city.data.isInterested
+                  ? t('country-city-page.interested')
+                  : t('country-city-page.interest')}
+              </span>
             </button>
           </div>
           <div className="flex flex-col items-center py-3">
-            <span>{t('rate')}</span>
+            <span>{t('country-city-page.rate')}</span>
             <Rating
               className="max-w-[120px]"
               value={
@@ -150,7 +155,7 @@ export default function Layout({
           </div>
           <CreateCityVisit city={city.data}>
             <div className="flex justify-center py-3">
-              <span>{t('review')}</span>
+              <span>{t('country-city-page.review')}</span>
             </div>
           </CreateCityVisit>
         </div>

@@ -55,11 +55,11 @@ export default function Page() {
   });
 
   return (
-    <div className="px-4 sm:px-11 py-4">
+    <div className="p-4">
       <div className="mb-2">
         <h1 className="text-4xl font-bold">Ranking</h1>
       </div>
-      <div className="grid w-full grid-cols-1 sm:grid-cols-2 gap-6">
+      <div className="grid w-full grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <div className="mb-2">
             <h2 className="font-bold text-xl border-b-2 border-primary pb-1">
@@ -73,7 +73,7 @@ export default function Page() {
                 ranking.data.countryRatingRanking.map((country) => (
                   <li
                     key={country.iso2}
-                    className="flex items-center h-[44px] p-4 justify-between"
+                    className="flex items-center h-[44px] p-3 justify-between"
                   >
                     <div className="flex gap-2 items-center">
                       <CountryFlag className="w-[36px]" iso2={country.iso2} />
@@ -113,7 +113,7 @@ export default function Page() {
                 ranking.data.cityRatingRanking.map((city) => (
                   <li
                     key={city.id}
-                    className="flex items-center h-[44px] p-4 justify-between"
+                    className="flex items-center h-[44px] p-3 justify-between"
                   >
                     <div className="flex gap-2 items-center">
                       <Link
@@ -166,7 +166,7 @@ export default function Page() {
                 ranking.data.countryVisitRanking.map((country) => (
                   <li
                     key={country.iso2}
-                    className="flex items-center h-[44px] p-4 justify-between"
+                    className="flex items-center h-[44px] p-3 justify-between"
                   >
                     <div className="flex gap-2 items-center">
                       <CountryFlag className="w-[36px] rounded-sm" iso2={country.iso2} />
@@ -200,7 +200,7 @@ export default function Page() {
               ranking.data.cityVisitRanking.map((city, index) => (
                 <div
                   key={index}
-                  className="flex items-center h-[44px] p-4 justify-between"
+                  className="flex items-center h-[44px] p-3 justify-between"
                 >
                   <div className="flex gap-2 items-center">
                     <Link
@@ -245,7 +245,7 @@ export default function Page() {
                 ranking.data.countryInterestRanking.map((country) => (
                   <li
                     key={country.iso2}
-                    className="flex items-center h-[44px] p-4 justify-between"
+                    className="flex items-center h-[44px] p-3 justify-between"
                   >
                     <div className="flex gap-2 items-center">
                       <CountryFlag className="w-[36px]" iso2={country.iso2} />
@@ -279,7 +279,7 @@ export default function Page() {
               ranking.data.cityInterestRanking.map((city, index) => (
                 <li
                   key={index}
-                  className="flex items-center h-[44px] p-4 justify-between"
+                  className="flex items-center h-[44px] p-3 justify-between"
                 >
                   <div className="flex gap-2 items-center">
                     <Link
@@ -318,7 +318,7 @@ export default function Page() {
 
 const RankingSkeleton = () => {
   return Array.from(Array(10), (_, i) => i + 1).map((_, i) => (
-    <li key={i} className="flex items-center h-[44px] p-4 justify-between">
+    <li key={i} className="flex items-center h-[44px] p-3 justify-between">
       <div className="flex gap-2 items-center">
         <Skeleton className="w-[36px] h-[27px]" />
         <Skeleton className="w-[144px] h-4" />

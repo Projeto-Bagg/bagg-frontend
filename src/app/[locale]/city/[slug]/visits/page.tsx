@@ -33,16 +33,16 @@ export default function Visits({ params }: { params: { slug: string } }) {
 
   return (
     <div>
-      <div className="flex justify-between">
-        <h3 className="text-sm sm:text-base uppercase">{t('city-page.reviews')}</h3>
+      <div className="flex justify-between items-baseline mb-2 pb-1 border-b-2 border-primary">
+        <h3 className="font-bold text-xl">{t('country-city-page.reviews')}</h3>
         <Link
           href={{ params: { slug: params.slug }, pathname: '/city/[slug]' }}
-          className="text-sm sm:text-base uppercase font-bold text-primary"
+          className="text-sm uppercase font-bold text-primary hover:underline"
         >
-          {t('city-page.go-back')}
+          {t('country-city-page.go-back')}
         </Link>
       </div>
-      <div className="pt-2">
+      <div>
         {data?.pages.map((page, index) =>
           page.map((visit) => (
             <CityVisit

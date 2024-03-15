@@ -20,7 +20,7 @@ export default function Visits({ params }: { params: { slug: string } }) {
   });
 
   return (
-    <div className="grid grid-cols-2 px-4 sm:grid-cols-4 gap-6 w-full mt-6">
+    <div className="grid grid-cols-2 px-4 sm:grid-cols-4 gap-6 w-full mt-4">
       {visits.data?.map((visit) => (
         <div key={visit.id} className="rounded-sm overflow-hidden">
           <div className="w-full h-[220px] relative">

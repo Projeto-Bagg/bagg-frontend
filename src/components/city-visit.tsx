@@ -15,7 +15,7 @@ export const CityVisit = forwardRef<
   const locale = useLocale();
 
   return (
-    <div className="flex border-t py-2">
+    <div ref={forwardRef} className="flex border-b py-3">
       <div className="basis-[40px] mr-3">
         <UserHoverCard username={visit.user.username}>
           <Link
@@ -33,14 +33,17 @@ export const CityVisit = forwardRef<
           <div className="flex gap-1">
             <div>
               Visited by{' '}
-              <Link
-                href={{
-                  params: { slug: visit.user.username },
-                  pathname: '/[slug]',
-                }}
-              >
-                <span className="text-foreground">@{visit.user.username}</span>
-              </Link>
+              <UserHoverCard username={visit.user.username}>
+                <Link
+                  href={{
+                    params: { slug: visit.user.username },
+                    pathname: '/[slug]',
+                  }}
+                  className="text-foreground hover:underline"
+                >
+                  @{visit.user.username}
+                </Link>
+              </UserHoverCard>
             </div>
             {' • '}
             <span>

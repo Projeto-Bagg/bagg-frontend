@@ -45,7 +45,9 @@ export default function Page({ params }: { params: { slug: string } }) {
     <div className="grid gap-x-4 gap-y-6 grid-cols-1 sm:grid-cols-2">
       <div>
         <div className="mb-2">
-          <span className="uppercase">{t('city-page.gallery')}</span>
+          <h2 className="font-bold text-xl border-b-2 border-primary pb-1">
+            {t('country-city-page.gallery')}
+          </h2>
         </div>
         <div className="border-2 rounded-lg aspect-square overflow-hidden">
           {images.data.length > 0 ? (
@@ -64,11 +66,18 @@ export default function Page({ params }: { params: { slug: string } }) {
                     <div className="flex h-full py-3 px-4 relative items-end">
                       <div className="flex w-full items-center text-sm justify-between">
                         <div className="flex items-center gap-2">
-                          <UserHoverCard username={media.user.username}>
-                            <Avatar>
-                              <AvatarImage src={media.user.image} />
-                            </Avatar>
-                          </UserHoverCard>
+                          <Link
+                            href={{
+                              params: { slug: media.user.username },
+                              pathname: '/[slug]',
+                            }}
+                          >
+                            <UserHoverCard username={media.user.username}>
+                              <Avatar>
+                                <AvatarImage src={media.user.image} />
+                              </Avatar>
+                            </UserHoverCard>
+                          </Link>
                           <UserHoverCard username={media.user.username}>
                             <Link
                               href={{
@@ -98,14 +107,16 @@ export default function Page({ params }: { params: { slug: string } }) {
             </Carousel>
           ) : (
             <div className="justify-center flex h-full w-full items-center font-bold">
-              <span>{t('city-page.no-images')}</span>
+              <span>{t('country-city-page.no-images')}</span>
             </div>
           )}
         </div>
       </div>
       <div>
         <div className="mb-2">
-          <span className="uppercase">{t('city-page.location')}</span>
+          <h2 className="font-bold text-xl border-b-2 border-primary pb-1">
+            {t('country-city-page.location')}
+          </h2>
         </div>
         <LazyMap
           center={[city.data.latitude, city.data.longitude]}
@@ -123,11 +134,15 @@ export default function Page({ params }: { params: { slug: string } }) {
       </div>
       <div className="sm:col-span-2">
         <div>
-          <h3 className="text-sm sm:text-base uppercase">{t('city-page.reviews')}</h3>
-          <div className="pt-2">
+          <div className="mb-2">
+            <h2 className="font-bold text-xl border-b-2 border-primary pb-1">
+              {t('country-city-page.reviews')}
+            </h2>
+          </div>
+          <div>
             {visits.pages[0].length === 0 && (
               <div className="py-3 text-sm">
-                <span>{t('city-page.no-reviews')}</span>
+                <span>{t('country-city-page.no-reviews')}</span>
               </div>
             )}
             {visits.pages[0].length !== 0 &&
@@ -136,12 +151,12 @@ export default function Page({ params }: { params: { slug: string } }) {
                 .map((visit) => <CityVisit key={visit.id} visit={visit} />)}
           </div>
           {visits.pages[0].length !== 0 && (
-            <div className="w-full text-right">
+            <div className="w-full text-right mt-1">
               <Link
                 href={{ params: { slug: city.data.id }, pathname: '/city/[slug]/visits' }}
-                className="text-primary text-sm font-bold uppercase"
+                className="text-primary text-sm font-bold uppercase hover:underline"
               >
-                {t('city-page.view-more-reviews')}
+                {t('country-city-page.view-more-reviews')}
               </Link>
             </div>
           )}
