@@ -86,8 +86,8 @@ export const TipComments = ({ tip }: TipCommentProps) => {
               </div>
               <div className="w-full">
                 <div className="flex items-center gap-3 w-full">
-                  <div className="flex items-center justify-between w-full">
-                    <div className="flex gap-1">
+                  <div className="flex gap-2 items-center justify-between w-full">
+                    <div className="flex gap-1 text-ellipsis overflow-hidden whitespace-nowrap">
                       <UserHoverCard username={comment.user.username}>
                         <Link
                           className="font-bold hover:underline"

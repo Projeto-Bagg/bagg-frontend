@@ -206,7 +206,7 @@
     "follow": "Seguir",
     "follow-you": "Segue você"
   },
-  "city-page": {
+  "country-city-page": {
     "gallery": "Galeria",
     "location": "Localização",
     "visited": "Visitado",
@@ -216,7 +216,9 @@
     "review": "Avaliar",
     "no-images": "Sem imagens :(",
     "reviews": "Últimas avaliações",
-    "no-reviews": "Sem avaliações"
+    "no-reviews": "Sem avaliações",
+    "view-more-reviews": "Ver mais",
+    "go-back": "Voltar"
   },
   "create-city-visit": {
     "title": "Avaliar cidade",

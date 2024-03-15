@@ -206,7 +206,7 @@
     "follow": "Follow",
     "follow-you": "Follow you"
   },
-  "city-page": {
+  "country-city-page": {
     "gallery": "Gallery",
     "location": "Location",
     "visited": "Visited",
@@ -216,7 +216,9 @@
     "review": "Review",
     "no-images": "No images yet :(",
     "reviews": "Last reviews",
-    "no-reviews": "No reviews"
+    "no-reviews": "No reviews",
+    "view-more-reviews": "View more",
+    "go-back": "Go back"
   },
   "create-city-visit": {
     "title": "Create a city review",

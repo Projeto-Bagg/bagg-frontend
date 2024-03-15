@@ -72,11 +72,7 @@ export const DiaryPost = forwardRef<
   };
 
   return (
-    <article
-      {...props}
-      ref={forwardRef}
-      className="sm:m-4 px-4 py-6 sm:px-7 space-y-3 border-b sm:border sm:border-border sm:rounded-lg"
-    >
+    <article {...props} ref={forwardRef} className="p-4 space-y-3 border-b">
       <div className="flex">
         <div className="basis-[40px] mr-3">
           <UserHoverCard username={post.user.username}>

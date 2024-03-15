@@ -57,16 +57,24 @@ export default function TripDiary({ tripDiary, seePostsAnchor }: TripDiaryProps)
   };
 
   return (
-    <div className="sm:m-4 p-4 sm:px-7 border-b sm:border sm:border-border sm:rounded-lg">
+    <div className="p-4 border-b">
       <div className="flex flex-col w-full">
         <div className="flex justify-between items-center w-full">
           <div>
-            <span className="font-bold">{tripDiary.title}</span>
+            <Link
+              className="font-bold hover:underline"
+              href={{ params: { slug: tripDiary.id }, pathname: '/diary/[slug]' }}
+            >
+              {tripDiary.title}
+            </Link>
             <div className="flex gap-1 text-sm text-muted-foreground">
-              <span>
+              <Link
+                href={{ params: { slug: tripDiary.city.id }, pathname: '/city/[slug]' }}
+                className="hover:underline"
+              >
                 {tripDiary.city.name}, {tripDiary.city.region.name},{' '}
                 {tripDiary.city.region.country.name}
-              </span>
+              </Link>
               <CountryFlag className="ml-1" iso2={tripDiary.city.region.country.iso2} />
             </div>
           </div>
@@ -131,7 +139,7 @@ export default function TripDiary({ tripDiary, seePostsAnchor }: TripDiaryProps)
             <Link
               href={{ params: { slug: tripDiary.id }, pathname: '/diary/[slug]' }}
               key={tripDiary.id}
-              className="text-primary text-sm"
+              className="text-primary text-sm hover:underline"
             >
               {t('trip-diary.see-posts-anchor')}
             </Link>

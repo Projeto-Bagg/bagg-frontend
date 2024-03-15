@@ -50,7 +50,7 @@ export default function Profile({ params }: { params: { slug: string } }) {
     <div className="h-full">
       {user.isLoading && <ProfileSkeleton />}
       {user.data && (
-        <div className="p-4 sm:px-11">
+        <div className="p-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2 sm:gap-4">
               <Dialog>
@@ -151,7 +151,7 @@ export default function Profile({ params }: { params: { slug: string } }) {
           </div>
         </div>
       )}
-      <div className="flex justify-center m-auto px-4 sm:px-11 text-sm text-primary w-full sm:w-[432px]">
+      <div className="flex justify-center m-auto px-4 text-sm text-primary w-full sm:w-[432px]">
         <Link
           className={cn(
             pathname.endsWith(params.slug) && 'font-bold border-b-2 border-blue-600',
@@ -196,7 +196,7 @@ export default function Profile({ params }: { params: { slug: string } }) {
 
 const ProfileSkeleton = () => {
   return (
-    <div className="p-4 sm:px-11">
+    <div className="p-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2 sm:gap-4">
           <Skeleton className="w-[100px] h-[100px] sm:w-[144px] sm:h-[144px] rounded-full" />
