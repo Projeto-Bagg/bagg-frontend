@@ -17,7 +17,7 @@ type ThemeType = 'dark' | 'light' | 'system';
 
 export function ThemeToggle() {
   const { setTheme, theme: activeTheme, themes } = useTheme();
-  const t = useTranslations('header.themes');
+  const t = useTranslations();
 
   return (
     <DropdownMenu>
@@ -30,7 +30,7 @@ export function ThemeToggle() {
             </Button>
           </DropdownMenuTrigger>
         </TooltipTrigger>
-        <TooltipContent>{t('title')}</TooltipContent>
+        <TooltipContent>{t('header.themes.title')}</TooltipContent>
       </Tooltip>
       <DropdownMenuContent align="end">
         {themes.map((theme) => (
@@ -42,7 +42,7 @@ export function ThemeToggle() {
               setTheme(theme);
             }}
           >
-            {t(theme as ThemeType)}
+            {t(`header.themes.${theme as ThemeType}`)}
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>

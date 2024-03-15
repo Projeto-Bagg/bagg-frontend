@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { HTMLProps, forwardRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -35,7 +35,12 @@ import { Carousel } from 'react-responsive-carousel';
 import { intlFormatDistance } from 'date-fns';
 import { UserHoverCard } from '@/components/user-hovercard';
 
-export const DiaryPost = ({ post }: { post: DiaryPost }) => {
+export const DiaryPost = forwardRef<
+  HTMLDivElement,
+  HTMLProps<HTMLDivElement> & {
+    post: DiaryPost;
+  }
+>(({ post, ...props }, forwardRef) => {
   const { toast } = useToast();
   const auth = useAuth();
   const locale = useLocale();
@@ -45,15 +50,15 @@ export const DiaryPost = ({ post }: { post: DiaryPost }) => {
   const router = useRouter();
   const t = useTranslations();
 
-  const handleLikeClick = () => {
+  const handleLikeClick = async () => {
     if (!auth.user) {
       return router.push('/login');
     }
 
     if (post.isLiked) {
-      return unlike.mutate(post);
+      return await unlike.mutateAsync(post);
     }
-    return like.mutate(post);
+    return await like.mutateAsync(post);
   };
 
   const handleShareClick = () => {
@@ -67,7 +72,7 @@ export const DiaryPost = ({ post }: { post: DiaryPost }) => {
   };
 
   return (
-    <article className="sm:m-4 px-4 py-6 sm:px-7 space-y-3 border-b sm:border sm:border-border sm:rounded-lg">
+    <article {...props} ref={forwardRef} className="p-4 space-y-3 border-b">
       <div className="flex">
         <div className="basis-[40px] mr-3">
           <UserHoverCard username={post.user.username}>
@@ -117,7 +122,7 @@ export const DiaryPost = ({ post }: { post: DiaryPost }) => {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
                   <DropdownMenuItem onSelect={handleShareClick}>
-                    {t('diaryPost.copyLink')}
+                    {t('diary-post.copy-link')}
                   </DropdownMenuItem>
                   {auth.user?.id === post.user.id && (
                     <>
@@ -127,24 +132,24 @@ export const DiaryPost = ({ post }: { post: DiaryPost }) => {
                             onSelect={(e) => e.preventDefault()}
                             className="font-bold"
                           >
-                            {t('diaryPost.delete')}
+                            {t('diary-post.delete')}
                           </DropdownMenuItem>
                         </AlertDialogTrigger>
                         <AlertDialogContent>
                           <AlertDialogHeader>
                             <AlertDialogTitle>
-                              {t('diaryPost.deleteModal.title')}
+                              {t('diary-post.delete-modal.title')}
                             </AlertDialogTitle>
                             <AlertDialogDescription>
-                              {t('diaryPost.deleteModal.description')}
+                              {t('diary-post.delete-modal.description')}
                             </AlertDialogDescription>
                           </AlertDialogHeader>
                           <AlertDialogFooter>
                             <AlertDialogCancel>
-                              {t('diaryPost.deleteModal.cancel')}
+                              {t('diary-post.delete-modal.cancel')}
                             </AlertDialogCancel>
                             <AlertDialogAction onClick={handleDeleteClick}>
-                              {t('diaryPost.deleteModal.action')}
+                              {t('diary-post.delete-modal.action')}
                             </AlertDialogAction>
                           </AlertDialogFooter>
                         </AlertDialogContent>
@@ -156,7 +161,7 @@ export const DiaryPost = ({ post }: { post: DiaryPost }) => {
             </div>
           </div>
           <div className="flex gap-2 my-2 items-center">
-            <Badge className="uppercase">{t('diaryPost.badge')}</Badge>
+            <Badge className="uppercase">{t('diary-post.badge')}</Badge>
             <Link
               className="text-muted-foreground text-sm"
               href={'/diary/' + post.tripDiary.id}
@@ -247,4 +252,6 @@ export const DiaryPost = ({ post }: { post: DiaryPost }) => {
       </div>
     </article>
   );
-};
+});
+
+DiaryPost.displayName = 'DiaryPost';

@@ -51,7 +51,7 @@ const signUpSchema = z
   })
   .superRefine((data, ctx) => {
     if (data.password !== data.confirmPassword) {
-      ctx.addIssue({ code: 'custom', path: ['confirmPassword'] });
+      ctx.addIssue({ code: 'custom', path: ['confirm-password'] });
     }
   });
 
@@ -126,15 +126,15 @@ export default function SignUp() {
         router.back();
       })
       .catch((error) => {
-        error.response.data?.email?.code === 'emailNotAvailable' &&
+        error.response.data?.email?.code === 'email-not-available' &&
           setError('email', {
-            message: t('signup.emailNotAvailable'),
-            type: 'emailNotAvailable',
+            message: t('signup.email-not-available'),
+            type: 'email-not-available',
           });
-        error.response.data?.username?.code === 'usernameNotAvailable' &&
+        error.response.data?.username?.code === 'username-not-available' &&
           setError('username', {
-            message: t('signup.usernameNotAvailable'),
-            type: 'usernameNotAvailable',
+            message: t('signup.username-not-available'),
+            type: 'username-not-available',
           });
         setLoading(false);
       });
@@ -172,8 +172,8 @@ export default function SignUp() {
                   </TooltipTrigger>
                   <TooltipContent>
                     {errors.fullName.type === 'too_big'
-                      ? t('signup.nameSizeError')
-                      : t('signup.nameError')}
+                      ? t('signup.name-size-error')
+                      : t('signup.name-error')}
                   </TooltipContent>
                 </Tooltip>
               )}
@@ -189,9 +189,9 @@ export default function SignUp() {
                 </Label>
               </div>
               {errors.username &&
-                (errors.username?.type === 'usernameNotAvailable' ? (
+                (errors.username?.type === 'username-not-available' ? (
                   <span className="text-red-500 text-sm font-bold">
-                    {t('signup.usernameNotAvailable')}
+                    {t('signup.username-not-available')}
                   </span>
                 ) : (
                   <Tooltip>
@@ -199,19 +199,19 @@ export default function SignUp() {
                       <Info size={18} className="text-red-600" />
                     </TooltipTrigger>
                     <TooltipContent className="pl-7">
-                      {t('signup.usernameError.title')}
+                      {t('signup.username-error.title')}
                       <ul className="list-disc">
                         <li
                           data-valid={/^.{3,20}$/.test(watch('username'))}
                           className="data-[valid=true]:text-green-500"
                         >
-                          {t('signup.usernameError.condition1')}
+                          {t('signup.username-error.condition1')}
                         </li>
                         <li
                           data-valid={/^[a-zA-Z0-9_]+$/.test(watch('username'))}
                           className="data-[valid=true]:text-green-500"
                         >
-                          {t('signup.usernameError.condition2')}
+                          {t('signup.username-error.condition2')}
                         </li>
                       </ul>
                     </TooltipContent>
@@ -228,7 +228,7 @@ export default function SignUp() {
                   <TooltipTrigger asChild>
                     <Info size={18} className="text-red-600" />
                   </TooltipTrigger>
-                  <TooltipContent>{t('signup.birthdateError')}</TooltipContent>
+                  <TooltipContent>{t('signup.birthdate-error')}</TooltipContent>
                 </Tooltip>
               )}
             </div>
@@ -295,16 +295,16 @@ export default function SignUp() {
             <div className="flex justify-between mb-0.5">
               <Label>{t('signup.email')}</Label>
               {errors.email &&
-                (errors.email.type === 'emailNotAvailable' ? (
+                (errors.email.type === 'email-not-available' ? (
                   <span className="text-sm text-red-500 font-bold">
-                    {t('signup.emailNotAvailable')}
+                    {t('signup.email-not-available')}
                   </span>
                 ) : (
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <Info size={18} className="text-red-600" />
                     </TooltipTrigger>
-                    <TooltipContent>{t('signup.emailError')}</TooltipContent>
+                    <TooltipContent>{t('signup.email-error')}</TooltipContent>
                   </Tooltip>
                 ))}
             </div>
@@ -319,19 +319,19 @@ export default function SignUp() {
                     <Info size={18} className="text-red-600" />
                   </TooltipTrigger>
                   <TooltipContent className="pl-7">
-                    <span>{t('signup.passwordTooWeak.title')}</span>
+                    <span>{t('signup.password-too-weak.title')}</span>
                     <ul className="list-disc">
                       <li
                         data-valid={/.{8,}/.test(watch('password'))}
                         className="data-[valid=true]:text-green-500"
                       >
-                        {t('signup.passwordTooWeak.condition1')}
+                        {t('signup.password-too-weak.condition1')}
                       </li>
                       <li
                         data-valid={/(?=(.*[0-9]){1,})/.test(watch('password'))}
                         className="data-[valid=true]:text-green-500"
                       >
-                        {t('signup.passwordTooWeak.condition2')}
+                        {t('signup.password-too-weak.condition2')}
                       </li>
                       <li
                         data-valid={/(?=(.*[a-z]){1,})(?=(.*[A-Z]){1,})/.test(
@@ -339,7 +339,7 @@ export default function SignUp() {
                         )}
                         className="data-[valid=true]:text-green-500"
                       >
-                        {t('signup.passwordTooWeak.condition3')}
+                        {t('signup.password-too-weak.condition3')}
                       </li>
                       <li
                         data-valid={/(?=(.*[-!$%^&*()_+|~=`{}\[\]:\/;<>?,.@#]){1,})/.test(
@@ -347,7 +347,7 @@ export default function SignUp() {
                         )}
                         className="data-[valid=true]:text-green-500"
                       >
-                        {t('signup.passwordTooWeak.condition4', {
+                        {t('signup.password-too-weak.condition4', {
                           characters: '!@#$%&*()-_=+<>:;/|,.^`}{[]',
                         })}
                       </li>
@@ -360,13 +360,13 @@ export default function SignUp() {
           </div>
           <div>
             <div className="flex justify-between mb-0.5">
-              <Label>{t('signup.confirmPassword')}</Label>
+              <Label>{t('signup.confirm-password')}</Label>
               {errors.confirmPassword && (
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Info size={18} className="text-red-600" />
                   </TooltipTrigger>
-                  <TooltipContent>{t('signup.confirmPasswordError')}</TooltipContent>
+                  <TooltipContent>{t('signup.confirm-password-error')}</TooltipContent>
                 </Tooltip>
               )}
             </div>

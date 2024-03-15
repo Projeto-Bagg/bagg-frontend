@@ -97,20 +97,22 @@ export const CreateTip = ({ children }: { children: ReactNode }) => {
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent onInteractOutside={(e) => createTip.isPending && e.preventDefault()}>
         <DialogHeader>
-          <DialogTitle>{t('createTip.title')}</DialogTitle>
+          <DialogTitle>{t('create-tip.title')}</DialogTitle>
         </DialogHeader>
         <form className="space-y-4" onSubmit={handleSubmit(handleCreatePost)}>
           <div>
             <div className="justify-between flex mb-0.5">
               <div className="flex gap-1 items-end">
-                <Label>{t('createTripDiary.city')}</Label>
+                <Label>{t('create-trip-diary.city')}</Label>
               </div>
               {errors.cityId && (
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Info size={18} className="text-red-600" />
                   </TooltipTrigger>
-                  <TooltipContent>{t('createTripDiary.cityFieldError')}</TooltipContent>
+                  <TooltipContent>
+                    {t('create-trip-diary.city-field-error')}
+                  </TooltipContent>
                 </Tooltip>
               )}
             </div>
@@ -125,7 +127,7 @@ export const CreateTip = ({ children }: { children: ReactNode }) => {
           <div>
             <div className="flex justify-between mb-0.5">
               <div className="flex gap-1 items-end">
-                <Label>{t('createTip.message')}</Label>
+                <Label>{t('create-tip.message')}</Label>
                 <Label className="text-muted-foreground text-xs">
                   {watch('message')?.length || 0} / 300
                 </Label>
@@ -137,8 +139,8 @@ export const CreateTip = ({ children }: { children: ReactNode }) => {
                   </TooltipTrigger>
                   <TooltipContent>
                     {errors.message.type === 'too_big'
-                      ? t('createTip.messageMaxError')
-                      : t('createTip.messageError')}
+                      ? t('create-tip.message-max-error')
+                      : t('create-tip.message-error')}
                   </TooltipContent>
                 </Tooltip>
               )}
@@ -218,7 +220,7 @@ export const CreateTip = ({ children }: { children: ReactNode }) => {
                           type: 'max',
                         });
                         toast({
-                          title: t('createTip.maxSizeFiles'),
+                          title: t('create-tip.max-size-files'),
                         });
                         return;
                       }
@@ -246,7 +248,7 @@ export const CreateTip = ({ children }: { children: ReactNode }) => {
               disabled={createTip.isPending}
               type="submit"
             >
-              {t('createTip.confirm')}
+              {t('create-tip.confirm')}
             </Button>
           </div>
         </form>

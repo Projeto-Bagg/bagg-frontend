@@ -20,8 +20,6 @@ export default function Page() {
       page.length === 10 ? allPages.length + 1 : null,
   });
 
-  console.log(data);
-
   useEffect(() => {
     if (inView && hasNextPage) {
       fetchNextPage();
@@ -30,7 +28,7 @@ export default function Page() {
 
   return (
     <div className="container">
-      <div className="px-4 md:px-11 pt-4">
+      <div className="px-4 pt-4">
         <h1 className="text-lg font-bold">{t('homepage.title')}</h1>
       </div>
       {data &&

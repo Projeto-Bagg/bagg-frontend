@@ -33,7 +33,7 @@ export const ProfilePicDialog = ({ children, onSubmit }: IProfilePicDialog) => {
   const cropperRef = useRef<ReactCropperElement>(null);
   const modalRef = useRef<React.ElementRef<typeof DialogContent>>(null);
   const auth = useAuth();
-  const t = useTranslations('profilePicModal');
+  const t = useTranslations();
 
   const handleZoom = useCallback((e: Cropper.ZoomEvent<HTMLImageElement>) => {
     const height = cropperRef.current?.naturalHeight;
@@ -87,18 +87,26 @@ export const ProfilePicDialog = ({ children, onSubmit }: IProfilePicDialog) => {
     setZoom(undefined);
   };
 
+  const onOpenChange = (open: boolean) => {
+    if (open) {
+      return setOpen(true);
+    }
+
+    const shouldClose = window.confirm(t('modal.close'));
+    if (!shouldClose) return;
+
+    setOpen(false);
+    setImg(undefined);
+  };
+
   return (
-    <Dialog
-      open={open}
-      onOpenChange={(open) => {
-        setOpen(open);
-        setImg(undefined);
-      }}
-    >
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogTrigger>{children}</DialogTrigger>
       <DialogContent ref={modalRef} className="gap-0 p-0 pt-6">
         <DialogHeader className="mb-6">
-          <DialogTitle className="text-center">{t('title')}</DialogTitle>
+          <DialogTitle className="text-center">
+            {t('profile-pic-modal.title')}
+          </DialogTitle>
         </DialogHeader>
 
         {img ? (
@@ -142,7 +150,7 @@ export const ProfilePicDialog = ({ children, onSubmit }: IProfilePicDialog) => {
             <div className="px-4">
               <Separator className="my-3" />
               <Button onClick={handleImageSubmit} className="w-full">
-                {t('confirm')}
+                {t('profile-pic-modal.confirm')}
               </Button>
             </div>
           </div>
@@ -150,7 +158,9 @@ export const ProfilePicDialog = ({ children, onSubmit }: IProfilePicDialog) => {
           <>
             <Separator />
             <button className="h-[54px]" onClick={() => inputRef.current?.click()}>
-              <span className="text-blue-500 font-bold">{t('upload')}</span>
+              <span className="text-blue-500 font-bold">
+                {t('profile-pic-modal.upload')}
+              </span>
               <Input
                 className="hidden"
                 type="file"
@@ -175,11 +185,13 @@ export const ProfilePicDialog = ({ children, onSubmit }: IProfilePicDialog) => {
               onClick={handleDeletePic}
               disabled={!auth.user?.image}
             >
-              <span className="text-red-500 font-bold">{t('remove')}</span>{' '}
+              <span className="text-red-500 font-bold">
+                {t('profile-pic-modal.remove')}
+              </span>{' '}
             </button>
             <Separator />
             <DialogClose className="h-[54px]">
-              <span>{t('cancel')}</span>
+              <span>{t('profile-pic-modal.cancel')}</span>
             </DialogClose>
           </>
         )}

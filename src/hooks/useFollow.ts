@@ -9,7 +9,7 @@ export const useFollow = () => {
 
   return useMutation({
     mutationFn: async (followingUsername: string) =>
-      await axios.post('/users/following/' + followingUsername),
+      await axios.post('/follows/' + followingUsername),
     onMutate(followingUsername) {
       queryClient.setQueryData<User>(
         ['user', followingUsername],
@@ -30,7 +30,7 @@ export const useFollow = () => {
           }),
       );
 
-      ['followers', 'following', 'diaryPostLikedBy'].forEach((tab) => {
+      ['followers', 'following', 'diary-post-liked-by'].forEach((tab) => {
         queryClient.setQueriesData<User[]>(
           { queryKey: [tab] },
           (old) =>

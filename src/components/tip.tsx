@@ -36,6 +36,7 @@ import { CountryFlag } from '@/components/ui/country-flag';
 import { TipComments } from '@/components/tip-comments';
 import { Link, usePathname, useRouter } from '@/common/navigation';
 import { useQueryClient } from '@tanstack/react-query';
+import { Separator } from '@/components/ui/separator';
 
 export const Tip = forwardRef<
   HTMLDivElement,
@@ -87,11 +88,7 @@ export const Tip = forwardRef<
   };
 
   return (
-    <div
-      {...props}
-      ref={forwardRef}
-      className="sm:m-4 px-4 py-6 sm:px-7 space-y-3 border-b sm:border sm:border-border sm:rounded-lg"
-    >
+    <div {...props} ref={forwardRef} className="p-4 space-y-3 border-b">
       <div className="flex">
         <div className="basis-[40px] mr-3">
           <UserHoverCard username={tip.user.username}>
@@ -149,7 +146,7 @@ export const Tip = forwardRef<
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
                   <DropdownMenuItem onSelect={handleShareClick}>
-                    {t('tip.copyLink')}
+                    {t('tip.copy-link')}
                   </DropdownMenuItem>
                   {auth.user?.id === tip.user.id && (
                     <>
@@ -165,18 +162,18 @@ export const Tip = forwardRef<
                         <AlertDialogContent>
                           <AlertDialogHeader>
                             <AlertDialogTitle>
-                              {t('tip.deleteModal.title')}
+                              {t('tip.delete-modal.title')}
                             </AlertDialogTitle>
                             <AlertDialogDescription>
-                              {t('tip.deleteModal.description')}
+                              {t('tip.delete-modal.description')}
                             </AlertDialogDescription>
                           </AlertDialogHeader>
                           <AlertDialogFooter>
                             <AlertDialogCancel>
-                              {t('tip.deleteModal.cancel')}
+                              {t('tip.delete-modal.cancel')}
                             </AlertDialogCancel>
                             <AlertDialogAction onClick={handleDeleteClick}>
-                              {t('tip.deleteModal.action')}
+                              {t('tip.delete-modal.action')}
                             </AlertDialogAction>
                           </AlertDialogFooter>
                         </AlertDialogContent>
@@ -288,15 +285,18 @@ export const Tip = forwardRef<
                 className="text-muted-foreground text-sm"
                 onClick={handleClickSeeComments}
               >
-                {tip.commentsAmount === 0
-                  ? 'Criar comentário'
-                  : `Ver ${tip.commentsAmount} comentários`}
+                {t('tip.comments', { count: tip.commentsAmount })}
               </button>
             </div>
           )}
         </div>
       </div>
-      {withComments && <TipComments tip={tip} />}
+      {withComments && (
+        <div>
+          <Separator className="my-4" />
+          <TipComments tip={tip} />
+        </div>
+      )}
     </div>
   );
 });

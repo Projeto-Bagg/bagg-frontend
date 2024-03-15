@@ -8,9 +8,9 @@ export const useUnlikeTip = () => {
   return useMutation({
     mutationFn: async (tip: Tip) => await axios.delete(`/tip-likes/${tip.id}`),
     onMutate: (data) => {
-      ['feed', 'tips'].forEach((tab) =>
-        queryClient.setQueriesData<Pagination<Tip>>(
-          { queryKey: [tab] },
+      [['feed'], ['tips', data.user.username]].forEach((key) =>
+        queryClient.setQueryData<Pagination<Tip>>(
+          key,
           (old) =>
             old &&
             produce(old, (draft) => {

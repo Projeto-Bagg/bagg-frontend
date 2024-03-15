@@ -6,7 +6,7 @@ export const useCreateCityInterest = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (cityId: number) => axios.post('/cityInterests/' + cityId),
+    mutationFn: async (cityId: number) => axios.post('/city-interests/' + cityId),
     onSuccess: (_, cityId) => {
       queryClient.setQueryData<CityPage>(
         ['city', cityId],

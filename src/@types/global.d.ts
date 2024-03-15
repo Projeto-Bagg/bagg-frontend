@@ -25,6 +25,7 @@ interface TripDiary {
   city: City;
   createdAt: Date;
   user: User;
+  postsAmount?: number;
 }
 
 interface DiaryPost {
@@ -100,6 +101,12 @@ interface Country {
   states: Region[];
 }
 
+interface CountryPage extends Country {
+  visitsCount: number;
+  interestsCount: number;
+  averageRating: number | null;
+}
+
 interface Region {
   id: number;
   name: string;
@@ -142,12 +149,21 @@ interface City {
 interface CityPage extends City {
   isVisited: boolean;
   isInterested: boolean;
-  visits: CityVisit[];
-  images: Media[];
   userVisit: CityVisit | null;
-  averageRating: number;
+  averageRating: number | null;
   interestsCount: number;
   visitsCount: number;
+}
+
+interface CityImage extends Media {
+  userId: number;
+  user: User;
+}
+
+interface CountryImage extends Media {
+  userId: number;
+  user: User;
+  city: City;
 }
 
 interface CityFromSearch {

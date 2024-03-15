@@ -22,7 +22,7 @@ interface SelectCityProps {
 }
 
 export const SelectCity = ({ onSelect, defaultValue }: SelectCityProps) => {
-  const t = useTranslations('selectCity');
+  const t = useTranslations();
   const [open, setOpen] = React.useState(false);
   const [query, setQuery] = useState<string>();
   const [debouncedQuery] = useDebounce(query, 1000);
@@ -43,7 +43,7 @@ export const SelectCity = ({ onSelect, defaultValue }: SelectCityProps) => {
   const enabled = !!debouncedQuery;
 
   const cities = useQuery<CityFromSearch[]>({
-    queryKey: ['searchCity', debouncedQuery],
+    queryKey: ['search-city', debouncedQuery],
     queryFn: async () =>
       (await axios.get<CityFromSearch[]>(`/cities/search?q=${debouncedQuery}&count=5`))
         .data,
@@ -70,7 +70,7 @@ export const SelectCity = ({ onSelect, defaultValue }: SelectCityProps) => {
               </div>
             </div>
           ) : (
-            <span className="text-muted-foreground">{t('title')}</span>
+            <span className="text-muted-foreground">{t('select-city.title')}</span>
           )}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
@@ -80,14 +80,16 @@ export const SelectCity = ({ onSelect, defaultValue }: SelectCityProps) => {
           <CommandInput
             onValueChange={setQuery}
             value={query}
-            placeholder={t('search')}
+            placeholder={t('select-city.search')}
           />
           <CommandGroup>
-            {isLoading && <div className="p-4 text-sm">{t('searching')}</div>}
+            {isLoading && <div className="p-4 text-sm">{t('select-city.searching')}</div>}
             {!cities.isError && !isLoading && !cities.data?.length && (
-              <div className="p-4 text-sm">{t('notFound')}</div>
+              <div className="p-4 text-sm">{t('select-city.not-found')}</div>
             )}
-            {cities.isError && <div className="p-4 text-sm">{t('error')}</div>}
+            {cities.isError && (
+              <div className="p-4 text-sm">{t('select-city.error')}</div>
+            )}
             {cities.data?.map((city) => (
               <CommandItem
                 key={city.id}
