@@ -89,14 +89,16 @@ export const SelectCountry = ({ onSelect, defaultIso2 }: SelectCountryProps) => 
                     setOpen(false);
                   }}
                 >
-                  <Check
+                  <span
                     className={cn(
-                      'mr-2 h-4 w-4',
+                      'mr-2 flex h-[18px] w-[18px] items-center justify-center',
                       selectedCountry?.name === country.name
                         ? 'opacity-100'
                         : 'opacity-0',
                     )}
-                  />
+                  >
+                    <span className="w-[3px] h-full rounded-xl bg-primary" />
+                  </span>
                   <div className="flex gap-2">
                     <CountryFlag iso2={country.iso2} />
                     <span className="w-[216px] whitespace-nowrap text-ellipsis overflow-hidden">

@@ -49,6 +49,7 @@ const SelectContent = React.forwardRef<
       )}
       position={position}
       {...props}
+      align="center"
     >
       <SelectPrimitive.Viewport
         className={cn(
@@ -83,12 +84,12 @@ const SelectItem = React.forwardRef<
   <SelectPrimitive.Item
     ref={ref}
     className={cn(
-      'relative pointer flex w-full select-none items-center rounded-sm py-1.5 pl-6 pr-2 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
+      'relative pointer flex w-full select-none items-center rounded-sm py-1.5 pl-2 pr-2 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
       className,
     )}
     {...props}
   >
-    <span className="absolute left-1 flex h-[18px] w-3.5 items-center justify-center">
+    <span className={cn('mr-2 flex h-[18px] w-[18px] items-center justify-center')}>
       <SelectPrimitive.ItemIndicator asChild>
         <span className="w-[3px] h-full rounded-xl bg-primary" />
       </SelectPrimitive.ItemIndicator>

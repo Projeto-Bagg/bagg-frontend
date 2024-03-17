@@ -184,14 +184,16 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
                               setValue('tripDiaryId', tripDiary.id);
                             }}
                           >
-                            <Check
+                            <span
                               className={cn(
-                                'mr-2 h-4 w-4',
+                                'mr-2 flex h-[18px] w-[18px] items-center justify-center',
                                 watch('tripDiaryId') === tripDiary.id
                                   ? 'opacity-100'
                                   : 'opacity-0',
                               )}
-                            />
+                            >
+                              <span className="w-[3px] h-full rounded-xl bg-primary" />
+                            </span>
                             <div className="flex items-end justify-between w-full gap-2">
                               <div className="flex gap-2">
                                 <CountryFlag iso2={tripDiary.city.region.country.iso2} />
