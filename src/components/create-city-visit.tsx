@@ -1,3 +1,4 @@
+import { useRouter } from '@/common/navigation';
 import { Button } from '@/components/ui/button';
 import { CountryFlag } from '@/components/ui/country-flag';
 import {
@@ -11,6 +12,7 @@ import {
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { useAuth } from '@/context/auth-context';
 import { useCreateCityVisit } from '@/hooks/useCreateCityVisit';
 import { useUpdateCityVisit } from '@/hooks/useUpdateCityVisit';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -37,6 +39,8 @@ export const CreateCityVisit = ({ children, city }: CreateCityVisitProps) => {
   const t = useTranslations();
   const createCityVisit = useCreateCityVisit();
   const updateCityVisit = useUpdateCityVisit();
+  const auth = useAuth();
+  const router = useRouter();
   const [open, setOpen] = useState<boolean>();
 
   const {
@@ -75,6 +79,12 @@ export const CreateCityVisit = ({ children, city }: CreateCityVisitProps) => {
   };
 
   const onOpenChange = (open: boolean) => {
+    if (!auth.user && open) {
+      return router.push('/login', {
+        scroll: false,
+      });
+    }
+
     if (open) {
       return setOpen(true);
     }
@@ -95,13 +105,13 @@ export const CreateCityVisit = ({ children, city }: CreateCityVisitProps) => {
         <DialogHeader>
           <DialogTitle>{t('create-city-visit.title')}</DialogTitle>
           <DialogDescription>
-            <div className="flex items-center gap-2 text-foreground">
+            <span className="flex items-center gap-2 justify-center sm:justify-start text-foreground">
               <span>
                 {city.name}, {city.region.name}, {city.region.country.name}
               </span>
               <CountryFlag iso2={city.region.country.iso2} />
-            </div>
-            <div>{t('create-city-visit.description')}</div>
+            </span>
+            <span>{t('create-city-visit.description')}</span>
           </DialogDescription>
         </DialogHeader>
         <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>

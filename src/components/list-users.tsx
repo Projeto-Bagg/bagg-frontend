@@ -6,7 +6,7 @@ import { useUnfollow } from '@/hooks/useUnfollow';
 import { useAuth } from '@/context/auth-context';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { Link } from '@/common/navigation';
+import { Link, useRouter } from '@/common/navigation';
 import { useTranslations } from 'next-intl';
 import { UserHoverCard } from '@/components/user-hovercard';
 
@@ -21,6 +21,17 @@ export const ListUsers = ({ users, showIfUserFollowYou = true }: IListUsers) => 
   const follow = useFollow();
   const unfollow = useUnfollow();
   const t = useTranslations();
+  const router = useRouter();
+
+  const handleFollowClick = (user: User) => {
+    if (!auth.user) {
+      return router.push('/login');
+    }
+
+    user.friendshipStatus.isFollowing
+      ? unfollow.mutate(user.username)
+      : follow.mutate(user.username);
+  };
 
   return (
     <div className="space-y-1.5">
@@ -40,15 +51,7 @@ export const ListUsers = ({ users, showIfUserFollowYou = true }: IListUsers) => 
             </Link>
           </UserHoverCard>
           {user.id !== auth.user?.id && (
-            <Button
-              size={'sm'}
-              onClick={() =>
-                user.friendshipStatus.isFollowing
-                  ? unfollow.mutate(user.username)
-                  : follow.mutate(user.username)
-              }
-              disabled={!auth.isAuthenticated || follow.isPending || unfollow.isPending}
-            >
+            <Button size={'sm'} onClick={() => handleFollowClick(user)}>
               {user.friendshipStatus.isFollowing
                 ? t('follow.following')
                 : t('follow.follow')}

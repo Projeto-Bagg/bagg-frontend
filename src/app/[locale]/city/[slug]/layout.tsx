@@ -1,8 +1,9 @@
 'use client';
 
-import { Link } from '@/common/navigation';
+import { Link, useRouter } from '@/common/navigation';
 import { CreateCityVisit } from '@/components/create-city-visit';
 import { CountryFlag } from '@/components/ui/country-flag';
+import { useAuth } from '@/context/auth-context';
 import { useCreateCityInterest } from '@/hooks/useCreateCityInterest';
 import { useCreateCityVisit } from '@/hooks/useCreateCityVisit';
 import { useDeleteCityInterest } from '@/hooks/useDeleteCityInterest';
@@ -29,6 +30,8 @@ export default function Layout({
   const updateCityVisit = useUpdateCityVisit();
   const deleteCityVisit = useDeleteCityVisit();
   const t = useTranslations();
+  const router = useRouter();
+  const auth = useAuth();
 
   const city = useQuery<CityPage>({
     queryFn: async () => (await axios.get<CityPage>('/cities/' + params.slug)).data,
@@ -40,6 +43,10 @@ export default function Layout({
   }
 
   const checkInterest = () => {
+    if (!auth.user) {
+      return router.push({ pathname: '/login' }, { scroll: false });
+    }
+
     if (city.data.isInterested) {
       return deleteCityInterest.mutateAsync(city.data.id);
     }
@@ -48,6 +55,10 @@ export default function Layout({
   };
 
   const checkVisit = async () => {
+    if (!auth.user) {
+      return router.push({ pathname: '/login' }, { scroll: false });
+    }
+
     if (city.data.userVisit) {
       await deleteCityVisit.mutateAsync({ cityId: city.data.id });
       return;
@@ -57,6 +68,10 @@ export default function Layout({
   };
 
   const onRate = async (value: number) => {
+    if (!auth.user) {
+      return router.push({ pathname: '/login' }, { scroll: false });
+    }
+
     if (city.data.userVisit) {
       await updateCityVisit.mutateAsync({ rating: value, cityId: city.data.id });
       return;
