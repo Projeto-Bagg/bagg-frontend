@@ -32,7 +32,7 @@ export const ThemeToggle = () => {
         </TooltipTrigger>
         <TooltipContent>{t('header.themes.title')}</TooltipContent>
       </Tooltip>
-      <SelectContent align="end">
+      <SelectContent>
         {themes.map((theme) => (
           <SelectItem value={theme} key={theme}>
             {t(`header.themes.${theme as ThemeType}`)}
