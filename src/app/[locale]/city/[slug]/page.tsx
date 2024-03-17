@@ -51,7 +51,7 @@ export default function Page({ params }: { params: { slug: string } }) {
         </div>
         <div className="border-2 rounded-lg aspect-square overflow-hidden">
           {images.data.length > 0 ? (
-            <Carousel emulateTouch showIndicators={false} showStatus={false}>
+            <Carousel autoPlay emulateTouch showIndicators={false} showStatus={false}>
               {images.data.map((media) => (
                 <div key={media.id} className="relative">
                   <Image
@@ -106,7 +106,7 @@ export default function Page({ params }: { params: { slug: string } }) {
               ))}
             </Carousel>
           ) : (
-            <div className="justify-center flex h-full w-full items-center font-bold">
+            <div className="justify-center flex h-full w-full items-center">
               <span>{t('country-city-page.no-images')}</span>
             </div>
           )}
@@ -141,7 +141,7 @@ export default function Page({ params }: { params: { slug: string } }) {
           </div>
           <div>
             {visits.pages[0].length === 0 && (
-              <div className="py-3 text-sm">
+              <div className="py-4 text-sm text-center">
                 <span>{t('country-city-page.no-reviews')}</span>
               </div>
             )}

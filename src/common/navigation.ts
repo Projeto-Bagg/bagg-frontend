@@ -2,16 +2,18 @@ import { createLocalizedPathnamesNavigation, Pathnames } from 'next-intl/navigat
 
 export const locales = ['pt', 'en'] as const;
 
-// The `pathnames` object holds pairs of internal
-// and external paths, separated by locale.
 export const pathnames = {
   '/': '/',
   '/login': '/login',
   '/signup': '/signup',
   '/ranking': '/ranking',
   '/config': '/config',
+  '/city/ranking/rating': '/city/ranking/rating',
+  '/city/ranking/visits': '/city/ranking/visits',
   '/city/[slug]': '/city/[slug]',
   '/city/[slug]/visits': '/city/[slug]/visits',
+  '/country/ranking/rating': '/country/ranking/rating',
+  '/country/ranking/visits': '/country/ranking/visits',
   '/country/[slug]': '/country/[slug]',
   '/diary/[slug]': '/diary/[slug]',
   '/diary/post/[slug]': '/diary/post/[slug]',

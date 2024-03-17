@@ -173,7 +173,14 @@
     "search": "Search a city...",
     "searching": "Searching",
     "not-found": "No cities found",
-    "error": "Something went wrong"
+    "error": "Something went wrong..."
+  },
+  "select-country": {
+    "label": "Country",
+    "title": "Select a country...",
+    "search": "Search a country...",
+    "not-found": "No cities found",
+    "error": "Something went wrong..."
   },
   "diary-post": {
     "copy-link": "Copy link",
@@ -216,7 +223,7 @@
     "review": "Review",
     "no-images": "No images yet :(",
     "reviews": "Last reviews",
-    "no-reviews": "No reviews",
+    "no-reviews": "Nobody has reviewed it yet.",
     "view-more-reviews": "View more",
     "go-back": "Go back"
   },
@@ -236,7 +243,26 @@
     "top-rated-cities": "Top rated cities",
     "most-visited-cities": "Most visited cities",
     "countries-with-gratest-interest": "Countries with greatest interest",
-    "cities-with-gratest-interest": "Cities with greatest interest"
+    "cities-with-gratest-interest": "Cities with greatest interest",
+    "more": "More",
+    "date-range": {
+      "label": "Date range",
+      "0": "All time",
+      "7": "Last 7 days",
+      "30": "Last 30 days",
+      "90": "Last 90 days",
+      "365": "Last 365 days"
+    },
+    "city": {
+      "title": "City ranking",
+      "rating": "Rating",
+      "visits": "Visits"
+    },
+    "country": {
+      "title": "Country ranking",
+      "rating": "Rating",
+      "visits": "Visits"
+    }
   },
   "modal": {
     "close": "Are you sure you want to abandon this entry?"

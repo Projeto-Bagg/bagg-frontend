@@ -1,9 +1,19 @@
 'use client';
 
 import { Link } from '@/common/navigation';
+import { CityRatingRanking } from '@/components/city-rating-ranking';
+import { CityVisitRanking } from '@/components/city-visit-ranking';
 import { LazyMap, LazyMarker, LazyTileLayer } from '@/components/leaflet-map';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { CountryFlag } from '@/components/ui/country-flag';
+import {
+  Ranking,
+  RankingContent,
+  RankingHeader,
+  RankingItem,
+  RankingSkeleton,
+  RankingTitle,
+} from '@/components/ui/ranking';
 import { UserHoverCard } from '@/components/user-hovercard';
 import axios from '@/services/axios';
 import { Rating } from '@smastrom/react-rating';
@@ -29,26 +39,6 @@ export default function Page({ params }: { params: { slug: string } }) {
     queryKey: ['country-images', params.slug],
   });
 
-  const cityRatingRanking = useQuery<CityRatingRanking>({
-    queryFn: async () =>
-      (
-        await axios.get<CityRatingRanking>(
-          `/cities/ranking/rating?page=1&count=10&countryIso2=${params.slug}`,
-        )
-      ).data,
-    queryKey: ['city-interests', params.slug],
-  });
-
-  const cityVisitRanking = useQuery<CityVisitRanking>({
-    queryFn: async () =>
-      (
-        await axios.get<CityVisitRanking>(
-          `/cities/ranking/visit?page=1&count=10&countryIso2=${params.slug}`,
-        )
-      ).data,
-    queryKey: ['city-visits', params.slug],
-  });
-
   if (!country.data || !images.data) {
     return;
   }
@@ -63,7 +53,7 @@ export default function Page({ params }: { params: { slug: string } }) {
         </div>
         <div className="border-2 rounded-lg aspect-square overflow-hidden">
           {images.data.length > 0 ? (
-            <Carousel emulateTouch showIndicators={false} showStatus={false}>
+            <Carousel autoPlay emulateTouch showIndicators={false} showStatus={false}>
               {images.data.map((media) => (
                 <div key={media.id} className="relative">
                   <Image
@@ -130,7 +120,7 @@ export default function Page({ params }: { params: { slug: string } }) {
               ))}
             </Carousel>
           ) : (
-            <div className="justify-center flex h-full w-full items-center font-bold">
+            <div className="justify-center flex h-full w-full items-center">
               <span>{t('country-city-page.no-images')}</span>
             </div>
           )}
@@ -156,98 +146,8 @@ export default function Page({ params }: { params: { slug: string } }) {
           <LazyMarker position={[country.data.latitude, country.data.longitude]} />
         </LazyMap>
       </div>
-      <div>
-        <div className="mb-2">
-          <h2 className="font-bold text-xl border-b-2 border-primary pb-1">
-            {t('ranking.top-rated-cities')}
-          </h2>
-        </div>
-        <div>
-          <ul className="divide-y-2 min-h-[440px]">
-            {cityRatingRanking.data &&
-              cityRatingRanking.data.map((city) => (
-                <li
-                  key={city.id}
-                  className="flex items-center h-[44px] p-3 justify-between"
-                >
-                  <div className="flex gap-2 items-center">
-                    <Link
-                      href={{
-                        params: { slug: city.iso2 },
-                        pathname: '/country/[slug]',
-                      }}
-                    >
-                      <CountryFlag
-                        className="w-[36px]"
-                        iso2={city.iso2}
-                        tooltip={city.country}
-                      />
-                    </Link>
-                    <div className="flex gap-1">
-                      <Link
-                        className="hover:underline shrink-0"
-                        href={{ params: { slug: city.id }, pathname: '/city/[slug]' }}
-                      >
-                        <span>{city.name}</span>
-                      </Link>
-                      <span className="text-muted-foreground text-ellipsis w-fit overflow-hidden whitespace-nowrap">
-                        {city.region}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <Rating
-                      className="max-w-[92px]"
-                      value={city.averageRating}
-                      readOnly
-                    />
-                    <span className="font-bold">{city.averageRating}</span>
-                  </div>
-                </li>
-              ))}
-          </ul>
-        </div>
-      </div>
-      <div>
-        <div className="mb-2">
-          <h2 className="font-bold text-xl border-b-2 border-primary pb-1">
-            {t('ranking.most-visited-cities')}
-          </h2>
-        </div>
-        <ul className="divide-y-2 min-h-[440px]">
-          {cityVisitRanking.data &&
-            cityVisitRanking.data.map((city, index) => (
-              <li key={index} className="flex items-center h-[44px] p-3 justify-between">
-                <div className="flex gap-2 items-center">
-                  <Link
-                    href={{
-                      params: { slug: city.region.country.iso2 },
-                      pathname: '/country/[slug]',
-                    }}
-                  >
-                    <CountryFlag
-                      className="w-[36px] rounded-sm"
-                      iso2={city.region.country.iso2}
-                      tooltip={city.region.country.name}
-                    />
-                  </Link>
-                  <div className="flex gap-1">
-                    <Link
-                      className="hover:underline"
-                      href={{ params: { slug: city.id }, pathname: '/city/[slug]' }}
-                    >
-                      <span>{city.name}</span>
-                    </Link>
-                    <span className="text-muted-foreground">{city.region.name}</span>
-                  </div>
-                </div>
-                <div>
-                  <span>{city.totalVisit}</span>
-                </div>
-              </li>
-            ))}
-        </ul>
-      </div>
+      <CityRatingRanking countryIso2={country.data.iso2} seeMore />
+      <CityVisitRanking countryIso2={country.data.iso2} seeMore />
     </div>
   );
 }

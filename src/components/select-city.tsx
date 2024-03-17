@@ -4,7 +4,6 @@ import {
   CommandGroup,
   CommandInput,
   CommandItem,
-  CommandList,
 } from '@/components/ui/command';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
@@ -45,8 +44,14 @@ export const SelectCity = ({ onSelect, defaultValue }: SelectCityProps) => {
   const cities = useQuery<CityFromSearch[]>({
     queryKey: ['search-city', debouncedQuery],
     queryFn: async () =>
-      (await axios.get<CityFromSearch[]>(`/cities/search?q=${debouncedQuery}&count=5`))
-        .data,
+      (
+        await axios.get<CityFromSearch[]>(`/cities/search`, {
+          params: {
+            q: debouncedQuery,
+            count: 5,
+          },
+        })
+      ).data,
     enabled,
   });
 
@@ -56,7 +61,7 @@ export const SelectCity = ({ onSelect, defaultValue }: SelectCityProps) => {
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
-          variant="outlineNoHover"
+          variant="outline-ring"
           role="combobox"
           aria-expanded={open}
           className="w-full justify-between"
