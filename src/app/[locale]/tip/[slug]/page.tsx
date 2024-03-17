@@ -22,8 +22,8 @@ export default function Page({ params }: { params: { slug: string } }) {
   }
 
   return (
-    <div>
-      <div className="flex pt-4 px-4 items-center">
+    <div className="p-4">
+      <div className="flex items-center">
         <div
           onClick={() => (isWithinPage ? router.back() : router.push('/'))}
           className="flex mr-6 items-center justify-center rounded-full w-8 cursor-pointer"
