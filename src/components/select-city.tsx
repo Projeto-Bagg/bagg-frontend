@@ -107,12 +107,14 @@ export const SelectCity = ({ onSelect, defaultValue }: SelectCityProps) => {
                   setOpen(false);
                 }}
               >
-                <Check
+                <span
                   className={cn(
-                    'mr-2 h-4 w-4',
+                    'mr-2 flex h-[18px] w-[18px] items-center justify-center',
                     selectedCity?.id === city.id ? 'opacity-100' : 'opacity-0',
                   )}
-                />
+                >
+                  <span className="w-[3px] h-full rounded-xl bg-primary" />
+                </span>
                 <div className="flex gap-2">
                   <CountryFlag iso2={city.iso2} />
                   <div className="flex gap-1">
