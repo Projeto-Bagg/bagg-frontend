@@ -117,7 +117,7 @@ const CommandItem = React.forwardRef<
       className,
     )}
     {...props}
-  />
+  ></CommandPrimitive.Item>
 ));
 
 CommandItem.displayName = CommandPrimitive.Item.displayName;

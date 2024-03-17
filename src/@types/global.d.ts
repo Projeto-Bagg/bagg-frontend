@@ -205,14 +205,18 @@ type CountryRatingRanking = {
 
 type CityInterestRanking = {
   id: number;
-  region: Region;
+  iso2: string;
+  region: string;
+  country: string;
   name: string;
   totalInterest: number;
 }[];
 
 type CityVisitRanking = {
   id: number;
-  region: Region;
+  iso2: string;
+  region: string;
+  country: string;
   name: string;
   totalVisit: number;
 }[];

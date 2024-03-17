@@ -4,7 +4,6 @@ import {
   CommandGroup,
   CommandInput,
   CommandItem,
-  CommandList,
 } from '@/components/ui/command';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
@@ -45,8 +44,14 @@ export const SelectCity = ({ onSelect, defaultValue }: SelectCityProps) => {
   const cities = useQuery<CityFromSearch[]>({
     queryKey: ['search-city', debouncedQuery],
     queryFn: async () =>
-      (await axios.get<CityFromSearch[]>(`/cities/search?q=${debouncedQuery}&count=5`))
-        .data,
+      (
+        await axios.get<CityFromSearch[]>(`/cities/search`, {
+          params: {
+            q: debouncedQuery,
+            count: 5,
+          },
+        })
+      ).data,
     enabled,
   });
 
@@ -56,7 +61,7 @@ export const SelectCity = ({ onSelect, defaultValue }: SelectCityProps) => {
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
-          variant="outlineNoHover"
+          variant="outline-ring"
           role="combobox"
           aria-expanded={open}
           className="w-full justify-between"
@@ -102,12 +107,14 @@ export const SelectCity = ({ onSelect, defaultValue }: SelectCityProps) => {
                   setOpen(false);
                 }}
               >
-                <Check
+                <span
                   className={cn(
-                    'mr-2 h-4 w-4',
+                    'mr-2 flex h-[18px] w-[18px] items-center justify-center',
                     selectedCity?.id === city.id ? 'opacity-100' : 'opacity-0',
                   )}
-                />
+                >
+                  <span className="w-[3px] h-full rounded-xl bg-primary" />
+                </span>
                 <div className="flex gap-2">
                   <CountryFlag iso2={city.iso2} />
                   <div className="flex gap-1">

@@ -21,8 +21,15 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip
 import { CountryFlag } from '@/components/ui/country-flag';
 import { CreatePost } from '@/components/create-post';
 import { Link, usePathname, useRouter } from '@/common/navigation';
-import { useParams } from 'next/navigation';
+import { useParams, useSearchParams } from 'next/navigation';
 import { CreateTip } from '@/components/create-tip';
+import {
+  PrimitiveSelectTrigger,
+  Select,
+  SelectContent,
+  SelectItem,
+} from '@/components/ui/select';
+import queryString from 'query-string';
 
 export const Header = () => {
   const t = useTranslations();
@@ -31,6 +38,7 @@ export const Header = () => {
   const auth = useAuth();
   const pathname = usePathname();
   const params = useParams();
+  const searchParams = useSearchParams();
 
   return (
     <header className="text-sm m-auto border-b fixed top-0 left-0 right-0 w-full px-4 sm:px-0 z-10 bg-background/75">
@@ -74,36 +82,45 @@ export const Header = () => {
             </React.Fragment>
           )}
           <Search />
-          <DropdownMenu>
+          <Select
+            defaultValue={locale}
+            onValueChange={(lang) =>
+              router.replace(
+                {
+                  params: { slug: params.slug as string },
+                  pathname,
+                  query: queryString.parse(searchParams.toString()) as Record<
+                    'string',
+                    'string'
+                  >,
+                },
+                { locale: lang },
+              )
+            }
+          >
             <Tooltip>
-              <TooltipTrigger asChild>
-                <DropdownMenuTrigger asChild>
+              <TooltipTrigger onFocus={(e) => e.preventDefault()} asChild>
+                <PrimitiveSelectTrigger asChild>
                   <Button className="hidden sm:flex" size={'icon'} variant={'ghost'}>
                     <CountryFlag
                       iso2={languages.find((lang) => lang.locale === locale)!.country}
                     />
                   </Button>
-                </DropdownMenuTrigger>
+                </PrimitiveSelectTrigger>
               </TooltipTrigger>
               <TooltipContent>{t('header.languages')}</TooltipContent>
             </Tooltip>
-            <DropdownMenuContent>
+            <SelectContent>
               {languages.map((lang) => (
-                <Link
-                  key={lang.locale}
-                  href={{ params: { slug: params.slug as string }, pathname }}
-                  locale={lang.locale}
-                >
-                  <DropdownMenuItem data-active={lang.locale === locale}>
-                    <div className="flex gap-2">
-                      <CountryFlag iso2={lang.country} />
-                      <span>{lang.label}</span>
-                    </div>
-                  </DropdownMenuItem>
-                </Link>
+                <SelectItem key={lang.locale} value={lang.locale}>
+                  <div className="flex gap-2">
+                    <CountryFlag iso2={lang.country} />
+                    <span>{lang.label}</span>
+                  </div>
+                </SelectItem>
               ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
+            </SelectContent>
+          </Select>
           <ThemeToggle />
           <div className="hidden sm:block">
             {auth.user ? (
