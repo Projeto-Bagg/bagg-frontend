@@ -247,11 +247,7 @@
     "more": "Ver mais",
     "date-range": {
       "label": "Intervalo de datas",
-      "0": "Todo o período",
-      "7": "Últimos 7 dias",
-      "30": "Últimos 30 dias",
-      "90": "Últimos 90 dias",
-      "365": "Últimos 365 dias"
+      "date": "{count, plural, =0 {Todo o período} other {Últimos # dias}}"
     },
     "city": {
       "title": "Ranking de cidades",

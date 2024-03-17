@@ -14,6 +14,7 @@ import { Calendar } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useSearchParams } from 'next/navigation';
 import React, { ReactNode } from 'react';
+import queryString from 'query-string';
 
 export default function Layout({ children }: { children: ReactNode }) {
   const t = useTranslations();
@@ -51,12 +52,10 @@ export default function Layout({ children }: { children: ReactNode }) {
               )}
               href={{
                 pathname: '/country/ranking/rating',
-                query: {
-                  ...(date &&
-                    +date && {
-                      date,
-                    }),
-                },
+                query: queryString.parse(searchParams.toString()) as Record<
+                  string,
+                  string
+                >,
               }}
             >
               {t('ranking.country.rating')}
@@ -68,12 +67,10 @@ export default function Layout({ children }: { children: ReactNode }) {
               )}
               href={{
                 pathname: '/country/ranking/visits',
-                query: {
-                  ...(date &&
-                    +date && {
-                      date,
-                    }),
-                },
+                query: queryString.parse(searchParams.toString()) as Record<
+                  string,
+                  string
+                >,
               }}
             >
               {t('ranking.country.visits')}
@@ -88,16 +85,23 @@ export default function Layout({ children }: { children: ReactNode }) {
               <SelectTrigger className="w-[180px]">
                 <div className="flex items-center gap-2">
                   <Calendar className="w-[16px]" />
-                  {/* @ts-expect-error */}
-                  <SelectValue placeholder={t(`ranking.date-range.${date || '0'}`)} />
+                  <SelectValue
+                    placeholder={t(`ranking.date-range.date`, {
+                      count: date ? date : '0',
+                    })}
+                  />
                 </div>
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="7">{t('ranking.date-range.7')}</SelectItem>
-                <SelectItem value="30">{t('ranking.date-range.30')}</SelectItem>
-                <SelectItem value="90">{t('ranking.date-range.90')}</SelectItem>
-                <SelectItem value="365">{t('ranking.date-range.365')}</SelectItem>
-                <SelectItem value="0">{t('ranking.date-range.0')}</SelectItem>
+                {['7', '30', '90', '365', '0', ...(date ? [date] : [])]
+                  .filter((value, index, array) => array.indexOf(value) === index)
+                  .map((num) => (
+                    <SelectItem key={num} value={num}>
+                      {t(`ranking.date-range.date`, {
+                        count: num,
+                      })}
+                    </SelectItem>
+                  ))}
               </SelectContent>
             </Select>
           </div>

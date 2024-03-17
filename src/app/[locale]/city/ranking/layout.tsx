@@ -124,16 +124,23 @@ export default function Layout({ children }: { children: ReactNode }) {
                 <SelectTrigger className="w-[180px]">
                   <div className="flex items-center gap-2">
                     <Calendar className="w-[16px]" />
-                    {/* @ts-expect-error */}
-                    <SelectValue placeholder={t(`ranking.date-range.${date || '0'}`)} />
+                    <SelectValue
+                      placeholder={t(`ranking.date-range.date`, {
+                        count: date ? date : '0',
+                      })}
+                    />
                   </div>
                 </SelectTrigger>
-                <SelectContent defaultValue={searchParams.get('date') || 'Alltime'}>
-                  <SelectItem value="7">{t('ranking.date-range.7')}</SelectItem>
-                  <SelectItem value="30">{t('ranking.date-range.30')}</SelectItem>
-                  <SelectItem value="90">{t('ranking.date-range.90')}</SelectItem>
-                  <SelectItem value="365">{t('ranking.date-range.365')}</SelectItem>
-                  <SelectItem value="0">{t('ranking.date-range.0')}</SelectItem>
+                <SelectContent>
+                  {['7', '30', '90', '365', '0', ...(date ? [date] : [])]
+                    .filter((value, index, array) => array.indexOf(value) === index)
+                    .map((num) => (
+                      <SelectItem key={num} value={num.toString()}>
+                        {t(`ranking.date-range.date`, {
+                          count: num,
+                        })}
+                      </SelectItem>
+                    ))}
                 </SelectContent>
               </Select>
             </div>

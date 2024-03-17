@@ -247,11 +247,7 @@
     "more": "More",
     "date-range": {
       "label": "Date range",
-      "0": "All time",
-      "7": "Last 7 days",
-      "30": "Last 30 days",
-      "90": "Last 90 days",
-      "365": "Last 365 days"
+      "date": "{count, plural, =0 {All time} other {Last # days}}"
     },
     "city": {
       "title": "City ranking",
