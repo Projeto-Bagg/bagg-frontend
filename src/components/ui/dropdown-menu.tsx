@@ -77,18 +77,15 @@ DropdownMenuContent.displayName = DropdownMenuPrimitive.Content.displayName;
 const DropdownMenuItem = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.Item>,
   React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Item>
->(({ className, children, ...props }, ref) => (
+>(({ className, ...props }, ref) => (
   <DropdownMenuPrimitive.Item
     ref={ref}
     className={cn(
-      'relative cursor-pointer [&>span]:hover:block [&>span]:data-[active=true]:block flex select-none items-center rounded-sm px-2 pl-6 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
+      'relative cursor-pointer flex select-none items-center rounded-sm px-2 pl-6 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
       className,
     )}
     {...props}
-  >
-    {children}
-    <span className="hidden w-[3px] absolute top-[7px] left-2 h-[calc(100%_-_14px)] rounded-xl bg-primary" />
-  </DropdownMenuPrimitive.Item>
+  />
 ));
 DropdownMenuItem.displayName = DropdownMenuPrimitive.Item.displayName;
 

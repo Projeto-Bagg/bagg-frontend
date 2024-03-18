@@ -27,9 +27,11 @@ export default function Page() {
   }, [inView, fetchNextPage, hasNextPage]);
 
   return (
-    <div className="container">
-      <div className="px-4 pt-4">
-        <h1 className="text-lg font-bold">{t('homepage.title')}</h1>
+    <div className="p-4">
+      <div>
+        <h2 className="font-bold w-fit text-2xl border-b-2 border-primary pb-1">
+          {t('homepage.title')}
+        </h2>
       </div>
       {data &&
         data.pages.map((page) =>

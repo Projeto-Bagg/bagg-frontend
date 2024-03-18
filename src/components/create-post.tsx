@@ -38,6 +38,7 @@ import { z } from 'zod';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/components/ui/use-toast';
 import { CreateTripDiary } from '@/components/create-trip-diary';
+import { CountryFlag } from '@/components/ui/country-flag';
 
 const createDiaryPostSchema = z.object({
   tripDiaryId: z.number(),
@@ -154,7 +155,7 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
               <Popover>
                 <PopoverTrigger asChild>
                   <Button
-                    variant="outlineNoHover"
+                    variant="outline-ring"
                     role="combobox"
                     className={cn(
                       'w-full justify-between',
@@ -183,23 +184,26 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
                               setValue('tripDiaryId', tripDiary.id);
                             }}
                           >
-                            <Check
+                            <span
                               className={cn(
-                                'mr-2 h-4 w-4',
+                                'mr-2 flex h-[18px] w-[18px] items-center justify-center',
                                 watch('tripDiaryId') === tripDiary.id
                                   ? 'opacity-100'
                                   : 'opacity-0',
                               )}
-                            />
+                            >
+                              <span className="w-[3px] h-full rounded-xl bg-primary" />
+                            </span>
                             <div className="flex items-end justify-between w-full gap-2">
                               <div className="flex gap-2">
-                                <span>{tripDiary.title}</span>
+                                <CountryFlag iso2={tripDiary.city.region.country.iso2} />
+                                <div className="gap-1 flex">
+                                  <span>{tripDiary.title}</span>
+                                  <span className="text-muted-foreground">
+                                    {tripDiary.city.name}
+                                  </span>
+                                </div>
                               </div>
-                              <span className="text-xs">
-                                {formatter.dateTime(tripDiary.createdAt, {
-                                  timeZone: 'America/Sao_Paulo',
-                                })}
-                              </span>
                             </div>
                           </CommandItem>
                         ))

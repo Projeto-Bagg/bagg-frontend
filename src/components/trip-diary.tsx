@@ -57,7 +57,7 @@ export default function TripDiary({ tripDiary, seePostsAnchor }: TripDiaryProps)
   };
 
   return (
-    <div className="p-4 border-b">
+    <div className="py-4 border-b">
       <div className="flex flex-col w-full">
         <div className="flex justify-between items-center w-full">
           <div>
