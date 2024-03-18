@@ -90,7 +90,7 @@ export default function Layout({ children }: { children: ReactNode }) {
               {t('ranking.city.visits')}
             </Link>
           </div>
-          <div className="flex gap-2 items-end">
+          <div className="flex flex-col sm:flex-row gap-2 sm:items-end">
             <div className="w-[180px]">
               <div className="flex justify-between items-end">
                 <Label>{t('select-country.label')}</Label>

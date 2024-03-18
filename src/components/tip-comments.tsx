@@ -76,12 +76,20 @@ export const TipComments = ({ tip }: TipCommentProps) => {
             <div key={comment.id} className="flex py-2 gap-3">
               <div className="shrink-0">
                 <UserHoverCard username={comment.user.username}>
-                  <Avatar>
-                    <AvatarImage
-                      className="h-[44px] w-[44px] rounded-full"
-                      src={comment.user.image}
-                    />
-                  </Avatar>
+                  <Link
+                    className="font-bold hover:underline"
+                    href={{
+                      params: { slug: comment.user.username },
+                      pathname: '/[slug]',
+                    }}
+                  >
+                    <Avatar>
+                      <AvatarImage
+                        className="h-[44px] w-[44px] rounded-full"
+                        src={comment.user.image}
+                      />
+                    </Avatar>
+                  </Link>
                 </UserHoverCard>
               </div>
               <div className="w-full">

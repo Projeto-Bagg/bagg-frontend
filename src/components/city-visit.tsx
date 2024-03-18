@@ -10,8 +10,9 @@ export const CityVisit = forwardRef<
   HTMLDivElement,
   HTMLProps<HTMLDivElement> & {
     visit: CityVisit;
+    city?: City;
   }
->(({ visit, ...props }, forwardRef) => {
+>(({ visit, city, ...props }, forwardRef) => {
   const locale = useLocale();
 
   return (
@@ -57,6 +58,20 @@ export const CityVisit = forwardRef<
           <div className="flex gap-1">
             <Rating className="max-w-[72px]" readOnly value={visit.rating || 0} />
             <span className="font-bold">{visit.rating}</span>
+            {city && (
+              <>
+                {' • '}
+                <Link
+                  className="hover:underline text-primary"
+                  href={{
+                    params: { slug: city.id },
+                    pathname: '/city/[slug]',
+                  }}
+                >
+                  {city.name}
+                </Link>
+              </>
+            )}
           </div>
         </div>
         <div className="mt-1">

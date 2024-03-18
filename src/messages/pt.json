@@ -221,7 +221,7 @@
     "interest": "Interesse",
     "rate": "Dar nota",
     "review": "Avaliar",
-    "no-images": "Sem imagens :(",
+    "no-images": "Sem imagens.",
     "reviews": "Últimas avaliações",
     "no-reviews": "Ninguém avaliou ainda.",
     "view-more-reviews": "Ver mais",
@@ -244,6 +244,7 @@
     "top-rated-cities": "Cidades com melhor avaliação",
     "most-visited-cities": "Cidades mais visitadas",
     "cities-with-gratest-interest": "Cidades com maior interesse",
+    "empty": "Ranking vazio.",
     "more": "Ver mais",
     "date-range": {
       "label": "Intervalo de datas",
