@@ -35,7 +35,7 @@ export const RankingContent = forwardRef<HTMLUListElement, HTMLProps<HTMLUListEl
     <ul
       ref={forwardRef}
       className={cn(
-        'divide-y-2 min-h-[440px] [&>*:nth-child(1)_h3]:text-yellow-500 [&>*:nth-child(2)_h3]:text-gray-400 [&>*:nth-child(3)_h3]:text-orange-400',
+        'divide-y-2 [&>*:nth-child(1)_h3]:text-yellow-500 [&>*:nth-child(2)_h3]:text-gray-400 [&>*:nth-child(3)_h3]:text-orange-400',
         className,
       )}
       {...props}

@@ -107,8 +107,13 @@ export const CountryRatingRanking = ({
               </RankingItem>
             )),
           )}
+        {ranking && ranking.pages[0].length === 0 && (
+          <div className="py-4 text-sm text-center">
+            <span>{t('ranking.empty')}</span>
+          </div>
+        )}
       </RankingContent>
-      {seeMore && (
+      {seeMore && ranking?.pages[0].length !== 0 && (
         <RankingFooter>
           <Link
             className="text-right hover:underline text-sm font-bold w-full uppercase text-primary"
