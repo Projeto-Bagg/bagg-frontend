@@ -129,7 +129,7 @@ export default function Page({ params }: { params: { slug: string } }) {
               ))}
             </Carousel>
           ) : (
-            <div className="justify-center flex h-full w-full items-center">
+            <div className="justify-center text-sm flex h-full w-full items-center">
               <span>{t('country-city-page.no-images')}</span>
             </div>
           )}

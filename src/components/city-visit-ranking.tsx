@@ -104,7 +104,7 @@ export const CityVisitRanking = ({
                     <CountryFlag
                       className="w-[36px] rounded-sm"
                       iso2={city.iso2}
-                      tooltip={city.name}
+                      tooltip={city.country}
                     />
                   </Link>
                   <div className="flex gap-1">
@@ -117,9 +117,12 @@ export const CityVisitRanking = ({
                     <span className="text-muted-foreground">{city.region}</span>
                   </div>
                 </div>
-                <div>
-                  <span className="font-bold">{city.totalVisit}</span>
-                </div>
+                <Link
+                  href={{ pathname: '/city/[slug]/visits', params: { slug: city.id } }}
+                  className="font-bold"
+                >
+                  {city.totalVisit}
+                </Link>
               </RankingItem>
             )),
           )}

@@ -96,14 +96,23 @@ export const CountryRatingRanking = ({
                     <span>{country.name}</span>
                   </Link>
                 </div>
-                <div className="flex items-center gap-1">
-                  <Rating
-                    className="max-w-[92px]"
-                    value={country.averageRating}
-                    readOnly
-                  />
-                  <span className="font-bold w-[28px]">{country.averageRating}</span>
-                </div>
+                <Link
+                  href={{
+                    params: { slug: country.iso2 },
+                    pathname: '/country/[slug]/visits',
+                  }}
+                >
+                  <div className="flex items-center gap-1">
+                    <Rating
+                      className="max-w-[72px] sm:max-w-[84px]"
+                      value={country.averageRating}
+                      readOnly
+                    />
+                    <span className="font-bold w-[24px] sm:w-[28px]">
+                      {country.averageRating}
+                    </span>
+                  </div>
+                </Link>
               </RankingItem>
             )),
           )}
