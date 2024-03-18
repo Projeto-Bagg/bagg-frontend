@@ -29,7 +29,7 @@ export default function Page() {
   return (
     <div className="p-4">
       <div>
-        <h2 className="font-bold w-fit text-2xl border-b-2 border-primary pb-1">
+        <h2 className="font-bold w-fit text-xl sm:text-2xl border-b-2 border-primary pb-1">
           {t('homepage.title')}
         </h2>
       </div>

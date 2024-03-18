@@ -130,6 +130,10 @@ interface CityVisit {
   user: User;
 }
 
+interface CountryCityVisit extends CityVisit {
+  city: City;
+}
+
 interface UserCityVisit {
   id: number;
   createdAt: Date;

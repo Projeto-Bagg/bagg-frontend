@@ -12,17 +12,20 @@ export default function Visits({ params }: { params: { slug: string } }) {
   const { ref, inView } = useInView();
   const t = useTranslations();
 
-  const { data, fetchNextPage, hasNextPage } = useInfiniteQuery<CityVisit[]>({
-    queryKey: ['city-visits', +params.slug],
+  const { data, fetchNextPage, hasNextPage } = useInfiniteQuery<CountryCityVisit[]>({
+    queryKey: ['city-visits', 'country', params.slug],
     queryFn: async ({ pageParam }) =>
       (
-        await axios.get<CityVisit[]>(
-          `/city-visits/${params.slug}?page=${pageParam}&count=15`,
-        )
+        await axios.get<CountryCityVisit[]>(`/city-visits/country/${params.slug}`, {
+          params: {
+            page: pageParam,
+            count: 25,
+          },
+        })
       ).data,
     initialPageParam: 1,
     getNextPageParam: (page, allPages) =>
-      page.length === 10 ? allPages.length + 1 : null,
+      page.length === 25 ? allPages.length + 1 : null,
   });
 
   useEffect(() => {

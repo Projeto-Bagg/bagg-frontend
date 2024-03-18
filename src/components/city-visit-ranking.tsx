@@ -104,7 +104,7 @@ export const CityVisitRanking = ({
                     <CountryFlag
                       className="w-[36px] rounded-sm"
                       iso2={city.iso2}
-                      tooltip={city.name}
+                      tooltip={city.country}
                     />
                   </Link>
                   <div className="flex gap-1">
@@ -117,14 +117,22 @@ export const CityVisitRanking = ({
                     <span className="text-muted-foreground">{city.region}</span>
                   </div>
                 </div>
-                <div>
-                  <span className="font-bold">{city.totalVisit}</span>
-                </div>
+                <Link
+                  href={{ pathname: '/city/[slug]/visits', params: { slug: city.id } }}
+                  className="font-bold"
+                >
+                  {city.totalVisit}
+                </Link>
               </RankingItem>
             )),
           )}
+        {ranking && ranking.pages[0].length === 0 && (
+          <div className="py-4 text-sm text-center">
+            <span>{t('ranking.empty')}</span>
+          </div>
+        )}
       </RankingContent>
-      {seeMore && (
+      {seeMore && ranking?.pages[0].length !== 0 && (
         <RankingFooter>
           <Link
             className="text-right hover:underline text-sm font-bold w-full uppercase text-primary"

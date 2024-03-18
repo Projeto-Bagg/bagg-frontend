@@ -176,7 +176,6 @@
     "error": "Something went wrong..."
   },
   "select-country": {
-    "label": "Country",
     "title": "Select a country...",
     "search": "Search a country...",
     "not-found": "No cities found",
@@ -221,11 +220,15 @@
     "interest": "Interest",
     "rate": "Rate",
     "review": "Review",
-    "no-images": "No images yet :(",
+    "no-images": "No images yet.",
     "reviews": "Last reviews",
     "no-reviews": "Nobody has reviewed it yet.",
     "view-more-reviews": "View more",
-    "go-back": "Go back"
+    "tabs": {
+      "overview": "Overview",
+      "ranking": "Ranking",
+      "reviews": "Reviews"
+    }
   },
   "create-city-visit": {
     "title": "Create a city review",
@@ -245,8 +248,8 @@
     "countries-with-gratest-interest": "Countries with greatest interest",
     "cities-with-gratest-interest": "Cities with greatest interest",
     "more": "More",
+    "empty": "Empty ranking.",
     "date-range": {
-      "label": "Date range",
       "date": "{count, plural, =0 {All time} other {Last # days}}"
     },
     "city": {

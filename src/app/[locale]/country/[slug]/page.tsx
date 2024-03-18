@@ -2,6 +2,7 @@
 
 import { Link } from '@/common/navigation';
 import { CityRatingRanking } from '@/components/city-rating-ranking';
+import { CityVisit } from '@/components/city-visit';
 import { CityVisitRanking } from '@/components/city-visit-ranking';
 import { LazyMap, LazyMarker, LazyTileLayer } from '@/components/leaflet-map';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
@@ -16,8 +17,7 @@ import {
 } from '@/components/ui/ranking';
 import { UserHoverCard } from '@/components/user-hovercard';
 import axios from '@/services/axios';
-import { Rating } from '@smastrom/react-rating';
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { intlFormatDistance } from 'date-fns';
 import { useLocale, useTranslations } from 'next-intl';
 import Image from 'next/image';
@@ -39,7 +39,16 @@ export default function Page({ params }: { params: { slug: string } }) {
     queryKey: ['country-images', params.slug],
   });
 
-  if (!country.data || !images.data) {
+  const { data: visits } = useInfiniteQuery<CountryCityVisit[]>({
+    queryKey: ['city-visits', 'country', params.slug],
+    queryFn: async () =>
+      (await axios.get<CountryCityVisit[]>(`/city-visits/country/${params.slug}`)).data,
+    initialPageParam: 1,
+    getNextPageParam: (page, allPages) =>
+      page.length === 10 ? allPages.length + 1 : null,
+  });
+
+  if (!country.data || !images.data || !visits) {
     return;
   }
 
@@ -104,7 +113,7 @@ export default function Page({ params }: { params: { slug: string } }) {
                           >
                             {media.city.name}
                           </Link>
-                          {'·'}
+                          {'•'}
                           <span>
                             {intlFormatDistance(media.createdAt, new Date(), {
                               numeric: 'always',
@@ -120,7 +129,7 @@ export default function Page({ params }: { params: { slug: string } }) {
               ))}
             </Carousel>
           ) : (
-            <div className="justify-center flex h-full w-full items-center">
+            <div className="justify-center text-sm flex h-full w-full items-center">
               <span>{t('country-city-page.no-images')}</span>
             </div>
           )}
@@ -148,6 +157,41 @@ export default function Page({ params }: { params: { slug: string } }) {
       </div>
       <CityRatingRanking countryIso2={country.data.iso2} seeMore />
       <CityVisitRanking countryIso2={country.data.iso2} seeMore />
+      <div className="sm:col-span-2">
+        <div>
+          <div className="mb-2">
+            <h2 className="font-bold text-xl border-b-2 border-primary pb-1">
+              {t('country-city-page.reviews')}
+            </h2>
+          </div>
+          <div>
+            {visits.pages[0].length === 0 && (
+              <div className="py-4 text-sm text-center">
+                <span>{t('country-city-page.no-reviews')}</span>
+              </div>
+            )}
+            {visits.pages[0].length !== 0 &&
+              visits.pages[0]
+                .slice(0, 5)
+                .map((visit) => (
+                  <CityVisit key={visit.id} visit={visit} city={visit.city} />
+                ))}
+          </div>
+          {visits.pages[0].length !== 0 && (
+            <div className="w-full text-right mt-1">
+              <Link
+                href={{
+                  params: { slug: params.slug },
+                  pathname: '/country/[slug]/visits',
+                }}
+                className="text-primary text-sm font-bold uppercase hover:underline"
+              >
+                {t('country-city-page.view-more-reviews')}
+              </Link>
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

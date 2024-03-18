@@ -10,7 +10,7 @@ export default function Page() {
   return (
     <div className="p-4">
       <div className="mb-2">
-        <h1 className="font-bold w-fit text-2xl border-b-2 border-primary pb-1">
+        <h1 className="font-bold w-fit text-xl sm:text-2xl border-b-2 border-primary pb-1">
           Ranking
         </h1>
       </div>

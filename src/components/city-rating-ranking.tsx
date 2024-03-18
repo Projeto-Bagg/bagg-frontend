@@ -118,15 +118,30 @@ export const CityRatingRanking = ({
                     <span className="text-muted-foreground">{city.region}</span>
                   </div>
                 </div>
-                <div className="flex items-center gap-1">
-                  <Rating className="max-w-[92px]" value={city.averageRating} readOnly />
-                  <span className="font-bold w-[28px]">{city.averageRating}</span>
-                </div>
+                <Link
+                  href={{ params: { slug: city.id }, pathname: '/city/[slug]/visits' }}
+                >
+                  <div className="flex items-center gap-1">
+                    <Rating
+                      className="max-w-[72px] sm:max-w-[84px]"
+                      value={city.averageRating}
+                      readOnly
+                    />
+                    <span className="font-bold w-[24px] sm:w-[28px]">
+                      {city.averageRating}
+                    </span>
+                  </div>
+                </Link>
               </RankingItem>
             )),
           )}
+        {ranking && ranking.pages[0].length === 0 && (
+          <div className="py-4 text-sm text-center">
+            <span>{t('ranking.empty')}</span>
+          </div>
+        )}
       </RankingContent>
-      {seeMore && (
+      {seeMore && ranking?.pages[0].length !== 0 && (
         <RankingFooter>
           <Link
             className="text-right hover:underline text-sm font-bold w-full uppercase text-primary"

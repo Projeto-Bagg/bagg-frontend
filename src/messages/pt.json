@@ -176,7 +176,6 @@
     "error": "Algo deu errado..."
   },
   "select-country": {
-    "label": "País",
     "title": "Selecione um país...",
     "search": "Procurar um país...",
     "not-found": "Sem resultados",
@@ -221,11 +220,15 @@
     "interest": "Interesse",
     "rate": "Dar nota",
     "review": "Avaliar",
-    "no-images": "Sem imagens :(",
+    "no-images": "Sem imagens.",
     "reviews": "Últimas avaliações",
     "no-reviews": "Ninguém avaliou ainda.",
     "view-more-reviews": "Ver mais",
-    "go-back": "Voltar"
+    "tabs": {
+      "overview": "Visão geral",
+      "ranking": "Ranking",
+      "reviews": "Avaliações"
+    }
   },
   "create-city-visit": {
     "title": "Avaliar cidade",
@@ -244,9 +247,9 @@
     "top-rated-cities": "Cidades com melhor avaliação",
     "most-visited-cities": "Cidades mais visitadas",
     "cities-with-gratest-interest": "Cidades com maior interesse",
+    "empty": "Ranking vazio.",
     "more": "Ver mais",
     "date-range": {
-      "label": "Intervalo de datas",
       "date": "{count, plural, =0 {Todo o período} other {Últimos # dias}}"
     },
     "city": {
