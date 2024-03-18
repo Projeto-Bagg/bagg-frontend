@@ -1,6 +1,6 @@
 'use client';
 
-import { Link } from '@/common/navigation';
+import { Link, usePathname } from '@/common/navigation';
 import { CreateCityVisit } from '@/components/create-city-visit';
 import { CountryFlag } from '@/components/ui/country-flag';
 import { useCreateCityInterest } from '@/hooks/useCreateCityInterest';
@@ -20,7 +20,7 @@ export default function Layout({
   params,
   children,
 }: {
-  params: { slug: string; id: string };
+  params: { slug: string };
   children: ReactNode;
 }) {
   const createCityInterest = useCreateCityInterest();
@@ -29,6 +29,7 @@ export default function Layout({
   const updateCityVisit = useUpdateCityVisit();
   const deleteCityVisit = useDeleteCityVisit();
   const t = useTranslations();
+  const pathname = usePathname();
 
   const city = useQuery<CityPage>({
     queryFn: async () => (await axios.get<CityPage>('/cities/' + params.slug)).data,
@@ -108,6 +109,27 @@ export default function Layout({
                 <span>{city.data.interestsCount}</span>
               </div>
             </div>
+          </div>
+          <div className="flex sm:mt-2 gap-4 text-sm text-primary">
+            <Link
+              className={cn(
+                pathname === '/city/[slug]' && 'font-bold border-b-2 border-blue-600',
+                'py-2 flex justify-center',
+              )}
+              href={{ pathname: '/city/[slug]', params: { slug: params.slug } }}
+            >
+              {t('country-city-page.tabs.overview')}
+            </Link>
+            <Link
+              className={cn(
+                pathname === '/city/[slug]/visits' &&
+                  'font-bold border-b-2 border-blue-600',
+                'py-2 flex justify-center',
+              )}
+              href={{ pathname: '/city/[slug]/visits', params: { slug: params.slug } }}
+            >
+              {t('country-city-page.tabs.reviews')}
+            </Link>
           </div>
         </div>
         <div className="flex flex-col font-semibold text-sm bg-accent rounded-lg w-full sm:w-[200px] space-y-1 divide-y-2 divide-background">

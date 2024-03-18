@@ -196,7 +196,7 @@ export default function Profile({ params }: { params: { slug: string } }) {
 
 const ProfileSkeleton = () => {
   return (
-    <div className="p-4">
+    <div>
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2 sm:gap-4">
           <Skeleton className="w-[100px] h-[100px] sm:w-[144px] sm:h-[144px] rounded-full" />

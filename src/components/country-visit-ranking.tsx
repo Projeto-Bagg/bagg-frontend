@@ -94,9 +94,15 @@ export const CountryVisitRanking = ({
                     <span>{country.name}</span>
                   </Link>
                 </div>
-                <div>
-                  <span className="font-bold">{country.totalVisit}</span>
-                </div>
+                <Link
+                  href={{
+                    params: { slug: country.iso2 },
+                    pathname: '/country/[slug]/visits',
+                  }}
+                  className="font-bold"
+                >
+                  {country.totalVisit}
+                </Link>
               </RankingItem>
             )),
           )}

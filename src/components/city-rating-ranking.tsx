@@ -118,10 +118,20 @@ export const CityRatingRanking = ({
                     <span className="text-muted-foreground">{city.region}</span>
                   </div>
                 </div>
-                <div className="flex items-center gap-1">
-                  <Rating className="max-w-[92px]" value={city.averageRating} readOnly />
-                  <span className="font-bold w-[28px]">{city.averageRating}</span>
-                </div>
+                <Link
+                  href={{ params: { slug: city.id }, pathname: '/city/[slug]/visits' }}
+                >
+                  <div className="flex items-center gap-1">
+                    <Rating
+                      className="max-w-[72px] sm:max-w-[84px]"
+                      value={city.averageRating}
+                      readOnly
+                    />
+                    <span className="font-bold w-[24px] sm:w-[28px]">
+                      {city.averageRating}
+                    </span>
+                  </div>
+                </Link>
               </RankingItem>
             )),
           )}

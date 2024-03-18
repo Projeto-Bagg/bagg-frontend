@@ -36,16 +36,15 @@ export default function Visits({ params }: { params: { slug: string } }) {
 
   return (
     <div>
-      <div className="flex justify-between items-baseline mb-2 pb-1 border-b-2 border-primary">
+      <div className="mb-2 pb-1 border-b-2 border-primary">
         <h3 className="font-bold text-xl">{t('country-city-page.reviews')}</h3>
-        <Link
-          href={{ params: { slug: params.slug }, pathname: '/country/[slug]' }}
-          className="text-sm uppercase font-bold text-primary hover:underline"
-        >
-          {t('country-city-page.go-back')}
-        </Link>
       </div>
       <div>
+        {data?.pages[0].length === 0 && (
+          <div className="py-4 text-sm text-center">
+            <span>{t('country-city-page.no-reviews')}</span>
+          </div>
+        )}
         {data?.pages.map((page, index) =>
           page.map((visit) => (
             <CityVisit
