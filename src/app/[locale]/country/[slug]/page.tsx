@@ -19,6 +19,7 @@ import { UserHoverCard } from '@/components/user-hovercard';
 import axios from '@/services/axios';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { intlFormatDistance } from 'date-fns';
+import { ChevronRight } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
 import Image from 'next/image';
 import React from 'react';
@@ -186,7 +187,10 @@ export default function Page({ params }: { params: { slug: string } }) {
                 }}
                 className="text-primary text-sm font-bold uppercase hover:underline"
               >
-                {t('country-city-page.view-more-reviews')}
+                <div className="flex gap-0.5 items-center justify-end">
+                  <span>{t('country-city-page.view-more-reviews')}</span>
+                  <ChevronRight className="w-[24px]" />
+                </div>
               </Link>
             </div>
           )}

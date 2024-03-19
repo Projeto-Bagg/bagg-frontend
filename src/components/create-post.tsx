@@ -132,24 +132,14 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
               <DialogTitle>{t('create-post.title')}</DialogTitle>
             </DialogHeader>
             <div>
-              <div className="flex justify-between">
-                <div>
-                  <Label className="mr-1">{t('create-post.trip-diary')}</Label>
-                  <button
-                    onClick={() => setIsCreatingTripDiary(true)}
-                    className="text-primary text-sm font-bold"
-                  >
-                    {t('create-post.create-trip-diary')}
-                  </button>
-                </div>
-                {errors.tripDiaryId && (
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Info size={18} className="text-red-600" />
-                    </TooltipTrigger>
-                    <TooltipContent>{t('create-post.trip-diary-error')}</TooltipContent>
-                  </Tooltip>
-                )}
+              <div>
+                <Label className="mr-1">{t('create-post.trip-diary')}</Label>
+                <button
+                  onClick={() => setIsCreatingTripDiary(true)}
+                  className="text-primary text-sm font-bold"
+                >
+                  {t('create-post.create-trip-diary')}
+                </button>
               </div>
               <Popover>
                 <PopoverTrigger asChild>
@@ -215,6 +205,11 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
                   </Command>
                 </PopoverContent>
               </Popover>
+              {errors.tripDiaryId && (
+                <span className="text-sm text-red-600 font-semibold">
+                  {t('create-post.trip-diary-error')}
+                </span>
+              )}
             </div>
             <form className="space-y-4" onSubmit={handleSubmit(handleCreatePost)}>
               <div>
@@ -225,20 +220,15 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
                       {watch('message')?.length || 0} / 300
                     </Label>
                   </div>
-                  {errors.message && (
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <Info size={18} className="text-red-600" />
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        {errors.message.type === 'too_big'
-                          ? t('create-post.message-max-error')
-                          : t('create-post.message-error')}
-                      </TooltipContent>
-                    </Tooltip>
-                  )}
                 </div>
                 <Textarea {...register('message')} className="max-h-[160px]" />
+                {errors.message && (
+                  <span className="text-sm text-red-600 font-semibold">
+                    {errors.message.type === 'too_big'
+                      ? t('create-post.message-max-error')
+                      : t('create-post.message-error')}
+                  </span>
+                )}
               </div>
               {watch('medias') && watch('medias')!.length > 0 && (
                 <ScrollArea className="w-96 sm:w-[462px] whitespace-nowrap rounded-md border">

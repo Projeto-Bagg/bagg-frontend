@@ -14,6 +14,7 @@ import {
 import axios from '@/services/axios';
 import { Rating } from '@smastrom/react-rating';
 import { useInfiniteQuery } from '@tanstack/react-query';
+import { ChevronRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useSearchParams } from 'next/navigation';
 import React, { useEffect } from 'react';
@@ -139,7 +140,10 @@ export const CountryRatingRanking = ({
             className="text-right hover:underline text-sm font-bold w-full uppercase text-primary"
             href={'/country/ranking/rating'}
           >
-            {t('ranking.more')}
+            <div className="flex gap-0.5 items-center justify-end">
+              <span>{t('ranking.more')}</span>
+              <ChevronRight className="w-[24px]" />
+            </div>
           </Link>
         </RankingFooter>
       )}

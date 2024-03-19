@@ -16,10 +16,21 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useAuth } from '@/context/auth-context';
 import { intlFormatDistance } from 'date-fns';
-import { useLocale } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { Settings } from 'lucide-react';
 import { useDeleteTipComment } from '@/hooks/useDeleteTipComment';
 import { useCreateTipComment } from '@/hooks/useCreateTipComment';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 
 interface TipCommentProps {
   tip: Tip;
@@ -30,6 +41,7 @@ export const TipComments = ({ tip }: TipCommentProps) => {
   const locale = useLocale();
   const deleteTipComment = useDeleteTipComment();
   const createTipComment = useCreateTipComment();
+  const t = useTranslations();
 
   const { data: comments, isFetching } = useQuery<TipComment[]>({
     queryKey: ['tip-comments', tip.id],
@@ -135,17 +147,41 @@ export const TipComments = ({ tip }: TipCommentProps) => {
                             </button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem
-                              onClick={() =>
-                                deleteTipComment.mutate({
-                                  commentId: comment.id,
-                                  tipId: tip.id,
-                                })
-                              }
-                            >
-                              Apagar
-                            </DropdownMenuItem>
+                            <AlertDialog>
+                              <AlertDialogTrigger asChild>
+                                <DropdownMenuItem
+                                  onSelect={(e) => e.preventDefault()}
+                                  className="font-bold"
+                                >
+                                  {t('tip.comment.delete.label')}
+                                </DropdownMenuItem>
+                              </AlertDialogTrigger>
+                              <AlertDialogContent>
+                                <AlertDialogHeader>
+                                  <AlertDialogTitle>
+                                    {t('tip.comment.delete.delete-modal.title')}
+                                  </AlertDialogTitle>
+                                  <AlertDialogDescription>
+                                    {t('tip.comment.delete.delete-modal.description')}
+                                  </AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter>
+                                  <AlertDialogCancel>
+                                    {t('tip.comment.delete.delete-modal.cancel')}
+                                  </AlertDialogCancel>
+                                  <AlertDialogAction
+                                    onClick={() =>
+                                      deleteTipComment.mutate({
+                                        commentId: comment.id,
+                                        tipId: tip.id,
+                                      })
+                                    }
+                                  >
+                                    {t('tip.comment.delete.delete-modal.action')}
+                                  </AlertDialogAction>
+                                </AlertDialogFooter>
+                              </AlertDialogContent>
+                            </AlertDialog>
                           </DropdownMenuContent>
                         </DropdownMenu>
                       )}

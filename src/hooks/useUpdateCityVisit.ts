@@ -16,6 +16,7 @@ export const useUpdateCityVisit = () => {
           produce(old, (draft) => {
             if (draft.userVisit) {
               draft.userVisit.rating = variables.rating;
+              draft.userVisit.message = variables.message;
             }
           }),
       );

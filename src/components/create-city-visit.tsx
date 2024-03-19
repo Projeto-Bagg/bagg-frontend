@@ -1,3 +1,14 @@
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import { CountryFlag } from '@/components/ui/country-flag';
 import {
@@ -76,6 +87,10 @@ export const CreateCityVisit = ({ children, city }: CreateCityVisitProps) => {
 
   const onOpenChange = (open: boolean) => {
     if (open) {
+      reset({
+        message: city.userVisit?.message || '',
+        rating: city.userVisit?.rating || 0,
+      });
       return setOpen(true);
     }
 
@@ -88,21 +103,34 @@ export const CreateCityVisit = ({ children, city }: CreateCityVisitProps) => {
     reset(defaultValues, { keepDefaultValues: true });
   };
 
+  const deleteReview = async () => {
+    if (!city.userVisit) {
+      return;
+    }
+
+    await updateCityVisit.mutateAsync({
+      cityId: city.id,
+      message: null,
+      rating: null,
+    });
+
+    reset();
+    setOpen(false);
+  };
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogTrigger>{children}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{t('create-city-visit.title')}</DialogTitle>
-          <DialogDescription>
-            <div className="flex items-center gap-2 text-foreground">
-              <span>
-                {city.name}, {city.region.name}, {city.region.country.name}
-              </span>
-              <CountryFlag iso2={city.region.country.iso2} />
-            </div>
-            <div>{t('create-city-visit.description')}</div>
-          </DialogDescription>
+          <div className="flex text-sm justify-center sm:justify-start items-center gap-2 text-foreground">
+            <span>
+              {city.name}, {city.region.name}, {city.region.country.name}
+            </span>
+            <CountryFlag iso2={city.region.country.iso2} />
+          </div>
+          <DialogDescription>{t('create-city-visit.description')}</DialogDescription>
         </DialogHeader>
         <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
           <div>
@@ -159,8 +187,32 @@ export const CreateCityVisit = ({ children, city }: CreateCityVisitProps) => {
               )}
             />
           </div>
-
-          <div className="flex justify-end">
+          <div className="flex gap-2 justify-end">
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button type="button" variant={'destructive'} disabled={!city.userVisit}>
+                  {t('create-city-visit.delete.label')}
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>
+                    {t('create-city-visit.delete.delete-modal.title')}
+                  </AlertDialogTitle>
+                  <AlertDialogDescription>
+                    {t('create-city-visit.delete.delete-modal.description')}
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>
+                    {t('create-city-visit.delete.delete-modal.cancel')}
+                  </AlertDialogCancel>
+                  <AlertDialogAction onClick={deleteReview}>
+                    {t('create-city-visit.delete.delete-modal.action')}
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
             <Button
               loading={createCityVisit.isPending || updateCityVisit.isPending}
               disabled={createCityVisit.isPending || updateCityVisit.isPending}

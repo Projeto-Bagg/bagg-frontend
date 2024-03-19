@@ -3,6 +3,7 @@
 import { Link, usePathname } from '@/common/navigation';
 import { CreateCityVisit } from '@/components/create-city-visit';
 import { CountryFlag } from '@/components/ui/country-flag';
+import { toast } from '@/components/ui/use-toast';
 import { useCreateCityInterest } from '@/hooks/useCreateCityInterest';
 import { useCreateCityVisit } from '@/hooks/useCreateCityVisit';
 import { useDeleteCityInterest } from '@/hooks/useDeleteCityInterest';
@@ -49,6 +50,14 @@ export default function Layout({
   };
 
   const checkVisit = async () => {
+    if (city.data.userVisit?.message) {
+      return toast({
+        duration: 1000 * 10,
+        title: t('country-city-page.uncheck-visit-with-review-toast.title'),
+        description: t('country-city-page.uncheck-visit-with-review-toast.description'),
+      });
+    }
+
     if (city.data.userVisit) {
       await deleteCityVisit.mutateAsync({ cityId: city.data.id });
       return;
