@@ -117,16 +117,16 @@ interface Region {
 }
 
 interface CreateCityVisit {
-  rating?: number;
-  message?: string;
+  rating?: number | null;
+  message?: string | null;
   cityId: number;
 }
 
 interface CityVisit {
   id: number;
   createdAt: Date;
-  rating?: number;
-  message?: string;
+  rating?: number | null;
+  message?: string | null;
   user: User;
 }
 

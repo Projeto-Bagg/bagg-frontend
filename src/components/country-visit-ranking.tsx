@@ -13,17 +13,27 @@ import {
 } from '@/components/ui/ranking';
 import axios from '@/services/axios';
 import { useInfiniteQuery } from '@tanstack/react-query';
+import { ChevronRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useSearchParams } from 'next/navigation';
 import React, { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
+
+interface CountryVisitRankingProps {
+  count?: number;
+  isPagination?: boolean;
+  seeMore?: boolean;
+  skeleton?: boolean;
+  showTitle?: boolean;
+}
 
 export const CountryVisitRanking = ({
   count = 10,
   isPagination = false,
   seeMore = false,
   skeleton = true,
-}) => {
+  showTitle = true,
+}: CountryVisitRankingProps) => {
   const t = useTranslations();
   const { ref, inView } = useInView();
   const searchParams = useSearchParams();
@@ -67,9 +77,11 @@ export const CountryVisitRanking = ({
 
   return (
     <Ranking>
-      <RankingHeader>
-        <RankingTitle>{t('ranking.most-visited-countries')}</RankingTitle>
-      </RankingHeader>
+      {showTitle && (
+        <RankingHeader>
+          <RankingTitle>{t('ranking.most-visited-countries')}</RankingTitle>
+        </RankingHeader>
+      )}
       <RankingContent>
         {isLoading && skeleton && <RankingSkeleton count={25} />}
         {ranking &&
@@ -118,7 +130,10 @@ export const CountryVisitRanking = ({
             className="text-right hover:underline text-sm font-bold w-full uppercase text-primary"
             href={'/country/ranking/visits'}
           >
-            {t('ranking.more')}
+            <div className="flex gap-0.5 items-center justify-end">
+              <span>{t('ranking.more')}</span>
+              <ChevronRight className="w-[24px]" />
+            </div>
           </Link>
         </RankingFooter>
       )}

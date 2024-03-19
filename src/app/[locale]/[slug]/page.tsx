@@ -151,10 +151,12 @@ export default function Profile({ params }: { params: { slug: string } }) {
           </div>
         </div>
       )}
-      <div className="flex mt-4 justify-center m-auto px-4 text-sm text-primary w-full sm:w-[432px]">
+      <div className="flex mt-4 justify-center m-auto px-4 font-bold text-sm text-muted-foreground w-full sm:w-[432px]">
         <Link
           className={cn(
-            pathname.endsWith(params.slug) && 'font-bold border-b-2 border-blue-600',
+            pathname.endsWith(params.slug)
+              ? 'border-b-2 border-blue-600 text-primary'
+              : 'hover:text-foreground transition-all duration-75',
             'py-2 flex justify-center flex-1',
           )}
           href={{ pathname: '/[slug]', params: { slug: params.slug } }}
@@ -163,7 +165,9 @@ export default function Profile({ params }: { params: { slug: string } }) {
         </Link>
         <Link
           className={cn(
-            pathname.endsWith('/diary-posts') && 'font-bold border-b-2 border-blue-600',
+            pathname.endsWith('/diary-posts')
+              ? 'border-b-2 border-blue-600 text-primary'
+              : 'hover:text-foreground transition-all duration-75',
             'py-2 flex justify-center flex-1',
           )}
           href={{ pathname: '/[slug]/diary-posts', params: { slug: params.slug } }}
@@ -172,7 +176,9 @@ export default function Profile({ params }: { params: { slug: string } }) {
         </Link>
         <Link
           className={cn(
-            pathname.endsWith('/diaries') && 'font-bold border-b-2 border-blue-600',
+            pathname.endsWith('/diaries')
+              ? 'border-b-2 border-blue-600 text-primary'
+              : 'hover:text-foreground transition-all duration-75',
             'py-2 flex justify-center flex-1',
           )}
           href={{ pathname: '/[slug]/diaries', params: { slug: params.slug } }}
@@ -181,7 +187,9 @@ export default function Profile({ params }: { params: { slug: string } }) {
         </Link>
         <Link
           className={cn(
-            pathname.endsWith('/visits') && 'font-bold border-b-2 border-blue-600',
+            pathname.endsWith('/visits')
+              ? 'border-b-2 border-blue-600 text-primary'
+              : 'hover:text-foreground transition-all duration-75',
             'py-2 flex justify-center flex-1',
           )}
           href={{ pathname: '/[slug]/visits', params: { slug: params.slug } }}

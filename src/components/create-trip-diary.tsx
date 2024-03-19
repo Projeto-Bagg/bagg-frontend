@@ -59,43 +59,24 @@ export const CreateTripDiary = ({ setIsCreatingTripDiary }: Props) => {
         <DialogDescription>{t('create-trip-diary.description')}</DialogDescription>
       </DialogHeader>
       <div>
-        <div className="justify-between flex mb-0.5">
-          <div className="flex gap-1 items-end">
-            <Label>{t('create-trip-diary.title-field')}</Label>
-            <Label className="text-muted-foreground text-xs">
-              {watch('title')?.length || 0} / 255
-            </Label>
-          </div>
-          {errors.title && (
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Info size={18} className="text-red-600" />
-              </TooltipTrigger>
-              <TooltipContent>
-                <TooltipContent>
-                  {errors.title.type === 'too_big'
-                    ? t('create-trip-diary.title-field-max-error')
-                    : t('create-trip-diary.title-field-error')}
-                </TooltipContent>
-              </TooltipContent>
-            </Tooltip>
-          )}
+        <div>
+          <Label className="mr-1">{t('create-trip-diary.title-field')}</Label>
+          <Label className="text-muted-foreground text-xs">
+            {watch('title')?.length || 0} / 255
+          </Label>
         </div>
         <Input {...register('title')} />
+        {errors.title && (
+          <span className="text-sm text-red-600 font-semibold">
+            {errors.title.type === 'too_big'
+              ? t('create-trip-diary.title-field-max-error')
+              : t('create-trip-diary.title-field-error')}
+          </span>
+        )}
       </div>
       <div>
-        <div className="justify-between flex mb-0.5">
-          <div className="flex gap-1 items-end">
-            <Label>{t('create-trip-diary.city')}</Label>
-          </div>
-          {errors.cityId && (
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Info size={18} className="text-red-600" />
-              </TooltipTrigger>
-              <TooltipContent>{t('create-trip-diary.city-field-error')}</TooltipContent>
-            </Tooltip>
-          )}
+        <div>
+          <Label>{t('create-trip-diary.city')}</Label>
         </div>
         <Controller
           name="cityId"
@@ -104,29 +85,27 @@ export const CreateTripDiary = ({ setIsCreatingTripDiary }: Props) => {
             <SelectCity onSelect={(value) => field.onChange(+value)} />
           )}
         />
+        {errors.cityId && (
+          <span className="text-sm text-red-600 font-semibold">
+            {t('create-trip-diary.city-field-error')}
+          </span>
+        )}
       </div>
       <div>
-        <div className="justify-between flex mb-0.5">
-          <div className="flex gap-1 items-end">
-            <Label>{t('create-trip-diary.message')}</Label>
-            <Label className="text-muted-foreground text-xs">
-              {watch('message')?.length || 0} / 300
-            </Label>
-          </div>
-          {errors.message && (
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Info size={18} className="text-red-600" />
-              </TooltipTrigger>
-              <TooltipContent>
-                {errors.message.type === 'too_big'
-                  ? t('create-trip-diary.message-max-error')
-                  : t('create-trip-diary.message-error')}
-              </TooltipContent>
-            </Tooltip>
-          )}
+        <div>
+          <Label className="mr-1">{t('create-trip-diary.message')}</Label>
+          <Label className="text-muted-foreground text-xs">
+            {watch('message')?.length || 0} / 300
+          </Label>
         </div>
         <Textarea {...register('message')} className="max-h-[160px]" />
+        {errors.message && (
+          <span className="text-sm text-red-600 font-semibold">
+            {errors.message.type === 'too_big'
+              ? t('create-trip-diary.message-max-error')
+              : t('create-trip-diary.message-error')}
+          </span>
+        )}
       </div>
       <DialogFooter>
         <Button variant={'destructive'} onClick={() => setIsCreatingTripDiary(false)}>

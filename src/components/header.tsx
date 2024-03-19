@@ -176,7 +176,7 @@ export const Header = () => {
               </div>
             ) : (
               <div className="flex gap-2">
-                <Link href={'/login'} prefetch>
+                <Link href={'/login'} replace={pathname === '/signup'} prefetch>
                   <Button
                     variant={'ghost'}
                     className="flex gap-2 items-center h-9 cursor-pointer uppercase"
@@ -185,7 +185,7 @@ export const Header = () => {
                     <span className="font-bold">{t('header.login')}</span>
                   </Button>
                 </Link>
-                <Link href={'/signup'} prefetch>
+                <Link href={'/signup'} replace={pathname === '/login'} prefetch>
                   <Button
                     variant={'outline'}
                     className="flex gap-2 items-center h-9 cursor-pointer"

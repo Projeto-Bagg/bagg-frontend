@@ -12,6 +12,7 @@ import { Link } from '@/common/navigation';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { intlFormatDistance } from 'date-fns';
 import { UserHoverCard } from '@/components/user-hovercard';
+import { ChevronRight } from 'lucide-react';
 
 export default function Page({ params }: { params: { slug: string } }) {
   const t = useTranslations();
@@ -156,7 +157,10 @@ export default function Page({ params }: { params: { slug: string } }) {
                 href={{ params: { slug: city.data.id }, pathname: '/city/[slug]/visits' }}
                 className="text-primary text-sm font-bold uppercase hover:underline"
               >
-                {t('country-city-page.view-more-reviews')}
+                <div className="flex gap-0.5 items-center justify-end">
+                  <span>{t('country-city-page.view-more-reviews')}</span>
+                  <ChevronRight className="w-[24px]" />
+                </div>
               </Link>
             </div>
           )}

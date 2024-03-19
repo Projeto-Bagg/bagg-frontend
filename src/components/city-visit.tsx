@@ -57,7 +57,7 @@ export const CityVisit = forwardRef<
           </div>
           <div className="flex gap-1">
             <Rating className="max-w-[72px]" readOnly value={visit.rating || 0} />
-            <span className="font-bold">{visit.rating}</span>
+            <span className="font-bold text-foreground">{visit.rating}</span>
             {city && (
               <>
                 {' • '}

@@ -43,9 +43,9 @@ const editFormSchema = z.object({
     .max(20)
     .regex(/^[a-zA-Z0-9_]+$/),
   cityId: z.number().optional(),
-  birthdateDay: z.string(),
-  birthdateMonth: z.string(),
-  birthdateYear: z.string(),
+  birthdateDay: z.string().min(1),
+  birthdateMonth: z.string().min(1),
+  birthdateYear: z.string().min(1),
   bio: z.string().max(300),
   profilePic: z
     .object({
@@ -136,7 +136,7 @@ export default function EditProfile({ params }: { params: { slug: string } }) {
     } catch (error: any) {
       error.response.data?.username?.code === 'username-not-available' &&
         setError('username', {
-          message: t('signup.username-not-available'),
+          message: t('signup.username.not-available'),
           type: 'username-not-available',
         });
     } finally {
@@ -182,83 +182,57 @@ export default function EditProfile({ params }: { params: { slug: string } }) {
             </ProfilePicDialog>
           </div>
           <div>
-            <div className="justify-between flex mb-0.5">
-              <div className="flex items-end gap-1">
-                <Label>{t('signup.name')}</Label>
-                <Label className="text-muted-foreground text-xs">
-                  {watch('fullName')?.length || auth.user?.fullName.length || 0} / 64
-                </Label>
-              </div>
-              {errors.fullName && (
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Info size={18} className="text-red-600" />
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    {errors.fullName.type === 'too_big'
-                      ? t('signup.name-size-error')
-                      : t('signup.name-error')}
-                  </TooltipContent>
-                </Tooltip>
-              )}
+            <div>
+              <Label className="mr-1">{t('signup.name.label')}</Label>
+              <Label className="text-muted-foreground text-xs">
+                {watch('fullName')?.length || auth.user?.fullName.length || 0} / 64
+              </Label>
             </div>
             <Input {...register('fullName')} />
+            {errors.fullName && (
+              <span className="text-sm text-red-600 font-semibold">
+                {errors.fullName.type === 'too_big'
+                  ? t('signup.name.max-length-error')
+                  : t('signup.name.too-small')}
+              </span>
+            )}
           </div>
           <div>
-            <div className="justify-between flex mb-0.5">
-              <div className="flex items-end gap-1">
-                <Label>{t('signup.username')}</Label>
-                <Label className="text-muted-foreground text-xs">
-                  {watch('username')?.length || auth.user?.username.length || 0} / 20
-                </Label>
-              </div>
-              {errors.username &&
-                (errors.username?.type === 'username-not-available' ? (
-                  <span className="text-red-500 text-sm font-bold">
-                    {t('signup.username-not-available')}
-                  </span>
-                ) : (
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Info size={18} className="text-red-600" />
-                    </TooltipTrigger>
-                    <TooltipContent className="pl-7">
-                      {t('signup.username-error.title')}
-                      <ul className="list-disc">
-                        <li
-                          data-valid={/.{3,20}/.test(watch('username'))}
-                          className="data-[valid=true]:text-green-500"
-                        >
-                          {t('signup.username-error.condition1')}
-                        </li>
-                        <li
-                          data-valid={/^[a-zA-Z0-9_]+$/.test(watch('username'))}
-                          className="data-[valid=true]:text-green-500"
-                        >
-                          {t('signup.username-error.condition2')}
-                        </li>
-                      </ul>
-                    </TooltipContent>
-                  </Tooltip>
-                ))}
+            <div>
+              <Label className="mr-1">{t('signup.username.label')}</Label>
+              <Label className="text-muted-foreground text-xs">
+                {watch('username')?.length || auth.user?.username.length || 0} / 20
+              </Label>
             </div>
             <Input {...register('username')} />
+            {errors.username &&
+              (errors.username?.type === 'username-not-available' ? (
+                <span className="text-red-600 text-sm font-semi-bold">
+                  {t('signup.username.not-available')}
+                </span>
+              ) : (
+                <span className="text-sm text-red-600 font-semibold">
+                  {t('signup.username.valid-conditions.title')}
+                  <ul className="list-disc ml-[18px]">
+                    <li
+                      data-valid={/.{3,20}/.test(watch('username'))}
+                      className="data-[valid=true]:text-green-500"
+                    >
+                      {t('signup.username.valid-conditions.condition1')}
+                    </li>
+                    <li
+                      data-valid={/^[a-zA-Z0-9_]+$/.test(watch('username'))}
+                      className="data-[valid=true]:text-green-500"
+                    >
+                      {t('signup.username.valid-conditions.condition2')}
+                    </li>
+                  </ul>
+                </span>
+              ))}
           </div>
           <div>
-            <div className="justify-between flex mb-0.5">
-              <div className="flex gap-1 items-end">
-                <Label>{t('create-trip-diary.city')}</Label>
-              </div>
-              {errors.cityId && (
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Info size={18} className="text-red-600" />
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    {t('create-trip-diary.city-field-error')}
-                  </TooltipContent>
-                </Tooltip>
-              )}
+            <div>
+              <Label>{t('create-trip-diary.city')}</Label>
             </div>
             <Controller
               name="cityId"
@@ -270,38 +244,32 @@ export default function EditProfile({ params }: { params: { slug: string } }) {
                 />
               )}
             />
+            {errors.cityId && (
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Info size={18} className="text-red-600" />
+                </TooltipTrigger>
+                <TooltipContent>{t('create-trip-diary.city-field-error')}</TooltipContent>
+              </Tooltip>
+            )}
           </div>
           <div>
-            <div className="justify-between flex mb-0.5">
-              <div className="flex gap-2 items-end">
-                <Label>{t('edit-profile.bio')}</Label>
-                <Label className="text-muted-foreground text-xs">
-                  {watch('bio')?.length || auth.user?.bio?.length || 0} / 300
-                </Label>
-              </div>
-              {errors.bio && (
-                <Tooltip>
-                  <TooltipTrigger>
-                    <Info size={18} className="text-red-600" />
-                  </TooltipTrigger>
-                  <TooltipContent>{t('edit-profile.bio-size-error')}</TooltipContent>
-                </Tooltip>
-              )}
+            <div>
+              <Label className="mr-1">{t('edit-profile.bio')}</Label>
+              <Label className="text-muted-foreground text-xs">
+                {watch('bio')?.length || auth.user?.bio?.length || 0} / 300
+              </Label>
             </div>
             <Textarea className="max-h-[144px]" {...register('bio')} />
+            {errors.bio && (
+              <span className="text-sm text-red-600 font-semibold">
+                {t('edit-profile.bio-size-error')}
+              </span>
+            )}
           </div>
           <div>
-            <div className="flex justify-between mb-0.5">
-              <Label>{t('signup.birthdate')}</Label>
-              {(errors.birthdateDay || errors.birthdateMonth || errors.birthdateYear) && (
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Info size={18} className="text-red-600" />
-                  </TooltipTrigger>
-                  <TooltipContent>{t('signup.birthdate-error')}</TooltipContent>
-                </Tooltip>
-              )}
-            </div>
+            <Label>{t('signup.birthdate.label')}</Label>
+
             <div className="flex gap-2 justify-between">
               <Controller
                 name="birthdateDay"
@@ -360,6 +328,11 @@ export default function EditProfile({ params }: { params: { slug: string } }) {
                 )}
               />
             </div>
+            {(errors.birthdateDay || errors.birthdateMonth || errors.birthdateYear) && (
+              <span className="text-sm text-red-600 font-semibold">
+                {t('signup.birthdate.too-small')}
+              </span>
+            )}
           </div>
           <DialogFooter>
             <Button

@@ -27,43 +27,67 @@
   },
   "login": {
     "title": "Login",
-    "description": "Use seu email e senha para fazer login no Bagg",
-    "password": "Senha",
-    "password-error": "Senha inválida",
-    "login-submit": "Logar",
-    "login": "Email ou nome de usuário",
-    "login-error": "Login inválido",
-    "unauthorized": "Login ou senha incorretos"
+    "description": "Use seu nome de usuário/e-mail e senha para logar no Bagg",
+    "password": {
+      "label": "Senha",
+      "invalid": "Senha inválida",
+      "too-small": "Digite sua senha"
+    },
+    "login": {
+      "label": "Login",
+      "too-small": "Digite seu nome de usuário/e-mail",
+      "invalid": "Login inválido"
+    },
+    "submit": "Login",
+    "unauthorized": "Login ou senha incorretos",
+    "signup-redirect": {
+      "title": "Não tem uma conta?",
+      "link": "Cadastrar-se"
+    }
   },
   "signup": {
     "title": "Cadastrar-se",
-    "description": "Preencha o formulário para se cadastrar no Bagg",
-    "name": "Nome",
-    "name-error": "Digite seu nome de exibição",
-    "username": "Nome de usuário",
-    "name-size-error": "O tamanho máximo é de 64 caracteres",
-    "username-error": {
-      "title": "O nome de usuário deve:",
-      "condition1": "Ter tamanho de 8 a 20 caracteres",
-      "condition2": "Conter apenas letras, números ou \"_\""
+    "description": "Preencha o formulário para se cadastrar no Bagg!",
+    "name": {
+      "label": "Nome",
+      "too-small": "Digite o nome de exibição",
+      "max-length-error": "O tamanho máximo é de 64 caracteres"
     },
-    "username-not-available": "Nome de usuário já cadastrado",
-    "birthdate": "Data de nascimento",
-    "birthdate-placeholder": "Selecione uma data",
-    "birthdate-error": "Em que dia você nasceu?",
-    "email": "Email",
-    "email-error": "Escreva um email válido",
-    "email-not-available": "Email já cadastrado",
-    "password": "Senha",
-    "password-error": "Senha inválida",
-    "confirm-password": "Confirmar senha",
-    "confirm-password-error": "As senhas não concidem",
-    "password-too-weak": {
-      "title": "A senha não é suficientemente forte. A senha deve:",
-      "condition1": "Ter pelo menos oito caracteres",
-      "condition2": "Conter um ou mais números",
-      "condition3": "Conter no mínimo uma letra minúscula e maiúscula",
-      "condition4": "Incluir pelo menos um dos seguintes caracteres especiais: {characters}"
+    "username": {
+      "label": "Nome de usuário",
+      "too-small": "Digite o nome de usuário",
+      "not-available": "Nome de usuário indisponível",
+      "valid-conditions": {
+        "title": "O nome de usuário deve conter:",
+        "condition1": "Tamanho de 3 a 20 caracteres",
+        "condition2": "Conter letras, números ou \"_\""
+      }
+    },
+    "birthdate": {
+      "label": "Data de nascimento",
+      "placeholder": "Selecione sua data de nascimento",
+      "too-small": "Selecione sua data de nascimento"
+    },
+    "email": {
+      "label": "Email",
+      "invalid": "Digite um e-mail válido",
+      "too-small": "Digite um e-mail",
+      "not-available": "E-mail indisponível"
+    },
+    "password": {
+      "label": "Senha",
+      "too-small": "Digite uma senha",
+      "valid-conditions": {
+        "title": "A senha deve conter:",
+        "condition1": "No mínimo seis caracteres",
+        "condition2": "No mínimo uma letra minúscula e maíuscula",
+        "condition3": "No mínimo um número",
+        "condition4": "No mínimo um dos caracteres especiais a seguir: {characters}"
+      }
+    },
+    "confirm-password": {
+      "label": "Confirmar senha",
+      "unmatched-passwords": "As senhas não se coincidem"
     },
     "confirm": "Ao se cadastrar, você aceita nossos termos de uso e a nossa política de privacidade",
     "signup": "Cadastrar-se",
@@ -83,6 +107,10 @@
       "October": "Outubro",
       "November": "Novembro",
       "December": "Dezembro"
+    },
+    "login-redirect": {
+      "title": "Já tem uma conta?",
+      "link": "Logar"
     }
   },
   "profile-pic-modal": {
@@ -204,6 +232,17 @@
       "description": "Tem certeza que deseja excluir a postagem? Essa ação é irreversível.",
       "cancel": "Cancelar",
       "action": "Excluir"
+    },
+    "comment": {
+      "delete": {
+        "label": "Excluir",
+        "delete-modal": {
+          "title": "Excluir comment",
+          "description": "Tem certeza que deseja excluir o comentário?",
+          "cancel": "Cancelar",
+          "action": "Excluir"
+        }
+      }
     }
   },
   "follow": {
@@ -218,6 +257,10 @@
     "visited": "Visitado",
     "interested": "Interessado",
     "interest": "Interesse",
+    "uncheck-visit-with-review-toast": {
+      "title": "Exclua a avaliação antes de desmarcar",
+      "description": "Não é possível desmarcar a visita pois você criou uma avaliação nessa cidade anteriormente."
+    },
     "rate": "Dar nota",
     "review": "Avaliar",
     "no-images": "Sem imagens.",
@@ -238,7 +281,16 @@
     "message-max-error": "O tamanho máximo é de 300 caracteres",
     "rating": "Nota",
     "ratingError": "Escolha uma nota",
-    "confirm": "Confirmar"
+    "confirm": "Confirmar",
+    "delete": {
+      "label": "Excluir",
+      "delete-modal": {
+        "title": "Excluir avaliação",
+        "description": "Tem certeza que deseja excluir a avaliação? Essa ação é irreversível.",
+        "cancel": "Cancelar",
+        "action": "Excluir"
+      }
+    }
   },
   "ranking": {
     "top-rated-countries": "Países com melhor avaliação",
