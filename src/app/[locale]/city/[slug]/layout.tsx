@@ -110,10 +110,12 @@ export default function Layout({
               </div>
             </div>
           </div>
-          <div className="flex sm:mt-2 gap-4 text-sm text-primary">
+          <div className="flex sm:mt-2 gap-4 text-sm text-muted-foreground font-bold">
             <Link
               className={cn(
-                pathname === '/city/[slug]' && 'font-bold border-b-2 border-blue-600',
+                pathname === '/city/[slug]'
+                  ? 'border-b-2 border-blue-600 text-primary'
+                  : 'hover:text-foreground transition-all duration-75',
                 'py-2 flex justify-center',
               )}
               href={{ pathname: '/city/[slug]', params: { slug: params.slug } }}
@@ -122,8 +124,9 @@ export default function Layout({
             </Link>
             <Link
               className={cn(
-                pathname === '/city/[slug]/visits' &&
-                  'font-bold border-b-2 border-blue-600',
+                pathname === '/city/[slug]/visits'
+                  ? 'border-b-2 border-blue-600 text-primary'
+                  : 'hover:text-foreground transition-all duration-75',
                 'py-2 flex justify-center',
               )}
               href={{ pathname: '/city/[slug]/visits', params: { slug: params.slug } }}

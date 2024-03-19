@@ -30,7 +30,7 @@ import axios from '@/services/axios';
 import { getVideoThumbnail } from '@/utils/getVideoThumbnail';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQuery } from '@tanstack/react-query';
-import { Check, ChevronsUpDown, Info, Trash2 } from 'lucide-react';
+import { ChevronsUpDown, Info, Trash2 } from 'lucide-react';
 import { useFormatter, useTranslations } from 'next-intl';
 import { Image as ImageIcon } from 'lucide-react';
 import { Controller, useForm } from 'react-hook-form';
@@ -58,7 +58,6 @@ export type CreateDiaryPostType = z.infer<typeof createDiaryPostSchema>;
 
 export const CreatePost = ({ children }: { children: ReactNode }) => {
   const [open, setOpen] = useState<boolean>();
-  const formatter = useFormatter();
   const auth = useAuth();
   const router = useRouter();
   const { toast } = useToast();
@@ -135,7 +134,7 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
             <div>
               <div className="flex justify-between">
                 <div>
-                  <Label className="mr-2">{t('create-post.trip-diary')}</Label>
+                  <Label className="mr-1">{t('create-post.trip-diary')}</Label>
                   <button
                     onClick={() => setIsCreatingTripDiary(true)}
                     className="text-primary text-sm font-bold"
@@ -220,8 +219,8 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
             <form className="space-y-4" onSubmit={handleSubmit(handleCreatePost)}>
               <div>
                 <div className="flex justify-between mb-0.5">
-                  <div className="flex gap-1 items-end">
-                    <Label>{t('create-post.message')}</Label>
+                  <div>
+                    <Label className="mr-1">{t('create-post.message')}</Label>
                     <Label className="text-muted-foreground text-xs">
                       {watch('message')?.length || 0} / 300
                     </Label>

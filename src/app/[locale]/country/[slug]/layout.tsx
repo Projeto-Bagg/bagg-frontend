@@ -59,10 +59,12 @@ export default function Layout({
           </div>
         </div>
       </div>
-      <div className="flex gap-4 text-sm text-primary mb-[24px]">
+      <div className="flex gap-4 font-bold text-sm text-muted-foreground mb-[24px]">
         <Link
           className={cn(
-            pathname === '/country/[slug]' && 'font-bold border-b-2 border-blue-600',
+            pathname === '/country/[slug]'
+              ? 'border-b-2 border-blue-600 text-primary'
+              : 'hover:text-foreground transition-all duration-75',
             'py-2 flex justify-center',
           )}
           href={{ pathname: '/country/[slug]', params: { slug: params.slug } }}
@@ -71,27 +73,14 @@ export default function Layout({
         </Link>
         <Link
           className={cn(
-            pathname === '/country/[slug]/visits' &&
-              'font-bold border-b-2 border-blue-600',
+            pathname === '/country/[slug]/visits'
+              ? 'border-b-2 border-blue-600 text-primary'
+              : 'hover:text-foreground transition-all duration-75',
             'py-2 flex justify-center',
           )}
           href={{ pathname: '/country/[slug]/visits', params: { slug: params.slug } }}
         >
           {t('country-city-page.tabs.reviews')}
-        </Link>
-        <Link
-          className={cn(
-            // pathname === '/co' && 'font-bold border-b-2 border-blue-600',
-            'py-2 flex justify-center',
-          )}
-          href={{
-            pathname: '/city/ranking/rating',
-            query: {
-              countryIso2: params.slug,
-            },
-          }}
-        >
-          {t('country-city-page.tabs.ranking')}
         </Link>
       </div>
       {children}

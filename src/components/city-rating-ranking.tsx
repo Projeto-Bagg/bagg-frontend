@@ -25,6 +25,7 @@ interface CityRatingRankingProps {
   seeMore?: boolean;
   countryIso2?: string;
   skeleton?: boolean;
+  showTitle?: boolean;
 }
 
 export const CityRatingRanking = ({
@@ -33,6 +34,7 @@ export const CityRatingRanking = ({
   seeMore,
   countryIso2,
   skeleton = true,
+  showTitle = true,
 }: CityRatingRankingProps) => {
   const t = useTranslations();
   const { ref, inView } = useInView();
@@ -80,9 +82,11 @@ export const CityRatingRanking = ({
 
   return (
     <Ranking>
-      <RankingHeader>
-        <RankingTitle>{t('ranking.top-rated-cities')}</RankingTitle>
-      </RankingHeader>
+      {showTitle && (
+        <RankingHeader>
+          <RankingTitle>{t('ranking.top-rated-cities')}</RankingTitle>
+        </RankingHeader>
+      )}
       <RankingContent>
         {isLoading && skeleton && <RankingSkeleton count={count} />}
         {ranking &&

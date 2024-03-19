@@ -59,9 +59,9 @@ export const CreateTripDiary = ({ setIsCreatingTripDiary }: Props) => {
         <DialogDescription>{t('create-trip-diary.description')}</DialogDescription>
       </DialogHeader>
       <div>
-        <div className="justify-between flex mb-0.5">
-          <div className="flex gap-1 items-end">
-            <Label>{t('create-trip-diary.title-field')}</Label>
+        <div className="justify-between flex items-center">
+          <div>
+            <Label className="mr-1">{t('create-trip-diary.title-field')}</Label>
             <Label className="text-muted-foreground text-xs">
               {watch('title')?.length || 0} / 255
             </Label>
@@ -72,11 +72,9 @@ export const CreateTripDiary = ({ setIsCreatingTripDiary }: Props) => {
                 <Info size={18} className="text-red-600" />
               </TooltipTrigger>
               <TooltipContent>
-                <TooltipContent>
-                  {errors.title.type === 'too_big'
-                    ? t('create-trip-diary.title-field-max-error')
-                    : t('create-trip-diary.title-field-error')}
-                </TooltipContent>
+                {errors.title.type === 'too_big'
+                  ? t('create-trip-diary.title-field-max-error')
+                  : t('create-trip-diary.title-field-error')}
               </TooltipContent>
             </Tooltip>
           )}
@@ -84,8 +82,8 @@ export const CreateTripDiary = ({ setIsCreatingTripDiary }: Props) => {
         <Input {...register('title')} />
       </div>
       <div>
-        <div className="justify-between flex mb-0.5">
-          <div className="flex gap-1 items-end">
+        <div className="justify-between flex items-center">
+          <div>
             <Label>{t('create-trip-diary.city')}</Label>
           </div>
           {errors.cityId && (
@@ -106,9 +104,9 @@ export const CreateTripDiary = ({ setIsCreatingTripDiary }: Props) => {
         />
       </div>
       <div>
-        <div className="justify-between flex mb-0.5">
-          <div className="flex gap-1 items-end">
-            <Label>{t('create-trip-diary.message')}</Label>
+        <div className="justify-between flex items-center">
+          <div>
+            <Label className="mr-1">{t('create-trip-diary.message')}</Label>
             <Label className="text-muted-foreground text-xs">
               {watch('message')?.length || 0} / 300
             </Label>

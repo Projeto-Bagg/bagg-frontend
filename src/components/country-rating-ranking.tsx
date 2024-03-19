@@ -19,12 +19,21 @@ import { useSearchParams } from 'next/navigation';
 import React, { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 
+interface CountryRatingRankingProps {
+  count?: number;
+  isPagination?: boolean;
+  seeMore?: boolean;
+  skeleton?: boolean;
+  showTitle?: boolean;
+}
+
 export const CountryRatingRanking = ({
   count = 10,
   isPagination = false,
   seeMore = false,
   skeleton = true,
-}) => {
+  showTitle = true,
+}: CountryRatingRankingProps) => {
   const t = useTranslations();
   const { ref, inView } = useInView();
   const searchParams = useSearchParams();
@@ -68,9 +77,11 @@ export const CountryRatingRanking = ({
 
   return (
     <Ranking>
-      <RankingHeader>
-        <RankingTitle>{t('ranking.top-rated-countries')}</RankingTitle>
-      </RankingHeader>
+      {showTitle && (
+        <RankingHeader>
+          <RankingTitle>{t('ranking.top-rated-countries')}</RankingTitle>
+        </RankingHeader>
+      )}
       <RankingContent>
         {isLoading && skeleton && <RankingSkeleton count={count} />}
         {ranking &&
