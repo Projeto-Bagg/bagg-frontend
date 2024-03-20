@@ -266,15 +266,32 @@
     "no-images": "No images yet.",
     "reviews": "Last reviews",
     "view-more-reviews": "View more",
+    "data": {
+      "rating": {
+        "tooltip": "Average of {rating} based on {count} reviews"
+      },
+      "visits": {
+        "tooltip": "Visited by {count} users"
+      },
+      "interest": {
+        "tooltip": "Interested by {count} users"
+      },
+      "resident": {
+        "tooltip": "Place of residence for {count} users"
+      }
+    },
     "tabs": {
       "overview": "Overview",
+      "gallery": {
+        "label": "Gallery"
+      },
       "reviews": {
         "label": "Reviews",
         "no-reviews": "Nobody has reviewed it yet."
       },
       "residents": {
         "label": "Residents",
-        "no-residents": "There are no residents in the city"
+        "no-residents": "There are no users living here."
       }
     }
   },

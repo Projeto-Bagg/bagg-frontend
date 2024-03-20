@@ -219,6 +219,7 @@ export const Tip = forwardRef<
                       src={tip.tipMedias[0].url}
                       alt=""
                       fill
+                      draggable={false}
                       className="h-full w-full rounded-lg aspect-square object-cover"
                     />
                   )}
@@ -240,6 +241,7 @@ export const Tip = forwardRef<
                           src={media.url}
                           alt=""
                           fill
+                          draggable={false}
                           className="h-full rounded-lg object-cover"
                         />
                       </div>
@@ -248,13 +250,7 @@ export const Tip = forwardRef<
                 </div>
               )}
               {tip.tipMedias.length > 2 && (
-                <Carousel
-                  centerMode
-                  centerSlidePercentage={45}
-                  emulateTouch
-                  showIndicators={false}
-                  showStatus={false}
-                >
+                <Carousel centerMode centerSlidePercentage={45} showStatus={false}>
                   {tip.tipMedias.map((media) => (
                     <div key={media.id} className="mr-1">
                       {media.url.endsWith('mp4') ? (
@@ -270,6 +266,7 @@ export const Tip = forwardRef<
                           alt=""
                           height={532}
                           width={532}
+                          draggable={false}
                           className="h-full rounded-lg aspect-square object-cover"
                         />
                       )}
