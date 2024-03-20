@@ -105,6 +105,7 @@ interface CountryPage extends Country {
   visitsCount: number;
   interestsCount: number;
   averageRating: number | null;
+  residentsCount: number;
 }
 
 interface Region {
@@ -157,6 +158,7 @@ interface CityPage extends City {
   averageRating: number | null;
   interestsCount: number;
   visitsCount: number;
+  residentsCount: number;
 }
 
 interface CityImage extends Media {
