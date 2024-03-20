@@ -13,7 +13,7 @@ export const useUnlikeDiaryPost = () => {
         ['diary-posts', post.user.username],
         ['trip-diary-posts', post.tripDiary.id],
       ].forEach((key) =>
-        queryClient.setQueryData<Pagination<DiaryPost>>(
+        queryClient.setQueryData<Pagination<DiaryPost[]>>(
           key,
           (old) =>
             old &&

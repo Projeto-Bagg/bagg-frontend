@@ -19,7 +19,7 @@ export const useCreateCityVisit = () => {
       );
 
       if (data.data.message && data.data.rating) {
-        queryClient.setQueryData<Pagination<CityVisit>>(
+        queryClient.setQueryData<Pagination<CityVisit[]>>(
           ['city-visits', variables.cityId],
           (old) =>
             old &&

@@ -1,6 +1,5 @@
 'use client';
 
-import { Link } from '@/common/navigation';
 import { CityVisit } from '@/components/city-visit';
 import axios from '@/services/axios';
 import { useInfiniteQuery } from '@tanstack/react-query';

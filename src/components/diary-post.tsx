@@ -217,13 +217,7 @@ export const DiaryPost = forwardRef<
                 </div>
               )}
               {post.diaryPostMedias.length > 2 && (
-                <Carousel
-                  centerMode
-                  centerSlidePercentage={45}
-                  emulateTouch
-                  showIndicators={false}
-                  showStatus={false}
-                >
+                <Carousel centerMode centerSlidePercentage={45} showStatus={false}>
                   {post.diaryPostMedias.map((media) => (
                     <div key={media.id} className="mr-1">
                       {media.url.endsWith('mp4') ? (

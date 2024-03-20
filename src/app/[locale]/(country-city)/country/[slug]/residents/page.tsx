@@ -13,7 +13,7 @@ export default function Residents({ params }: { params: { slug: string } }) {
   const t = useTranslations();
 
   const { data, fetchNextPage, hasNextPage } = useInfiniteQuery<User[]>({
-    queryKey: ['country', +params.slug, 'residents'],
+    queryKey: ['country', params.slug, 'residents'],
     queryFn: async ({ pageParam }) =>
       (
         await axios.get<User[]>(`/countries/${params.slug}/residents`, {
