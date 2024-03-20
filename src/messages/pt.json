@@ -222,12 +222,18 @@
     "review": "Avaliar",
     "no-images": "Sem imagens.",
     "reviews": "Últimas avaliações",
-    "no-reviews": "Ninguém avaliou ainda.",
+
     "view-more-reviews": "Ver mais",
     "tabs": {
       "overview": "Visão geral",
-      "ranking": "Ranking",
-      "reviews": "Avaliações"
+      "reviews": {
+        "label": "Avaliações",
+        "no-reviews": "Ninguém avaliou ainda."
+      },
+      "residents": {
+        "label": "Moradores",
+        "no-residents": "Não há moradores na cidade"
+      }
     }
   },
   "create-city-visit": {

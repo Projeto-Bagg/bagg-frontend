@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils';
 import axios from '@/services/axios';
 import { Rating } from '@smastrom/react-rating';
 import { useQuery } from '@tanstack/react-query';
-import { MapPin, CheckCircle } from 'lucide-react';
+import { MapPin, CheckCircle, Home } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import React, { ReactNode } from 'react';
 
@@ -38,14 +38,18 @@ export default function Layout({
         <div>
           <h2 className="font-bold text-3xl sm:text-5xl">{country.data.name}</h2>
           <div className="flex items-center gap-2 text-muted-foreground">
-            <div>
-              <Rating
-                value={country.data.averageRating || 0}
-                readOnly
-                className="max-w-[120px] sm:max-w-[144px]"
-              />
-            </div>
-            <span>{country.data.averageRating}</span>
+            <Link
+              href={{ params: { slug: params.slug }, pathname: '/country/[slug]/visits' }}
+            >
+              <div className="flex items-center gap-1">
+                <Rating
+                  value={country.data.averageRating || 0}
+                  readOnly
+                  className="max-w-[120px] sm:max-w-[144px]"
+                />
+                <span>{country.data.averageRating}</span>
+              </div>
+            </Link>
             <div className="text-sm flex gap-2 items-center">
               <div className="flex items-center gap-0.5">
                 <MapPin className="w-[18px] text-blue-400" />
@@ -55,6 +59,17 @@ export default function Layout({
                 <CheckCircle className="w-[18px] text-green-400" />
                 <span>{country.data.interestsCount}</span>
               </div>
+              <Link
+                href={{
+                  params: { slug: params.slug },
+                  pathname: '/country/[slug]/residents',
+                }}
+              >
+                <div className="flex items-center gap-0.5">
+                  <Home className="w-[18px] text-orange-700" />
+                  <span>{country.data.residentsCount}</span>
+                </div>
+              </Link>
             </div>
           </div>
         </div>
@@ -77,21 +92,18 @@ export default function Layout({
           )}
           href={{ pathname: '/country/[slug]/visits', params: { slug: params.slug } }}
         >
-          {t('country-city-page.tabs.reviews')}
+          {t('country-city-page.tabs.reviews.label')}
         </Link>
         <Link
           className={cn(
-            // pathname === '/co' && 'font-bold border-b-2 border-blue-600',
+            pathname === '/country/[slug]/residents'
+              ? 'border-b-2 border-blue-600 text-primary'
+              : 'hover:text-foreground transition-all duration-75',
             'py-2 flex justify-center',
           )}
-          href={{
-            pathname: '/city/ranking/rating',
-            query: {
-              countryIso2: params.slug,
-            },
-          }}
+          href={{ pathname: '/country/[slug]/residents', params: { slug: params.slug } }}
         >
-          {t('country-city-page.tabs.ranking')}
+          {t('country-city-page.tabs.residents.label')}
         </Link>
       </div>
       {children}

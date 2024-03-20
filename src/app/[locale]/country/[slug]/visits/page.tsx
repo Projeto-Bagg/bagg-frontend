@@ -42,7 +42,7 @@ export default function Visits({ params }: { params: { slug: string } }) {
       <div>
         {data?.pages[0].length === 0 && (
           <div className="py-4 text-sm text-center">
-            <span>{t('country-city-page.no-reviews')}</span>
+            <span>{t('country-city-page.tabs.reviews.no-reviews')}</span>
           </div>
         )}
         {data?.pages.map((page, index) =>

@@ -103,6 +103,7 @@ interface Country {
 
 interface CountryPage extends Country {
   visitsCount: number;
+  residentsCount: number;
   interestsCount: number;
   averageRating: number | null;
 }
@@ -152,6 +153,7 @@ interface City {
 
 interface CityPage extends City {
   isVisited: boolean;
+  residentsCount: number;
   isInterested: boolean;
   userVisit: CityVisit | null;
   averageRating: number | null;
