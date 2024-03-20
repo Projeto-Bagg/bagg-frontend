@@ -45,9 +45,9 @@ interface Media {
   createdAt: Date;
 }
 
-interface Pagination<T> {
-  pageParams: number[];
-  pages: T[][];
+interface Pagination<TData, TPageParam = unknown> {
+  pages: Array<TData>;
+  pageParams: Array<TPageParam>;
 }
 
 interface DiaryPostMedia extends Media {
@@ -105,6 +105,8 @@ interface CountryPage extends Country {
   visitsCount: number;
   interestsCount: number;
   averageRating: number | null;
+  residentsCount: number;
+  reviewsCount: number;
 }
 
 interface Region {
@@ -117,16 +119,16 @@ interface Region {
 }
 
 interface CreateCityVisit {
-  rating?: number;
-  message?: string;
+  rating?: number | null;
+  message?: string | null;
   cityId: number;
 }
 
 interface CityVisit {
   id: number;
   createdAt: Date;
-  rating?: number;
-  message?: string;
+  rating?: number | null;
+  message?: string | null;
   user: User;
 }
 
@@ -157,17 +159,14 @@ interface CityPage extends City {
   averageRating: number | null;
   interestsCount: number;
   visitsCount: number;
+  residentsCount: number;
+  reviewsCount: number;
 }
 
-interface CityImage extends Media {
+interface CountryCityImage extends Media {
   userId: number;
   user: User;
-}
-
-interface CountryImage extends Media {
-  userId: number;
-  user: User;
-  city: City;
+  city?: City;
 }
 
 interface CityFromSearch {

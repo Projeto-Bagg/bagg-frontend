@@ -15,7 +15,7 @@ export const useCreateDiaryPost = () => {
         ['diary-posts', auth.user?.username],
         ['trip-diary-posts', data.tripDiary],
       ].forEach((key) => {
-        queryClient.setQueryData<Pagination<DiaryPost>>(
+        queryClient.setQueryData<Pagination<DiaryPost[]>>(
           key,
           (old) =>
             old &&

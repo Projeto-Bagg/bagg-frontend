@@ -10,20 +10,19 @@ export function middleware(request: NextRequest) {
   });
 
   const isAuthenticated = request.cookies.has('bagg.sessionToken');
-  const locale = request.cookies.get('NEXT_LOCALE')?.value || 'pt';
 
-  if (request.nextUrl.pathname.startsWith('/login') && isAuthenticated) {
-    return NextResponse.redirect(new URL(locale + '/', request.url));
+  if (request.nextUrl.pathname.endsWith('/login') && isAuthenticated) {
+    return NextResponse.redirect(new URL('/', request.url));
   }
 
-  if (request.nextUrl.pathname.startsWith('/signup') && isAuthenticated) {
-    return NextResponse.redirect(new URL(locale + '/', request.url));
+  if (request.nextUrl.pathname.endsWith('/signup') && isAuthenticated) {
+    return NextResponse.redirect(new URL('/', request.url));
   }
 
   if (request.nextUrl.pathname.endsWith('/settings/profile') && !isAuthenticated) {
     return NextResponse.redirect(
       new URL(
-        locale + request.nextUrl.pathname.replace('/settings/profile', ''),
+        request.nextUrl.pathname.replace('/settings/profile', ''),
         request.url.replace('/settings/profile', ''),
       ),
     );

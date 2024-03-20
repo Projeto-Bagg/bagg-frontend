@@ -41,7 +41,7 @@ export const Header = () => {
   const searchParams = useSearchParams();
 
   return (
-    <header className="text-sm m-auto border-b fixed top-0 left-0 right-0 w-full px-4 sm:px-0 z-50 bg-background/75">
+    <header className="text-sm m-auto border-b fixed top-0 left-0 right-0 w-full px-4 sm:px-0 z-50 bg-background/70">
       <div className="flex m-auto gap-2 sm:gap-4 justify-between items-center max-w-[900px] min-h-[3.75rem] backdrop-blur-xl">
         <nav>
           <ul className="flex gap-6 font-semibold items-center">
@@ -103,6 +103,7 @@ export const Header = () => {
                 <PrimitiveSelectTrigger asChild>
                   <Button className="hidden sm:flex" size={'icon'} variant={'ghost'}>
                     <CountryFlag
+                      className="w-[1.6rem]"
                       iso2={languages.find((lang) => lang.locale === locale)!.country}
                     />
                   </Button>
@@ -176,7 +177,7 @@ export const Header = () => {
               </div>
             ) : (
               <div className="flex gap-2">
-                <Link href={'/login'} prefetch>
+                <Link href={'/login'} replace={pathname === '/signup'} prefetch>
                   <Button
                     variant={'ghost'}
                     className="flex gap-2 items-center h-9 cursor-pointer uppercase"
@@ -185,7 +186,7 @@ export const Header = () => {
                     <span className="font-bold">{t('header.login')}</span>
                   </Button>
                 </Link>
-                <Link href={'/signup'} prefetch>
+                <Link href={'/signup'} replace={pathname === '/login'} prefetch>
                   <Button
                     variant={'outline'}
                     className="flex gap-2 items-center h-9 cursor-pointer"

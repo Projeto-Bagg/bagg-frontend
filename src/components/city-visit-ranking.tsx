@@ -13,6 +13,7 @@ import {
 } from '@/components/ui/ranking';
 import axios from '@/services/axios';
 import { useInfiniteQuery } from '@tanstack/react-query';
+import { ChevronRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useSearchParams } from 'next/navigation';
 import React, { useEffect } from 'react';
@@ -24,6 +25,7 @@ interface CityVisitRankingProps {
   seeMore?: boolean;
   countryIso2?: string;
   skeleton?: boolean;
+  showTitle?: boolean;
 }
 
 export const CityVisitRanking = ({
@@ -32,6 +34,7 @@ export const CityVisitRanking = ({
   seeMore,
   countryIso2,
   skeleton = true,
+  showTitle = true,
 }: CityVisitRankingProps) => {
   const t = useTranslations();
   const { ref, inView } = useInView();
@@ -79,9 +82,11 @@ export const CityVisitRanking = ({
 
   return (
     <Ranking>
-      <RankingHeader>
-        <RankingTitle>{t('ranking.most-visited-cities')}</RankingTitle>
-      </RankingHeader>
+      {showTitle && (
+        <RankingHeader>
+          <RankingTitle>{t('ranking.most-visited-cities')}</RankingTitle>
+        </RankingHeader>
+      )}
       <RankingContent>
         {isLoading && skeleton && <RankingSkeleton count={count} />}
         {ranking &&
@@ -145,7 +150,10 @@ export const CityVisitRanking = ({
               },
             }}
           >
-            {t('ranking.more')}
+            <div className="flex gap-0.5 items-center justify-end">
+              <span>{t('ranking.more')}</span>
+              <ChevronRight className="w-[24px]" />
+            </div>
           </Link>
         </RankingFooter>
       )}

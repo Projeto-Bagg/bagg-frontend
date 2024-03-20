@@ -2,10 +2,11 @@
 
 import axios from '@/services/axios';
 import { createContext, useContext, useEffect, useState } from 'react';
-import { getCookie, deleteCookie, setCookie } from 'cookies-next';
+import { getCookie, deleteCookie, setCookie, hasCookie } from 'cookies-next';
 import { Spinner } from '@/assets';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
+import { useRouter } from '@/common/navigation';
 
 type AuthContextType = {
   login: (user: UserSignIn) => Promise<void>;
@@ -26,6 +27,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     queryFn: async () => (await axios.get('users/me')).data,
     enabled: false,
   });
+  const router = useRouter();
 
   const isAuthenticated = !!user;
 
@@ -45,6 +47,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, [queryClient, refetch]);
 
   const login = async (user: UserSignIn) => {
+    if (hasCookie('bagg.sessionToken')) {
+      await refetch();
+      router.back();
+    }
+
     const { data } = await axios.post('/auth/login', user);
     setCookie('bagg.sessionToken', data.accessToken);
     setCookie('bagg.refreshToken', data.refreshToken);
@@ -53,18 +60,19 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const signUp = async (user: UserSignUp) => {
+    if (hasCookie('bagg.sessionToken')) {
+      await refetch();
+      router.back();
+    }
+
     return await axios.post('/users', user);
   };
 
   const logout = () => {
-    try {
-      deleteCookie('bagg.sessionToken');
-      deleteCookie('bagg.refreshToken');
-      queryClient.setQueryData(['session'], null);
-      queryClient.invalidateQueries();
-    } catch (error) {
-      console.log(error);
-    }
+    deleteCookie('bagg.sessionToken');
+    deleteCookie('bagg.refreshToken');
+    queryClient.setQueryData(['session'], null);
+    queryClient.invalidateQueries();
   };
 
   return (

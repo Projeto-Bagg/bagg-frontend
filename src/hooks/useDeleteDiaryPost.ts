@@ -11,7 +11,7 @@ export const useDeleteDiaryPost = () => {
     mutationFn: async (id: number) => axios.delete('/diary-posts/ ' + id),
     onSuccess: (_, id) => {
       [['diary-posts', auth.user?.username], ['trip-diary-posts']].forEach((key) => {
-        queryClient.setQueryData<Pagination<DiaryPost>>(
+        queryClient.setQueryData<Pagination<DiaryPost[]>>(
           key,
           (old) =>
             old &&

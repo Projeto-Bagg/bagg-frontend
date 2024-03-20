@@ -14,6 +14,7 @@ import {
 import axios from '@/services/axios';
 import { Rating } from '@smastrom/react-rating';
 import { useInfiniteQuery } from '@tanstack/react-query';
+import { ChevronRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useSearchParams } from 'next/navigation';
 import React, { useEffect } from 'react';
@@ -25,6 +26,7 @@ interface CityRatingRankingProps {
   seeMore?: boolean;
   countryIso2?: string;
   skeleton?: boolean;
+  showTitle?: boolean;
 }
 
 export const CityRatingRanking = ({
@@ -33,6 +35,7 @@ export const CityRatingRanking = ({
   seeMore,
   countryIso2,
   skeleton = true,
+  showTitle = true,
 }: CityRatingRankingProps) => {
   const t = useTranslations();
   const { ref, inView } = useInView();
@@ -80,9 +83,11 @@ export const CityRatingRanking = ({
 
   return (
     <Ranking>
-      <RankingHeader>
-        <RankingTitle>{t('ranking.top-rated-cities')}</RankingTitle>
-      </RankingHeader>
+      {showTitle && (
+        <RankingHeader>
+          <RankingTitle>{t('ranking.top-rated-cities')}</RankingTitle>
+        </RankingHeader>
+      )}
       <RankingContent>
         {isLoading && skeleton && <RankingSkeleton count={count} />}
         {ranking &&
@@ -144,7 +149,7 @@ export const CityRatingRanking = ({
       {seeMore && ranking?.pages[0].length !== 0 && (
         <RankingFooter>
           <Link
-            className="text-right hover:underline text-sm font-bold w-full uppercase text-primary"
+            className="hover:underline text-sm font-bold w-full uppercase text-primary"
             href={{
               pathname: '/city/ranking/rating',
               query: {
@@ -154,7 +159,10 @@ export const CityRatingRanking = ({
               },
             }}
           >
-            {t('ranking.more')}
+            <div className="flex gap-0.5 items-center justify-end">
+              <span>{t('ranking.more')}</span>
+              <ChevronRight className="w-[24px]" />
+            </div>
           </Link>
         </RankingFooter>
       )}

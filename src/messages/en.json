@@ -28,43 +28,67 @@
   "login": {
     "title": "Login",
     "description": "Use your email and password to login to Bagg",
-    "password": "Password",
-    "password-error": "Invalid password",
-    "login-submit": "Login",
-    "login": "Email or username",
-    "login-error": "Invalid login",
-    "unauthorized": "Login or password provided is incorrect"
+    "password": {
+      "label": "Password",
+      "invalid": "Invalid password",
+      "too-small": "Enter your password"
+    },
+    "login": {
+      "label": "Login",
+      "too-small": "Enter your username/e-mail",
+      "invalid": "Invalid login"
+    },
+    "submit": "Login",
+    "unauthorized": "Login or password provided is incorrect",
+    "signup-redirect": {
+      "title": "Don't have a profille?",
+      "link": "Sign up"
+    }
   },
   "signup": {
     "title": "Sign up",
     "description": "Fill out the form to register to Bagg",
-    "name": "Name",
-    "name-error": "Enter your display name",
-    "name-size-error": "The maximum length is 64 characters",
-    "username": "Username",
-    "username-error": {
-      "title": "The username must:",
-      "condition1": "Have a size of 3 to 20 characters",
-      "condition2": "Contain only letters, numbers or \"_\""
+    "name": {
+      "label": "Name",
+      "too-small": "Enter your display name",
+      "max-length-error": "The maximum length is 64 characters"
     },
-    "username-not-available": "Username not available",
-    "birthdate": "Birthdate",
-    "birthdate-placeholder": "Select a birthdate",
-    "birthdate-error": "What day you were born?",
-    "email": "Email",
-    "email-error": "Enter a valid email address",
-    "email-not-available": "Email not available",
-    "password": "Password",
-    "password-error": "Invalid password",
-    "password-too-weak": {
-      "title": "Your password must:",
-      "condition1": "Be at least six characters long",
-      "condition2": "Contain at least one lowercase and uppercase letter",
-      "condition3": "Contain one or more numbers",
-      "condition4": "Include at least one of the following special characters: {characters}"
+    "username": {
+      "label": "Username",
+      "too-small": "Enter a username",
+      "not-available": "Username not available",
+      "valid-conditions": {
+        "title": "The username must:",
+        "condition1": "Have a size of 3 to 20 characters",
+        "condition2": "Contain only letters, numbers or \"_\""
+      }
     },
-    "confirm-password": "Confirm password",
-    "confirm-password-error": "Passwords do not match",
+    "birthdate": {
+      "label": "Birthdate",
+      "placeholder": "Select a birthdate",
+      "too-small": "Select a birthdate"
+    },
+    "email": {
+      "label": "Email",
+      "invalid": "Enter a valid email address",
+      "too-small": "Enter a email address",
+      "not-available": "Email not available"
+    },
+    "password": {
+      "label": "Password",
+      "too-small": "Enter a password",
+      "valid-conditions": {
+        "title": "Your password must:",
+        "condition1": "Be at least six characters long",
+        "condition2": "Contain at least one lowercase and uppercase letter",
+        "condition3": "Contain one or more numbers",
+        "condition4": "Include at least one of the following special characters: {characters}"
+      }
+    },
+    "confirm-password": {
+      "label": "Confirm password",
+      "unmatched-passwords": "Password do not match"
+    },
     "confirm": "By registering, you accept our terms of use and our privacy policy",
     "signup": "Sign up",
     "day": "Day",
@@ -83,6 +107,10 @@
       "October": "October",
       "November": "November",
       "December": "December"
+    },
+    "login-redirect": {
+      "title": "Already have an account?",
+      "link": "Login"
     }
   },
   "profile-pic-modal": {
@@ -188,7 +216,7 @@
     "liked-by": "Liked by",
     "delete-modal": {
       "title": "Delete diary post",
-      "description": "Are you sure you want to delete this post? This action cannot be undone",
+      "description": "Are you sure you want to delete this post? This action cannot be undone.",
       "cancel": "Cancel",
       "action": "Delete"
     }
@@ -201,9 +229,20 @@
     "comments": "{count, plural, =0 {Comment} =1 {See # comment} other {See # comments}}",
     "delete-modal": {
       "title": "Delete tip",
-      "description": "Are you sure you want to delete this post? This action cannot be undone",
+      "description": "Are you sure you want to delete this post? This action cannot be undone.",
       "cancel": "Cancel",
       "action": "Delete"
+    },
+    "comment": {
+      "delete": {
+        "label": "Delete",
+        "delete-modal": {
+          "title": "Delete comment",
+          "description": "Are you sure you want to delete this comment?",
+          "cancel": "Cancel",
+          "action": "Delete"
+        }
+      }
     }
   },
   "follow": {
@@ -218,16 +257,42 @@
     "visited": "Visited",
     "interested": "Interested",
     "interest": "Interest",
+    "uncheck-visit-with-review-toast": {
+      "title": "Delete the review before unchecking",
+      "description": "You cannot cancel the visit as you previously created a review in that city."
+    },
     "rate": "Rate",
     "review": "Review",
     "no-images": "No images yet.",
     "reviews": "Last reviews",
-    "no-reviews": "Nobody has reviewed it yet.",
     "view-more-reviews": "View more",
+    "data": {
+      "rating": {
+        "tooltip": "Average of {rating} based on {count} reviews"
+      },
+      "visits": {
+        "tooltip": "Visited by {count} users"
+      },
+      "interest": {
+        "tooltip": "Interested by {count} users"
+      },
+      "resident": {
+        "tooltip": "Place of residence for {count} users"
+      }
+    },
     "tabs": {
       "overview": "Overview",
-      "ranking": "Ranking",
-      "reviews": "Reviews"
+      "gallery": {
+        "label": "Gallery"
+      },
+      "reviews": {
+        "label": "Reviews",
+        "no-reviews": "Nobody has reviewed it yet."
+      },
+      "residents": {
+        "label": "Residents",
+        "no-residents": "There are no users living here."
+      }
     }
   },
   "create-city-visit": {
@@ -238,7 +303,16 @@
     "message-max-error": "The maximum length is 300 characters",
     "rating": "Rating",
     "ratingError": "Enter a rating",
-    "confirm": "Confirm"
+    "confirm": "Confirm",
+    "delete": {
+      "label": "Delete",
+      "delete-modal": {
+        "title": "Delete avaliação",
+        "description": "Are you sure you want to delete this review? This action cannot be undone.",
+        "cancel": "Cancelar",
+        "action": "Delete"
+      }
+    }
   },
   "ranking": {
     "top-rated-countries": "Top rated countries",
