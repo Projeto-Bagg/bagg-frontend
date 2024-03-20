@@ -265,12 +265,17 @@
     "review": "Review",
     "no-images": "No images yet.",
     "reviews": "Last reviews",
-    "no-reviews": "Nobody has reviewed it yet.",
     "view-more-reviews": "View more",
     "tabs": {
       "overview": "Overview",
-      "ranking": "Ranking",
-      "reviews": "Reviews"
+      "reviews": {
+        "label": "Reviews",
+        "no-reviews": "Nobody has reviewed it yet."
+      },
+      "residents": {
+        "label": "Residents",
+        "no-residents": "There are no residents in the city"
+      }
     }
   },
   "create-city-visit": {
