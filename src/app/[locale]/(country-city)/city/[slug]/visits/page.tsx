@@ -15,9 +15,12 @@ export default function Visits({ params }: { params: { slug: string } }) {
     queryKey: ['city-visits', +params.slug],
     queryFn: async ({ pageParam }) =>
       (
-        await axios.get<CityVisit[]>(
-          `/city-visits/${params.slug}?page=${pageParam}&count=15`,
-        )
+        await axios.get<CityVisit[]>(`/city-visits/${params.slug}`, {
+          params: {
+            page: pageParam,
+            count: 15,
+          },
+        })
       ).data,
     initialPageParam: 1,
     getNextPageParam: (page, allPages) =>

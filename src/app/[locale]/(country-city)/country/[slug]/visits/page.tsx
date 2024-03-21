@@ -1,6 +1,5 @@
 'use client';
 
-import { Link } from '@/common/navigation';
 import { CityVisit } from '@/components/city-visit';
 import axios from '@/services/axios';
 import { useInfiniteQuery } from '@tanstack/react-query';
@@ -51,6 +50,7 @@ export default function Visits({ params }: { params: { slug: string } }) {
               ref={page.length - 1 === index ? ref : undefined}
               key={visit.id}
               visit={visit}
+              city={visit.city}
             />
           )),
         )}

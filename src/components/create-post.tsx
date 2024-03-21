@@ -22,8 +22,6 @@ import { Label } from '@/components/ui/label';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { Textarea } from '@/components/ui/textarea';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
-import { useAuth } from '@/context/auth-context';
 import { useCreateDiaryPost } from '@/hooks/useCreateDiaryPost';
 import { cn } from '@/lib/utils';
 import axios from '@/services/axios';
@@ -31,7 +29,7 @@ import { getVideoThumbnail } from '@/utils/getVideoThumbnail';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQuery } from '@tanstack/react-query';
 import { ChevronsUpDown, Info, Trash2 } from 'lucide-react';
-import { useFormatter, useTranslations } from 'next-intl';
+import { useTranslations } from 'next-intl';
 import { Image as ImageIcon } from 'lucide-react';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -39,6 +37,7 @@ import { useRouter } from 'next/navigation';
 import { useToast } from '@/components/ui/use-toast';
 import { CreateTripDiary } from '@/components/create-trip-diary';
 import { CountryFlag } from '@/components/ui/country-flag';
+import { useAuth } from '@/context/auth-context';
 
 const createDiaryPostSchema = z.object({
   tripDiaryId: z.number(),

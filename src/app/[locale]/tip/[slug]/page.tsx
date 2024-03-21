@@ -6,7 +6,7 @@ import axios from '@/services/axios';
 import { useQuery } from '@tanstack/react-query';
 import { ArrowLeft } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { Tip } from '@/components/tip';
+import { Tip } from '@/components/posts/tip';
 
 export default function Page({ params }: { params: { slug: string } }) {
   const isWithinPage = useOriginTracker();
