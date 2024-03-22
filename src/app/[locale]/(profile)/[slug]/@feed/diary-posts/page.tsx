@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect } from 'react';
-import { DiaryPost } from '@/components/diary-post';
+import { DiaryPost } from '@/components/posts/diary-post';
 import axios from '@/services/axios';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useInView } from 'react-intersection-observer';
@@ -12,8 +12,13 @@ export default function DiaryPosts({ params }: { params: { slug: string } }) {
   const { data, fetchNextPage, hasNextPage } = useInfiniteQuery<DiaryPost[]>({
     queryKey: ['diary-posts', params.slug],
     queryFn: async ({ pageParam }) =>
-      (await axios.get<DiaryPost[]>(`/diary-posts/user/${params.slug}?page=${pageParam}`))
-        .data,
+      (
+        await axios.get<DiaryPost[]>(`/diary-posts/user/${params.slug}`, {
+          params: {
+            page: pageParam,
+          },
+        })
+      ).data,
     initialPageParam: 1,
     getNextPageParam: (page, allPages) =>
       page.length === 10 ? allPages.length + 1 : null,

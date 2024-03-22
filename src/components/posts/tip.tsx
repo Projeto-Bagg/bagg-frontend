@@ -1,7 +1,6 @@
 'use client';
 
 import React, { HTMLProps, forwardRef } from 'react';
-import Image from 'next/image';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -25,18 +24,19 @@ import { useToast } from '@/components/ui/use-toast';
 import { useAuth } from '@/context/auth-context';
 import { Heart, MoreHorizontal } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
-import { Carousel } from 'react-responsive-carousel';
 import { intlFormatDistance } from 'date-fns';
 import { UserHoverCard } from '@/components/user-hovercard';
 import { useLikeTip } from '@/hooks/useLikeTip';
 import { useUnlikeTip } from '@/hooks/useUnlikeTip';
 import { useDeleteTip } from '@/hooks/useDeleteTip';
-import { TipLikedByList } from '@/components/tip-liked-by-list';
+import { TipLikedByList } from '@/components/posts/tip-liked-by-list';
 import { CountryFlag } from '@/components/ui/country-flag';
-import { TipComments } from '@/components/tip-comments';
+import { TipComments } from '@/components/posts/tip-comments';
 import { Link, usePathname, useRouter } from '@/common/navigation';
 import { useQueryClient } from '@tanstack/react-query';
 import { Separator } from '@/components/ui/separator';
+
+import { Medias } from '@/components/posts/medias';
 
 export const Tip = forwardRef<
   HTMLDivElement,
@@ -203,82 +203,7 @@ export const Tip = forwardRef<
           <div>
             <p className="text-sm sm:text-base">{tip.message}</p>
           </div>
-          {tip.tipMedias.length !== 0 && (
-            <div className="mt-2">
-              {tip.tipMedias.length === 1 && (
-                <div className="relative aspect-square max-w-[752px] max-h-[423px]">
-                  {tip.tipMedias[0].url.endsWith('mp4') ? (
-                    <div
-                      key={tip.tipMedias[0].id}
-                      className="h-full flex justify-center items-center bg-black rounded-lg"
-                    >
-                      <video controls src={tip.tipMedias[0].url} />
-                    </div>
-                  ) : (
-                    <Image
-                      src={tip.tipMedias[0].url}
-                      alt=""
-                      fill
-                      className="h-full w-full rounded-lg aspect-square object-cover"
-                    />
-                  )}
-                </div>
-              )}
-              {tip.tipMedias.length === 2 && (
-                <div className="grid aspect-[16/9] grid-cols-[minmax(0px,_75fr)_minmax(0px,_75fr)] grid-rows-[100%] w-full">
-                  {tip.tipMedias.map((media) =>
-                    media.url.endsWith('mp4') ? (
-                      <div
-                        key={media.id}
-                        className="h-full flex justify-center items-center bg-black rounded-lg"
-                      >
-                        <video controls src={media.url} />
-                      </div>
-                    ) : (
-                      <div key={media.id} className="relative mr-1">
-                        <Image
-                          src={media.url}
-                          alt=""
-                          fill
-                          className="h-full rounded-lg object-cover"
-                        />
-                      </div>
-                    ),
-                  )}
-                </div>
-              )}
-              {tip.tipMedias.length > 2 && (
-                <Carousel
-                  centerMode
-                  centerSlidePercentage={45}
-                  emulateTouch
-                  showIndicators={false}
-                  showStatus={false}
-                >
-                  {tip.tipMedias.map((media) => (
-                    <div key={media.id} className="mr-1">
-                      {media.url.endsWith('mp4') ? (
-                        <div
-                          key={media.id}
-                          className="h-full flex justify-center items-center bg-black rounded-lg"
-                        >
-                          <video controls src={media.url} />
-                        </div>
-                      ) : (
-                        <Image
-                          src={media.url}
-                          alt=""
-                          height={532}
-                          width={532}
-                          className="h-full rounded-lg aspect-square object-cover"
-                        />
-                      )}
-                    </div>
-                  ))}
-                </Carousel>
-              )}
-            </div>
-          )}
+          <Medias medias={tip.tipMedias} />
           {!withComments && (
             <div className="mt-1">
               <button

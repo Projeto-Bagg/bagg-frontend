@@ -1,7 +1,6 @@
 'use client';
 
 import React, { HTMLProps, forwardRef } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { DiaryLikedByList } from '@/components/diary-liked-by-list';
@@ -31,9 +30,9 @@ import { useLikeDiaryPost } from '@/hooks/useLikeDiaryPost';
 import { useUnlikeDiaryPost } from '@/hooks/useUnlikeDiaryPost';
 import { Heart, MoreHorizontal } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
-import { Carousel } from 'react-responsive-carousel';
 import { intlFormatDistance } from 'date-fns';
 import { UserHoverCard } from '@/components/user-hovercard';
+import { Medias } from '@/components/posts/medias';
 
 export const DiaryPost = forwardRef<
   HTMLDivElement,
@@ -172,82 +171,7 @@ export const DiaryPost = forwardRef<
           <div>
             <p className="text-sm sm:text-base">{post.message}</p>
           </div>
-          {post.diaryPostMedias.length !== 0 && (
-            <div className="mt-2">
-              {post.diaryPostMedias.length === 1 && (
-                <div className="relative aspect-square max-w-[752px] max-h-[423px]">
-                  {post.diaryPostMedias[0].url.endsWith('mp4') ? (
-                    <div
-                      key={post.diaryPostMedias[0].id}
-                      className="h-full flex justify-center items-center bg-black rounded-lg"
-                    >
-                      <video controls src={post.diaryPostMedias[0].url} />
-                    </div>
-                  ) : (
-                    <Image
-                      src={post.diaryPostMedias[0].url}
-                      alt=""
-                      fill
-                      className="h-full w-full rounded-lg aspect-square object-cover"
-                    />
-                  )}
-                </div>
-              )}
-              {post.diaryPostMedias.length === 2 && (
-                <div className="grid aspect-[16/9] grid-cols-[minmax(0px,_75fr)_minmax(0px,_75fr)] grid-rows-[100%] w-full">
-                  {post.diaryPostMedias.map((media) =>
-                    media.url.endsWith('mp4') ? (
-                      <div
-                        key={media.id}
-                        className="h-full flex justify-center items-center bg-black rounded-lg"
-                      >
-                        <video controls src={media.url} />
-                      </div>
-                    ) : (
-                      <div key={media.id} className="relative mr-1">
-                        <Image
-                          src={media.url}
-                          alt=""
-                          fill
-                          className="h-full rounded-lg object-cover"
-                        />
-                      </div>
-                    ),
-                  )}
-                </div>
-              )}
-              {post.diaryPostMedias.length > 2 && (
-                <Carousel
-                  centerMode
-                  centerSlidePercentage={45}
-                  emulateTouch
-                  showIndicators={false}
-                  showStatus={false}
-                >
-                  {post.diaryPostMedias.map((media) => (
-                    <div key={media.id} className="mr-1">
-                      {media.url.endsWith('mp4') ? (
-                        <div
-                          key={media.id}
-                          className="h-full flex justify-center items-center bg-black rounded-lg"
-                        >
-                          <video controls src={media.url} />
-                        </div>
-                      ) : (
-                        <Image
-                          src={media.url}
-                          alt=""
-                          height={532}
-                          width={532}
-                          className="h-full rounded-lg aspect-square object-cover"
-                        />
-                      )}
-                    </div>
-                  ))}
-                </Carousel>
-              )}
-            </div>
-          )}
+          <Medias medias={post.diaryPostMedias} />
         </div>
       </div>
     </article>

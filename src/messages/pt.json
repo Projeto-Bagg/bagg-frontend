@@ -266,15 +266,32 @@
     "no-images": "Sem imagens.",
     "reviews": "Últimas avaliações",
     "view-more-reviews": "Ver mais",
+    "data": {
+      "rating": {
+        "tooltip": "Média de {rating} com base em {count} avaliações"
+      },
+      "visits": {
+        "tooltip": "Visitado por {count} usuários"
+      },
+      "interest": {
+        "tooltip": "Interessado por {count} usuários"
+      },
+      "resident": {
+        "tooltip": "Local de morada para {count} usuários"
+      }
+    },
     "tabs": {
       "overview": "Visão geral",
+      "gallery": {
+        "label": "Galeria"
+      },
       "reviews": {
         "label": "Avaliações",
         "no-reviews": "Ninguém avaliou ainda."
       },
       "residents": {
         "label": "Moradores",
-        "no-residents": "Não há moradores na cidade."
+        "no-residents": "Não há usuários morando aqui."
       }
     }
   },

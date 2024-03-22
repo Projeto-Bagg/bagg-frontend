@@ -3,6 +3,7 @@
 import { Link, usePathname } from '@/common/navigation';
 import { CreateCityVisit } from '@/components/create-city-visit';
 import { CountryFlag } from '@/components/ui/country-flag';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { toast } from '@/components/ui/use-toast';
 import { useCreateCityInterest } from '@/hooks/useCreateCityInterest';
 import { useCreateCityVisit } from '@/hooks/useCreateCityVisit';
@@ -99,42 +100,79 @@ export default function Layout({
               {city.data.region.country.name}
             </Link>
           </div>
-          <div className="flex items-center gap-2 text-muted-foreground">
-            <Link
-              href={{
-                params: { slug: params.slug },
-                pathname: '/city/[slug]/visits',
-              }}
-            >
-              <div className="flex items-center gap-1">
-                <Rating
-                  value={city.data.averageRating || 0}
-                  readOnly
-                  className="max-w-[120px] sm:max-w-[144px]"
-                />
-                <span>{city.data.averageRating}</span>
-              </div>
-            </Link>
-            <div className="text-sm flex gap-2 items-center">
-              <div className="flex items-center gap-0.5">
-                <MapPin className="w-[18px] text-blue-400" />
-                <span>{city.data.visitsCount}</span>
-              </div>
-              <div className="flex items-center gap-0.5">
-                <CheckCircle className="w-[18px] text-green-400" />
-                <span>{city.data.interestsCount}</span>
-              </div>
-              <Link
-                href={{
-                  params: { slug: params.slug },
-                  pathname: '/city/[slug]/residents',
-                }}
-              >
-                <div className="flex items-center gap-0.5">
-                  <Home className="w-[18px] text-orange-400" />
-                  <span>{city.data.residentsCount}</span>
-                </div>
-              </Link>
+          <div className="flex text-sm items-end gap-2 text-muted-foreground">
+            <Tooltip>
+              <TooltipTrigger>
+                <Link
+                  href={{
+                    params: { slug: params.slug },
+                    pathname: '/city/[slug]/visits',
+                  }}
+                >
+                  <div className="flex items-end gap-1">
+                    <Rating
+                      value={city.data.averageRating || 0}
+                      readOnly
+                      className="max-w-[120px] sm:max-w-[144px]"
+                    />
+                    <span className="h-[22px]">{city.data.averageRating || 0}</span>
+                  </div>
+                </Link>
+              </TooltipTrigger>
+              <TooltipContent>
+                {t('country-city-page.data.rating.tooltip', {
+                  rating: city.data.averageRating || 0,
+                  count: city.data.reviewsCount,
+                })}
+              </TooltipContent>
+            </Tooltip>
+            <div className="flex gap-2 items-center">
+              <Tooltip>
+                <TooltipTrigger>
+                  <div className="flex items-center gap-0.5">
+                    <MapPin className="w-[18px] text-blue-400" />
+                    <span>{city.data.visitsCount}</span>
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent>
+                  {t('country-city-page.data.visits.tooltip', {
+                    count: city.data.visitsCount,
+                  })}
+                </TooltipContent>
+              </Tooltip>
+              <Tooltip>
+                <TooltipTrigger>
+                  <div className="flex items-center gap-0.5">
+                    <CheckCircle className="w-[18px] text-green-400" />
+                    <span>{city.data.interestsCount}</span>
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent>
+                  {t('country-city-page.data.interest.tooltip', {
+                    count: city.data.interestsCount,
+                  })}
+                </TooltipContent>
+              </Tooltip>
+              <Tooltip>
+                <TooltipTrigger>
+                  <Link
+                    href={{
+                      params: { slug: params.slug },
+                      pathname: '/city/[slug]/residents',
+                    }}
+                  >
+                    <div className="flex items-center gap-0.5">
+                      <Home className="w-[18px] text-orange-400" />
+                      <span>{city.data.residentsCount}</span>
+                    </div>
+                  </Link>
+                </TooltipTrigger>
+                <TooltipContent>
+                  {t('country-city-page.data.resident.tooltip', {
+                    count: city.data.residentsCount,
+                  })}
+                </TooltipContent>
+              </Tooltip>
             </div>
           </div>
           <div className="flex sm:mt-2 gap-4 text-sm text-muted-foreground font-bold">
@@ -159,6 +197,17 @@ export default function Layout({
               href={{ pathname: '/city/[slug]/visits', params: { slug: params.slug } }}
             >
               {t('country-city-page.tabs.reviews.label')}
+            </Link>
+            <Link
+              className={cn(
+                pathname === '/city/[slug]/gallery'
+                  ? 'border-b-2 border-blue-600 text-primary'
+                  : 'hover:text-foreground transition-all duration-75',
+                'py-2 flex justify-center',
+              )}
+              href={{ pathname: '/city/[slug]/gallery', params: { slug: params.slug } }}
+            >
+              {t('country-city-page.tabs.gallery.label')}
             </Link>
             <Link
               className={cn(
