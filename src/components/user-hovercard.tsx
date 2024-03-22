@@ -28,9 +28,9 @@ export const UserHoverCard = ({ username, children }: UserHoverCardProps) => {
   const t = useTranslations();
   const [open, setOpen] = useState<boolean>();
 
-  const user = useQuery<User>({
+  const user = useQuery<FullInfoUser>({
     queryKey: ['user', username],
-    queryFn: async () => (await axios.get<User>('/users/' + username)).data,
+    queryFn: async () => (await axios.get<FullInfoUser>('/users/' + username)).data,
     enabled: !!open,
   });
 
