@@ -9,12 +9,15 @@ interface User {
   birthdate: Date;
   createdAt: Date;
   image?: string;
-  following: number;
-  followers: number;
   friendshipStatus: {
     isFollowing: boolean;
     followedBy: boolean;
   };
+}
+
+interface FullInfoUser extends User {
+  following: number;
+  followers: number;
   city?: City;
 }
 
