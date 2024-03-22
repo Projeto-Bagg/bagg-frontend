@@ -1,3 +1,5 @@
+'use client';
+
 import { Link } from '@/common/navigation';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { UserHoverCard } from '@/components/user-hovercard';
@@ -15,14 +17,13 @@ export const GalleryImage = ({ image, className, ...props }: GalleryImage) => {
   const locale = useLocale();
 
   return (
-    <div key={image.id}>
+    <div key={image.id} className={cn('relative aspect-square w-full h-full', className)}>
       <Image
         src={image.url}
         alt=""
-        height={532}
-        width={532}
+        fill
         {...props}
-        className={cn('h-full aspect-square object-contain', className)}
+        className={cn('object-center', className)}
       />
       <div className="absolute h-1/2 bottom-0 left-0 w-full">
         <div className="absolute w-full h-full bg-black gradient-mask-t-[rgba(0,0,0,1.0)]" />

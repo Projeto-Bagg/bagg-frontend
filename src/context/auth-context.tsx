@@ -12,7 +12,7 @@ type AuthContextType = {
   login: (user: UserSignIn) => Promise<void>;
   logout: () => void;
   signUp: (user: UserSignUp) => Promise<AxiosResponse<any, any>>;
-  user: User | null | undefined;
+  user: FullInfoUser | null | undefined;
   isAuthenticated: boolean;
   isLoading: boolean;
 };
@@ -22,7 +22,7 @@ export const AuthContext = createContext({} as AuthContextType);
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const queryClient = useQueryClient();
-  const { data: user, refetch } = useQuery<User>({
+  const { data: user, refetch } = useQuery<FullInfoUser>({
     queryKey: ['session'],
     queryFn: async () => (await axios.get('users/me')).data,
     enabled: false,

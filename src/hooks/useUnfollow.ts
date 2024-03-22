@@ -11,7 +11,7 @@ export const useUnfollow = () => {
     mutationFn: async (followingUsername: string) =>
       await axios.delete('/follows/' + followingUsername),
     onMutate(followingUsername) {
-      queryClient.setQueryData<User>(
+      queryClient.setQueryData<FullInfoUser>(
         ['user', followingUsername],
         (old) =>
           old &&
@@ -21,7 +21,7 @@ export const useUnfollow = () => {
           }),
       );
 
-      queryClient.setQueryData<User>(
+      queryClient.setQueryData<FullInfoUser>(
         ['user', auth.user?.username],
         (old) =>
           old &&
@@ -31,7 +31,7 @@ export const useUnfollow = () => {
       );
 
       ['followers', 'following', 'diary-post-liked-by'].forEach((tab) => {
-        queryClient.setQueriesData<User[]>(
+        queryClient.setQueriesData<FullInfoUser[]>(
           { queryKey: [tab] },
           (old) =>
             old &&
@@ -45,6 +45,22 @@ export const useUnfollow = () => {
             }),
         );
       });
+
+      queryClient.setQueriesData<Pagination<User[]>>(
+        {
+          queryKey: ['city', 'residents'],
+        },
+        (old) =>
+          produce(old, (draft) => {
+            draft?.pages.map((page) =>
+              page.map((user) => {
+                if (user.username === followingUsername) {
+                  user.friendshipStatus.isFollowing = false;
+                }
+              }),
+            );
+          }),
+      );
 
       queryClient.setQueryData<User[]>(
         ['followers', followingUsername],

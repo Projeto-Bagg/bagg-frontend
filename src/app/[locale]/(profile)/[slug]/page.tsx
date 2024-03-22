@@ -27,9 +27,9 @@ export default function Profile({ params }: { params: { slug: string } }) {
   const unfollow = useUnfollow();
   const router = useRouter();
 
-  const user = useQuery<User>({
+  const user = useQuery<FullInfoUser>({
     queryKey: ['user', params.slug],
-    queryFn: async () => (await axios.get<User>('/users/' + params.slug)).data,
+    queryFn: async () => (await axios.get<FullInfoUser>('/users/' + params.slug)).data,
   });
 
   const handleFollowClick = () => {

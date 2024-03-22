@@ -1,7 +1,6 @@
 'use client';
 
-import { Link } from '@/common/navigation';
-import { Avatar, AvatarImage } from '@/components/ui/avatar';
+import { Resident } from '@/app/[locale]/(country-city)/resident';
 import axios from '@/services/axios';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
@@ -13,7 +12,7 @@ export default function Residents({ params }: { params: { slug: string } }) {
   const t = useTranslations();
 
   const { data, fetchNextPage, hasNextPage } = useInfiniteQuery<User[]>({
-    queryKey: ['city', +params.slug, 'residents'],
+    queryKey: ['city', 'residents', +params.slug],
     queryFn: async ({ pageParam }) =>
       (
         await axios.get<User[]>(`/cities/${params.slug}/residents`, {
@@ -50,34 +49,11 @@ export default function Residents({ params }: { params: { slug: string } }) {
         <div className="grid grid-cols-1 sm:grid-cols-2">
           {data?.pages.map((page, index) =>
             page.map((user) => (
-              <div
+              <Resident
                 key={user.id}
                 ref={page.length - 1 === index ? ref : undefined}
-                className="p-3 flex gap-2"
-              >
-                <Link href={{ params: { slug: user.username }, pathname: '/[slug]' }}>
-                  <Avatar className="w-[64px] h-[64px]">
-                    <AvatarImage src={user.image} />
-                  </Avatar>
-                </Link>
-                <div className="flex flex-col justify-center">
-                  <div>
-                    <Link
-                      className="hover:underline"
-                      href={{ params: { slug: user.username }, pathname: '/[slug]' }}
-                    >
-                      {user.fullName}
-                    </Link>{' '}
-                    <Link
-                      className="text-muted-foreground hover:underline"
-                      href={{ params: { slug: user.username }, pathname: '/[slug]' }}
-                    >
-                      @{user.username}
-                    </Link>
-                  </div>
-                  <span className="text-sm">{user.bio}</span>
-                </div>
-              </div>
+                user={user}
+              />
             )),
           )}
         </div>
