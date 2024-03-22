@@ -1,17 +1,19 @@
 'use client';
 
-import { Gallery } from '@/app/[locale]/(country-city)/gallery';
+import React from 'react';
+import { GalleryCarousel } from '@/app/[locale]/(country-city)/gallery-carousel';
 import { GalleryImage } from '@/app/[locale]/(country-city)/gallery-image';
 import { Link } from '@/common/navigation';
 import { CityRatingRanking } from '@/components/city-rating-ranking';
 import { CityVisit } from '@/components/city-visit';
 import { CityVisitRanking } from '@/components/city-visit-ranking';
 import { LazyMap, LazyMarker, LazyTileLayer } from '@/components/leaflet-map';
+import { CarouselItem } from '@/components/ui/carousel';
 import axios from '@/services/axios';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { ChevronRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import React from 'react';
+import Autoplay from 'embla-carousel-autoplay';
 
 export default function Page({ params }: { params: { slug: string } }) {
   const t = useTranslations();
@@ -51,13 +53,23 @@ export default function Page({ params }: { params: { slug: string } }) {
           </h2>
         </div>
         <div className="aspect-square w-full">
-          <Gallery autoPlay>
+          <GalleryCarousel
+            plugins={[
+              Autoplay({
+                delay: 3500,
+                stopOnMouseEnter: true,
+                stopOnLastSnap: true,
+              }),
+            ]}
+          >
             {images.pages.map((page) =>
               page.map((image) => (
-                <GalleryImage className="object-cover" image={image} key={image.id} />
+                <CarouselItem key={image.id}>
+                  <GalleryImage className="object-cover" image={image} />
+                </CarouselItem>
               )),
             )}
-          </Gallery>
+          </GalleryCarousel>
         </div>
         {images.pages[0].length !== 0 && (
           <div className="w-full text-right mt-1">

@@ -8,8 +8,10 @@ import { CityVisit } from '@/components/city-visit';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/common/navigation';
 import { ChevronRight } from 'lucide-react';
-import { Gallery } from '@/app/[locale]/(country-city)/gallery';
 import { GalleryImage } from '@/app/[locale]/(country-city)/gallery-image';
+import { GalleryCarousel } from '@/app/[locale]/(country-city)/gallery-carousel';
+import Autoplay from 'embla-carousel-autoplay';
+import { CarouselItem } from '@/components/ui/carousel';
 
 export default function Page({ params }: { params: { slug: string } }) {
   const t = useTranslations();
@@ -47,14 +49,24 @@ export default function Page({ params }: { params: { slug: string } }) {
             {t('country-city-page.gallery')}
           </h2>
         </div>
-        <div className="w-full aspect-square">
-          <Gallery autoPlay>
+        <div className="aspect-square w-full">
+          <GalleryCarousel
+            plugins={[
+              Autoplay({
+                delay: 3500,
+                stopOnMouseEnter: true,
+                stopOnLastSnap: true,
+              }),
+            ]}
+          >
             {images.pages.map((page) =>
               page.map((image) => (
-                <GalleryImage className="object-cover" image={image} key={image.id} />
+                <CarouselItem key={image.id}>
+                  <GalleryImage className="object-cover" image={image} />
+                </CarouselItem>
               )),
             )}
-          </Gallery>
+          </GalleryCarousel>
         </div>
         {images.pages[0].length !== 0 && (
           <div className="w-full text-right mt-1">

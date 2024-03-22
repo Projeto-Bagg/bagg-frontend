@@ -1,6 +1,6 @@
 'use client';
 
-import { Tip } from '@/components/tip';
+import { Tip } from '@/components/posts/tip';
 import axios from '@/services/axios';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
@@ -14,7 +14,13 @@ export default function Page() {
   const { data, fetchNextPage, hasNextPage } = useInfiniteQuery<Tip[]>({
     queryKey: ['feed'],
     queryFn: async ({ pageParam }) =>
-      (await axios.get<Tip[]>('/tips/feed?page=' + pageParam)).data,
+      (
+        await axios.get<Tip[]>('/tips/feed', {
+          params: {
+            page: pageParam,
+          },
+        })
+      ).data,
     initialPageParam: 1,
     getNextPageParam: (page, allPages) =>
       page.length === 10 ? allPages.length + 1 : null,

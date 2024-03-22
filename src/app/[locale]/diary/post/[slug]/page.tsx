@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { DiaryPost } from '@/components/diary-post';
+import { DiaryPost } from '@/components/posts/diary-post';
 import { useOriginTracker } from '@/context/origin-tracker';
 import axios from '@/services/axios';
 import { useQuery } from '@tanstack/react-query';
