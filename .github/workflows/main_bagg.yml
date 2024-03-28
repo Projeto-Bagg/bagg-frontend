@@ -26,26 +26,6 @@ jobs:
           npm install
           npm run build
 
-      - name: Zip all files for upload between jobs
-        run: zip next.zip ./* .next .env -qr
-
-  cypress-test:
-    runs-on: ubuntu-latest
-    needs: build
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Unzip package
-        run: unzip -o next.zip -d ./
-
-      - name: Start server
-        run: npm start
-
-      - name: Wait for server to start
-        run: sleep 30s
-
       - name: Run Cypress tests
         uses: cypress-io/github-action@v3
         with:
@@ -53,6 +33,9 @@ jobs:
           browser: chrome
           start: npm run start
           wait-on: 'http://localhost:3000'
+
+      - name: Zip all files for upload between jobs
+        run: zip next.zip ./* .next .env -qr
 
   deploy:
     runs-on: ubuntu-latest
