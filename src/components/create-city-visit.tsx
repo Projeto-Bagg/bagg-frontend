@@ -1,3 +1,4 @@
+import { useRouter } from '@/common/navigation';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -22,6 +23,7 @@ import {
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { useAuth } from '@/context/auth-context';
 import { useCreateCityVisit } from '@/hooks/useCreateCityVisit';
 import { useUpdateCityVisit } from '@/hooks/useUpdateCityVisit';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -49,6 +51,8 @@ export const CreateCityVisit = ({ children, city }: CreateCityVisitProps) => {
   const createCityVisit = useCreateCityVisit();
   const updateCityVisit = useUpdateCityVisit();
   const [open, setOpen] = useState<boolean>();
+  const auth = useAuth();
+  const router = useRouter();
 
   const {
     handleSubmit,
@@ -86,7 +90,12 @@ export const CreateCityVisit = ({ children, city }: CreateCityVisitProps) => {
   };
 
   const onOpenChange = (open: boolean) => {
-    if (open) {
+    if (open && !auth.user) {
+      setOpen(false);
+      return router.push('/login');
+    }
+
+    if (open && auth.user) {
       reset({
         message: city.userVisit?.message || '',
         rating: city.userVisit?.rating || 0,
@@ -120,7 +129,7 @@ export const CreateCityVisit = ({ children, city }: CreateCityVisitProps) => {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogTrigger>{children}</DialogTrigger>
+      <DialogTrigger id="create-city-visit">{children}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{t('create-city-visit.title')}</DialogTitle>
@@ -178,6 +187,7 @@ export const CreateCityVisit = ({ children, city }: CreateCityVisitProps) => {
               }}
               render={({ field: { onChange, onBlur, value } }) => (
                 <Rating
+                  id="rating"
                   className="max-w-[120px]"
                   value={value}
                   isRequired

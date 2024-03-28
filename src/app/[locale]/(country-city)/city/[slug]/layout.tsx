@@ -1,10 +1,11 @@
 'use client';
 
-import { Link, usePathname } from '@/common/navigation';
+import { Link, usePathname, useRouter } from '@/common/navigation';
 import { CreateCityVisit } from '@/components/create-city-visit';
 import { CountryFlag } from '@/components/ui/country-flag';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { toast } from '@/components/ui/use-toast';
+import { useAuth } from '@/context/auth-context';
 import { useCreateCityInterest } from '@/hooks/useCreateCityInterest';
 import { useCreateCityVisit } from '@/hooks/useCreateCityVisit';
 import { useDeleteCityInterest } from '@/hooks/useDeleteCityInterest';
@@ -32,6 +33,8 @@ export default function Layout({
   const deleteCityVisit = useDeleteCityVisit();
   const t = useTranslations();
   const pathname = usePathname();
+  const auth = useAuth();
+  const router = useRouter();
 
   const city = useQuery<CityPage>({
     queryFn: async () => (await axios.get<CityPage>('/cities/' + params.slug)).data,
@@ -43,6 +46,10 @@ export default function Layout({
   }
 
   const checkInterest = () => {
+    if (!auth.user) {
+      return router.push({ pathname: '/login' });
+    }
+
     if (city.data.isInterested) {
       return deleteCityInterest.mutateAsync(city.data.id);
     }
@@ -51,6 +58,10 @@ export default function Layout({
   };
 
   const checkVisit = async () => {
+    if (!auth.user) {
+      return router.push({ pathname: '/login' });
+    }
+
     if (city.data.userVisit?.message) {
       return toast({
         duration: 1000 * 10,
@@ -68,6 +79,10 @@ export default function Layout({
   };
 
   const onRate = async (value: number) => {
+    if (!auth.user) {
+      return router.push({ pathname: '/login' });
+    }
+
     if (city.data.userVisit) {
       await updateCityVisit.mutateAsync({ rating: value, cityId: city.data.id });
       return;
@@ -224,7 +239,11 @@ export default function Layout({
         </div>
         <div className="flex flex-col font-semibold text-sm bg-accent rounded-lg w-full sm:w-[200px] space-y-1 divide-y-2 divide-background">
           <div className="flex justify-center gap-4 py-3">
-            <button onClick={checkVisit} className="flex flex-col gap-1 items-center">
+            <button
+              id="check-visit"
+              onClick={checkVisit}
+              className="flex flex-col gap-1 items-center"
+            >
               <MapPin
                 strokeWidth={2.5}
                 className={cn(
@@ -234,16 +253,18 @@ export default function Layout({
               />
               <span>{t('country-city-page.visited')}</span>
             </button>
-            <button className="flex flex-col gap-1 items-center" onClick={checkInterest}>
-              <div>
-                <CheckCircle
-                  className={cn(
-                    'w-[24px] h-[24px]',
-                    city.data.isInterested && 'text-green-400',
-                  )}
-                  strokeWidth={2.5}
-                />
-              </div>
+            <button
+              id="check-interest"
+              className="flex flex-col gap-1 items-center"
+              onClick={checkInterest}
+            >
+              <CheckCircle
+                className={cn(
+                  'w-[24px] h-[24px]',
+                  city.data.isInterested && 'text-green-400',
+                )}
+                strokeWidth={2.5}
+              />
               <span>
                 {city.data.isInterested
                   ? t('country-city-page.interested')

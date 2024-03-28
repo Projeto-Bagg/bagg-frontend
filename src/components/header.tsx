@@ -99,7 +99,11 @@ export const Header = () => {
             }
           >
             <Tooltip>
-              <TooltipTrigger onFocus={(e) => e.preventDefault()} asChild>
+              <TooltipTrigger
+                id="locale-select"
+                onFocus={(e) => e.preventDefault()}
+                asChild
+              >
                 <PrimitiveSelectTrigger asChild>
                   <Button className="hidden sm:flex" size={'icon'} variant={'ghost'}>
                     <CountryFlag
@@ -113,7 +117,7 @@ export const Header = () => {
             </Tooltip>
             <SelectContent>
               {languages.map((lang) => (
-                <SelectItem key={lang.locale} value={lang.locale}>
+                <SelectItem id={lang.locale} key={lang.locale} value={lang.locale}>
                   <div className="flex gap-2">
                     <CountryFlag iso2={lang.country} />
                     <span>{lang.label}</span>

@@ -7,7 +7,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "format": "npx prettier --config .prettierrc . --write"
+    "format": "npx prettier --config .prettierrc . --write",
+    "e2e": "npx start-server-and-test dev http://localhost:3000 \"cypress open --e2e\"",
+    "cy:run": "cypress run",
+    "test": "start-server-and-test start http://localhost:3030 cy:run"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
@@ -44,6 +47,7 @@
     "clsx": "^2.1.0",
     "cmdk": "^0.2.0",
     "cookies-next": "^4.1.0",
+    "cypress": "^13.7.1",
     "date-fns": "^3.3.1",
     "embla-carousel-autoplay": "^8.0.0",
     "embla-carousel-react": "^8.0.0",
