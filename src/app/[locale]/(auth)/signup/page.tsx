@@ -32,7 +32,7 @@ const signUpSchema = z
     birthdateYear: z.string().min(1),
     password: z
       .string()
-      .min(8)
+      .min(1)
       .regex(
         /^(?=(.*[a-z]){1,})(?=(.*[A-Z]){1,})(?=(.*[0-9]){1,})(?=(.*[-!$%^&*()_+|~=`{}\[\]:\/;<>?,.@#]){1,}).{8,}$/,
         'Password too weak',
@@ -131,7 +131,11 @@ export default function Page() {
 
   return (
     <div className="p-4 max-w-xl m-auto my-8">
-      <form className="space-y-4 w-full h-full" onSubmit={handleSubmit(handleSignUp)}>
+      <form
+        id="signup-form"
+        className="space-y-4 w-full h-full"
+        onSubmit={handleSubmit(handleSignUp)}
+      >
         <div className="flex mb-4 flex-col space-y-1.5 text-center sm:text-left">
           <h1 className="font-semibold tracking-tight text-2xl">{t('signup.title')}</h1>
           <p className="text-sm text-muted-foreground">{t('signup.description')}</p>
@@ -143,7 +147,7 @@ export default function Page() {
               {watch('fullName')?.length || 0} / 64
             </Label>
           </div>
-          <Input {...register('fullName')} />
+          <Input id="fullName" {...register('fullName')} />
           {errors.fullName && (
             <span className="text-sm text-red-600 font-semibold">
               {errors.fullName.type === 'too_big'
@@ -159,7 +163,7 @@ export default function Page() {
               {watch('username')?.length || 0} / 20
             </Label>
           </div>
-          <Input {...register('username')} />
+          <Input id="username" {...register('username')} />
           {errors.username && (
             <span className="text-red-600 text-sm font-semibold">
               {errors.username?.type === 'username-not-available' ? (
@@ -196,7 +200,7 @@ export default function Page() {
               control={control}
               render={({ field }) => (
                 <Select onValueChange={field.onChange}>
-                  <SelectTrigger>
+                  <SelectTrigger id="birthdateDay">
                     <SelectValue placeholder={t('signup.day')} />
                   </SelectTrigger>
                   <SelectContent className="max-h-[400px]">
@@ -214,7 +218,7 @@ export default function Page() {
               control={control}
               render={({ field }) => (
                 <Select onValueChange={field.onChange}>
-                  <SelectTrigger>
+                  <SelectTrigger id="birthdateMonth">
                     <SelectValue placeholder={t('signup.month')} />
                   </SelectTrigger>
                   <SelectContent className="max-h-[400px]">
@@ -232,7 +236,7 @@ export default function Page() {
               control={control}
               render={({ field }) => (
                 <Select onValueChange={field.onChange}>
-                  <SelectTrigger>
+                  <SelectTrigger id="birthdateYear">
                     <SelectValue placeholder={t('signup.year')} />
                   </SelectTrigger>
                   <SelectContent className="max-h-[400px]">
@@ -256,7 +260,7 @@ export default function Page() {
         </div>
         <div>
           <Label>{t('signup.email.label')}</Label>
-          <Input {...register('email')} />
+          <Input id="email" {...register('email')} />
           {errors.email && (
             <span className="text-sm text-red-600 font-semibold">
               {errors.email.type === 'email-not-available'
@@ -269,7 +273,7 @@ export default function Page() {
         </div>
         <div>
           <Label>{t('signup.password.label')}</Label>
-          <Input type={'password'} {...register('password')} />
+          <Input id="password" type={'password'} {...register('password')} />
           {errors.password && (
             <span className="text-sm text-red-600 font-semibold">
               {errors.password.type === 'too_small' ? (
@@ -316,7 +320,11 @@ export default function Page() {
         </div>
         <div>
           <Label>{t('signup.confirm-password.label')}</Label>
-          <Input type={'password'} {...register('confirmPassword')} />
+          <Input
+            id="confirmPassword"
+            type={'password'}
+            {...register('confirmPassword')}
+          />
           {errors.confirmPassword && (
             <span className="text-sm text-red-500 font-bold">
               {t('signup.confirm-password.unmatched-passwords')}
@@ -335,7 +343,12 @@ export default function Page() {
       <div className="flex text-sm justify-center mt-4">
         <span>
           {t('signup.login-redirect.title')}{' '}
-          <Link replace className="text-primary hover:underline" href={'/login'}>
+          <Link
+            id="redirect-login"
+            replace
+            className="text-primary hover:underline"
+            href={'/login'}
+          >
             {t('signup.login-redirect.link')}
           </Link>
         </span>

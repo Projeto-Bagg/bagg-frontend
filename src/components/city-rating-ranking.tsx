@@ -97,7 +97,7 @@ export const CityRatingRanking = ({
                 key={city.id}
                 ref={page.length - 1 === index ? ref : undefined}
               >
-                <div className="flex gap-2 items-center">
+                <div className="flex gap-2 items-center w-full">
                   <h3 className="w-[24px] font-bold">
                     {pageIndex * count + (index + 1)}º
                   </h3>
@@ -113,30 +113,36 @@ export const CityRatingRanking = ({
                       tooltip={city.country}
                     />
                   </Link>
-                  <div className="w-[174px] whitespace-nowrap overflow-hidden text-ellipsis">
+                  <div className="flex justify-between w-full">
+                    <div className="flex-1 whitespace-nowrap overflow-hidden text-ellipsis">
+                      <Link
+                        className="hover:underline mr-1"
+                        href={{ params: { slug: city.id }, pathname: '/city/[slug]' }}
+                      >
+                        <span>{city.name}</span>
+                      </Link>
+                      <span className="text-muted-foreground">{city.region}</span>
+                    </div>
                     <Link
-                      className="hover:underline mr-1"
-                      href={{ params: { slug: city.id }, pathname: '/city/[slug]' }}
+                      className="whitespace-nowrap"
+                      href={{
+                        params: { slug: city.id },
+                        pathname: '/city/[slug]/visits',
+                      }}
                     >
-                      <span>{city.name}</span>
+                      <div className="flex items-center gap-1">
+                        <Rating
+                          className="max-w-[72px] sm:max-w-[84px]"
+                          value={city.averageRating}
+                          readOnly
+                        />
+                        <span className="font-bold w-[24px] sm:w-[28px]">
+                          {city.averageRating}
+                        </span>
+                      </div>
                     </Link>
-                    <span className="text-muted-foreground">{city.region}</span>
                   </div>
                 </div>
-                <Link
-                  href={{ params: { slug: city.id }, pathname: '/city/[slug]/visits' }}
-                >
-                  <div className="flex items-center gap-1">
-                    <Rating
-                      className="max-w-[72px] sm:max-w-[84px]"
-                      value={city.averageRating}
-                      readOnly
-                    />
-                    <span className="font-bold w-[24px] sm:w-[28px]">
-                      {city.averageRating}
-                    </span>
-                  </div>
-                </Link>
               </RankingItem>
             )),
           )}
