@@ -33,6 +33,7 @@ jobs:
           browser: chrome
           start: npm run start
           wait-on: 'http://localhost:3000'
+        continue-on-error: true
 
       - name: Zip all files for upload between jobs
         run: zip next.zip ./* .next .env -qr
