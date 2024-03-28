@@ -45,13 +45,17 @@ export default function Page() {
       router.back();
     } catch (error) {
       setLoading(false);
-      toast({ title: t('login.unauthorized') });
+      toast({ title: t('login.unauthorized'), value: 'login-error' });
     }
   };
 
   return (
     <div className="p-4 max-w-xl m-auto my-8">
-      <form className="w-full h-full space-y-4" onSubmit={handleSubmit(handleSignIn)}>
+      <form
+        id="login-form"
+        className="w-full h-full space-y-4"
+        onSubmit={handleSubmit(handleSignIn)}
+      >
         <div className="flex mb-4 flex-col space-y-1.5 text-center sm:text-left">
           <h1 className="font-semibold tracking-tight text-2xl">{t('login.title')}</h1>
           <p className="text-sm text-muted-foreground">{t('login.description')}</p>
@@ -83,7 +87,12 @@ export default function Page() {
       <div className="flex text-sm justify-center mt-4">
         <span>
           {t('login.signup-redirect.title')}{' '}
-          <Link replace className="text-primary hover:underline" href={'/signup'}>
+          <Link
+            id="redirect-signup"
+            replace
+            className="text-primary hover:underline"
+            href={'/signup'}
+          >
             {t('login.signup-redirect.link')}
           </Link>
         </span>

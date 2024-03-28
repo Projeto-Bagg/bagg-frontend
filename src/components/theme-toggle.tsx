@@ -24,7 +24,12 @@ export const ThemeToggle = () => {
       <Tooltip>
         <TooltipTrigger asChild onFocus={(e) => e.preventDefault()}>
           <PrimitiveSelectTrigger asChild>
-            <Button className="hidden sm:flex" variant={'ghost'} size="icon">
+            <Button
+              id="theme-toggle"
+              className="hidden sm:flex"
+              variant={'ghost'}
+              size="icon"
+            >
               <SunIcon className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
               <MoonIcon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
             </Button>
@@ -34,7 +39,7 @@ export const ThemeToggle = () => {
       </Tooltip>
       <SelectContent>
         {themes.map((theme) => (
-          <SelectItem value={theme} key={theme}>
+          <SelectItem id={theme} value={theme} key={theme}>
             {t(`header.themes.${theme as ThemeType}`)}
           </SelectItem>
         ))}

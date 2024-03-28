@@ -64,7 +64,7 @@ export const Search = () => {
       <Tooltip>
         <TooltipTrigger asChild>
           <DialogTrigger asChild>
-            <Button variant={'ghost'} size={'icon'}>
+            <Button id="search-dialog" variant={'ghost'} size={'icon'}>
               <SearchIcon className="h-[1.2rem] w-[1.2rem]" />
             </Button>
           </DialogTrigger>
@@ -97,7 +97,7 @@ export const Search = () => {
               <h3 className="font-semibold border-b-2 border-primary pb-1 w-fit">
                 {t('search.user-search-results')}
               </h3>
-              <div className="space-y-0.5 mt-4">
+              <div id="users" className="space-y-0.5 mt-4">
                 {search.data && search.data.users.length > 0 ? (
                   search.data.users.map((user) => (
                     <Link
@@ -137,7 +137,7 @@ export const Search = () => {
               <h3 className="font-semibold border-b-2 border-primary pb-1 w-fit">
                 {t('search.country-search-results')}
               </h3>
-              <div className="space-y-0.5 mt-4">
+              <div id="countries" className="space-y-0.5 mt-4">
                 {search.data && search.data.countries.length > 0 ? (
                   search.data.countries.map((country, index) => (
                     <Link
@@ -168,7 +168,7 @@ export const Search = () => {
               <h3 className="font-semibold border-b-2 border-primary pb-1 w-fit">
                 {t('search.city-search-results')}
               </h3>
-              <div className="space-y-0.5 mt-4">
+              <div id="cities" className="space-y-0.5 mt-4">
                 {search.data && search.data.cities.length > 0 ? (
                   search.data.cities.map((city, index) => (
                     <Link
