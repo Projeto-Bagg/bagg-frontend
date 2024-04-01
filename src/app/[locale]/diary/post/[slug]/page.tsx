@@ -13,8 +13,9 @@ export default function Page({ params }: { params: { slug: string } }) {
   const router = useRouter();
 
   const diaryPost = useQuery<DiaryPost>({
-    queryKey: ['diary-post', params.slug],
-    queryFn: async () => (await axios.get<DiaryPost>('/diary-posts/' + params.slug)).data,
+    queryKey: ['diary-post', +params.slug],
+    queryFn: async () =>
+      (await axios.get<DiaryPost>('/diary-posts/' + +params.slug)).data,
   });
 
   return (

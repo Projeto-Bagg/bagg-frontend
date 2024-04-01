@@ -36,19 +36,22 @@ declare global {
 }
 
 Cypress.Commands.add('login', () => {
-  cy.session(
-    ['teste', 'Teste123@'],
-    () => {
-      cy.visit('/login');
-      cy.get('#login').type('teste');
-      cy.get('#password').type('Teste123@');
+  cy.session(['test'], () => {
+    cy.setCookie(
+      'bagg.sessionToken',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEzLCJ1c2VybmFtZSI6ImZlZmV6b2thIiwiaWF0IjoxNzExNzYzNDIwLCJleHAiOjE3MTE3NjcwMjB9.uXRAVSrAFZ7S32klVoElmLCmq_S3l4Zhl1L2KXOssjA',
+    );
 
-      cy.get('#login-form').submit();
-    },
-    {
-      validate() {
-        cy.request('/whoami').its('status').should('eq', 200);
-      },
-    },
-  );
+    cy.setCookie(
+      'bagg.refreshToken',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEzLCJ1c2VybmFtZSI6ImZlZmV6b2thIiwiaWF0IjoxNzExNzYzNDIwLCJleHAiOjE3MTE3NjcwMjB9.uXRAVSrAFZ7S32klVoElmLCmq_S3l4Zhl1L2KXOssjA',
+    );
+  });
+
+  cy.fixture('user.json').then((user) => {
+    cy.intercept('GET', '/users/me', {
+      statusCode: 200,
+      body: user,
+    }).as('me');
+  });
 });

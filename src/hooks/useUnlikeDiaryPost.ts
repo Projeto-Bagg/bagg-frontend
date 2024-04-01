@@ -29,6 +29,15 @@ export const useUnlikeDiaryPost = () => {
             }),
         ),
       );
+
+      queryClient.setQueryData<DiaryPost>(
+        ['diary-post', post.id],
+        (old) =>
+          old &&
+          produce(old, (draft) => {
+            draft.isLiked = false;
+          }),
+      );
     },
   });
 };

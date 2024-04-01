@@ -66,8 +66,10 @@ export const DiaryPost = forwardRef<
     toast({ title: 'Link copiado para a área de transferência' });
   };
 
-  const handleDeleteClick = () => {
-    deletePost.mutate(post.id);
+  const handleDeleteClick = async () => {
+    await deletePost.mutateAsync(post.id);
+
+    router.push('/');
   };
 
   return (
@@ -101,6 +103,7 @@ export const DiaryPost = forwardRef<
                 <span className="text-sm">{post.likedBy}</span>
               </DiaryLikedByList>
               <Heart
+                data-test="diary-post-like"
                 onClick={handleLikeClick}
                 data-liked={post.isLiked}
                 size={20}
@@ -114,13 +117,16 @@ export const DiaryPost = forwardRef<
                 })}
               </span>
               <DropdownMenu>
-                <DropdownMenuTrigger>
+                <DropdownMenuTrigger data-test="diary-post-options">
                   <div className="hover:bg-primary-foreground p-1.5 [&>svg]:hover:text-primary transition-all rounded-full">
                     <MoreHorizontal size={20} className="transition-all" />
                   </div>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
-                  <DropdownMenuItem onSelect={handleShareClick}>
+                  <DropdownMenuItem
+                    data-test="diary-post-copy-link"
+                    onSelect={handleShareClick}
+                  >
                     {t('diary-post.copy-link')}
                   </DropdownMenuItem>
                   {auth.user?.id === post.user.id && (
@@ -128,6 +134,7 @@ export const DiaryPost = forwardRef<
                       <AlertDialog>
                         <AlertDialogTrigger asChild>
                           <DropdownMenuItem
+                            data-test="diary-post-delete"
                             onSelect={(e) => e.preventDefault()}
                             className="font-bold"
                           >
@@ -147,7 +154,10 @@ export const DiaryPost = forwardRef<
                             <AlertDialogCancel>
                               {t('diary-post.delete-modal.cancel')}
                             </AlertDialogCancel>
-                            <AlertDialogAction onClick={handleDeleteClick}>
+                            <AlertDialogAction
+                              data-test="diary-post-delete-confirm"
+                              onClick={handleDeleteClick}
+                            >
                               {t('diary-post.delete-modal.action')}
                             </AlertDialogAction>
                           </AlertDialogFooter>

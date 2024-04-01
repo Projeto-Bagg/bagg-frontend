@@ -1,0 +1,57 @@
+[
+  {
+    "id": 166148,
+    "name": "São Sebastião",
+    "regionId": 5593,
+    "latitude": -23.76,
+    "longitude": -45.40972,
+    "iso2": "BR",
+    "region": "São Paulo",
+    "country": "Brazil",
+    "totalInterest": 1
+  },
+  {
+    "id": 160914,
+    "name": "São Sebastião",
+    "regionId": 5570,
+    "latitude": -9.96698,
+    "longitude": -36.5528,
+    "iso2": "BR",
+    "region": "Alagoas",
+    "country": "Brazil",
+    "totalInterest": 0
+  },
+  {
+    "id": 242344,
+    "name": "São Sebastião",
+    "regionId": 8340,
+    "latitude": 38.66584,
+    "longitude": -27.08976,
+    "iso2": "PT",
+    "region": "Açores",
+    "country": "Portugal",
+    "totalInterest": 0
+  },
+  {
+    "id": 165101,
+    "name": "São Sebastião do Caí",
+    "regionId": 5589,
+    "latitude": -29.58667,
+    "longitude": -51.37556,
+    "iso2": "BR",
+    "region": "Rio Grande do Sul",
+    "country": "Brazil",
+    "totalInterest": 0
+  },
+  {
+    "id": 164504,
+    "name": "São Sebastião do Alto",
+    "regionId": 5587,
+    "latitude": -21.86591,
+    "longitude": -42.09585,
+    "iso2": "BR",
+    "region": "Rio de Janeiro",
+    "country": "Brazil",
+    "totalInterest": 0
+  }
+]

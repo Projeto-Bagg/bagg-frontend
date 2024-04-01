@@ -15,10 +15,9 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { Textarea } from '@/components/ui/textarea';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { getVideoThumbnail } from '@/utils/getVideoThumbnail';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Info, Trash2 } from 'lucide-react';
+import { Trash2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { Image as ImageIcon } from 'lucide-react';
 import { Controller, useForm } from 'react-hook-form';
@@ -99,22 +98,14 @@ export const CreateTip = ({ children }: { children: ReactNode }) => {
         <DialogHeader>
           <DialogTitle>{t('create-tip.title')}</DialogTitle>
         </DialogHeader>
-        <form className="space-y-4" onSubmit={handleSubmit(handleCreatePost)}>
+        <form
+          data-test="create-tip-form"
+          className="space-y-4"
+          onSubmit={handleSubmit(handleCreatePost)}
+        >
           <div>
             <div className="justify-between flex mb-0.5">
-              <div className="flex gap-1 items-end">
-                <Label>{t('create-trip-diary.city')}</Label>
-              </div>
-              {errors.cityId && (
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Info size={18} className="text-red-600" />
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    {t('create-trip-diary.city-field-error')}
-                  </TooltipContent>
-                </Tooltip>
-              )}
+              <Label>{t('create-trip-diary.city')}</Label>
             </div>
             <Controller
               name="cityId"
@@ -123,50 +114,49 @@ export const CreateTip = ({ children }: { children: ReactNode }) => {
                 <SelectCity onSelect={(value) => field.onChange(+value)} />
               )}
             />
+            {errors.cityId && (
+              <span className="text-sm text-red-600 font-semibold">
+                {t('create-trip-diary.city-field-error')}
+              </span>
+            )}
           </div>
           <div>
             <div className="flex justify-between mb-0.5">
-              <div className="flex gap-1 items-end">
-                <Label>{t('create-tip.message')}</Label>
-                <Label className="text-muted-foreground text-xs">
-                  {watch('message')?.length || 0} / 300
-                </Label>
-              </div>
-              {errors.message && (
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Info size={18} className="text-red-600" />
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    {errors.message.type === 'too_big'
-                      ? t('create-tip.message-max-error')
-                      : t('create-tip.message-error')}
-                  </TooltipContent>
-                </Tooltip>
-              )}
+              <Label className="mr-1">{t('create-tip.message')}</Label>
+              <Label className="text-muted-foreground text-xs">
+                {watch('message')?.length || 0} / 300
+              </Label>
             </div>
             <Textarea {...register('message')} className="max-h-[160px]" />
+            {errors.message && (
+              <span className="text-sm text-red-600 font-semibold">
+                {errors.message.type === 'too_big'
+                  ? t('create-tip.message-max-error')
+                  : t('create-tip.message-error')}
+              </span>
+            )}
           </div>
           {watch('medias') && watch('medias')!.length > 0 && (
             <ScrollArea className="w-96 sm:w-[462px] whitespace-nowrap rounded-md border">
-              <div className="w-max flex justify-center gap-2 ">
+              <div data-test="medias" className="w-max flex justify-center gap-2">
                 {watch('medias')?.map((file, index) => (
                   <div className="overflow-hidden relative w-[110px]" key={index}>
                     <AspectRatio ratio={1}>
-                      <div className="absolute top-1 right-1 z-20 bg-black p-1 rounded-full">
-                        <Trash2
-                          onClick={() =>
-                            setValue(
-                              'medias',
-                              getValues('medias')?.filter(
-                                (media) => media.file.name !== file.file.name,
-                              ),
-                            )
-                          }
-                          size={16}
-                          className="text-red-500"
-                        />
-                      </div>
+                      <button
+                        data-test={'delete-media-' + index}
+                        type="button"
+                        onClick={() =>
+                          setValue(
+                            'medias',
+                            getValues('medias')?.filter(
+                              (media) => media.thumbnail !== file.thumbnail,
+                            ),
+                          )
+                        }
+                        className="absolute top-1 right-1 z-20 bg-black p-1 rounded-full"
+                      >
+                        <Trash2 size={16} className="text-red-500" />
+                      </button>
                       <NextImage
                         src={file.thumbnail}
                         className="object-cover"
@@ -188,6 +178,7 @@ export const CreateTip = ({ children }: { children: ReactNode }) => {
                 <button
                   disabled={watch('medias')?.length === 10}
                   type="button"
+                  data-test="button-medias"
                   onClick={() => imageInputFile.current?.click()}
                 >
                   <ImageIcon className="text-blue-500" size={20} />
@@ -198,10 +189,12 @@ export const CreateTip = ({ children }: { children: ReactNode }) => {
                     accept="image/jpeg,image/png,image/webp,video/mp4"
                     onChange={async (e) => {
                       const maxSize = 104857600;
-                      const currentImages = getValues('medias') as {
-                        file: File;
-                        thumbnail: string;
-                      }[];
+                      const currentImages = getValues('medias') as
+                        | {
+                            file: File;
+                            thumbnail: string;
+                          }[]
+                        | undefined;
                       const currentImagesSize =
                         currentImages?.reduce((acc, curr) => acc + curr.file.size, 0) ||
                         0;
@@ -235,7 +228,9 @@ export const CreateTip = ({ children }: { children: ReactNode }) => {
                                 : URL.createObjectURL(file),
                             };
                           }),
-                        ).then((arr) => arr.concat(currentImages || [])),
+                        ).then((arr) =>
+                          currentImages ? currentImages.concat(arr) : arr,
+                        ),
                       );
                     }}
                     ref={imageInputFile}

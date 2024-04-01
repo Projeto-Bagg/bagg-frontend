@@ -1,0 +1,17 @@
+{
+  "id": 1,
+  "userId": 1,
+  "tipId": 1,
+  "message": "teste",
+  "createdAt": "2024-03-31T03:42:13.577Z",
+  "user": {
+    "id": 1,
+    "fullName": "teste",
+    "username": "teste",
+    "bio": null,
+    "birthdate": "2024-03-31T03:42:13.577Z",
+    "image": null,
+    "cityId": 0,
+    "createdAt": "2024-03-31T03:42:13.577Z"
+  }
+}

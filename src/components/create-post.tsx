@@ -28,7 +28,7 @@ import axios from '@/services/axios';
 import { getVideoThumbnail } from '@/utils/getVideoThumbnail';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQuery } from '@tanstack/react-query';
-import { ChevronsUpDown, Info, Trash2 } from 'lucide-react';
+import { ChevronsUpDown, Trash2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { Image as ImageIcon } from 'lucide-react';
 import { Controller, useForm } from 'react-hook-form';
@@ -57,13 +57,14 @@ export type CreateDiaryPostType = z.infer<typeof createDiaryPostSchema>;
 
 export const CreatePost = ({ children }: { children: ReactNode }) => {
   const [open, setOpen] = useState<boolean>();
+  const [selectTripDiaryOpen, setSelectTripDiaryOpen] = useState<boolean>();
+  const [isCreatingTripDiary, setIsCreatingTripDiary] = useState<boolean>(false);
   const auth = useAuth();
   const router = useRouter();
   const { toast } = useToast();
   const t = useTranslations();
   const createDiaryPost = useCreateDiaryPost();
   const imageInputFile = useRef<HTMLInputElement>(null);
-  const [isCreatingTripDiary, setIsCreatingTripDiary] = useState<boolean>(false);
   const {
     control,
     register,
@@ -134,15 +135,17 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
               <div>
                 <Label className="mr-1">{t('create-post.trip-diary')}</Label>
                 <button
+                  data-test="create-trip-diary-button"
                   onClick={() => setIsCreatingTripDiary(true)}
                   className="text-primary text-sm font-bold"
                 >
                   {t('create-post.create-trip-diary')}
                 </button>
               </div>
-              <Popover>
+              <Popover open={selectTripDiaryOpen} onOpenChange={setSelectTripDiaryOpen}>
                 <PopoverTrigger asChild>
                   <Button
+                    data-test="select-trip-diary"
                     variant="outline-ring"
                     role="combobox"
                     className={cn(
@@ -159,7 +162,7 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="p-0">
-                  <Command>
+                  <Command shouldFilter={false}>
                     <CommandInput placeholder="Procurar..." />
                     <CommandGroup>
                       {tripDiaries.data && tripDiaries.data.length > 0 ? (
@@ -167,9 +170,9 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
                           <CommandItem
                             value={tripDiary.title}
                             key={tripDiary.id}
-                            className="cursor-pointer"
                             onSelect={() => {
                               setValue('tripDiaryId', tripDiary.id);
+                              setSelectTripDiaryOpen(false);
                             }}
                           >
                             <span
@@ -210,15 +213,17 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
                 </span>
               )}
             </div>
-            <form className="space-y-4" onSubmit={handleSubmit(handleCreatePost)}>
+            <form
+              data-test="create-post-form"
+              className="space-y-4"
+              onSubmit={handleSubmit(handleCreatePost)}
+            >
               <div>
                 <div className="flex justify-between mb-0.5">
-                  <div>
-                    <Label className="mr-1">{t('create-post.message')}</Label>
-                    <Label className="text-muted-foreground text-xs">
-                      {watch('message')?.length || 0} / 300
-                    </Label>
-                  </div>
+                  <Label className="mr-1">{t('create-post.message')}</Label>
+                  <Label className="text-muted-foreground text-xs">
+                    {watch('message')?.length || 0} / 300
+                  </Label>
                 </div>
                 <Textarea {...register('message')} className="max-h-[160px]" />
                 {errors.message && (
@@ -235,20 +240,20 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
                     {watch('medias')?.map((file, index) => (
                       <div className="overflow-hidden relative w-[110px]" key={index}>
                         <AspectRatio ratio={1}>
-                          <div className="absolute top-1 right-1 z-20 bg-black p-1 rounded-full">
-                            <Trash2
-                              onClick={() =>
-                                setValue(
-                                  'medias',
-                                  getValues('medias')?.filter(
-                                    (media) => media.file.name !== file.file.name,
-                                  ),
-                                )
-                              }
-                              size={16}
-                              className="text-red-500"
-                            />
-                          </div>
+                          <button
+                            type="button"
+                            onClick={() =>
+                              setValue(
+                                'medias',
+                                getValues('medias')?.filter(
+                                  (media) => media.thumbnail !== file.thumbnail,
+                                ),
+                              )
+                            }
+                            className="absolute top-1 right-1 z-20 bg-black p-1 rounded-full"
+                          >
+                            <Trash2 size={16} className="text-red-500" />
+                          </button>
                           <NextImage
                             src={file.thumbnail}
                             className="object-cover"
@@ -319,7 +324,9 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
                                     : URL.createObjectURL(file),
                                 };
                               }),
-                            ).then((arr) => arr.concat(currentImages || [])),
+                            ).then((arr) =>
+                              currentImages ? currentImages.concat(arr) : arr,
+                            ),
                           );
                         }}
                         ref={imageInputFile}
