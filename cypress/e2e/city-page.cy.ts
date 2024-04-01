@@ -168,6 +168,6 @@ describe('Página da cidade logado', () => {
 
     cy.get('#check-visit').click();
 
-    cy.get('#toasts').children().should('have.length', 1);
+    cy.get('[data-test="toasts"]').children().should('have.length', 1);
   });
 });

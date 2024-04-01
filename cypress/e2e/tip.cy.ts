@@ -59,11 +59,165 @@ describe('Criar tip', () => {
 
     cy.get('[name="message"]').type('test');
 
+    cy.get('input[type="file"]').selectFile(['cypress/assets/pic1.png'], {
+      force: true,
+    });
+
     cy.get('[data-test="create-tip-form"]').submit();
 
     cy.get('[data-test="homepage-feed"]').should('contain.text', 'test');
 
     cy.wait('@create-tip');
+  });
+
+  it('Adicionando mais imagens', () => {
+    cy.get('[data-test="create-tip"]').click();
+
+    cy.get('input[type="file"]').selectFile(['cypress/assets/pic1.png'], {
+      force: true,
+    });
+
+    cy.get('input[type="file"]').selectFile('cypress/assets/pic2.png', {
+      force: true,
+    });
+
+    cy.get('[data-test="medias"]').children().should('have.length', 2);
+  });
+
+  it('Limite máximo de 10 imagens', () => {
+    cy.get('[data-test="create-tip"]').click();
+
+    cy.get('input[type="file"]').selectFile(
+      [
+        'cypress/assets/pic1.png',
+        'cypress/assets/pic2.png',
+        'cypress/assets/pic3.png',
+        'cypress/assets/pic2.png',
+        'cypress/assets/pic1.png',
+        'cypress/assets/pic3.png',
+        'cypress/assets/pic1.png',
+        'cypress/assets/pic1.png',
+        'cypress/assets/pic1.png',
+        'cypress/assets/pic1.png',
+        'cypress/assets/pic1.png',
+      ],
+      {
+        force: true,
+      },
+    );
+
+    cy.get('[data-test="toasts"]').children().should('have.length', 1);
+  });
+
+  it('Limite máximo de 10 imagens acrescentando aos poucos', () => {
+    cy.get('[data-test="create-tip"]').click();
+
+    cy.get('input[type="file"]').selectFile(
+      [
+        'cypress/assets/pic1.png',
+        'cypress/assets/pic2.png',
+        'cypress/assets/pic3.png',
+        'cypress/assets/pic2.png',
+        'cypress/assets/pic1.png',
+        'cypress/assets/pic3.png',
+      ],
+      {
+        force: true,
+      },
+    );
+
+    cy.get('input[type="file"]').selectFile(
+      [
+        'cypress/assets/pic1.png',
+        'cypress/assets/pic2.png',
+        'cypress/assets/pic3.png',
+        'cypress/assets/pic2.png',
+        'cypress/assets/pic1.png',
+        'cypress/assets/pic3.png',
+        'cypress/assets/pic3.png',
+        'cypress/assets/pic3.png',
+      ],
+      {
+        force: true,
+      },
+    );
+
+    cy.get('[data-test="toasts"]').children().should('have.length', 1);
+  });
+
+  it('Limite máximo de 100mb', () => {
+    cy.get('[data-test="create-tip"]').click();
+
+    const moreThanFiftyMb = 15000000 + 1;
+    const bigFile = Cypress.Buffer.alloc(moreThanFiftyMb);
+    bigFile.write('X', moreThanFiftyMb);
+
+    cy.get('input[type="file"]').selectFile(
+      [
+        { contents: bigFile, fileName: 'image.png' },
+        { contents: bigFile, fileName: 'imag2.png' },
+        { contents: bigFile, fileName: 'imag3.png' },
+        { contents: bigFile, fileName: 'imag4.png' },
+        { contents: bigFile, fileName: 'imag5.png' },
+        { contents: bigFile, fileName: 'imag7.png' },
+        { contents: bigFile, fileName: 'imag10.png' },
+      ],
+      {
+        force: true,
+      },
+    );
+
+    cy.get('[data-test="toasts"]').children().should('have.length', 1);
+  });
+
+  it('Limite máximo de 100mb acrescentando aos poucos', () => {
+    cy.get('[data-test="create-tip"]').click();
+
+    const moreThanFiftyMb = 15000000 + 1;
+    const bigFile = Cypress.Buffer.alloc(moreThanFiftyMb);
+    bigFile.write('X', moreThanFiftyMb);
+
+    cy.get('input[type="file"]').selectFile(
+      [
+        { contents: bigFile, fileName: 'image.png' },
+        { contents: bigFile, fileName: 'imag2.png' },
+        { contents: bigFile, fileName: 'imag3.png' },
+        { contents: bigFile, fileName: 'imag4.png' },
+      ],
+      {
+        force: true,
+      },
+    );
+
+    cy.get('input[type="file"]').selectFile(
+      [
+        { contents: bigFile, fileName: 'imag5.png' },
+        { contents: bigFile, fileName: 'imag7.png' },
+        { contents: bigFile, fileName: 'imag10.png' },
+      ],
+      {
+        force: true,
+      },
+    );
+
+    cy.get('[data-test="toasts"]').children().should('have.length', 1);
+  });
+
+  it('Excluir uma imagem', () => {
+    cy.get('[data-test="create-tip"]').click();
+
+    cy.get('input[type="file"]').selectFile(
+      ['cypress/assets/pic1.png', 'cypress/assets/pic2.png'],
+      {
+        force: true,
+      },
+    );
+
+    cy.get('[data-test="medias"]').children().should('have.length', 2);
+
+    cy.get('[data-test="delete-media-1"]').click();
+
+    cy.get('[data-test="medias"]').children().should('have.length', 1);
   });
 });
 
@@ -219,6 +373,6 @@ describe('Funcionalidades na tip', () => {
       });
     });
 
-    cy.get('#toasts').children().should('have.length', 1);
+    cy.get('[data-test="toasts"]').children().should('have.length', 1);
   });
 });

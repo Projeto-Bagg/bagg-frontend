@@ -66,7 +66,9 @@ export default function Profile({ params }: { params: { slug: string } }) {
                 </DialogContent>
               </Dialog>
               <div className="flex flex-col">
-                <span className="text-lg sm:text-2xl">{user.data.fullName}</span>
+                <span data-test="fullName" className="text-lg sm:text-2xl">
+                  {user.data.fullName}
+                </span>
                 <span className="text-xs sm:text-base text-muted-foreground ">
                   @{user.data.username}
                 </span>
@@ -91,6 +93,7 @@ export default function Profile({ params }: { params: { slug: string } }) {
               </Button>
             ) : (
               <Link
+                data-test="settings"
                 href={{
                   pathname: '/[slug]/settings/profile',
                   params: { slug: params.slug },
@@ -107,7 +110,9 @@ export default function Profile({ params }: { params: { slug: string } }) {
           </div>
           <div className="text-sm mt-4">
             {user.data.bio && (
-              <p className="mb-1 break-words whitespace-pre-wrap">{user.data.bio}</p>
+              <p data-test="bio" className="mb-1 break-words whitespace-pre-wrap">
+                {user.data.bio}
+              </p>
             )}
             <div className="mb-1">
               <p className="text-muted-foreground">
@@ -120,6 +125,7 @@ export default function Profile({ params }: { params: { slug: string } }) {
                 <div className="text-muted-foreground flex gap-1">
                   <p>{t('profile.city')}</p>
                   <Link
+                    data-test="city"
                     href={{
                       params: { slug: user.data.city.id },
                       pathname: '/city/[slug]',

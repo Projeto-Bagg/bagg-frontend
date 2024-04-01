@@ -228,6 +228,6 @@ describe('Funcionalidades do diário', () => {
       });
     });
 
-    cy.get('#toasts').children().should('have.length', 1);
+    cy.get('[data-test="toasts"]').children().should('have.length', 1);
   });
 });

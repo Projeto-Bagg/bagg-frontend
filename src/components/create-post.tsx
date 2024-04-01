@@ -240,20 +240,20 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
                     {watch('medias')?.map((file, index) => (
                       <div className="overflow-hidden relative w-[110px]" key={index}>
                         <AspectRatio ratio={1}>
-                          <div className="absolute top-1 right-1 z-20 bg-black p-1 rounded-full">
-                            <Trash2
-                              onClick={() =>
-                                setValue(
-                                  'medias',
-                                  getValues('medias')?.filter(
-                                    (media) => media.file.name !== file.file.name,
-                                  ),
-                                )
-                              }
-                              size={16}
-                              className="text-red-500"
-                            />
-                          </div>
+                          <button
+                            type="button"
+                            onClick={() =>
+                              setValue(
+                                'medias',
+                                getValues('medias')?.filter(
+                                  (media) => media.thumbnail !== file.thumbnail,
+                                ),
+                              )
+                            }
+                            className="absolute top-1 right-1 z-20 bg-black p-1 rounded-full"
+                          >
+                            <Trash2 size={16} className="text-red-500" />
+                          </button>
                           <NextImage
                             src={file.thumbnail}
                             className="object-cover"
@@ -324,7 +324,9 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
                                     : URL.createObjectURL(file),
                                 };
                               }),
-                            ).then((arr) => arr.concat(currentImages || [])),
+                            ).then((arr) =>
+                              currentImages ? currentImages.concat(arr) : arr,
+                            ),
                           );
                         }}
                         ref={imageInputFile}
