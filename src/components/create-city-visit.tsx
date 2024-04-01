@@ -22,13 +22,11 @@ import {
 } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { useAuth } from '@/context/auth-context';
 import { useCreateCityVisit } from '@/hooks/useCreateCityVisit';
 import { useUpdateCityVisit } from '@/hooks/useUpdateCityVisit';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Rating } from '@smastrom/react-rating';
-import { Info } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import React, { ReactNode, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -141,43 +139,30 @@ export const CreateCityVisit = ({ children, city }: CreateCityVisitProps) => {
           </div>
           <DialogDescription>{t('create-city-visit.description')}</DialogDescription>
         </DialogHeader>
-        <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
-          <div>
-            <div className="flex justify-between mb-0.5">
-              <div className="flex gap-1 items-end">
-                <Label>{t('create-city-visit.message')}</Label>
-                <Label className="text-muted-foreground text-xs">
-                  {watch('message')?.length || 0} / 300
-                </Label>
-              </div>
-              {errors.message && (
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Info size={18} className="text-red-600" />
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    {errors.message.type === 'too_big'
-                      ? t('create-city-visit.message-max-error')
-                      : t('create-city-visit.message-error')}
-                  </TooltipContent>
-                </Tooltip>
-              )}
+        <form
+          id="create-city-visit-form"
+          className="space-y-4"
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          <div className="flex justify-between mb-0.5">
+            <div className="flex gap-1 items-end">
+              <Label>{t('create-city-visit.message')}</Label>
+              <Label className="text-muted-foreground text-xs">
+                {watch('message')?.length || 0} / 300
+              </Label>
             </div>
             <Textarea {...register('message')} className="max-h-[160px]" />
+            {errors.message && (
+              <span className="text-sm text-red-600 font-semibold">
+                {errors.message.type === 'too_big'
+                  ? t('create-city-visit.message-max-error')
+                  : t('create-city-visit.message-error')}
+              </span>
+            )}
           </div>
           <div>
             <div className="flex justify-between mb-0.5">
-              <div>
-                <Label>{t('create-city-visit.rating')}</Label>
-              </div>
-              {errors.rating && (
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Info size={18} className="text-red-600" />
-                  </TooltipTrigger>
-                  <TooltipContent>{t('create-city-visit.ratingError')}</TooltipContent>
-                </Tooltip>
-              )}
+              <Label>{t('create-city-visit.rating')}</Label>
             </div>
             <Controller
               control={control}
@@ -187,7 +172,6 @@ export const CreateCityVisit = ({ children, city }: CreateCityVisitProps) => {
               }}
               render={({ field: { onChange, onBlur, value } }) => (
                 <Rating
-                  id="rating"
                   className="max-w-[120px]"
                   value={value}
                   isRequired
@@ -196,6 +180,11 @@ export const CreateCityVisit = ({ children, city }: CreateCityVisitProps) => {
                 />
               )}
             />
+            {errors.rating && (
+              <span className="text-sm text-red-600 font-semibold">
+                {t('create-city-visit.ratingError')}
+              </span>
+            )}
           </div>
           <div className="flex gap-2 justify-end">
             <AlertDialog>

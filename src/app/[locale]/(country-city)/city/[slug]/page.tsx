@@ -109,7 +109,7 @@ export default function Page({ params }: { params: { slug: string } }) {
               {t('country-city-page.reviews')}
             </h2>
           </div>
-          <div>
+          <div data-test="city-visits">
             {visits.pages[0].length === 0 && (
               <div className="py-4 text-sm text-center">
                 <span>{t('country-city-page.tabs.reviews.no-reviews')}</span>

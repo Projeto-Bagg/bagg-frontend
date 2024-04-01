@@ -1,16 +1,16 @@
 describe('Trocar tema', () => {
   it('Trocar para claro', () => {
     cy.visit('/');
-    cy.get('#theme-toggle').click();
-    cy.get('#light').click();
+    cy.get('[data-test="theme-toggle"]').click();
+    cy.get('[data-test="light"]').click();
 
     cy.get('html').should('have.class', 'light');
   });
 
   it('Trocar para escuro', () => {
     cy.visit('/');
-    cy.get('#theme-toggle').click();
-    cy.get('#dark').click();
+    cy.get('[data-test="theme-toggle"]').click();
+    cy.get('[data-test="dark"]').click();
 
     cy.get('html').should('have.class', 'dark');
   });

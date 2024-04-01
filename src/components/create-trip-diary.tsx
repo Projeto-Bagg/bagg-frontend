@@ -11,10 +11,8 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { useCreateTripDiary } from '@/hooks/useCreateTripDiary';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Info } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -53,7 +51,11 @@ export const CreateTripDiary = ({ setIsCreatingTripDiary }: Props) => {
   };
 
   return (
-    <form className="space-y-4" onSubmit={handleSubmit(handleCreateTripDiary)}>
+    <form
+      data-test="create-trip-diary-form"
+      className="space-y-4"
+      onSubmit={handleSubmit(handleCreateTripDiary)}
+    >
       <DialogHeader>
         <DialogTitle>{t('create-trip-diary.title')}</DialogTitle>
         <DialogDescription>{t('create-trip-diary.description')}</DialogDescription>

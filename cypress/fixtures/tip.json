@@ -1,0 +1,45 @@
+{
+  "id": 1,
+  "message": "teste",
+  "userId": 1,
+  "cityId": 166148,
+  "createdAt": "2024-03-30T23:28:37.326Z",
+  "user": {
+    "id": 1,
+    "fullName": "teste",
+    "username": "teste",
+    "bio": null,
+    "birthdate": "2024-03-30T23:28:37.326Z",
+    "image": null,
+    "cityId": 166148,
+    "createdAt": "2024-03-30T23:28:37.326Z"
+  },
+  "tipMedias": [],
+  "likedBy": 0,
+  "isLiked": false,
+  "commentsAmount": 0,
+  "city": {
+    "id": 166148,
+    "name": "São Sebastião",
+    "regionId": 1,
+    "latitude": -3,
+    "longitude": 4,
+    "region": {
+      "id": 1,
+      "name": "São Paulo",
+      "countryId": 0,
+      "latitude": 0,
+      "longitude": 0,
+      "stateCode": "SP",
+      "type": null,
+      "country": {
+        "id": 1,
+        "name": "Brazil",
+        "capital": "Brasília",
+        "iso2": "BR",
+        "latitude": 0,
+        "longitude": 0
+      }
+    }
+  }
+}

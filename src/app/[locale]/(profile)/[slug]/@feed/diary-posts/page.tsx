@@ -31,15 +31,17 @@ export default function DiaryPosts({ params }: { params: { slug: string } }) {
   }, [inView, fetchNextPage, hasNextPage]);
 
   return (
-    data &&
-    data.pages.map((page) =>
-      page.map((post, index) => (
-        <DiaryPost
-          ref={page.length - 1 === index ? ref : undefined}
-          key={post.id}
-          post={post}
-        />
-      )),
-    )
+    <div data-test="diary-posts-feed">
+      {data &&
+        data.pages.map((page) =>
+          page.map((post, index) => (
+            <DiaryPost
+              ref={page.length - 1 === index ? ref : undefined}
+              key={post.id}
+              post={post}
+            />
+          )),
+        )}
+    </div>
   );
 }
