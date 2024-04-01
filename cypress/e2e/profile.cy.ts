@@ -1,7 +1,7 @@
 describe('Perfil', () => {
   it('Seguir deslogado', () => {
     cy.fixture('user2.json').then((user2) => {
-      cy.intercept('GET', 'http://localhost:3001/users/teste2', user2);
+      cy.intercept('GET', '/users/teste2', user2);
     });
 
     cy.visit('/teste2');
@@ -15,10 +15,10 @@ describe('Perfil', () => {
     cy.login();
 
     cy.fixture('user2.json').then((user2) => {
-      cy.intercept('GET', 'http://localhost:3001/users/teste2', user2);
+      cy.intercept('GET', '/users/teste2', user2);
     });
 
-    cy.intercept('POST', 'http://localhost:3001/follows/teste2', {
+    cy.intercept('POST', '/follows/teste2', {
       statusCode: 201,
     }).as('follow-user');
 
@@ -37,7 +37,7 @@ describe('Perfil', () => {
     cy.login();
 
     cy.fixture('user2.json').then((user2) => {
-      cy.intercept('GET', 'http://localhost:3001/users/teste2', {
+      cy.intercept('GET', '/users/teste2', {
         body: {
           ...user2,
           followers: 1,
@@ -49,7 +49,7 @@ describe('Perfil', () => {
       });
     });
 
-    cy.intercept('DELETE', 'http://localhost:3001/follows/teste2', {
+    cy.intercept('DELETE', '/follows/teste2', {
       statusCode: 201,
     }).as('unfollow-user');
 

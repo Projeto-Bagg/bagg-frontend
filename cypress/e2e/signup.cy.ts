@@ -4,11 +4,11 @@ describe('Cadastro', () => {
   });
 
   it('Cadastro correto', () => {
-    cy.intercept('POST', 'http://localhost:3001/users', {
+    cy.intercept('POST', '/users', {
       statusCode: 201,
     }).as('signup-request');
 
-    cy.intercept('POST', 'http://localhost:3001/auth/login', {
+    cy.intercept('POST', '/auth/login', {
       statusCode: 200,
       body: {
         accessToken: 'token',
@@ -17,7 +17,7 @@ describe('Cadastro', () => {
     }).as('login');
 
     cy.fixture('user.json').then((user) => {
-      cy.intercept('GET', 'http://localhost:3001/users/me', {
+      cy.intercept('GET', '/users/me', {
         statusCode: 200,
         body: user,
       }).as('me');
@@ -44,7 +44,7 @@ describe('Cadastro', () => {
   });
 
   it('Nome de usuário e email em uso', () => {
-    cy.intercept('POST', 'http://localhost:3001/users', {
+    cy.intercept('POST', '/users', {
       statusCode: 409,
       body: {
         username: {

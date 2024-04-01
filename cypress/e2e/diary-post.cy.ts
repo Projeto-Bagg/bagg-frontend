@@ -3,13 +3,13 @@ describe('Criar diário', () => {
     cy.login();
 
     cy.fixture('user.json').then((user) => {
-      cy.intercept('GET', 'http://localhost:3001/users/teste', user);
+      cy.intercept('GET', '/users/teste', user);
     });
 
     cy.intercept(
       {
         method: 'GET',
-        url: 'http://localhost:3001/trip-diaries/user/teste',
+        url: '/trip-diaries/user/teste',
       },
       {
         statusCode: 200,
@@ -26,7 +26,7 @@ describe('Criar diário', () => {
         cy.intercept(
           {
             method: 'GET',
-            url: 'http://localhost:3001/cities/search?q=S%C3%A3o+Sebasti%C3%A3o&count=5',
+            url: '/cities/search?q=S%C3%A3o+Sebasti%C3%A3o&count=5',
           },
           {
             statusCode: 200,
@@ -41,7 +41,7 @@ describe('Criar diário', () => {
         cy.intercept(
           {
             method: 'POST',
-            url: 'http://localhost:3001/trip-diaries',
+            url: '/trip-diaries',
           },
           {
             statusCode: 200,
@@ -56,7 +56,7 @@ describe('Criar diário', () => {
         cy.intercept(
           {
             method: 'GET',
-            url: 'http://localhost:3001/trip-diaries/1',
+            url: '/trip-diaries/1',
           },
           {
             statusCode: 200,
@@ -71,7 +71,7 @@ describe('Criar diário', () => {
         cy.intercept(
           {
             method: 'GET',
-            url: 'http://localhost:3001/trip-diaries/1/posts?page=1',
+            url: '/trip-diaries/1/posts?page=1',
           },
           {
             statusCode: 200,
@@ -84,7 +84,7 @@ describe('Criar diário', () => {
     cy.intercept(
       {
         method: 'GET',
-        url: 'http://localhost:3001/diary-posts/user/teste?page=1',
+        url: '/diary-posts/user/teste?page=1',
       },
       {
         statusCode: 200,
@@ -97,7 +97,7 @@ describe('Criar diário', () => {
         cy.intercept(
           {
             method: 'POST',
-            url: 'http://localhost:3001/diary-posts',
+            url: '/diary-posts',
           },
           {
             statusCode: 200,
@@ -119,6 +119,7 @@ describe('Criar diário', () => {
     cy.get('[data-test="create-trip-diary-form"]').submit();
 
     cy.get('[data-test="select-trip-diary"]').click();
+    cy.wait(300);
     cy.get('[data-value=teste]').click();
     cy.get('[name="message"]').type('test');
     cy.get('[data-test="create-post-form"]').submit();
@@ -143,7 +144,7 @@ describe('Funcionalidades do diário', () => {
       cy.intercept(
         {
           method: 'GET',
-          url: 'http://localhost:3001/diary-posts/1',
+          url: '/diary-posts/1',
         },
         {
           body: diaryPost,
@@ -155,7 +156,7 @@ describe('Funcionalidades do diário', () => {
 
   it('Curtir postagem', () => {
     cy.intercept(
-      { method: 'POST', url: 'http://localhost:3001/diary-post-likes/1' },
+      { method: 'POST', url: '/diary-post-likes/1' },
       {
         statusCode: 200,
       },
@@ -171,7 +172,7 @@ describe('Funcionalidades do diário', () => {
       cy.intercept(
         {
           method: 'GET',
-          url: 'http://localhost:3001/diary-posts/1',
+          url: '/diary-posts/1',
         },
         {
           body: {
@@ -185,7 +186,7 @@ describe('Funcionalidades do diário', () => {
     });
 
     cy.intercept(
-      { method: 'DELETE', url: 'http://localhost:3001/diary-post-likes/1' },
+      { method: 'DELETE', url: '/diary-post-likes/1' },
       {
         statusCode: 200,
       },
@@ -198,7 +199,7 @@ describe('Funcionalidades do diário', () => {
 
   it('Excluir postagem', () => {
     cy.intercept(
-      { method: 'DELETE', url: 'http://localhost:3001/diary-posts/1' },
+      { method: 'DELETE', url: '/diary-posts/1' },
       {
         statusCode: 200,
       },
@@ -210,7 +211,7 @@ describe('Funcionalidades do diário', () => {
 
     cy.wait('@delete-diary-post');
 
-    cy.url().should('eq', 'http://localhost:3000/pt');
+    cy.url().should('eq', Cypress.config().baseUrl + 'pt');
   });
 
   it('Copiar link da postagem', () => {
@@ -223,7 +224,7 @@ describe('Funcionalidades do diário', () => {
 
     cy.window().then((win) => {
       win.navigator.clipboard.readText().then((text) => {
-        expect(text).to.eq('http://localhost:3000/diary/post/1');
+        expect(text).to.eq(Cypress.config().baseUrl + '/diary/post/1');
       });
     });
 

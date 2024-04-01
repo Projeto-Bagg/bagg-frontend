@@ -9,7 +9,7 @@ describe('Logar', () => {
   it('Login incorreto', () => {
     cy.visit('/login');
 
-    cy.intercept('POST', 'http://localhost:3001/auth/login', {
+    cy.intercept('POST', '/auth/login', {
       statusCode: 401,
     }).as('loginRequest');
 
@@ -26,7 +26,7 @@ describe('Logar', () => {
   it('Login correto', () => {
     cy.visit('/login');
 
-    cy.intercept('POST', 'http://localhost:3001/auth/login', {
+    cy.intercept('POST', '/auth/login', {
       statusCode: 200,
       body: {
         accessToken:
@@ -37,7 +37,7 @@ describe('Logar', () => {
     }).as('loginRequest');
 
     cy.fixture('user.json').then((user) => {
-      cy.intercept('GET', 'http://localhost:3001/users/me', {
+      cy.intercept('GET', '/users/me', {
         statusCode: 200,
         body: user,
       }).as('me');

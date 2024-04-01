@@ -9,7 +9,7 @@ describe('Criar tip', () => {
     cy.intercept(
       {
         method: 'GET',
-        url: 'http://localhost:3001/tips/feed?page=1',
+        url: '/tips/feed?page=1',
       },
       {
         body: [],
@@ -22,7 +22,7 @@ describe('Criar tip', () => {
         cy.intercept(
           {
             method: 'GET',
-            url: 'http://localhost:3001/cities/search?q=S%C3%A3o+Sebasti%C3%A3o&count=5',
+            url: '/cities/search?q=S%C3%A3o+Sebasti%C3%A3o&count=5',
           },
           {
             statusCode: 200,
@@ -37,7 +37,7 @@ describe('Criar tip', () => {
         cy.intercept(
           {
             method: 'POST',
-            url: 'http://localhost:3001/tips',
+            url: '/tips',
           },
           {
             statusCode: 200,
@@ -75,7 +75,7 @@ describe('Funcionalidades na tip', () => {
       cy.intercept(
         {
           method: 'GET',
-          url: 'http://localhost:3001/tips/1',
+          url: '/tips/1',
         },
         {
           body: tip,
@@ -89,7 +89,7 @@ describe('Funcionalidades na tip', () => {
 
   it('Comentar', () => {
     cy.intercept(
-      { method: 'GET', url: 'http://localhost:3001/tip-comments/1' },
+      { method: 'GET', url: '/tip-comments/1' },
       {
         body: [],
         statusCode: 200,
@@ -101,7 +101,7 @@ describe('Funcionalidades na tip', () => {
         cy.intercept(
           {
             method: 'POST',
-            url: 'http://localhost:3001/tip-comments',
+            url: '/tip-comments',
           },
           {
             statusCode: 200,
@@ -115,13 +115,13 @@ describe('Funcionalidades na tip', () => {
 
     cy.get('[data-test="create-comment-form"]').submit();
 
-    cy.get('[data-test="comments"]').should('have.length', 1);
+    cy.get('[data-test="comments"]').children().should('have.length', 1);
   });
 
   it('Excluir comentário', () => {
     cy.fixture('tip-comment.json').then((tipComment) => {
       cy.intercept(
-        { method: 'GET', url: 'http://localhost:3001/tip-comments/1' },
+        { method: 'GET', url: '/tip-comments/1' },
         {
           body: [tipComment],
           statusCode: 200,
@@ -130,7 +130,7 @@ describe('Funcionalidades na tip', () => {
     });
 
     cy.intercept(
-      { method: 'DELETE', url: 'http://localhost:3001/tip-comments/1' },
+      { method: 'DELETE', url: '/tip-comments/1' },
       {
         statusCode: 200,
       },
@@ -147,7 +147,7 @@ describe('Funcionalidades na tip', () => {
 
   it('Curtir postagem', () => {
     cy.intercept(
-      { method: 'POST', url: 'http://localhost:3001/tip-likes/1' },
+      { method: 'POST', url: '/tip-likes/1' },
       {
         statusCode: 200,
       },
@@ -163,7 +163,7 @@ describe('Funcionalidades na tip', () => {
       cy.intercept(
         {
           method: 'GET',
-          url: 'http://localhost:3001/tips/1',
+          url: '/tips/1',
         },
         {
           body: {
@@ -177,7 +177,7 @@ describe('Funcionalidades na tip', () => {
     });
 
     cy.intercept(
-      { method: 'DELETE', url: 'http://localhost:3001/tip-likes/1' },
+      { method: 'DELETE', url: '/tip-likes/1' },
       {
         statusCode: 200,
       },
@@ -190,7 +190,7 @@ describe('Funcionalidades na tip', () => {
 
   it('Excluir postagem', () => {
     cy.intercept(
-      { method: 'DELETE', url: 'http://localhost:3001/tips/1' },
+      { method: 'DELETE', url: '/tips/1' },
       {
         statusCode: 200,
       },
@@ -202,7 +202,7 @@ describe('Funcionalidades na tip', () => {
 
     cy.wait('@delete-tip');
 
-    cy.url().should('eq', 'http://localhost:3000/pt');
+    cy.url().should('eq', Cypress.config().baseUrl + 'pt');
   });
 
   it('Copiar link da postagem', () => {
@@ -215,7 +215,7 @@ describe('Funcionalidades na tip', () => {
 
     cy.window().then((win) => {
       win.navigator.clipboard.readText().then((text) => {
-        expect(text).to.eq('http://localhost:3000/tip/1');
+        expect(text).to.eq(Cypress.config().baseUrl + '/tip/1');
       });
     });
 

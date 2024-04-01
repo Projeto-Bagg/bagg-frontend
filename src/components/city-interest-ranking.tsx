@@ -9,7 +9,6 @@ import {
   RankingContent,
   RankingSkeleton,
   RankingItem,
-  RankingFooter,
 } from '@/components/ui/ranking';
 import axios from '@/services/axios';
 import { useInfiniteQuery } from '@tanstack/react-query';

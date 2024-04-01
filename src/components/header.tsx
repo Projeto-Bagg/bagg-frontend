@@ -106,7 +106,7 @@ export const Header = () => {
           >
             <Tooltip>
               <TooltipTrigger
-                id="locale-select"
+                data-test="locale-select"
                 onFocus={(e) => e.preventDefault()}
                 asChild
               >
@@ -123,7 +123,7 @@ export const Header = () => {
             </Tooltip>
             <SelectContent>
               {languages.map((lang) => (
-                <SelectItem id={lang.locale} key={lang.locale} value={lang.locale}>
+                <SelectItem data-test={lang.locale} key={lang.locale} value={lang.locale}>
                   <div className="flex gap-2">
                     <CountryFlag iso2={lang.country} />
                     <span>{lang.label}</span>

@@ -49,7 +49,7 @@ Cypress.Commands.add('login', () => {
   });
 
   cy.fixture('user.json').then((user) => {
-    cy.intercept('GET', 'http://localhost:3001/users/me', {
+    cy.intercept('GET', '/users/me', {
       statusCode: 200,
       body: user,
     }).as('me');

@@ -1,7 +1,7 @@
 describe('Página da cidade deslogado', () => {
   beforeEach(() => {
     cy.fixture('city.json').then((city) => {
-      cy.intercept('GET', 'http://localhost:3001/cities/166148', {
+      cy.intercept('GET', '/cities/166148', {
         statusCode: 200,
         body: city,
       }).as('city');
@@ -42,18 +42,18 @@ describe('Página da cidade logado', () => {
     cy.login();
 
     cy.fixture('city.json').then((city) => {
-      cy.intercept('GET', 'http://localhost:3001/cities/166148', {
+      cy.intercept('GET', '/cities/166148', {
         statusCode: 200,
         body: city,
       });
     });
 
-    cy.intercept('GET', 'http://localhost:3001/city-visits/166148', {
+    cy.intercept('GET', '/city-visits/166148', {
       statusCode: 200,
       body: [],
     }).as('get-reviews');
 
-    cy.intercept('GET', 'http://localhost:3001/cities/166148/images ', {
+    cy.intercept('GET', '/cities/166148/images ', {
       statusCode: 200,
       body: [],
     }).as('get-images');
@@ -64,7 +64,7 @@ describe('Página da cidade logado', () => {
   it('Marcando visita', () => {
     cy.fixture('city-visit.json').then((cityVisit) => {
       cy.intercept(
-        { method: 'POST', url: 'http://localhost:3001/city-visits' },
+        { method: 'POST', url: '/city-visits' },
         {
           statusCode: 200,
           body: cityVisit,
@@ -80,7 +80,7 @@ describe('Página da cidade logado', () => {
     cy.intercept(
       {
         method: 'POST',
-        url: 'http://localhost:3001/city-interests/166148',
+        url: '/city-interests/166148',
       },
       {},
     ).as('city-interests');
@@ -95,7 +95,7 @@ describe('Página da cidade logado', () => {
       cy.intercept(
         {
           method: 'POST',
-          url: 'http://localhost:3001/city-visits',
+          url: '/city-visits',
         },
         {
           statusCode: 200,
@@ -123,7 +123,7 @@ describe('Página da cidade logado', () => {
       cy.intercept(
         {
           method: 'POST',
-          url: 'http://localhost:3001/city-visits',
+          url: '/city-visits',
         },
         {
           statusCode: 200,
@@ -151,7 +151,7 @@ describe('Página da cidade logado', () => {
 
   it('Desmarcando visita com avaliação já preenchida', () => {
     cy.fixture('city.json').then((city) => {
-      cy.intercept('GET', 'http://localhost:3001/cities/166148', {
+      cy.intercept('GET', '/cities/166148', {
         statusCode: 200,
         body: {
           ...city,

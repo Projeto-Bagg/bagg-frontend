@@ -28,7 +28,7 @@ import axios from '@/services/axios';
 import { getVideoThumbnail } from '@/utils/getVideoThumbnail';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQuery } from '@tanstack/react-query';
-import { ChevronsUpDown, Info, Trash2 } from 'lucide-react';
+import { ChevronsUpDown, Trash2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { Image as ImageIcon } from 'lucide-react';
 import { Controller, useForm } from 'react-hook-form';
@@ -57,13 +57,14 @@ export type CreateDiaryPostType = z.infer<typeof createDiaryPostSchema>;
 
 export const CreatePost = ({ children }: { children: ReactNode }) => {
   const [open, setOpen] = useState<boolean>();
+  const [selectTripDiaryOpen, setSelectTripDiaryOpen] = useState<boolean>();
+  const [isCreatingTripDiary, setIsCreatingTripDiary] = useState<boolean>(false);
   const auth = useAuth();
   const router = useRouter();
   const { toast } = useToast();
   const t = useTranslations();
   const createDiaryPost = useCreateDiaryPost();
   const imageInputFile = useRef<HTMLInputElement>(null);
-  const [isCreatingTripDiary, setIsCreatingTripDiary] = useState<boolean>(false);
   const {
     control,
     register,
@@ -141,7 +142,7 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
                   {t('create-post.create-trip-diary')}
                 </button>
               </div>
-              <Popover>
+              <Popover open={selectTripDiaryOpen} onOpenChange={setSelectTripDiaryOpen}>
                 <PopoverTrigger asChild>
                   <Button
                     data-test="select-trip-diary"
@@ -161,7 +162,7 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="p-0">
-                  <Command>
+                  <Command shouldFilter={false}>
                     <CommandInput placeholder="Procurar..." />
                     <CommandGroup>
                       {tripDiaries.data && tripDiaries.data.length > 0 ? (
@@ -169,9 +170,9 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
                           <CommandItem
                             value={tripDiary.title}
                             key={tripDiary.id}
-                            className="cursor-pointer"
                             onSelect={() => {
                               setValue('tripDiaryId', tripDiary.id);
+                              setSelectTripDiaryOpen(false);
                             }}
                           >
                             <span
@@ -219,12 +220,10 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
             >
               <div>
                 <div className="flex justify-between mb-0.5">
-                  <div>
-                    <Label className="mr-1">{t('create-post.message')}</Label>
-                    <Label className="text-muted-foreground text-xs">
-                      {watch('message')?.length || 0} / 300
-                    </Label>
-                  </div>
+                  <Label className="mr-1">{t('create-post.message')}</Label>
+                  <Label className="text-muted-foreground text-xs">
+                    {watch('message')?.length || 0} / 300
+                  </Label>
                 </div>
                 <Textarea {...register('message')} className="max-h-[160px]" />
                 {errors.message && (
