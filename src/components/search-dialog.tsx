@@ -64,7 +64,7 @@ export const Search = () => {
       <Tooltip>
         <TooltipTrigger asChild>
           <DialogTrigger asChild>
-            <Button id="search-dialog" variant={'ghost'} size={'icon'}>
+            <Button variant={'ghost'} size={'icon'}>
               <SearchIcon className="h-[1.2rem] w-[1.2rem]" />
             </Button>
           </DialogTrigger>

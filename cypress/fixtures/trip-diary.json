@@ -1,0 +1,43 @@
+{
+  "id": 1,
+  "title": "teste",
+  "message": "teste",
+  "userId": 0,
+  "createdAt": "2024-04-01T00:24:50.186Z",
+  "cityId": 0,
+  "city": {
+    "id": 0,
+    "name": "teste",
+    "regionId": 0,
+    "latitude": 0,
+    "longitude": 0,
+    "region": {
+      "id": 0,
+      "name": "São Paulo",
+      "countryId": 0,
+      "latitude": 0,
+      "longitude": 0,
+      "stateCode": "SP",
+      "type": "teste",
+      "country": {
+        "id": 0,
+        "name": "Brazil",
+        "capital": "Brasília",
+        "iso2": "BR",
+        "latitude": 0,
+        "longitude": 0
+      }
+    }
+  },
+  "user": {
+    "id": 0,
+    "fullName": "teste",
+    "username": "teste",
+    "bio": "teste",
+    "birthdate": "2024-04-01T00:24:50.186Z",
+    "image": null,
+    "cityId": 0,
+    "createdAt": "2024-04-01T00:24:50.186Z"
+  },
+  "postsAmount": 0
+}

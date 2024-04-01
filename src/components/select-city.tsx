@@ -63,6 +63,7 @@ export const SelectCity = ({ onSelect, defaultValue }: SelectCityProps) => {
         <Button
           variant="outline-ring"
           role="combobox"
+          data-test="select-city"
           aria-expanded={open}
           className="w-full justify-between"
         >

@@ -62,7 +62,7 @@ export default function Page() {
         </div>
         <div>
           <Label htmlFor="email">{t('login.login.label')}</Label>
-          <Input id="login" {...register('login')} />
+          <Input {...register('login')} />
           {errors.login && (
             <span className="text-red-600 text-sm leading-none font-bold">
               {t('login.login.too-small')}
@@ -71,7 +71,7 @@ export default function Page() {
         </div>
         <div>
           <Label htmlFor="password">{t('login.password.label')}</Label>
-          <Input id="password" type={'password'} {...register('password')} />
+          <Input type={'password'} {...register('password')} />
           {errors.password && (
             <span className="text-red-600 text-sm leading-none font-bold">
               {t('login.password.too-small')}
@@ -88,7 +88,7 @@ export default function Page() {
         <span>
           {t('login.signup-redirect.title')}{' '}
           <Link
-            id="redirect-signup"
+            data-test="redirect-signup"
             replace
             className="text-primary hover:underline"
             href={'/signup'}

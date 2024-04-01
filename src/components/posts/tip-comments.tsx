@@ -3,15 +3,13 @@ import { Link } from '@/common/navigation';
 import { UserHoverCard } from '@/components/user-hovercard';
 import { useQuery } from '@tanstack/react-query';
 import axios from '@/services/axios';
-import { Avatar } from '@radix-ui/react-avatar';
-import { AvatarImage } from '@/components/ui/avatar';
+import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useAuth } from '@/context/auth-context';
@@ -63,7 +61,11 @@ export const TipComments = ({ tip }: TipCommentProps) => {
   return (
     <div>
       {auth.user && (
-        <form className="flex h-full mt-2 sm:mt-3 gap-3" onSubmit={handleSubmit}>
+        <form
+          data-test="create-comment-form"
+          className="flex h-full mt-2 sm:mt-3 gap-3"
+          onSubmit={handleSubmit}
+        >
           <Link
             href={{ params: { slug: auth.user.username }, pathname: '/[slug]' }}
             prefetch={false}
@@ -83,7 +85,7 @@ export const TipComments = ({ tip }: TipCommentProps) => {
         </form>
       )}
       {!isFetching && comments && (
-        <div className="divide-y mt-2">
+        <div data-test="comments" className="divide-y mt-2">
           {comments.map((comment) => (
             <div key={comment.id} className="flex py-2 gap-3">
               <div className="shrink-0">
@@ -142,7 +144,7 @@ export const TipComments = ({ tip }: TipCommentProps) => {
                       {auth.user?.id === comment.user.id && (
                         <DropdownMenu modal={false}>
                           <DropdownMenuTrigger asChild>
-                            <button>
+                            <button data-test="comment-options">
                               <Settings className="w-[20px] h-[20px]" />
                             </button>
                           </DropdownMenuTrigger>
@@ -150,6 +152,7 @@ export const TipComments = ({ tip }: TipCommentProps) => {
                             <AlertDialog>
                               <AlertDialogTrigger asChild>
                                 <DropdownMenuItem
+                                  data-test="delete"
                                   onSelect={(e) => e.preventDefault()}
                                   className="font-bold"
                                 >
@@ -170,6 +173,7 @@ export const TipComments = ({ tip }: TipCommentProps) => {
                                     {t('tip.comment.delete.delete-modal.cancel')}
                                   </AlertDialogCancel>
                                   <AlertDialogAction
+                                    data-test="confirm"
                                     onClick={() =>
                                       deleteTipComment.mutate({
                                         commentId: comment.id,

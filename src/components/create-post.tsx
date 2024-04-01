@@ -134,6 +134,7 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
               <div>
                 <Label className="mr-1">{t('create-post.trip-diary')}</Label>
                 <button
+                  data-test="create-trip-diary-button"
                   onClick={() => setIsCreatingTripDiary(true)}
                   className="text-primary text-sm font-bold"
                 >
@@ -143,6 +144,7 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
               <Popover>
                 <PopoverTrigger asChild>
                   <Button
+                    data-test="select-trip-diary"
                     variant="outline-ring"
                     role="combobox"
                     className={cn(
@@ -210,7 +212,11 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
                 </span>
               )}
             </div>
-            <form className="space-y-4" onSubmit={handleSubmit(handleCreatePost)}>
+            <form
+              data-test="create-post-form"
+              className="space-y-4"
+              onSubmit={handleSubmit(handleCreatePost)}
+            >
               <div>
                 <div className="flex justify-between mb-0.5">
                   <div>

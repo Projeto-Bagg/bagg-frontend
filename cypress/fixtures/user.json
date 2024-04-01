@@ -1,0 +1,39 @@
+{
+  "id": 1,
+  "fullName": "Teste",
+  "username": "teste",
+  "bio": "teste",
+  "birthdate": "2024-03-30T01:38:45.573Z",
+  "image": null,
+  "createdAt": "2024-03-30T01:38:45.573Z",
+  "friendshipStatus": {
+    "isFollowing": false,
+    "followedBy": false
+  },
+  "followers": 0,
+  "following": 0,
+  "city": {
+    "id": 1,
+    "name": "São Paulo",
+    "regionId": 1,
+    "latitude": 2,
+    "longitude": 3,
+    "region": {
+      "id": 1,
+      "name": "São Paulo",
+      "countryId": 1,
+      "latitude": 2,
+      "longitude": 3,
+      "stateCode": "SP",
+      "type": null,
+      "country": {
+        "id": 1,
+        "name": "Brazil",
+        "capital": "Brasília",
+        "iso2": "BR",
+        "latitude": 2,
+        "longitude": 3
+      }
+    }
+  }
+}

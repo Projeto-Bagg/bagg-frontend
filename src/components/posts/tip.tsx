@@ -74,7 +74,7 @@ export const Tip = forwardRef<
   };
 
   const handleDeleteClick = async () => {
-    await deleteTip.mutateAsync(tip.id);
+    await deleteTip.mutateAsync(+tip.id);
 
     if (pathname === '/tip/[slug]') {
       router.push({ pathname: '/' });
@@ -126,6 +126,7 @@ export const Tip = forwardRef<
                 <span className="text-sm">{tip.likedBy}</span>
               </TipLikedByList>
               <Heart
+                data-test="like-tip"
                 onClick={handleLikeClick}
                 data-liked={tip.isLiked}
                 size={20}
@@ -139,13 +140,13 @@ export const Tip = forwardRef<
                 })}
               </span>
               <DropdownMenu>
-                <DropdownMenuTrigger>
+                <DropdownMenuTrigger data-test="tip-options">
                   <div className="hover:bg-primary-foreground p-1.5 [&>svg]:hover:text-primary transition-all rounded-full">
                     <MoreHorizontal size={20} className="transition-all" />
                   </div>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
-                  <DropdownMenuItem onSelect={handleShareClick}>
+                  <DropdownMenuItem data-test="tip-copy-link" onSelect={handleShareClick}>
                     {t('tip.copy-link')}
                   </DropdownMenuItem>
                   {auth.user?.id === tip.user.id && (
@@ -153,6 +154,7 @@ export const Tip = forwardRef<
                       <AlertDialog>
                         <AlertDialogTrigger asChild>
                           <DropdownMenuItem
+                            data-test="tip-delete"
                             onSelect={(e) => e.preventDefault()}
                             className="font-bold"
                           >
@@ -172,7 +174,10 @@ export const Tip = forwardRef<
                             <AlertDialogCancel>
                               {t('tip.delete-modal.cancel')}
                             </AlertDialogCancel>
-                            <AlertDialogAction onClick={handleDeleteClick}>
+                            <AlertDialogAction
+                              data-test="tip-delete-confirm"
+                              onClick={handleDeleteClick}
+                            >
                               {t('tip.delete-modal.action')}
                             </AlertDialogAction>
                           </AlertDialogFooter>
@@ -207,6 +212,7 @@ export const Tip = forwardRef<
           {!withComments && (
             <div className="mt-1">
               <button
+                data-test="see-comments"
                 className="text-muted-foreground text-sm"
                 onClick={handleClickSeeComments}
               >

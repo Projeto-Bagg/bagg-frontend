@@ -79,6 +79,8 @@ export default function Profile({ params }: { params: { slug: string } }) {
             </div>
             {auth.user?.id !== user.data.id ? (
               <Button
+                data-test="follow-button"
+                data-following={user.data.friendshipStatus.isFollowing}
                 type="button"
                 disabled={follow.isPending}
                 onClick={handleFollowClick}
@@ -137,13 +139,17 @@ export default function Profile({ params }: { params: { slug: string } }) {
             <div className="flex gap-2">
               <UserFollowTabs defaultTab="followers" username={params.slug}>
                 <div className="flex gap-1">
-                  <span className="font-bold">{user.data.followers}</span>
+                  <span data-test="followers" className="font-bold">
+                    {user.data.followers}
+                  </span>
                   <span className="text-muted-foreground">{t('follow.followers')}</span>
                 </div>
               </UserFollowTabs>
               <UserFollowTabs defaultTab="following" username={params.slug}>
                 <div className="flex gap-1">
-                  <span className="font-bold">{user.data.following}</span>
+                  <span data-test="following" className="font-bold">
+                    {user.data.following}
+                  </span>
                   <span className="text-muted-foreground">{t('follow.following')}</span>
                 </div>
               </UserFollowTabs>

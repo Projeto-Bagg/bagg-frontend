@@ -99,7 +99,11 @@ export const CreateTip = ({ children }: { children: ReactNode }) => {
         <DialogHeader>
           <DialogTitle>{t('create-tip.title')}</DialogTitle>
         </DialogHeader>
-        <form className="space-y-4" onSubmit={handleSubmit(handleCreatePost)}>
+        <form
+          data-test="create-tip-form"
+          className="space-y-4"
+          onSubmit={handleSubmit(handleCreatePost)}
+        >
           <div>
             <div className="justify-between flex mb-0.5">
               <div className="flex gap-1 items-end">

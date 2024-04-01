@@ -109,7 +109,6 @@ export default function Page() {
       })
       .then(async () => {
         await new Promise((resolve) => setTimeout(resolve, 700));
-
         await auth.login({ login: data.username, password: data.password });
 
         router.back();
@@ -147,7 +146,7 @@ export default function Page() {
               {watch('fullName')?.length || 0} / 64
             </Label>
           </div>
-          <Input id="fullName" {...register('fullName')} />
+          <Input {...register('fullName')} />
           {errors.fullName && (
             <span className="text-sm text-red-600 font-semibold">
               {errors.fullName.type === 'too_big'
@@ -163,11 +162,13 @@ export default function Page() {
               {watch('username')?.length || 0} / 20
             </Label>
           </div>
-          <Input id="username" {...register('username')} />
+          <Input {...register('username')} />
           {errors.username && (
             <span className="text-red-600 text-sm font-semibold">
               {errors.username?.type === 'username-not-available' ? (
-                t('signup.username.not-available')
+                <div data-test="username-not-available">
+                  {t('signup.username.not-available')}
+                </div>
               ) : errors.username.type === 'too_small' ? (
                 t('signup.username.too-small')
               ) : (
@@ -260,20 +261,24 @@ export default function Page() {
         </div>
         <div>
           <Label>{t('signup.email.label')}</Label>
-          <Input id="email" {...register('email')} />
+          <Input {...register('email')} />
           {errors.email && (
             <span className="text-sm text-red-600 font-semibold">
-              {errors.email.type === 'email-not-available'
-                ? t('signup.email.not-available')
-                : errors.email.type === 'too_small'
-                ? t('signup.email.too-small')
-                : t('signup.email.invalid')}
+              {errors.email.type === 'email-not-available' ? (
+                <div data-test="email-not-available">
+                  {t('signup.email.not-available')}
+                </div>
+              ) : errors.email.type === 'too_small' ? (
+                t('signup.email.too-small')
+              ) : (
+                t('signup.email.invalid')
+              )}
             </span>
           )}
         </div>
         <div>
           <Label>{t('signup.password.label')}</Label>
-          <Input id="password" type={'password'} {...register('password')} />
+          <Input type={'password'} {...register('password')} />
           {errors.password && (
             <span className="text-sm text-red-600 font-semibold">
               {errors.password.type === 'too_small' ? (
@@ -320,11 +325,7 @@ export default function Page() {
         </div>
         <div>
           <Label>{t('signup.confirm-password.label')}</Label>
-          <Input
-            id="confirmPassword"
-            type={'password'}
-            {...register('confirmPassword')}
-          />
+          <Input type={'password'} {...register('confirmPassword')} />
           {errors.confirmPassword && (
             <span className="text-sm text-red-500 font-bold">
               {t('signup.confirm-password.unmatched-passwords')}
@@ -344,7 +345,7 @@ export default function Page() {
         <span>
           {t('signup.login-redirect.title')}{' '}
           <Link
-            id="redirect-login"
+            data-test="redirect-signup"
             replace
             className="text-primary hover:underline"
             href={'/login'}

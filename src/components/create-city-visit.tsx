@@ -141,7 +141,11 @@ export const CreateCityVisit = ({ children, city }: CreateCityVisitProps) => {
           </div>
           <DialogDescription>{t('create-city-visit.description')}</DialogDescription>
         </DialogHeader>
-        <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
+        <form
+          id="create-city-visit-form"
+          className="space-y-4"
+          onSubmit={handleSubmit(onSubmit)}
+        >
           <div>
             <div className="flex justify-between mb-0.5">
               <div className="flex gap-1 items-end">
@@ -187,7 +191,6 @@ export const CreateCityVisit = ({ children, city }: CreateCityVisitProps) => {
               }}
               render={({ field: { onChange, onBlur, value } }) => (
                 <Rating
-                  id="rating"
                   className="max-w-[120px]"
                   value={value}
                   isRequired

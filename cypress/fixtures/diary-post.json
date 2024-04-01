@@ -1,0 +1,28 @@
+{
+  "id": 1,
+  "message": "teste",
+  "userId": 0,
+  "user": {
+    "id": 1,
+    "fullName": "teste",
+    "username": "teste",
+    "bio": "teste",
+    "birthdate": "2024-04-01T00:26:10.501Z",
+    "image": null,
+    "cityId": 0,
+    "createdAt": "2024-04-01T00:26:10.501Z"
+  },
+  "createdAt": "2024-04-01T00:26:10.501Z",
+  "tripDiaryId": 0,
+  "tripDiary": {
+    "id": 1,
+    "title": "teste",
+    "message": "teste",
+    "userId": 0,
+    "createdAt": "2024-04-01T00:26:10.501Z",
+    "cityId": 0
+  },
+  "likedBy": 0,
+  "isLiked": false,
+  "diaryPostMedias": []
+}

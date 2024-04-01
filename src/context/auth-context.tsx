@@ -56,7 +56,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setCookie('bagg.sessionToken', data.accessToken);
     setCookie('bagg.refreshToken', data.refreshToken);
     queryClient.invalidateQueries();
-    refetch();
+    await refetch();
   };
 
   const signUp = async (user: UserSignUp) => {

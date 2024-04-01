@@ -64,7 +64,10 @@ export const Header = () => {
           {auth.user && (
             <React.Fragment>
               <CreateTip>
-                <button className="text-primary-foreground flex gap-1 h-[1.2rem] px-2 bg-orange-400 items-center rounded-sm">
+                <button
+                  data-test="create-tip"
+                  className="text-primary-foreground flex gap-1 h-[1.2rem] px-2 bg-orange-400 items-center rounded-sm"
+                >
                   <Plus size={14} strokeWidth={3} />
                   <span className="font-bold text-xs uppercase">
                     {t('create-tip.trigger')}
@@ -72,7 +75,10 @@ export const Header = () => {
                 </button>
               </CreateTip>
               <CreatePost>
-                <button className="text-primary-foreground flex gap-1 h-[1.2rem] px-2 bg-primary items-center rounded-sm">
+                <button
+                  data-test="create-post"
+                  className="text-primary-foreground flex gap-1 h-[1.2rem] px-2 bg-primary items-center rounded-sm"
+                >
                   <Plus size={14} strokeWidth={3} />
                   <span className="font-bold text-xs uppercase">
                     {t('create-post.trigger')}
