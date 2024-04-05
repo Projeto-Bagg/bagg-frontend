@@ -40,7 +40,19 @@ export default function Layout({ children }: { children: ReactNode }) {
     });
   };
 
-  const handleChangeCountry = (value: Country) => {
+  const handleChangeCountry = (value: Country | undefined) => {
+    if (!value) {
+      return router.push({
+        pathname: pathname,
+        params: { slug: '' },
+        query: {
+          ...(date && {
+            date: date,
+          }),
+        },
+      });
+    }
+
     router.push({
       pathname: pathname,
       params: {
@@ -94,21 +106,6 @@ export default function Layout({ children }: { children: ReactNode }) {
             </Link>
           </div>
           <div className="grid grid-cols-2 sm:flex sm:[&>*]:w-[180px] gap-2">
-            {/* {searchParams.has('countryIso2') && (
-                <Link
-                  href={{
-                    pathname: pathname,
-                    params: { slug: '' },
-                    query: {
-                      ...(date && {
-                        date: date,
-                      }),
-                    },
-                  }}
-                >
-                  <X className="w-[16px] absolute right-1 -top- text-red-600 stroke-[3.5]" />
-                </Link>
-              )} */}
             <SelectCountry
               defaultIso2={countryIso2?.toUpperCase()}
               onSelect={handleChangeCountry}

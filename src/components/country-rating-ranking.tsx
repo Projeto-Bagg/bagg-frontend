@@ -94,10 +94,21 @@ export const CountryRatingRanking = ({
                 className=""
               >
                 <div className="flex gap-2 items-center">
-                  <h3 className="w-[24px] font-bold">
+                  <h3 className="w-[24px] font-bold shrink-0">
                     {pageIndex * count + (index + 1)}º
                   </h3>
-                  <CountryFlag className="w-[36px]" iso2={country.iso2} />
+                  <Link
+                    href={{
+                      params: { slug: country.iso2 },
+                      pathname: '/country/[slug]',
+                    }}
+                  >
+                    <CountryFlag
+                      tooltip={country.name}
+                      className="w-[36px]"
+                      iso2={country.iso2}
+                    />
+                  </Link>
                   <Link
                     className="hover:underline"
                     href={{

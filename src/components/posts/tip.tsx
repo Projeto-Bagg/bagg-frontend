@@ -198,7 +198,7 @@ export const Tip = forwardRef<
               href={{ params: { slug: tip.city.id }, pathname: '/city/[slug]' }}
             >
               <div className="flex gap-2 text-sm">
-                <span>
+                <span className="max-w-[216px] md:max-w-[unset] text-ellipsis overflow-hidden whitespace-nowrap">
                   {tip.city.name}, {tip.city.region.name}, {tip.city.region.country.name}
                 </span>
                 <CountryFlag iso2={tip.city.region.country.iso2} />

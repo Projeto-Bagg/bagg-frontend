@@ -71,7 +71,7 @@ export const CityInterestRanking = ({ count = 10, isPagination = false }) => {
                 key={city.id}
               >
                 <div className="flex gap-2 items-center">
-                  <h3 className="w-[24px] font-bold">
+                  <h3 className="w-[24px] font-bold shrink-0">
                     {pageIndex * count + (index + 1)}º
                   </h3>
                   <Link

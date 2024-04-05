@@ -49,8 +49,7 @@ const createDiaryPostSchema = z.object({
         thumbnail: z.string(),
       }),
     )
-    .max(10)
-    .optional(),
+    .max(10),
 });
 
 export type CreateDiaryPostType = z.infer<typeof createDiaryPostSchema>;
@@ -74,11 +73,12 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
     getValues,
     setError,
     reset,
-    formState: { errors, isDirty, defaultValues },
+    formState: { errors, dirtyFields },
   } = useForm<CreateDiaryPostType>({
     resolver: zodResolver(createDiaryPostSchema),
     defaultValues: {
       message: '',
+      medias: [],
     },
   });
 
@@ -92,29 +92,31 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
   const handleCreatePost = async (data: CreateDiaryPostType) => {
     const formData = new FormData();
 
-    data.medias && data.medias.forEach((media) => formData.append('medias', media.file));
+    data.medias.length &&
+      data.medias.forEach((media) => formData.append('medias', media.file));
     formData.append('message', data.message);
     formData.append('tripDiaryId', data.tripDiaryId.toString());
 
     const post = await createDiaryPost.mutateAsync(formData);
+
     setOpen(false);
     router.push('/diary/' + post.tripDiary.id);
-    reset(defaultValues, { keepDefaultValues: true });
+    reset(undefined, { keepDefaultValues: true });
   };
 
   const onOpenChange = (open: boolean) => {
     if (open) {
+      reset(undefined, { keepDefaultValues: true });
       return setOpen(true);
     }
 
-    if (isDirty) {
+    if (Object.entries(dirtyFields).length) {
       const shouldClose = window.confirm(t('modal.close'));
       if (!shouldClose) return;
     }
 
-    setIsCreatingTripDiary(false);
     setOpen(false);
-    reset(defaultValues, { keepDefaultValues: true });
+    setIsCreatingTripDiary(false);
   };
 
   return (
@@ -171,7 +173,9 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
                             value={tripDiary.title}
                             key={tripDiary.id}
                             onSelect={() => {
-                              setValue('tripDiaryId', tripDiary.id);
+                              setValue('tripDiaryId', tripDiary.id, {
+                                shouldDirty: true,
+                              });
                               setSelectTripDiaryOpen(false);
                             }}
                           >
@@ -248,6 +252,9 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
                                 getValues('medias')?.filter(
                                   (media) => media.thumbnail !== file.thumbnail,
                                 ),
+                                {
+                                  shouldDirty: true,
+                                },
                               )
                             }
                             className="absolute top-1 right-1 z-20 bg-black p-1 rounded-full"
@@ -284,13 +291,13 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
                         type="file"
                         accept="image/jpeg,image/png,image/webp,video/mp4"
                         onChange={async (e) => {
-                          const maxSize = 104857600;
-                          const currentImages = getValues('medias') as {
+                          const maxSize = 1048576 * 100;
+                          const currentMedias = getValues('medias') as {
                             file: File;
                             thumbnail: string;
                           }[];
-                          const currentImagesSize =
-                            currentImages?.reduce(
+                          const currentMediasSize =
+                            currentMedias?.reduce(
                               (acc, curr) => acc + curr.file.size,
                               0,
                             ) || 0;
@@ -301,8 +308,8 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
                           );
 
                           if (
-                            newImagesSize > maxSize - currentImagesSize ||
-                            files.length > 10 - (currentImages?.length || 0)
+                            newImagesSize > maxSize - currentMediasSize ||
+                            files.length > 10 - (currentMedias?.length || 0)
                           ) {
                             setError('medias', {
                               message: 'Max size is 100mb and 10 files',
@@ -325,7 +332,7 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
                                 };
                               }),
                             ).then((arr) =>
-                              currentImages ? currentImages.concat(arr) : arr,
+                              currentMedias ? currentMedias.concat(arr) : arr,
                             ),
                           );
                         }}

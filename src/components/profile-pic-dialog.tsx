@@ -92,8 +92,10 @@ export const ProfilePicDialog = ({ children, onSubmit }: IProfilePicDialog) => {
       return setOpen(true);
     }
 
-    const shouldClose = window.confirm(t('modal.close'));
-    if (!shouldClose) return;
+    if (img) {
+      const shouldClose = window.confirm(t('modal.close'));
+      if (!shouldClose) return;
+    }
 
     setOpen(false);
     setImg(undefined);

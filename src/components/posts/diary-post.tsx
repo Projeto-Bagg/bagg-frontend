@@ -172,7 +172,7 @@ export const DiaryPost = forwardRef<
           <div className="flex gap-2 my-2 items-center">
             <Badge className="uppercase">{t('diary-post.badge')}</Badge>
             <Link
-              className="text-muted-foreground text-sm"
+              className="text-muted-foreground text-sm hover:underline"
               href={'/diary/' + post.tripDiary.id}
             >
               <span>{post.tripDiary.title}</span>
