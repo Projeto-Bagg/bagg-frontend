@@ -95,7 +95,7 @@ export default function EditProfile({ params }: { params: { slug: string } }) {
     control,
     setError,
     setValue,
-    formState: { errors, isDirty },
+    formState: { errors, dirtyFields },
   } = useForm<EditFormType>({
     resolver: zodResolver(editFormSchema),
     defaultValues: {
@@ -145,7 +145,7 @@ export default function EditProfile({ params }: { params: { slug: string } }) {
   };
 
   const onOpenChange = () => {
-    if (isDirty) {
+    if (Object.entries(dirtyFields).length) {
       const shouldClose = window.confirm(t('modal.close'));
       if (!shouldClose) return;
     }

@@ -121,6 +121,11 @@
     "cancel": "Cancelar"
   },
   "profile": {
+    "not-found": {
+      "title": "Usuário não encontrado",
+      "redirect-to": "Redirecionar para",
+      "route": "página inicial"
+    },
     "edit-profile": "Editar perfil",
     "created-at": "Entrou em {joinDate, date, long}",
     "birthdate": "Nasceu em {joinDate, date, long}",
@@ -194,7 +199,12 @@
     "message-error": "Insira uma mensagem",
     "message-max-error": "O tamanho máximo é de 300 caracteres",
     "max-size-files": "O tamanho máximo é de 10 arquivos e 100mb no total",
-    "confirm": "Confirmar"
+    "confirm": "Confirmar",
+    "tags": {
+      "label": "Tags",
+      "helper": "Aperte tab ou enter para confirmar.",
+      "placeholder": "Exemplos: restaurante, praia, clima..."
+    }
   },
   "select-city": {
     "title": "Selecione uma cidade...",

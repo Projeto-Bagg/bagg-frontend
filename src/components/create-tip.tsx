@@ -17,7 +17,7 @@ import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { Textarea } from '@/components/ui/textarea';
 import { getVideoThumbnail } from '@/utils/getVideoThumbnail';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Trash2 } from 'lucide-react';
+import { Trash2, X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { Image as ImageIcon } from 'lucide-react';
 import { Controller, useForm } from 'react-hook-form';
@@ -29,6 +29,7 @@ import { SelectCity } from '@/components/select-city';
 const createTipSchema = z.object({
   cityId: z.number(),
   message: z.string().min(1).max(300),
+  tags: z.array(z.string()),
   medias: z
     .array(
       z.object({
@@ -36,8 +37,7 @@ const createTipSchema = z.object({
         thumbnail: z.string(),
       }),
     )
-    .max(10)
-    .optional(),
+    .max(10),
 });
 
 export type CreateTipType = z.infer<typeof createTipSchema>;
@@ -57,20 +57,25 @@ export const CreateTip = ({ children }: { children: ReactNode }) => {
     getValues,
     setError,
     reset,
-    formState: { errors, isDirty },
+    formState: { errors, dirtyFields },
   } = useForm<CreateTipType>({
     resolver: zodResolver(createTipSchema),
     defaultValues: {
       message: '',
+      medias: [],
+      tags: [],
+      cityId: undefined,
     },
   });
 
   const handleCreatePost = async (data: CreateTipType) => {
     const formData = new FormData();
 
-    data.medias && data.medias.forEach((media) => formData.append('medias', media.file));
+    data.medias.length &&
+      data.medias.forEach((media) => formData.append('medias', media.file));
     formData.append('message', data.message);
     formData.append('cityId', data.cityId.toString());
+    data.tags.length && formData.append('tags', data.tags.join(';'));
 
     await createTip.mutateAsync(formData);
     setOpen(false);
@@ -79,16 +84,16 @@ export const CreateTip = ({ children }: { children: ReactNode }) => {
 
   const onOpenChange = (open: boolean) => {
     if (open) {
+      reset(undefined, { keepDefaultValues: true });
       return setOpen(true);
     }
 
-    if (isDirty) {
+    if (Object.entries(dirtyFields).length) {
       const shouldClose = window.confirm(t('modal.close'));
       if (!shouldClose) return;
     }
 
     setOpen(false);
-    reset(undefined, { keepDefaultValues: true });
   };
 
   return (
@@ -121,7 +126,7 @@ export const CreateTip = ({ children }: { children: ReactNode }) => {
             )}
           </div>
           <div>
-            <div className="flex justify-between mb-0.5">
+            <div className="flex items-baseline justify-between mb-0.5">
               <Label className="mr-1">{t('create-tip.message')}</Label>
               <Label className="text-muted-foreground text-xs">
                 {watch('message')?.length || 0} / 300
@@ -135,6 +140,63 @@ export const CreateTip = ({ children }: { children: ReactNode }) => {
                   : t('create-tip.message-error')}
               </span>
             )}
+          </div>
+          <div>
+            <div className="mb-2">
+              <div className="flex items-baseline justify-between mb-0.5">
+                <Label className="mr-1">{t('create-tip.tags.label')}</Label>
+                <Label className="hidden md:block text-muted-foreground text-xs">
+                  {t('create-tip.tags.helper')}
+                </Label>
+              </div>
+              <Input
+                name="tags"
+                placeholder={t('create-tip.tags.placeholder')}
+                onKeyDown={(e) => {
+                  if (e.key === 'Tab' || e.key === 'Enter') {
+                    const currentTags = getValues('tags');
+
+                    const tag = e.currentTarget.value.trim();
+
+                    if (tag && !currentTags.find((currentTag) => tag === currentTag)) {
+                      setValue('tags', [...currentTags, tag], {
+                        shouldDirty: true,
+                      });
+                      e.currentTarget.value = '';
+                    }
+
+                    e.preventDefault();
+                  }
+                }}
+              />
+            </div>
+            <div data-test="current-tags" className="flex flex-wrap gap-1">
+              {watch('tags')?.map((tag) => (
+                <div
+                  className="px-1 flex items-center gap-1 h-fit rounded-sm bg-accent"
+                  key={tag}
+                >
+                  <span className="text-xs max-w-[86px] text-ellipsis overflow-hidden whitespace-nowrap">
+                    {tag}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const currentTags = getValues('tags');
+                      setValue(
+                        'tags',
+                        currentTags.filter((currentTag) => currentTag !== tag),
+                        {
+                          shouldDirty: true,
+                        },
+                      );
+                    }}
+                  >
+                    <X className="w-[12px]" />
+                  </button>
+                </div>
+              ))}
+            </div>
           </div>
           {watch('medias') && watch('medias')!.length > 0 && (
             <ScrollArea className="w-96 sm:w-[462px] whitespace-nowrap rounded-md border">
@@ -151,6 +213,9 @@ export const CreateTip = ({ children }: { children: ReactNode }) => {
                             getValues('medias')?.filter(
                               (media) => media.thumbnail !== file.thumbnail,
                             ),
+                            {
+                              shouldDirty: true,
+                            },
                           )
                         }
                         className="absolute top-1 right-1 z-20 bg-black p-1 rounded-full"
@@ -188,15 +253,16 @@ export const CreateTip = ({ children }: { children: ReactNode }) => {
                     type="file"
                     accept="image/jpeg,image/png,image/webp,video/mp4"
                     onChange={async (e) => {
-                      const maxSize = 104857600;
-                      const currentImages = getValues('medias') as
+                      const maxSize = 1048576 * 100;
+                      const currentMedias = getValues('medias') as
                         | {
                             file: File;
                             thumbnail: string;
                           }[]
                         | undefined;
-                      const currentImagesSize =
-                        currentImages?.reduce((acc, curr) => acc + curr.file.size, 0) ||
+
+                      const currentMediasSize =
+                        currentMedias?.reduce((acc, curr) => acc + curr.file.size, 0) ||
                         0;
                       const files = Array.from(e.target.files as ArrayLike<File>);
                       const newImagesSize = files.reduce(
@@ -205,8 +271,8 @@ export const CreateTip = ({ children }: { children: ReactNode }) => {
                       );
 
                       if (
-                        newImagesSize > maxSize - currentImagesSize ||
-                        files.length > 10 - (currentImages?.length || 0)
+                        newImagesSize > maxSize - currentMediasSize ||
+                        files.length > 10 - (currentMedias?.length || 0)
                       ) {
                         setError('medias', {
                           message: 'Max size is 100mb and 10 files',
@@ -229,9 +295,11 @@ export const CreateTip = ({ children }: { children: ReactNode }) => {
                             };
                           }),
                         ).then((arr) =>
-                          currentImages ? currentImages.concat(arr) : arr,
+                          currentMedias ? currentMedias.concat(arr) : arr,
                         ),
                       );
+
+                      e.target.value = '';
                     }}
                     ref={imageInputFile}
                   />

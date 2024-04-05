@@ -29,7 +29,6 @@ import {
   ChevronsUpDown,
   Home,
   LogIn,
-  MapPin,
   Settings,
   User2,
 } from 'lucide-react';

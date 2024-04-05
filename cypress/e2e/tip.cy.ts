@@ -59,6 +59,10 @@ describe('Criar tip', () => {
 
     cy.get('[name="message"]').type('test');
 
+    cy.get('[name="tags"]').type('test{enter}test2{enter}test3{enter}');
+
+    cy.get('[data-test="current-tags"]').children().should('have.length', 3);
+
     cy.get('input[type="file"]').selectFile(['cypress/assets/pic1.png'], {
       force: true,
     });
