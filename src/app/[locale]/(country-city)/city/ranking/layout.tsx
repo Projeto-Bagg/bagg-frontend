@@ -24,6 +24,7 @@ export default function Layout({ children }: { children: ReactNode }) {
   const countryIso2 = searchParams.get('countryIso2');
 
   const handleChangeDatePreset = (value: string) => {
+    // @ts-expect-error
     router.push({
       pathname: pathname,
       params: {
@@ -42,6 +43,7 @@ export default function Layout({ children }: { children: ReactNode }) {
 
   const handleChangeCountry = (value: Country | undefined) => {
     if (!value) {
+      // @ts-expect-error
       return router.push({
         pathname: pathname,
         params: { slug: '' },
@@ -53,6 +55,7 @@ export default function Layout({ children }: { children: ReactNode }) {
       });
     }
 
+    // @ts-expect-error
     router.push({
       pathname: pathname,
       params: {

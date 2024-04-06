@@ -1,9 +1,7 @@
 'use client';
 
 import { Spinner } from '@/assets';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { CountryFlag } from '@/components/ui/country-flag';
 import {
   Dialog,
   DialogContent,
@@ -12,7 +10,6 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
-import { UserHoverCard } from '@/components/user-hovercard';
 import axios from '@/services/axios';
 import { useQuery } from '@tanstack/react-query';
 import { Search as SearchIcon } from 'lucide-react';
@@ -20,6 +17,10 @@ import { useTranslations } from 'next-intl';
 import { Link } from '@/common/navigation';
 import { useEffect, useState } from 'react';
 import { useDebounce } from 'use-debounce';
+import { UserSearch } from '@/components/search/user-search';
+import { CountrySearch } from '@/components/search/country-search';
+import { CitySearch } from '@/components/search/city-search';
+import { SeeMore } from '@/components/see-more';
 
 export const Search = () => {
   const [open, setOpen] = useState<boolean>();
@@ -31,13 +32,29 @@ export const Search = () => {
   const search = useQuery<FullSearch>({
     queryKey: ['search', debouncedQuery],
     queryFn: async () => {
-      const users = (await axios.get<User[]>(`/users/search?q=${debouncedQuery}&count=5`))
-        .data;
+      const users = (
+        await axios.get<User[]>(`/users/search`, {
+          params: {
+            q: debouncedQuery,
+            count: 5,
+          },
+        })
+      ).data;
       const countries = (
-        await axios.get<Country[]>(`/countries/search?q=${debouncedQuery}&count=5`)
+        await axios.get<Country[]>(`/countries/search`, {
+          params: {
+            q: debouncedQuery,
+            count: 5,
+          },
+        })
       ).data;
       const cities = (
-        await axios.get<CityFromSearch[]>(`/cities/search?q=${debouncedQuery}&count=5`)
+        await axios.get<CityFromSearch[]>(`/cities/search`, {
+          params: {
+            q: debouncedQuery,
+            count: 5,
+          },
+        })
       ).data;
 
       return {
@@ -83,7 +100,6 @@ export const Search = () => {
             ) : (
               <SearchIcon strokeWidth={3.5} className="absolute left-0 top-4" />
             )}
-
             <Input
               placeholder={t('search.input-placeholder')}
               onChange={(e) => setQuery(e.target.value)}
@@ -94,9 +110,23 @@ export const Search = () => {
         {isFirstFetchSucess && debouncedQuery && (
           <div className="mt-8 space-y-2">
             <div>
-              <h3 className="font-semibold border-b-2 border-primary pb-1 w-fit">
-                {t('search.user-search-results')}
-              </h3>
+              <div className="flex items-baseline justify-between">
+                <h3 className="font-semibold border-b-2 border-primary pb-1 w-fit">
+                  {t('search.user-search-results')}
+                </h3>
+                <SeeMore
+                  className="w-fit"
+                  onClick={() => {
+                    setOpen(false);
+                  }}
+                  href={{
+                    pathname: '/search',
+                    query: {
+                      q: debouncedQuery,
+                    },
+                  }}
+                />
+              </div>
               <div id="users" className="space-y-0.5 mt-4">
                 {search.data && search.data.users.length > 0 ? (
                   search.data.users.map((user) => (
@@ -109,23 +139,7 @@ export const Search = () => {
                       onClick={() => setOpen(false)}
                       className="block"
                     >
-                      <div className="flex gap-2 bg-primary-foreground hover:bg-secondary rounded-lg transition-all">
-                        <UserHoverCard username={user.username}>
-                          <Avatar className="rounded-sm bg-muted">
-                            <AvatarImage src={user.image} />
-                          </Avatar>
-                        </UserHoverCard>
-                        <div className="flex items-center gap-1">
-                          <UserHoverCard username={user.username}>
-                            <span className="font-medium">{user.fullName}</span>
-                          </UserHoverCard>
-                          <UserHoverCard username={user.username}>
-                            <span className="text-sm text-muted-foreground">
-                              @{user.username}
-                            </span>
-                          </UserHoverCard>
-                        </div>
-                      </div>
+                      <UserSearch user={user} />
                     </Link>
                   ))
                 ) : (
@@ -134,9 +148,23 @@ export const Search = () => {
               </div>
             </div>
             <div>
-              <h3 className="font-semibold border-b-2 border-primary pb-1 w-fit">
-                {t('search.country-search-results')}
-              </h3>
+              <div className="flex items-baseline justify-between">
+                <h3 className="font-semibold border-b-2 border-primary pb-1 w-fit">
+                  {t('search.country-search-results')}
+                </h3>
+                <SeeMore
+                  onClick={() => {
+                    setOpen(false);
+                  }}
+                  className="w-fit"
+                  href={{
+                    pathname: '/search/country',
+                    query: {
+                      q: debouncedQuery,
+                    },
+                  }}
+                />
+              </div>
               <div id="countries" className="space-y-0.5 mt-4">
                 {search.data && search.data.countries.length > 0 ? (
                   search.data.countries.map((country, index) => (
@@ -149,14 +177,7 @@ export const Search = () => {
                         pathname: '/country/[slug]',
                       }}
                     >
-                      <div className="flex items-center gap-2 bg-primary-foreground hover:bg-secondary rounded-lg transition-all">
-                        <CountryFlag
-                          className="h-[40px] w-[53.3px] rounded-lg"
-                          iso2={country.iso2}
-                          tooltip={country.name}
-                        />
-                        <span>{country.name}</span>
-                      </div>
+                      <CountrySearch country={country} />
                     </Link>
                   ))
                 ) : (
@@ -165,9 +186,23 @@ export const Search = () => {
               </div>
             </div>
             <div>
-              <h3 className="font-semibold border-b-2 border-primary pb-1 w-fit">
-                {t('search.city-search-results')}
-              </h3>
+              <div className="flex items-baseline justify-between">
+                <h3 className="font-semibold border-b-2 border-primary pb-1 w-fit">
+                  {t('search.city-search-results')}
+                </h3>
+                <SeeMore
+                  onClick={() => {
+                    setOpen(false);
+                  }}
+                  className="w-fit"
+                  href={{
+                    pathname: '/search/city',
+                    query: {
+                      q: debouncedQuery,
+                    },
+                  }}
+                />
+              </div>
               <div id="cities" className="space-y-0.5 mt-4">
                 {search.data && search.data.cities.length > 0 ? (
                   search.data.cities.map((city, index) => (
@@ -177,19 +212,7 @@ export const Search = () => {
                       className="block"
                       href={{ params: { slug: city.id }, pathname: '/city/[slug]' }}
                     >
-                      <div className="flex items-center gap-2 bg-primary-foreground hover:bg-secondary rounded-lg transition-all">
-                        <CountryFlag
-                          className="h-[40px] w-[53.3px] rounded-lg"
-                          iso2={city.iso2}
-                          tooltip={city.country}
-                        />
-                        <div className="flex gap-1 items-baseline">
-                          <span>{city.name}</span>
-                          <span className="text-sm text-muted-foreground">
-                            {city.region}
-                          </span>
-                        </div>
-                      </div>
+                      <CitySearch city={city} />
                     </Link>
                   ))
                 ) : (

@@ -6,12 +6,11 @@ import React from 'react';
 import { LazyMap, LazyMarker, LazyTileLayer } from '@/components/leaflet-map';
 import { CityVisit } from '@/components/city-visit';
 import { useTranslations } from 'next-intl';
-import { Link } from '@/common/navigation';
-import { ChevronRight } from 'lucide-react';
 import { GalleryImage } from '@/app/[locale]/(country-city)/gallery-image';
 import { GalleryCarousel } from '@/app/[locale]/(country-city)/gallery-carousel';
 import Autoplay from 'embla-carousel-autoplay';
 import { CarouselItem } from '@/components/ui/carousel';
+import { SeeMore } from '@/components/see-more';
 
 export default function Page({ params }: { params: { slug: string } }) {
   const t = useTranslations();
@@ -70,15 +69,9 @@ export default function Page({ params }: { params: { slug: string } }) {
         </div>
         {images.pages[0].length !== 0 && (
           <div className="w-full text-right mt-1">
-            <Link
+            <SeeMore
               href={{ params: { slug: city.data.id }, pathname: '/city/[slug]/gallery' }}
-              className="text-primary text-sm font-bold uppercase hover:underline"
-            >
-              <div className="flex gap-0.5 items-center justify-end">
-                <span>{t('country-city-page.view-more-reviews')}</span>
-                <ChevronRight className="w-[24px]" />
-              </div>
-            </Link>
+            />
           </div>
         )}
       </div>
@@ -122,15 +115,9 @@ export default function Page({ params }: { params: { slug: string } }) {
           </div>
           {visits.pages[0].length !== 0 && (
             <div className="w-full text-right mt-1">
-              <Link
+              <SeeMore
                 href={{ params: { slug: city.data.id }, pathname: '/city/[slug]/visits' }}
-                className="text-primary text-sm font-bold uppercase hover:underline"
-              >
-                <div className="flex gap-0.5 items-center justify-end">
-                  <span>{t('country-city-page.view-more-reviews')}</span>
-                  <ChevronRight className="w-[24px]" />
-                </div>
-              </Link>
+              />
             </div>
           )}
         </div>
