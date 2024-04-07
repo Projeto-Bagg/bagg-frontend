@@ -175,7 +175,7 @@ export const Header = () => {
                       >
                         {t('header.menu.profile')}
                       </DropdownMenuItem>
-                      <DropdownMenuItem onSelect={() => router.push('/config')}>
+                      <DropdownMenuItem onSelect={() => router.replace('/settings')}>
                         {t('header.menu.settings')}
                       </DropdownMenuItem>
                       <DropdownMenuItem onSelect={() => auth.logout()}>

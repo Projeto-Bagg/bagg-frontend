@@ -17,6 +17,9 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Link, useRouter } from '@/common/navigation';
+import { useDebounce } from 'use-debounce';
+import { useQuery } from '@tanstack/react-query';
+import axios from '@/services/axios';
 
 const signUpSchema = z
   .object({
@@ -70,7 +73,6 @@ export default function Page() {
   const {
     control,
     formState: { errors },
-    setError,
     register,
     handleSubmit,
     watch,
@@ -88,7 +90,28 @@ export default function Page() {
     },
   });
 
+  const username = watch().username;
+  const [debouncedUsername] = useDebounce(username, 1000);
+  const isUsernameAvailable = useQuery({
+    queryFn: () => axios.get(`users/username-availability/${debouncedUsername}`),
+    queryKey: ['username-availability', debouncedUsername],
+    enabled: !!debouncedUsername && username.length >= 3,
+  });
+
+  const email = watch().email;
+  const [debouncedQuery] = useDebounce(email, 1000);
+  const isEmailAvailable = useQuery({
+    queryFn: () => axios.get(`users/email-availability/${debouncedQuery}`),
+    queryKey: ['email-availability', debouncedQuery],
+    enabled:
+      !!debouncedQuery && debouncedQuery.includes('@') && debouncedQuery.includes('.'),
+  });
+
   const handleSignUp = async (data: SignUpType) => {
+    if (isUsernameAvailable.isError || isEmailAvailable.isError) {
+      return;
+    }
+
     setLoading(true);
 
     const {
@@ -113,17 +136,7 @@ export default function Page() {
 
         router.back();
       })
-      .catch((error) => {
-        error.response.data?.email?.code === 'email-not-available' &&
-          setError('email', {
-            message: t('signup.email.not-available'),
-            type: 'email-not-available',
-          });
-        error.response.data?.username?.code === 'username-not-available' &&
-          setError('username', {
-            message: t('signup.username.not-available'),
-            type: 'username-not-available',
-          });
+      .catch(() => {
         setLoading(false);
       });
   };
@@ -136,12 +149,14 @@ export default function Page() {
         onSubmit={handleSubmit(handleSignUp)}
       >
         <div className="flex mb-4 flex-col space-y-1.5 text-center sm:text-left">
-          <h1 className="font-semibold tracking-tight text-2xl">{t('signup.title')}</h1>
-          <p className="text-sm text-muted-foreground">{t('signup.description')}</p>
+          <h1 className="font-semibold tracking-tight text-2xl">
+            {t('signup-edit.title')}
+          </h1>
+          <p className="text-sm text-muted-foreground">{t('signup-edit.description')}</p>
         </div>
         <div>
           <div>
-            <Label className="mr-1">{t('signup.name.label')}</Label>
+            <Label className="mr-1">{t('signup-edit.name.label')}</Label>
             <Label className="text-muted-foreground text-xs">
               {watch('fullName')?.length || 0} / 64
             </Label>
@@ -150,42 +165,52 @@ export default function Page() {
           {errors.fullName && (
             <span className="text-sm text-red-600 font-semibold">
               {errors.fullName.type === 'too_big'
-                ? t('signup.name.max-length-error')
-                : t('signup.name.too-small')}
+                ? t('signup-edit.name.max-length-error')
+                : t('signup-edit.name.too-small')}
             </span>
           )}
         </div>
         <div>
           <div className="flex items-end gap-1">
-            <Label>{t('signup.username.label')}</Label>
+            <Label>{t('signup-edit.username.label')}</Label>
             <Label className="text-muted-foreground text-xs">
               {watch('username')?.length || 0} / 20
             </Label>
           </div>
           <Input {...register('username')} />
+          {!errors.username && (
+            <>
+              {isUsernameAvailable.isError && (
+                <span className="text-sm text-red-600 font-semibold">
+                  {t('signup-edit.username.not-available')}
+                </span>
+              )}
+              {isUsernameAvailable.isSuccess && (
+                <span className="text-sm text-green-600 font-semibold">
+                  {t('signup-edit.username.available')}
+                </span>
+              )}
+            </>
+          )}
           {errors.username && (
             <span className="text-red-600 text-sm font-semibold">
-              {errors.username?.type === 'username-not-available' ? (
-                <div data-test="username-not-available">
-                  {t('signup.username.not-available')}
-                </div>
-              ) : errors.username.type === 'too_small' ? (
-                t('signup.username.too-small')
+              {errors.username.type === 'too_small' ? (
+                t('signup-edit.username.too-small')
               ) : (
                 <>
-                  {t('signup.username.valid-conditions.title')}
+                  {t('signup-edit.username.valid-conditions.title')}
                   <ul className="list-disc ml-[18px]">
                     <li
                       data-valid={/^.{3,20}$/.test(watch('username'))}
                       className="data-[valid=true]:text-green-500"
                     >
-                      {t('signup.username.valid-conditions.condition1')}
+                      {t('signup-edit.username.valid-conditions.condition1')}
                     </li>
                     <li
                       data-valid={/^[a-zA-Z0-9_]+$/.test(watch('username'))}
                       className="data-[valid=true]:text-green-500"
                     >
-                      {t('signup.username.valid-conditions.condition2')}
+                      {t('signup-edit.username.valid-conditions.condition2')}
                     </li>
                   </ul>
                 </>
@@ -194,7 +219,7 @@ export default function Page() {
           )}
         </div>
         <div>
-          <Label>{t('signup.birthdate.label')}</Label>
+          <Label>{t('signup-edit.birthdate.label')}</Label>
           <div className="flex gap-2 justify-between">
             <Controller
               name="birthdateDay"
@@ -202,7 +227,7 @@ export default function Page() {
               render={({ field }) => (
                 <Select onValueChange={field.onChange}>
                   <SelectTrigger id="birthdateDay">
-                    <SelectValue placeholder={t('signup.day')} />
+                    <SelectValue placeholder={t('signup-edit.day')} />
                   </SelectTrigger>
                   <SelectContent className="max-h-[400px]">
                     {[...Array(31)].map((_, index) => (
@@ -220,12 +245,12 @@ export default function Page() {
               render={({ field }) => (
                 <Select onValueChange={field.onChange}>
                   <SelectTrigger id="birthdateMonth">
-                    <SelectValue placeholder={t('signup.month')} />
+                    <SelectValue placeholder={t('signup-edit.month')} />
                   </SelectTrigger>
                   <SelectContent className="max-h-[400px]">
                     {months.map((month, index) => (
                       <SelectItem key={month} value={index.toString()}>
-                        {t(`signup.months.${month}`)}
+                        {t(`signup-edit.months.${month}`)}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -238,7 +263,7 @@ export default function Page() {
               render={({ field }) => (
                 <Select onValueChange={field.onChange}>
                   <SelectTrigger id="birthdateYear">
-                    <SelectValue placeholder={t('signup.year')} />
+                    <SelectValue placeholder={t('signup-edit.year')} />
                   </SelectTrigger>
                   <SelectContent className="max-h-[400px]">
                     {Array.apply(0, Array(104 - 1))
@@ -255,49 +280,57 @@ export default function Page() {
           </div>
           {(errors.birthdateDay || errors.birthdateMonth || errors.birthdateYear) && (
             <span className="text-sm text-red-600 font-semibold">
-              {t('signup.birthdate.too-small')}
+              {t('signup-edit.birthdate.too-small')}
             </span>
           )}
         </div>
         <div>
-          <Label>{t('signup.email.label')}</Label>
+          <Label>{t('signup-edit.email.label')}</Label>
           <Input {...register('email')} />
+          {!errors.email && (
+            <>
+              {isEmailAvailable.isError && (
+                <span className="text-sm text-red-600 font-semibold">
+                  {t('signup-edit.email.not-available')}
+                </span>
+              )}
+              {isEmailAvailable.isSuccess && (
+                <span className="text-sm text-green-600 font-semibold">
+                  {t('signup-edit.email.available')}
+                </span>
+              )}
+            </>
+          )}
           {errors.email && (
             <span className="text-sm text-red-600 font-semibold">
-              {errors.email.type === 'email-not-available' ? (
-                <div data-test="email-not-available">
-                  {t('signup.email.not-available')}
-                </div>
-              ) : errors.email.type === 'too_small' ? (
-                t('signup.email.too-small')
-              ) : (
-                t('signup.email.invalid')
-              )}
+              {errors.email.type === 'too_small'
+                ? t('signup-edit.email.too-small')
+                : t('signup-edit.email.invalid')}
             </span>
           )}
         </div>
         <div>
-          <Label>{t('signup.password.label')}</Label>
+          <Label>{t('signup-edit.password.label')}</Label>
           <Input type={'password'} {...register('password')} />
           {errors.password && (
             <span className="text-sm text-red-600 font-semibold">
               {errors.password.type === 'too_small' ? (
-                t('signup.password.too-small')
+                t('signup-edit.password.too-small')
               ) : (
                 <>
-                  <span>{t('signup.password.valid-conditions.title')}</span>
+                  <span>{t('signup-edit.password.valid-conditions.title')}</span>
                   <ul className="list-disc ml-[18px]">
                     <li
                       data-valid={/.{8,}/.test(watch('password'))}
                       className="data-[valid=true]:text-green-500"
                     >
-                      {t('signup.password.valid-conditions.condition1')}
+                      {t('signup-edit.password.valid-conditions.condition1')}
                     </li>
                     <li
                       data-valid={/(?=(.*[0-9]){1,})/.test(watch('password'))}
                       className="data-[valid=true]:text-green-500"
                     >
-                      {t('signup.password.valid-conditions.condition2')}
+                      {t('signup-edit.password.valid-conditions.condition2')}
                     </li>
                     <li
                       data-valid={/(?=(.*[a-z]){1,})(?=(.*[A-Z]){1,})/.test(
@@ -305,7 +338,7 @@ export default function Page() {
                       )}
                       className="data-[valid=true]:text-green-500"
                     >
-                      {t('signup.password.valid-conditions.condition3')}
+                      {t('signup-edit.password.valid-conditions.condition3')}
                     </li>
                     <li
                       data-valid={/(?=(.*[-!$%^&*()_+|~=`{}\[\]:\/;<>?,.@#]){1,})/.test(
@@ -313,7 +346,7 @@ export default function Page() {
                       )}
                       className="data-[valid=true]:text-green-500"
                     >
-                      {t('signup.password.valid-conditions.condition4', {
+                      {t('signup-edit.password.valid-conditions.condition4', {
                         characters: '!@#$%&*()-_=+<>:;/|,.^`}{[]',
                       })}
                     </li>
@@ -324,33 +357,33 @@ export default function Page() {
           )}
         </div>
         <div>
-          <Label>{t('signup.confirm-password.label')}</Label>
+          <Label>{t('signup-edit.confirm-password.label')}</Label>
           <Input type={'password'} {...register('confirmPassword')} />
           {errors.confirmPassword && (
-            <span className="text-sm text-red-500 font-bold">
-              {t('signup.confirm-password.unmatched-passwords')}
+            <span className="text-sm text-red-600 font-semibold">
+              {t('signup-edit.confirm-password.unmatched-passwords')}
             </span>
           )}
         </div>
         <span className="text-center block text-sm font-medium text-muted-foreground">
-          {t('signup.confirm')}
+          {t('signup-edit.confirm')}
         </span>
         <div className="flex justify-end mb-2">
           <Button type={'submit'} loading={loading} className="w-full">
-            {t('signup.signup')}
+            {t('signup-edit.signup')}
           </Button>
         </div>
       </form>
       <div className="flex text-sm justify-center mt-4">
         <span>
-          {t('signup.login-redirect.title')}{' '}
+          {t('signup-edit.login-redirect.title')}{' '}
           <Link
             data-test="redirect-signup"
             replace
             className="text-primary hover:underline"
             href={'/login'}
           >
-            {t('signup.login-redirect.link')}
+            {t('signup-edit.login-redirect.link')}
           </Link>
         </span>
       </div>
