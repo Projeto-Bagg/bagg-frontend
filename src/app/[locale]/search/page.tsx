@@ -23,14 +23,14 @@ export default function Page() {
         await axios.get<User[]>(`/users/search`, {
           params: {
             q,
-            count: 15,
+            count: 50,
             page: pageParam,
           },
         })
       ).data,
     initialPageParam: 1,
     getNextPageParam: (page, allPages) => {
-      if (page.length === 15) {
+      if (page.length === 50) {
         return allPages.length + 1;
       }
 

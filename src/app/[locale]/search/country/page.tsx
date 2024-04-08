@@ -23,13 +23,13 @@ export default function Page() {
           params: {
             q,
             page: pageParam,
-            count: 15,
+            count: 20,
           },
         })
       ).data,
     initialPageParam: 1,
     getNextPageParam: (page, allPages) => {
-      if (page.length === 15) {
+      if (page.length === 20) {
         return allPages.length + 1;
       }
 
@@ -44,7 +44,7 @@ export default function Page() {
   }, [inView, fetchNextPage, hasNextPage]);
 
   return (
-    <div className="space-y-0.5">
+    <div className="gap-y-0.5 gap-x-2 grid sm:grid-cols-2">
       {data && data.pages[0].length === 0 && (
         <span className="flex justify-center font-bold">
           {t('search-page.no-results')} &quot;{q}&quot;

@@ -21,6 +21,7 @@ import { UserSearch } from '@/components/search/user-search';
 import { CountrySearch } from '@/components/search/country-search';
 import { CitySearch } from '@/components/search/city-search';
 import { SeeMore } from '@/components/see-more';
+import { ScrollArea, ScrollAreaViewport } from '@/components/ui/scroll-area';
 
 export const Search = () => {
   const [open, setOpen] = useState<boolean>();
@@ -88,8 +89,8 @@ export const Search = () => {
         </TooltipTrigger>
         <TooltipContent>{t('search.title')}</TooltipContent>
       </Tooltip>
-      <DialogContent className="sm:max-w-[48rem] p-6 sm:px-10">
-        <DialogHeader className="bg-secondary rounded-t-lg -my-6 -mx-10 overflow-hidden py-6 px-10">
+      <DialogContent className="sm:max-w-[48rem] p-0 sm:0">
+        <DialogHeader className="bg-secondary shrink-0 rounded-t-lg overflow-hidden py-6 px-4 sm:px-10">
           <div className="relative">
             {search.isFetching ? (
               <Spinner
@@ -108,119 +109,121 @@ export const Search = () => {
           </div>
         </DialogHeader>
         {isFirstFetchSucess && debouncedQuery && (
-          <div className="mt-8 space-y-2">
-            <div>
-              <div className="flex items-baseline justify-between">
+          <ScrollArea>
+            <ScrollAreaViewport className="max-h-[700px] space-y-2 px-4 sm:px-10 py-4">
+              <div>
                 <h3 className="font-semibold border-b-2 border-primary pb-1 w-fit">
                   {t('search.user-search-results')}
                 </h3>
-                <SeeMore
-                  className="w-fit"
-                  onClick={() => {
-                    setOpen(false);
-                  }}
-                  href={{
-                    pathname: '/search',
-                    query: {
-                      q: debouncedQuery,
-                    },
-                  }}
-                />
-              </div>
-              <div id="users" className="space-y-0.5 mt-4">
                 {search.data && search.data.users.length > 0 ? (
-                  search.data.users.map((user) => (
-                    <Link
-                      href={{
-                        params: { slug: user.username },
-                        pathname: '/[slug]',
+                  <div>
+                    <div id="users" className="space-y-0.5 mt-4 mb-1">
+                      {search.data.users.map((user) => (
+                        <Link
+                          href={{
+                            params: { slug: user.username },
+                            pathname: '/[slug]',
+                          }}
+                          key={user.id}
+                          onClick={() => setOpen(false)}
+                          className="block"
+                        >
+                          <UserSearch user={user} />
+                        </Link>
+                      ))}
+                    </div>
+                    <SeeMore
+                      className="w-fit"
+                      onClick={() => {
+                        setOpen(false);
                       }}
-                      key={user.id}
-                      onClick={() => setOpen(false)}
-                      className="block"
-                    >
-                      <UserSearch user={user} />
-                    </Link>
-                  ))
+                      href={{
+                        pathname: '/search',
+                        query: {
+                          q: debouncedQuery,
+                        },
+                      }}
+                    />
+                  </div>
                 ) : (
                   <span className="text-muted-foreground">{t('search.not-found')}</span>
                 )}
               </div>
-            </div>
-            <div>
-              <div className="flex items-baseline justify-between">
+              <div>
                 <h3 className="font-semibold border-b-2 border-primary pb-1 w-fit">
                   {t('search.country-search-results')}
                 </h3>
-                <SeeMore
-                  onClick={() => {
-                    setOpen(false);
-                  }}
-                  className="w-fit"
-                  href={{
-                    pathname: '/search/country',
-                    query: {
-                      q: debouncedQuery,
-                    },
-                  }}
-                />
-              </div>
-              <div id="countries" className="space-y-0.5 mt-4">
                 {search.data && search.data.countries.length > 0 ? (
-                  search.data.countries.map((country, index) => (
-                    <Link
-                      key={index}
-                      onClick={() => setOpen(false)}
-                      className="block"
-                      href={{
-                        params: { slug: country.iso2 },
-                        pathname: '/country/[slug]',
+                  <div>
+                    <div id="countries" className="space-y-0.5 mt-4 mb-1">
+                      {search.data.countries.map((country, index) => (
+                        <Link
+                          key={index}
+                          onClick={() => setOpen(false)}
+                          className="block"
+                          href={{
+                            params: { slug: country.iso2 },
+                            pathname: '/country/[slug]',
+                          }}
+                        >
+                          <CountrySearch country={country} />
+                        </Link>
+                      ))}
+                    </div>
+                    <SeeMore
+                      className="w-fit"
+                      onClick={() => {
+                        setOpen(false);
                       }}
-                    >
-                      <CountrySearch country={country} />
-                    </Link>
-                  ))
+                      href={{
+                        pathname: '/search/country',
+                        query: {
+                          q: debouncedQuery,
+                        },
+                      }}
+                    />
+                  </div>
                 ) : (
                   <span className="text-muted-foreground">{t('search.not-found')}</span>
                 )}
               </div>
-            </div>
-            <div>
-              <div className="flex items-baseline justify-between">
+              <div>
                 <h3 className="font-semibold border-b-2 border-primary pb-1 w-fit">
                   {t('search.city-search-results')}
                 </h3>
-                <SeeMore
-                  onClick={() => {
-                    setOpen(false);
-                  }}
-                  className="w-fit"
-                  href={{
-                    pathname: '/search/city',
-                    query: {
-                      q: debouncedQuery,
-                    },
-                  }}
-                />
-              </div>
-              <div id="cities" className="space-y-0.5 mt-4">
                 {search.data && search.data.cities.length > 0 ? (
-                  search.data.cities.map((city, index) => (
-                    <Link
-                      key={index}
-                      onClick={() => setOpen(false)}
-                      className="block"
-                      href={{ params: { slug: city.id }, pathname: '/city/[slug]' }}
-                    >
-                      <CitySearch city={city} />
-                    </Link>
-                  ))
+                  <div>
+                    <div id="cities" className="space-y-0.5 mt-4 mb-1">
+                      {search.data.cities.map((city, index) => (
+                        <Link
+                          key={index}
+                          onClick={() => setOpen(false)}
+                          className="block"
+                          href={{ params: { slug: city.id }, pathname: '/city/[slug]' }}
+                        >
+                          <CitySearch city={city} />
+                        </Link>
+                      ))}
+                    </div>
+                    <SeeMore
+                      onClick={() => {
+                        setOpen(false);
+                      }}
+                      className="w-fit"
+                      href={{
+                        pathname: '/search/city',
+                        query: {
+                          q: debouncedQuery,
+                        },
+                      }}
+                    />
+                  </div>
                 ) : (
                   <span className="text-muted-foreground">{t('search.not-found')}</span>
                 )}
               </div>
-            </div>
-          </div>
+            </ScrollAreaViewport>
+          </ScrollArea>
         )}
       </DialogContent>
     </Dialog>

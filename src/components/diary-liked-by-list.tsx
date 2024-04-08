@@ -8,7 +8,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import { ScrollArea, ScrollAreaViewport } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
 import axios from '@/services/axios';
 import { useQuery } from '@tanstack/react-query';
@@ -38,8 +38,10 @@ export const DiaryLikedByList = ({ id, children }: IDiaryLikedByList) => {
           <DialogTitle>{t('diary-post.liked-by')}</DialogTitle>
         </DialogHeader>
         <Separator />
-        <ScrollArea className="-mr-5 pr-5">
-          {users.data && <ListUsers users={users.data} />}
+        <ScrollArea>
+          <ScrollAreaViewport className="-mr-5 pr-5">
+            {users.data && <ListUsers users={users.data} />}
+          </ScrollAreaViewport>
         </ScrollArea>
       </DialogContent>
     </Dialog>
