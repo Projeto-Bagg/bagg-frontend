@@ -1,6 +1,7 @@
 'use client';
 
 import { Link } from '@/common/navigation';
+import { SeeMore } from '@/components/see-more';
 import { CountryFlag } from '@/components/ui/country-flag';
 import {
   Ranking,
@@ -13,7 +14,6 @@ import {
 } from '@/components/ui/ranking';
 import axios from '@/services/axios';
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { ChevronRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useSearchParams } from 'next/navigation';
 import React, { useEffect } from 'react';
@@ -137,15 +137,7 @@ export const CountryVisitRanking = ({
       </RankingContent>
       {seeMore && ranking?.pages[0].length !== 0 && (
         <RankingFooter>
-          <Link
-            className="text-right hover:underline text-sm font-bold w-full uppercase text-primary"
-            href={'/country/ranking/visits'}
-          >
-            <div className="flex gap-0.5 items-center justify-end">
-              <span>{t('ranking.more')}</span>
-              <ChevronRight className="w-[24px]" />
-            </div>
-          </Link>
+          <SeeMore href={'/country/ranking/visits'} />
         </RankingFooter>
       )}
     </Ranking>

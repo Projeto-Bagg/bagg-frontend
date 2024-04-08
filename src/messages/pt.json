@@ -280,7 +280,6 @@
     "review": "Avaliar",
     "no-images": "Sem imagens.",
     "reviews": "Últimas avaliações",
-    "view-more-reviews": "Ver mais",
     "data": {
       "rating": {
         "tooltip": "Média de {rating} com base em {count} avaliações"
@@ -337,7 +336,6 @@
     "most-visited-cities": "Cidades mais visitadas",
     "cities-with-gratest-interest": "Cidades com maior interesse",
     "empty": "Ranking vazio.",
-    "more": "Ver mais",
     "date-range": {
       "date": "{count, plural, =0 {Todo o período} other {Últimos # dias}}"
     },
@@ -355,6 +353,16 @@
   "modal": {
     "close": "Tem certeza que deseja fechar o formulário?"
   },
+  "search-page": {
+    "title": "Pesquisar",
+    "options": {
+      "user": "Usuários",
+      "country": "Países",
+      "city": "Cidades"
+    },
+    "no-results": "Sem resultados para"
+  },
+  "see-more": "Ver mais",
   "settings": {
     "title": "Configurações",
     "username": {

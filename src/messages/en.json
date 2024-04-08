@@ -280,7 +280,6 @@
     "review": "Review",
     "no-images": "No images yet.",
     "reviews": "Last reviews",
-    "view-more-reviews": "View more",
     "data": {
       "rating": {
         "tooltip": "Average of {rating} based on {count} reviews"
@@ -336,7 +335,6 @@
     "most-visited-cities": "Most visited cities",
     "countries-with-gratest-interest": "Countries with greatest interest",
     "cities-with-gratest-interest": "Cities with greatest interest",
-    "more": "More",
     "empty": "Empty ranking.",
     "date-range": {
       "date": "{count, plural, =0 {All time} other {Last # days}}"
@@ -355,6 +353,16 @@
   "modal": {
     "close": "Are you sure you want to abandon this entry?"
   },
+  "search-page": {
+    "title": "Search",
+    "options": {
+      "user": "User",
+      "country": "Country",
+      "city": "City"
+    },
+    "no-results": "No results for"
+  },
+  "see-more": "More",
   "settings": {
     "title": "Settings",
     "username": {

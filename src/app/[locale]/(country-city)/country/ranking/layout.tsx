@@ -25,6 +25,7 @@ export default function Layout({ children }: { children: ReactNode }) {
   const date = searchParams.get('date');
 
   const handleChangeDatePreset = (value: string) => {
+    // @ts-expect-error
     router.push({
       pathname: pathname,
       params: {
