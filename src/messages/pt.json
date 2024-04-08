@@ -1,4 +1,7 @@
 {
+  "commons": {
+    "confirm": "Confirmar"
+  },
   "header": {
     "home": "Página principal",
     "ranking": "Ranking",
@@ -45,7 +48,7 @@
       "link": "Cadastrar-se"
     }
   },
-  "signup": {
+  "signup-edit": {
     "title": "Cadastrar-se",
     "description": "Preencha o formulário para se cadastrar no Bagg!",
     "name": {
@@ -56,6 +59,7 @@
     "username": {
       "label": "Nome de usuário",
       "too-small": "Digite o nome de usuário",
+      "available": "Nome de usuário disponível",
       "not-available": "Nome de usuário indisponível",
       "valid-conditions": {
         "title": "O nome de usuário deve conter:",
@@ -72,7 +76,8 @@
       "label": "Email",
       "invalid": "Digite um e-mail válido",
       "too-small": "Digite um e-mail",
-      "not-available": "E-mail indisponível"
+      "available": "Email disponível",
+      "not-available": "Email indisponível"
     },
     "password": {
       "label": "Senha",
@@ -357,5 +362,41 @@
     },
     "no-results": "Sem resultados para"
   },
-  "see-more": "Ver mais"
+  "see-more": "Ver mais",
+  "settings": {
+    "title": "Configurações",
+    "username": {
+      "title": "Alterar nome de usuário",
+      "toast": "Nome de usuário alterado com sucesso!"
+    },
+    "change-password": {
+      "title": "Alterar senha",
+      "newPassword": {
+        "label": "Nova senha",
+        "too-small": "Digite a nova senha",
+        "samePassword": "A nova senha e a atual são iguais"
+      },
+      "currentPassword": {
+        "label": "Senha atual",
+        "too-small": "Digite a senha atual"
+      },
+      "confirm-password": {
+        "label": "Confirmar senha",
+        "too-small": "Digite a senha novamente",
+        "unmatched-passwords": "As senhas não se coincidem"
+      },
+      "toast": "Senha alterada com sucesso!"
+    },
+    "delete-account": {
+      "title": "Excluir conta",
+      "currentPassword": "Senha atual",
+      "confirm-modal": {
+        "label": "Confirmar",
+        "description": "Deseja mesmo excluir sua conta? Essa ação é irreversível e seus dados não poderão ser recuperados.",
+        "cancel": "Cancelar",
+        "action": "Excluir conta"
+      },
+      "toast": "Senha incorreta"
+    }
+  }
 }

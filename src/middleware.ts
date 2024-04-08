@@ -1,6 +1,5 @@
 import createIntlMiddleware from 'next-intl/middleware';
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 export function middleware(request: NextRequest) {
   const intlMiddleware = createIntlMiddleware({
@@ -12,11 +11,15 @@ export function middleware(request: NextRequest) {
   const isAuthenticated = request.cookies.has('bagg.sessionToken');
 
   if (request.nextUrl.pathname.endsWith('/login') && isAuthenticated) {
-    return NextResponse.redirect(new URL('/', request.url));
+    return NextResponse.redirect(new URL('/', request.nextUrl.origin));
   }
 
   if (request.nextUrl.pathname.endsWith('/signup') && isAuthenticated) {
-    return NextResponse.redirect(new URL('/', request.url));
+    return NextResponse.redirect(new URL('/', request.nextUrl.origin));
+  }
+
+  if (request.nextUrl.pathname.endsWith('/settings') && !isAuthenticated) {
+    return NextResponse.redirect(new URL('/', request.nextUrl.origin));
   }
 
   if (request.nextUrl.pathname.endsWith('/settings/profile') && !isAuthenticated) {
