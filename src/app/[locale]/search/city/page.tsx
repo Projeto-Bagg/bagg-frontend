@@ -35,6 +35,7 @@ export default function Page() {
 
       return null;
     },
+    enabled: !!q,
   });
 
   useEffect(() => {
@@ -42,6 +43,14 @@ export default function Page() {
       fetchNextPage();
     }
   }, [inView, fetchNextPage, hasNextPage]);
+
+  if (data && data.pages[0].length === 0) {
+    return (
+      <span className="flex justify-center font-bold">
+        {t('search-page.no-results')} &quot;{q}&quot;
+      </span>
+    );
+  }
 
   return (
     <div className="gap-y-0.5 gap-x-2 grid sm:grid-cols-2">

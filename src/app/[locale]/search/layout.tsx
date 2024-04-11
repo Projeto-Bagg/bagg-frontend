@@ -21,12 +21,13 @@ export default function Layout({ children }: Props) {
   const router = useRouter();
   const [query, setQuery] = useState<string | null>(q);
   const debounce = useDebouncedCallback((q) => {
-    // @ts-expect-error
     router.replace({
       pathname,
-      query: {
-        q,
-      },
+      ...(q && {
+        query: {
+          q,
+        },
+      }),
     });
   }, 1000);
 
@@ -43,7 +44,7 @@ export default function Layout({ children }: Props) {
           <Input
             onChange={(e) => {
               setQuery(e.target.value);
-              e.target.value && debounce(e.target.value);
+              debounce(e.target.value || null);
             }}
             className="pl-12 text-xl placeholder:text-xl h-14"
             value={query || ''}

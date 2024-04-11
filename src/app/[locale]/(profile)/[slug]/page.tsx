@@ -34,7 +34,7 @@ export default function Profile({ params }: { params: { slug: string } }) {
 
   if (user.isError) {
     return (
-      <div className="p-4">
+      <div>
         <div className="pb-4">
           <h2 className="font-bold w-fit text-xl sm:text-2xl border-b-2 border-primary pb-1">
             {t('profile.not-found.title')}
