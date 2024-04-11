@@ -32,6 +32,24 @@ export default function Profile({ params }: { params: { slug: string } }) {
     queryFn: async () => (await axios.get<FullInfoUser>('/users/' + params.slug)).data,
   });
 
+  if (user.isError) {
+    return (
+      <div>
+        <div className="pb-4">
+          <h2 className="font-bold w-fit text-xl sm:text-2xl border-b-2 border-primary pb-1">
+            {t('profile.not-found.title')}
+          </h2>
+        </div>
+        <span>
+          {t('profile.not-found.redirect-to')}{' '}
+          <Link className="text-primary hover:underline" href={'/'}>
+            {t('profile.not-found.route')}
+          </Link>
+        </span>
+      </div>
+    );
+  }
+
   const handleFollowClick = () => {
     if (!auth.isAuthenticated) {
       return router.push('/login');

@@ -1,6 +1,7 @@
 'use client';
 
 import { Link } from '@/common/navigation';
+import { SeeMore } from '@/components/see-more';
 import { CountryFlag } from '@/components/ui/country-flag';
 import {
   Ranking,
@@ -14,7 +15,6 @@ import {
 import axios from '@/services/axios';
 import { Rating } from '@smastrom/react-rating';
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { ChevronRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useSearchParams } from 'next/navigation';
 import React, { useEffect } from 'react';
@@ -98,7 +98,7 @@ export const CityRatingRanking = ({
                 ref={page.length - 1 === index ? ref : undefined}
               >
                 <div className="flex gap-2 items-center w-full">
-                  <h3 className="w-[24px] font-bold">
+                  <h3 className="w-[24px] font-bold shrink-0">
                     {pageIndex * count + (index + 1)}º
                   </h3>
                   <Link
@@ -154,8 +154,7 @@ export const CityRatingRanking = ({
       </RankingContent>
       {seeMore && ranking?.pages[0].length !== 0 && (
         <RankingFooter>
-          <Link
-            className="hover:underline text-sm font-bold w-full uppercase text-primary"
+          <SeeMore
             href={{
               pathname: '/city/ranking/rating',
               query: {
@@ -164,12 +163,7 @@ export const CityRatingRanking = ({
                 }),
               },
             }}
-          >
-            <div className="flex gap-0.5 items-center justify-end">
-              <span>{t('ranking.more')}</span>
-              <ChevronRight className="w-[24px]" />
-            </div>
-          </Link>
+          />
         </RankingFooter>
       )}
     </Ranking>

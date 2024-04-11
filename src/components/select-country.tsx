@@ -7,7 +7,7 @@ import {
 } from '@/components/ui/command';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
-import { Check, ChevronsUpDown } from 'lucide-react';
+import { ChevronsUpDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useDebounce } from 'use-debounce';
 import { useQuery } from '@tanstack/react-query';
@@ -17,7 +17,7 @@ import { useTranslations } from 'next-intl';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
 interface SelectCountryProps {
-  onSelect: (value: Country) => void;
+  onSelect: (value: Country | undefined) => void;
   defaultIso2?: string;
 }
 
@@ -77,6 +77,23 @@ export const SelectCountry = ({ onSelect, defaultIso2 }: SelectCountryProps) => 
               {countries.isError && (
                 <div className="p-4 text-sm">{t('select-country.error')}</div>
               )}
+              <CommandItem
+                onSelect={() => {
+                  setSelectedCountry(undefined);
+                  onSelect(undefined);
+                  setOpen(false);
+                }}
+              >
+                <span
+                  className={cn(
+                    'mr-2 flex h-[18px] w-[18px] items-center justify-center',
+                    !selectedCountry ? 'opacity-100' : 'opacity-0',
+                  )}
+                >
+                  <span className="w-[3px] h-full rounded-xl bg-primary" />
+                </span>
+                <span className="ml-[28px]">{t('select-country.title')}</span>
+              </CommandItem>
               {countries.data?.map((country) => (
                 <CommandItem
                   key={country.id}

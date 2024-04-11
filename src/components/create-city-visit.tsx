@@ -55,7 +55,7 @@ export const CreateCityVisit = ({ children, city }: CreateCityVisitProps) => {
   const {
     handleSubmit,
     control,
-    formState: { errors, isDirty, defaultValues },
+    formState: { errors, dirtyFields, defaultValues },
     register,
     reset,
     watch,
@@ -101,13 +101,12 @@ export const CreateCityVisit = ({ children, city }: CreateCityVisitProps) => {
       return setOpen(true);
     }
 
-    if (isDirty) {
+    if (Object.entries(dirtyFields).length) {
       const shouldClose = window.confirm(t('modal.close'));
       if (!shouldClose) return;
     }
 
     setOpen(false);
-    reset(defaultValues, { keepDefaultValues: true });
   };
 
   const deleteReview = async () => {
@@ -144,12 +143,14 @@ export const CreateCityVisit = ({ children, city }: CreateCityVisitProps) => {
           className="space-y-4"
           onSubmit={handleSubmit(onSubmit)}
         >
-          <div className="flex justify-between mb-0.5">
-            <div className="flex gap-1 items-end">
-              <Label>{t('create-city-visit.message')}</Label>
-              <Label className="text-muted-foreground text-xs">
-                {watch('message')?.length || 0} / 300
-              </Label>
+          <div>
+            <div className="flex justify-between mb-0.5">
+              <div className="flex gap-1 items-end">
+                <Label>{t('create-city-visit.message')}</Label>
+                <Label className="text-muted-foreground text-xs">
+                  {watch('message')?.length || 0} / 300
+                </Label>
+              </div>
             </div>
             <Textarea {...register('message')} className="max-h-[160px]" />
             {errors.message && (

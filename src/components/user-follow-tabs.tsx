@@ -7,6 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useQuery } from '@tanstack/react-query';
 import axios from '@/services/axios';
 import { useTranslations } from 'next-intl';
+import { ScrollArea, ScrollAreaViewport } from '@/components/ui/scroll-area';
 
 interface IUserFollowTabs {
   username: string;
@@ -42,10 +43,11 @@ export function UserFollowTabs({ username, children, defaultTab }: IUserFollowTa
       }}
     >
       <DialogTrigger>{children}</DialogTrigger>
-      <DialogContent className="p-0 min-h-[560px]">
+      <DialogContent className="p-0">
         <Tabs
           defaultValue={defaultTab}
           onValueChange={(value) => setTab(value as typeof defaultTab)}
+          className="overflow-hidden"
         >
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="followers">{t('follow.followers')}</TabsTrigger>
@@ -55,11 +57,15 @@ export function UserFollowTabs({ username, children, defaultTab }: IUserFollowTa
             <TabsContent
               value={tabIndex === 0 ? 'followers' : 'following'}
               key={tabIndex}
-              className="px-6 pt-2"
+              className="pt-2"
             >
-              {!(followers.isLoading || following.isLoading) && tab && (
-                <ListUsers users={tab} showIfUserFollowYou={tabIndex === 1} />
-              )}
+              <ScrollArea>
+                <ScrollAreaViewport className="h-[540px] w-full px-6 ">
+                  {!(followers.isLoading || following.isLoading) && tab && (
+                    <ListUsers users={tab} showIfUserFollowYou={tabIndex === 1} />
+                  )}
+                </ScrollAreaViewport>
+              </ScrollArea>
             </TabsContent>
           ))}
         </Tabs>

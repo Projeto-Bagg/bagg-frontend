@@ -72,6 +72,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     deleteCookie('bagg.sessionToken');
     deleteCookie('bagg.refreshToken');
     queryClient.setQueryData(['session'], null);
+
+    router.push('/');
+
     queryClient.invalidateQueries();
   };
 

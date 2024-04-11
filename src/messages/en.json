@@ -1,4 +1,7 @@
 {
+  "commons": {
+    "confirm": "Confirm"
+  },
   "header": {
     "home": "Home",
     "ranking": "Ranking",
@@ -45,7 +48,7 @@
       "link": "Sign up"
     }
   },
-  "signup": {
+  "signup-edit": {
     "title": "Sign up",
     "description": "Fill out the form to register to Bagg",
     "name": {
@@ -56,6 +59,7 @@
     "username": {
       "label": "Username",
       "too-small": "Enter a username",
+      "available": "Available username",
       "not-available": "Username not available",
       "valid-conditions": {
         "title": "The username must:",
@@ -72,6 +76,7 @@
       "label": "Email",
       "invalid": "Enter a valid email address",
       "too-small": "Enter a email address",
+      "available": "Available email",
       "not-available": "Email not available"
     },
     "password": {
@@ -121,6 +126,11 @@
     "cancel": "Cancel"
   },
   "profile": {
+    "not-found": {
+      "title": "User not found",
+      "redirect-to": "Redirect to",
+      "route": "homepage"
+    },
     "edit-profile": "Edit profile",
     "created-at": "Joined in {joinDate, date, long}",
     "birthdate": "Born in {joinDate, date, long}",
@@ -194,7 +204,12 @@
     "message-error": "Enter a message",
     "message-max-error": "The maximum length is 300 characters",
     "max-size-files": "Max size is 10 files and 100mb in total",
-    "confirm": "Confirm"
+    "confirm": "Confirm",
+    "tags": {
+      "label": "Tags",
+      "helper": "Press tab or enter to complete",
+      "placeholder": "Examples: restaurant, beach, climate..."
+    }
   },
   "select-city": {
     "title": "Select a city...",
@@ -265,7 +280,6 @@
     "review": "Review",
     "no-images": "No images yet.",
     "reviews": "Last reviews",
-    "view-more-reviews": "View more",
     "data": {
       "rating": {
         "tooltip": "Average of {rating} based on {count} reviews"
@@ -321,7 +335,6 @@
     "most-visited-cities": "Most visited cities",
     "countries-with-gratest-interest": "Countries with greatest interest",
     "cities-with-gratest-interest": "Cities with greatest interest",
-    "more": "More",
     "empty": "Empty ranking.",
     "date-range": {
       "date": "{count, plural, =0 {All time} other {Last # days}}"
@@ -339,5 +352,51 @@
   },
   "modal": {
     "close": "Are you sure you want to abandon this entry?"
+  },
+  "search-page": {
+    "title": "Search",
+    "options": {
+      "user": "User",
+      "country": "Country",
+      "city": "City"
+    },
+    "no-results": "No results for"
+  },
+  "see-more": "More",
+  "settings": {
+    "title": "Settings",
+    "username": {
+      "title": "Change username",
+      "toast": "Username changed successfully!"
+    },
+    "change-password": {
+      "title": "Change password",
+      "newPassword": {
+        "label": "New password",
+        "too-small": "Enter a new password",
+        "samePassword": "The new password and the current one are the same"
+      },
+      "currentPassword": {
+        "label": "Current password",
+        "too-small": "Enter your current password"
+      },
+      "confirm-password": {
+        "label": "Confirm password",
+        "too-small": "Enter your new password again",
+        "unmatched-passwords": "Password do not match"
+      },
+      "toast": "Password changed successfully!"
+    },
+    "delete-account": {
+      "title": "Delete account",
+      "currentPassword": "Current password",
+      "confirm-modal": {
+        "label": "Confirm",
+        "description": "Are you sure you want to delete your account? This action cannot be undone and your data cannot be recovered.",
+        "cancel": "Cancel",
+        "action": "Delete account"
+      },
+      "toast": "Incorrect password"
+    }
   }
 }
