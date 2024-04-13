@@ -62,7 +62,11 @@ export const ChangeUsername = () => {
         <h2 className="font-semibold">{t('settings.username.title')}</h2>
       </div>
       <div className="bg-accent/70 p-6 w-full">
-        <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
+        <form
+          data-test="change-username-form"
+          className="space-y-4"
+          onSubmit={handleSubmit(onSubmit)}
+        >
           <div>
             <Label>{t('signup-edit.username.label')}</Label>
             <Input placeholder={auth.user?.username} {...register('username')} />
@@ -94,12 +98,18 @@ export const ChangeUsername = () => {
             {!errors.username && (
               <>
                 {isUsernameAvailable.isError && (
-                  <span className="text-sm text-red-600 font-semibold">
+                  <span
+                    data-test="username-not-available"
+                    className="text-sm text-red-600 font-semibold"
+                  >
                     {t('signup-edit.username.not-available')}
                   </span>
                 )}
                 {isUsernameAvailable.isSuccess && (
-                  <span className="text-sm text-green-600 font-semibold">
+                  <span
+                    data-test="username-available"
+                    className="text-sm text-green-600 font-semibold"
+                  >
                     {t('signup-edit.username.available')}
                   </span>
                 )}

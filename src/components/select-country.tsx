@@ -14,7 +14,7 @@ import { useQuery } from '@tanstack/react-query';
 import axios from '@/services/axios';
 import { CountryFlag } from '@/components/ui/country-flag';
 import { useTranslations } from 'next-intl';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import { ScrollArea, ScrollAreaViewport } from '@/components/ui/scroll-area';
 
 interface SelectCountryProps {
   onSelect: (value: Country | undefined) => void;
@@ -63,69 +63,73 @@ export const SelectCountry = ({ onSelect, defaultIso2 }: SelectCountryProps) => 
         </Button>
       </PopoverTrigger>
       <PopoverContent className="p-0">
-        <ScrollArea className="h-[440px]">
-          <Command>
-            <CommandInput
-              onValueChange={setQuery}
-              value={query}
-              placeholder={t('select-country.search')}
-            />
-            <CommandGroup>
-              {!countries.isError && !countries.isLoading && !countries.data?.length && (
-                <div className="p-4 text-sm">{t('select-country.not-found')}</div>
-              )}
-              {countries.isError && (
-                <div className="p-4 text-sm">{t('select-country.error')}</div>
-              )}
-              <CommandItem
-                onSelect={() => {
-                  setSelectedCountry(undefined);
-                  onSelect(undefined);
-                  setOpen(false);
-                }}
-              >
-                <span
-                  className={cn(
-                    'mr-2 flex h-[18px] w-[18px] items-center justify-center',
-                    !selectedCountry ? 'opacity-100' : 'opacity-0',
+        <ScrollArea>
+          <ScrollAreaViewport className="max-h-[440px]">
+            <Command>
+              <CommandInput
+                onValueChange={setQuery}
+                value={query}
+                placeholder={t('select-country.search')}
+              />
+              <CommandGroup>
+                {!countries.isError &&
+                  !countries.isLoading &&
+                  !countries.data?.length && (
+                    <div className="p-4 text-sm">{t('select-country.not-found')}</div>
                   )}
-                >
-                  <span className="w-[3px] h-full rounded-xl bg-primary" />
-                </span>
-                <span className="ml-[28px]">{t('select-country.title')}</span>
-              </CommandItem>
-              {countries.data?.map((country) => (
+                {countries.isError && (
+                  <div className="p-4 text-sm">{t('select-country.error')}</div>
+                )}
                 <CommandItem
-                  key={country.id}
-                  value={country.name}
-                  onSelect={(currentValue) => {
-                    setSelectedCountry(
-                      currentValue === selectedCountry?.name ? undefined : country,
-                    );
-                    onSelect(country);
+                  onSelect={() => {
+                    setSelectedCountry(undefined);
+                    onSelect(undefined);
                     setOpen(false);
                   }}
                 >
                   <span
                     className={cn(
                       'mr-2 flex h-[18px] w-[18px] items-center justify-center',
-                      selectedCountry?.name === country.name
-                        ? 'opacity-100'
-                        : 'opacity-0',
+                      !selectedCountry ? 'opacity-100' : 'opacity-0',
                     )}
                   >
                     <span className="w-[3px] h-full rounded-xl bg-primary" />
                   </span>
-                  <div className="flex gap-2">
-                    <CountryFlag iso2={country.iso2} />
-                    <span className="w-[216px] whitespace-nowrap text-ellipsis overflow-hidden">
-                      {country.name}
-                    </span>
-                  </div>
+                  <span className="ml-[28px]">{t('select-country.title')}</span>
                 </CommandItem>
-              ))}
-            </CommandGroup>
-          </Command>
+                {countries.data?.map((country) => (
+                  <CommandItem
+                    key={country.id}
+                    value={country.name}
+                    onSelect={(currentValue) => {
+                      setSelectedCountry(
+                        currentValue === selectedCountry?.name ? undefined : country,
+                      );
+                      onSelect(country);
+                      setOpen(false);
+                    }}
+                  >
+                    <span
+                      className={cn(
+                        'mr-2 flex h-[18px] w-[18px] items-center justify-center',
+                        selectedCountry?.name === country.name
+                          ? 'opacity-100'
+                          : 'opacity-0',
+                      )}
+                    >
+                      <span className="w-[3px] h-full rounded-xl bg-primary" />
+                    </span>
+                    <div className="flex gap-2">
+                      <CountryFlag iso2={country.iso2} />
+                      <span className="w-[216px] whitespace-nowrap text-ellipsis overflow-hidden">
+                        {country.name}
+                      </span>
+                    </div>
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            </Command>
+          </ScrollAreaViewport>
         </ScrollArea>
       </PopoverContent>
     </Popover>

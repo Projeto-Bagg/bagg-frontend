@@ -20,7 +20,7 @@ describe('Logar', () => {
 
     cy.get('@loginRequest').should('have.nested.property', 'response.statusCode', 401);
 
-    cy.get('[data-test="toasts"]').should('have.descendants', 'li');
+    cy.get('[data-test="toasts"]').children().should('have.length', 1);
   });
 
   it('Login correto', () => {

@@ -19,10 +19,10 @@ import { languages } from '@/common/languages';
 import { Search } from '@/components/search/search-dialog';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { CountryFlag } from '@/components/ui/country-flag';
-import { CreatePost } from '@/components/create-post';
+import { CreateDiaryPost } from '@/components/create-post/create-diary-post';
 import { Link, usePathname, useRouter } from '@/common/navigation';
 import { useParams, useSearchParams } from 'next/navigation';
-import { CreateTip } from '@/components/create-tip';
+import { CreateTip } from '@/components/create-post/create-tip';
 import {
   PrimitiveSelectTrigger,
   Select,
@@ -74,7 +74,7 @@ export const Header = () => {
                   </span>
                 </button>
               </CreateTip>
-              <CreatePost>
+              <CreateDiaryPost>
                 <button
                   data-test="create-post"
                   className="text-primary-foreground flex gap-1 h-[1.2rem] px-2 bg-primary items-center rounded-sm"
@@ -84,7 +84,7 @@ export const Header = () => {
                     {t('create-post.trigger')}
                   </span>
                 </button>
-              </CreatePost>
+              </CreateDiaryPost>
             </React.Fragment>
           )}
           <Search />
@@ -138,7 +138,7 @@ export const Header = () => {
             {auth.user ? (
               <div className="flex items-center gap-2">
                 <DropdownMenu>
-                  <DropdownMenuTrigger>
+                  <DropdownMenuTrigger data-test="header-dropdown-button">
                     <Avatar>
                       <AvatarImage src={auth.user?.image} />
                     </Avatar>
@@ -161,7 +161,9 @@ export const Header = () => {
                           <Avatar className="my-1 h-[48px] w-[48px]">
                             <AvatarImage src={auth.user?.image} />
                           </Avatar>
-                          <span className="font-medium">{auth.user?.username}</span>
+                          <span data-test="header-username" className="font-medium">
+                            {auth.user?.username}
+                          </span>
                         </div>
                       </div>
                     </Link>

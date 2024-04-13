@@ -47,7 +47,7 @@ export const MobileNav = () => {
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
-      <SheetTrigger className="sm:hidden">
+      <SheetTrigger data-test="mobile-nav-trigger" className="sm:hidden">
         <Avatar>
           <AvatarImage src={auth.user?.image} />
         </Avatar>
@@ -128,7 +128,10 @@ export const MobileNav = () => {
           <Separator />
           <Collapsible>
             <CollapsibleTrigger asChild>
-              <button className="flex w-full justify-between items-center">
+              <button
+                data-test="language-collapsible"
+                className="flex w-full justify-between items-center"
+              >
                 <span>{t('languages')}</span>
                 <ChevronsUpDown size={20} />
               </button>
@@ -148,6 +151,7 @@ export const MobileNav = () => {
                   key={lang.locale}
                   className="ml-3 mt-2 flex justify-between"
                   locale={lang.locale}
+                  data-test={lang.locale}
                 >
                   <div className="flex gap-2">
                     <CountryFlag iso2={lang.country} />
@@ -159,7 +163,7 @@ export const MobileNav = () => {
             </CollapsibleContent>
           </Collapsible>
           <Collapsible>
-            <CollapsibleTrigger asChild>
+            <CollapsibleTrigger data-test="theme-collapsible" asChild>
               <button className="flex w-full justify-between items-center">
                 <span>{t('themes.title')}</span>
                 <ChevronsUpDown size={20} />
@@ -171,6 +175,7 @@ export const MobileNav = () => {
                   <button
                     onClick={() => setTheme(theme)}
                     className="text-muted-foreground"
+                    data-test={theme}
                   >
                     {t(`themes.${theme as 'dark' | 'light' | 'system'}`)}
                   </button>
