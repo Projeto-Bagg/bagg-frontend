@@ -60,24 +60,13 @@ export default function TripDiary({ tripDiary, seePostsAnchor }: TripDiaryProps)
     <div className="py-4 border-b">
       <div className="flex flex-col w-full">
         <div className="flex justify-between items-center w-full">
-          <div>
-            <Link
-              className="font-bold hover:underline"
-              href={{ params: { slug: tripDiary.id }, pathname: '/diary/[slug]' }}
-            >
-              {tripDiary.title}
-            </Link>
-            <div className="flex gap-1 text-sm text-muted-foreground">
-              <Link
-                href={{ params: { slug: tripDiary.city.id }, pathname: '/city/[slug]' }}
-                className="hover:underline"
-              >
-                {tripDiary.city.name}, {tripDiary.city.region.name},{' '}
-                {tripDiary.city.region.country.name}
-              </Link>
-              <CountryFlag className="ml-1" iso2={tripDiary.city.region.country.iso2} />
-            </div>
-          </div>
+          <Link
+            className="font-bold hover:underline"
+            href={{ params: { slug: tripDiary.id }, pathname: '/diary/[slug]' }}
+          >
+            {tripDiary.title}
+          </Link>
+
           <div className="flex items-center gap-1">
             <span className="text-muted-foreground text-sm">
               {formatter.relativeTime(tripDiary.createdAt, new Date())}
@@ -127,6 +116,16 @@ export default function TripDiary({ tripDiary, seePostsAnchor }: TripDiaryProps)
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
+        </div>
+        <div className="flex gap-1 text-sm text-muted-foreground">
+          <Link
+            href={{ params: { slug: tripDiary.city.id }, pathname: '/city/[slug]' }}
+            className="hover:underline"
+          >
+            {tripDiary.city.name}, {tripDiary.city.region.name},{' '}
+            {tripDiary.city.region.country.name}
+          </Link>
+          <CountryFlag className="ml-1" iso2={tripDiary.city.region.country.iso2} />
         </div>
         <span className="text-muted-foreground text-sm">
           {t('trip-diary.posts', {

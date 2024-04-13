@@ -16,7 +16,7 @@ import { Plus, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { MobileNav } from '@/components/mobile-nav';
 import { languages } from '@/common/languages';
-import { Search } from '@/components/search-dialog';
+import { Search } from '@/components/search/search-dialog';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { CountryFlag } from '@/components/ui/country-flag';
 import { CreatePost } from '@/components/create-post';
@@ -92,6 +92,7 @@ export const Header = () => {
             defaultValue={locale}
             onValueChange={(lang) =>
               router.replace(
+                // @ts-expect-error
                 {
                   params: { slug: params.slug as string },
                   pathname,
@@ -175,7 +176,7 @@ export const Header = () => {
                       >
                         {t('header.menu.profile')}
                       </DropdownMenuItem>
-                      <DropdownMenuItem onSelect={() => router.push('/config')}>
+                      <DropdownMenuItem onSelect={() => router.replace('/settings')}>
                         {t('header.menu.settings')}
                       </DropdownMenuItem>
                       <DropdownMenuItem onSelect={() => auth.logout()}>

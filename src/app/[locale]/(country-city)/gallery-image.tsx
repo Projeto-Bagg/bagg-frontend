@@ -28,7 +28,7 @@ export const GalleryImage = ({ image, className, ...props }: GalleryImage) => {
       <div className="absolute h-1/2 bottom-0 left-0 w-full">
         <div className="absolute w-full h-full bg-black gradient-mask-t-[rgba(0,0,0,1.0)]" />
         <div className="flex h-full py-3 px-4 relative items-end">
-          <div className="flex w-full items-center text-sm justify-between">
+          <div className="flex text-white w-full items-center text-sm justify-between">
             <div className="flex items-center gap-2">
               <UserHoverCard username={image.user.username}>
                 <Link
@@ -60,7 +60,7 @@ export const GalleryImage = ({ image, className, ...props }: GalleryImage) => {
               {image.city && (
                 <>
                   <Link
-                    className="hover:underline text-primary"
+                    className="hover:underline"
                     href={{
                       params: { slug: image.city.id },
                       pathname: '/city/[slug]',

@@ -1,6 +1,7 @@
 'use client';
 
 import { Link } from '@/common/navigation';
+import { SeeMore } from '@/components/see-more';
 import { CountryFlag } from '@/components/ui/country-flag';
 import {
   Ranking,
@@ -13,7 +14,6 @@ import {
 } from '@/components/ui/ranking';
 import axios from '@/services/axios';
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { ChevronRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useSearchParams } from 'next/navigation';
 import React, { useEffect } from 'react';
@@ -92,10 +92,21 @@ export const CountryVisitRanking = ({
                 ref={page.length - 1 === index ? ref : undefined}
               >
                 <div className="flex gap-2 items-center">
-                  <h3 className="w-[24px] font-bold">
+                  <h3 className="w-[24px] font-bold shrink-0">
                     {pageIndex * count + (index + 1)}º
                   </h3>
-                  <CountryFlag className="w-[36px] rounded-sm" iso2={country.iso2} />
+                  <Link
+                    href={{
+                      params: { slug: country.iso2 },
+                      pathname: '/country/[slug]',
+                    }}
+                  >
+                    <CountryFlag
+                      tooltip={country.name}
+                      className="w-[36px]"
+                      iso2={country.iso2}
+                    />
+                  </Link>
                   <Link
                     className="hover:underline"
                     href={{
@@ -126,15 +137,7 @@ export const CountryVisitRanking = ({
       </RankingContent>
       {seeMore && ranking?.pages[0].length !== 0 && (
         <RankingFooter>
-          <Link
-            className="text-right hover:underline text-sm font-bold w-full uppercase text-primary"
-            href={'/country/ranking/visits'}
-          >
-            <div className="flex gap-0.5 items-center justify-end">
-              <span>{t('ranking.more')}</span>
-              <ChevronRight className="w-[24px]" />
-            </div>
-          </Link>
+          <SeeMore href={'/country/ranking/visits'} />
         </RankingFooter>
       )}
     </Ranking>

@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Link, { LinkProps } from 'next/link';
 import { useLocale, useTranslations } from 'next-intl';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Separator } from '@/components/ui/separator';
 import {
@@ -29,11 +29,11 @@ import {
   ChevronsUpDown,
   Home,
   LogIn,
-  MapPin,
   Settings,
   User2,
 } from 'lucide-react';
-import { Link as IntlLink } from '@/common/navigation';
+import { Link as IntlLink, usePathname } from '@/common/navigation';
+import queryString from 'query-string';
 
 export const MobileNav = () => {
   const auth = useAuth();
@@ -41,6 +41,9 @@ export const MobileNav = () => {
   const locale = useLocale();
   const t = useTranslations('header');
   const { themes, theme: activeTheme, setTheme } = useTheme();
+  const pathname = usePathname();
+  const params = useParams();
+  const searchParams = useSearchParams();
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -82,7 +85,7 @@ export const MobileNav = () => {
                   <span>{t('menu.profile')}</span>
                 </div>
               </MobileLink>
-              <MobileLink onOpenChange={setOpen} href={'/config'}>
+              <MobileLink onOpenChange={setOpen} href={'/settings'}>
                 <div className="flex items-center gap-2">
                   <Settings size={20} />
                   <span>{t('menu.settings')}</span>
@@ -133,7 +136,15 @@ export const MobileNav = () => {
             <CollapsibleContent>
               {languages.map((lang) => (
                 <IntlLink
-                  href={'/'}
+                  // @ts-expect-error
+                  href={{
+                    params: { slug: params.slug as string },
+                    pathname,
+                    query: queryString.parse(searchParams.toString()) as Record<
+                      'string',
+                      'string'
+                    >,
+                  }}
                   key={lang.locale}
                   className="ml-3 mt-2 flex justify-between"
                   locale={lang.locale}

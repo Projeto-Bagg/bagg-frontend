@@ -37,11 +37,11 @@ import { SelectCity } from '@/components/select-city';
 
 const editFormSchema = z.object({
   fullName: z.string().min(3).max(64),
-  username: z
-    .string()
-    .min(3)
-    .max(20)
-    .regex(/^[a-zA-Z0-9_]+$/),
+  // username: z
+  //   .string()
+  //   .min(3)
+  //   .max(20)
+  //   .regex(/^[a-zA-Z0-9_]+$/),
   cityId: z.number().optional(),
   birthdateDay: z.string().min(1),
   birthdateMonth: z.string().min(1),
@@ -95,11 +95,10 @@ export default function EditProfile({ params }: { params: { slug: string } }) {
     control,
     setError,
     setValue,
-    formState: { errors, isDirty },
+    formState: { errors, dirtyFields },
   } = useForm<EditFormType>({
     resolver: zodResolver(editFormSchema),
     defaultValues: {
-      username: auth.user?.username,
       bio: auth.user?.bio,
       fullName: auth.user?.fullName,
       cityId: auth.user?.city?.id,
@@ -121,7 +120,6 @@ export default function EditProfile({ params }: { params: { slug: string } }) {
       data.profilePic && formData.append('profilePic', data.profilePic.file);
       formData.append('fullName', data.fullName);
       formData.append('bio', data.bio);
-      formData.append('username', data.username);
       data.cityId && formData.append('cityId', data.cityId.toString());
 
       const birthdate = new Date(
@@ -134,18 +132,18 @@ export default function EditProfile({ params }: { params: { slug: string } }) {
       await updateProfile.mutateAsync(formData);
       router.back();
     } catch (error: any) {
-      error.response.data?.username?.code === 'username-not-available' &&
-        setError('username', {
-          message: t('signup.username.not-available'),
-          type: 'username-not-available',
-        });
+      // error.response.data?.username?.code === 'username-not-available' &&
+      //   setError('username', {
+      //     message: t('signup-edit.username.not-available'),
+      //     type: 'username-not-available',
+      //   });
     } finally {
       setLoading(false);
     }
   };
 
   const onOpenChange = () => {
-    if (isDirty) {
+    if (Object.entries(dirtyFields).length) {
       const shouldClose = window.confirm(t('modal.close'));
       if (!shouldClose) return;
     }
@@ -183,7 +181,7 @@ export default function EditProfile({ params }: { params: { slug: string } }) {
           </div>
           <div>
             <div>
-              <Label className="mr-1">{t('signup.name.label')}</Label>
+              <Label className="mr-1">{t('signup-edit.name.label')}</Label>
               <Label className="text-muted-foreground text-xs">
                 {watch('fullName')?.length || auth.user?.fullName.length || 0} / 64
               </Label>
@@ -192,43 +190,10 @@ export default function EditProfile({ params }: { params: { slug: string } }) {
             {errors.fullName && (
               <span className="text-sm text-red-600 font-semibold">
                 {errors.fullName.type === 'too_big'
-                  ? t('signup.name.max-length-error')
-                  : t('signup.name.too-small')}
+                  ? t('signup-edit.name.max-length-error')
+                  : t('signup-edit.name.too-small')}
               </span>
             )}
-          </div>
-          <div>
-            <div>
-              <Label className="mr-1">{t('signup.username.label')}</Label>
-              <Label className="text-muted-foreground text-xs">
-                {watch('username')?.length || auth.user?.username.length || 0} / 20
-              </Label>
-            </div>
-            <Input {...register('username')} />
-            {errors.username &&
-              (errors.username?.type === 'username-not-available' ? (
-                <span className="text-red-600 text-sm font-semi-bold">
-                  {t('signup.username.not-available')}
-                </span>
-              ) : (
-                <span className="text-sm text-red-600 font-semibold">
-                  {t('signup.username.valid-conditions.title')}
-                  <ul className="list-disc ml-[18px]">
-                    <li
-                      data-valid={/.{3,20}/.test(watch('username'))}
-                      className="data-[valid=true]:text-green-500"
-                    >
-                      {t('signup.username.valid-conditions.condition1')}
-                    </li>
-                    <li
-                      data-valid={/^[a-zA-Z0-9_]+$/.test(watch('username'))}
-                      className="data-[valid=true]:text-green-500"
-                    >
-                      {t('signup.username.valid-conditions.condition2')}
-                    </li>
-                  </ul>
-                </span>
-              ))}
           </div>
           <div>
             <div>
@@ -268,7 +233,7 @@ export default function EditProfile({ params }: { params: { slug: string } }) {
             )}
           </div>
           <div>
-            <Label>{t('signup.birthdate.label')}</Label>
+            <Label>{t('signup-edit.birthdate.label')}</Label>
 
             <div className="flex gap-2 justify-between">
               <Controller
@@ -277,7 +242,7 @@ export default function EditProfile({ params }: { params: { slug: string } }) {
                 render={({ field }) => (
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <SelectTrigger>
-                      <SelectValue placeholder={t('signup.day')} />
+                      <SelectValue placeholder={t('signup-edit.day')} />
                     </SelectTrigger>
                     <SelectContent className="max-h-[400px]">
                       {[...Array(31)].map((_, index) => (
@@ -295,12 +260,12 @@ export default function EditProfile({ params }: { params: { slug: string } }) {
                 render={({ field }) => (
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <SelectTrigger>
-                      <SelectValue placeholder={t('signup.month')} />
+                      <SelectValue placeholder={t('signup-edit.month')} />
                     </SelectTrigger>
                     <SelectContent className="max-h-[400px]">
                       {months.map((month, index) => (
                         <SelectItem key={month} value={index.toString()}>
-                          {t(`signup.months.${month}`)}
+                          {t(`signup-edit.months.${month}`)}
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -313,7 +278,7 @@ export default function EditProfile({ params }: { params: { slug: string } }) {
                 render={({ field }) => (
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <SelectTrigger>
-                      <SelectValue placeholder={t('signup.year')} />
+                      <SelectValue placeholder={t('signup-edit.year')} />
                     </SelectTrigger>
                     <SelectContent className="max-h-[400px]">
                       {Array.apply(0, Array(104 - 1))
@@ -330,7 +295,7 @@ export default function EditProfile({ params }: { params: { slug: string } }) {
             </div>
             {(errors.birthdateDay || errors.birthdateMonth || errors.birthdateYear) && (
               <span className="text-sm text-red-600 font-semibold">
-                {t('signup.birthdate.too-small')}
+                {t('signup-edit.birthdate.too-small')}
               </span>
             )}
           </div>
