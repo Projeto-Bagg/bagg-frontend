@@ -53,12 +53,7 @@ export default function Page() {
   }
 
   return (
-    <div className="gap-y-0.5 gap-x-2 grid sm:grid-cols-2">
-      {data && data.pages[0].length === 0 && (
-        <span className="flex justify-center font-bold">
-          {t('search-page.no-results')} &quot;{q}&quot;
-        </span>
-      )}
+    <div data-test="cities" className="gap-y-0.5 gap-x-2 grid sm:grid-cols-2">
       {data &&
         data.pages.map((page) =>
           page.map((city, index) => (

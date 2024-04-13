@@ -47,7 +47,7 @@ export default function Page() {
 
   if (data && data.pages[0].length === 0) {
     return (
-      <span className="flex justify-center font-bold">
+      <span data-test="no-results" className="flex justify-center font-bold">
         {t('search-page.no-results')} &quot;{q}&quot;
       </span>
     );

@@ -1,8 +1,6 @@
 'use client';
 
-import NextImage from 'next/image';
-import React, { ReactNode, useRef, useState } from 'react';
-import { AspectRatio } from '@/components/ui/aspect-ratio';
+import React, { ReactNode, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -13,18 +11,16 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { Textarea } from '@/components/ui/textarea';
-import { getVideoThumbnail } from '@/utils/getVideoThumbnail';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Trash2, X } from 'lucide-react';
+import { X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { Image as ImageIcon } from 'lucide-react';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { useToast } from '@/components/ui/use-toast';
 import { useCreateTip } from '@/hooks/useCreateTip';
 import { SelectCity } from '@/components/select-city';
+import { CreatePostMedias } from '@/components/create-post/create-post-medias';
+import { MediaInput } from '@/components/create-post/media-input';
 
 const createTipSchema = z.object({
   cityId: z.number(),
@@ -44,10 +40,8 @@ export type CreateTipType = z.infer<typeof createTipSchema>;
 
 export const CreateTip = ({ children }: { children: ReactNode }) => {
   const [open, setOpen] = useState<boolean>();
-  const { toast } = useToast();
   const t = useTranslations();
   const createTip = useCreateTip();
-  const imageInputFile = useRef<HTMLInputElement>(null);
   const {
     control,
     register,
@@ -198,112 +192,17 @@ export const CreateTip = ({ children }: { children: ReactNode }) => {
               ))}
             </div>
           </div>
-          {watch('medias') && watch('medias')!.length > 0 && (
-            <ScrollArea className="w-96 sm:w-[462px] whitespace-nowrap rounded-md border">
-              <div data-test="medias" className="w-max flex justify-center gap-2">
-                {watch('medias')?.map((file, index) => (
-                  <div className="overflow-hidden relative w-[110px]" key={index}>
-                    <AspectRatio ratio={1}>
-                      <button
-                        data-test={'delete-media-' + index}
-                        type="button"
-                        onClick={() =>
-                          setValue(
-                            'medias',
-                            getValues('medias')?.filter(
-                              (media) => media.thumbnail !== file.thumbnail,
-                            ),
-                            {
-                              shouldDirty: true,
-                            },
-                          )
-                        }
-                        className="absolute top-1 right-1 z-20 bg-black p-1 rounded-full"
-                      >
-                        <Trash2 size={16} className="text-red-500" />
-                      </button>
-                      <NextImage
-                        src={file.thumbnail}
-                        className="object-cover"
-                        alt=""
-                        fill
-                      />
-                    </AspectRatio>
-                  </div>
-                ))}
-                <ScrollBar orientation="horizontal" />
-              </div>
-            </ScrollArea>
-          )}
+          <CreatePostMedias medias={watch('medias')} setValue={setValue} />
           <div className="flex justify-between">
             <Controller
               control={control}
               name="medias"
               render={({ field }) => (
-                <button
-                  disabled={watch('medias')?.length === 10}
-                  type="button"
-                  data-test="button-medias"
-                  onClick={() => imageInputFile.current?.click()}
-                >
-                  <ImageIcon className="text-blue-500" size={20} />
-                  <Input
-                    multiple
-                    className="hidden"
-                    type="file"
-                    accept="image/jpeg,image/png,image/webp,video/mp4"
-                    onChange={async (e) => {
-                      const maxSize = 1048576 * 100;
-                      const currentMedias = getValues('medias') as
-                        | {
-                            file: File;
-                            thumbnail: string;
-                          }[]
-                        | undefined;
-
-                      const currentMediasSize =
-                        currentMedias?.reduce((acc, curr) => acc + curr.file.size, 0) ||
-                        0;
-                      const files = Array.from(e.target.files as ArrayLike<File>);
-                      const newImagesSize = files.reduce(
-                        (acc, curr) => acc + curr.size,
-                        0,
-                      );
-
-                      if (
-                        newImagesSize > maxSize - currentMediasSize ||
-                        files.length > 10 - (currentMedias?.length || 0)
-                      ) {
-                        setError('medias', {
-                          message: 'Max size is 100mb and 10 files',
-                          type: 'max',
-                        });
-                        toast({
-                          title: t('create-tip.max-size-files'),
-                        });
-                        return;
-                      }
-
-                      field.onChange(
-                        await Promise.all(
-                          files.map(async (file) => {
-                            return {
-                              file,
-                              thumbnail: file.type.startsWith('video')
-                                ? await getVideoThumbnail(file)
-                                : URL.createObjectURL(file),
-                            };
-                          }),
-                        ).then((arr) =>
-                          currentMedias ? currentMedias.concat(arr) : arr,
-                        ),
-                      );
-
-                      e.target.value = '';
-                    }}
-                    ref={imageInputFile}
-                  />
-                </button>
+                <MediaInput
+                  medias={watch('medias')}
+                  onChange={field.onChange}
+                  setError={setError}
+                />
               )}
             />
             <Button

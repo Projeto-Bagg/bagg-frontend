@@ -3,7 +3,7 @@
 import React, { HTMLProps, forwardRef } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { DiaryLikedByList } from '@/components/diary-liked-by-list';
+import { DiaryLikedByList } from '@/components/posts/diary-liked-by-list';
 import {
   AlertDialog,
   AlertDialogAction,

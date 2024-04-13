@@ -74,7 +74,7 @@ describe('Criar tip', () => {
     cy.wait('@create-tip');
   });
 
-  it('Adicionando mais imagens', () => {
+  it('Adicionando mídias', () => {
     cy.get('[data-test="create-tip"]').click();
 
     cy.get('input[type="file"]').selectFile(['cypress/assets/pic1.png'], {
@@ -88,7 +88,7 @@ describe('Criar tip', () => {
     cy.get('[data-test="medias"]').children().should('have.length', 2);
   });
 
-  it('Limite máximo de 10 imagens', () => {
+  it('Limite máximo de 10 mídias acrescentando tudo de uma vez só', () => {
     cy.get('[data-test="create-tip"]').click();
 
     cy.get('input[type="file"]').selectFile(
@@ -113,7 +113,7 @@ describe('Criar tip', () => {
     cy.get('[data-test="toasts"]').children().should('have.length', 1);
   });
 
-  it('Limite máximo de 10 imagens acrescentando aos poucos', () => {
+  it('Limite máximo de 10 mídias acrescentando aos poucos', () => {
     cy.get('[data-test="create-tip"]').click();
 
     cy.get('input[type="file"]').selectFile(
@@ -193,6 +193,8 @@ describe('Criar tip', () => {
       },
     );
 
+    cy.get('[data-test="medias"]').children().should('have.length', 4);
+
     cy.get('input[type="file"]').selectFile(
       [
         { contents: bigFile, fileName: 'imag5.png' },
@@ -207,7 +209,7 @@ describe('Criar tip', () => {
     cy.get('[data-test="toasts"]').children().should('have.length', 1);
   });
 
-  it('Excluir uma imagem', () => {
+  it('Excluir uma mídia', () => {
     cy.get('[data-test="create-tip"]').click();
 
     cy.get('input[type="file"]').selectFile(
@@ -225,7 +227,7 @@ describe('Criar tip', () => {
   });
 });
 
-describe('Funcionalidades na tip', () => {
+describe('Funcionalidades da tip', () => {
   beforeEach(() => {
     cy.login();
 

@@ -62,6 +62,7 @@ export const DeleteAccount = () => {
       </div>
       <div className="bg-accent/70 p-6 w-full">
         <form
+          data-test="delete-account-form"
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
               e.preventDefault();
@@ -72,7 +73,11 @@ export const DeleteAccount = () => {
         >
           <div>
             <Label>{t('settings.delete-account.currentPassword')}</Label>
-            <Input {...register('currentPassword')} type="password" />
+            <Input
+              data-test="delete-account-current-password"
+              {...register('currentPassword')}
+              type="password"
+            />
             {errors.currentPassword && (
               <span className="text-sm text-red-600 font-semibold">
                 {t('signup-edit.password.too-small')}
@@ -93,7 +98,11 @@ export const DeleteAccount = () => {
               }}
             >
               <AlertDialogTrigger asChild>
-                <Button type="button" variant={'destructive'}>
+                <Button
+                  data-test="delete-account-button"
+                  type="button"
+                  variant={'destructive'}
+                >
                   {t('settings.delete-account.confirm-modal.label')}
                 </Button>
               </AlertDialogTrigger>
@@ -110,7 +119,7 @@ export const DeleteAccount = () => {
                   <AlertDialogCancel>
                     {t('settings.delete-account.confirm-modal.cancel')}
                   </AlertDialogCancel>
-                  <AlertDialogAction type="submit">
+                  <AlertDialogAction data-test="delete-account-action" type="submit">
                     {t('settings.delete-account.confirm-modal.action')}
                   </AlertDialogAction>
                 </AlertDialogFooter>

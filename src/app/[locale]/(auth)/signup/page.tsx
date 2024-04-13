@@ -181,12 +181,18 @@ export default function Page() {
           {!errors.username && (
             <>
               {isUsernameAvailable.isError && (
-                <span className="text-sm text-red-600 font-semibold">
+                <span
+                  data-test="username-not-available"
+                  className="text-sm text-red-600 font-semibold"
+                >
                   {t('signup-edit.username.not-available')}
                 </span>
               )}
               {isUsernameAvailable.isSuccess && (
-                <span className="text-sm text-green-600 font-semibold">
+                <span
+                  data-test="username-available"
+                  className="text-sm text-green-600 font-semibold"
+                >
                   {t('signup-edit.username.available')}
                 </span>
               )}
@@ -290,12 +296,18 @@ export default function Page() {
           {!errors.email && (
             <>
               {isEmailAvailable.isError && (
-                <span className="text-sm text-red-600 font-semibold">
+                <span
+                  data-test="email-not-available"
+                  className="text-sm text-red-600 font-semibold"
+                >
                   {t('signup-edit.email.not-available')}
                 </span>
               )}
               {isEmailAvailable.isSuccess && (
-                <span className="text-sm text-green-600 font-semibold">
+                <span
+                  data-test="email-available"
+                  className="text-sm text-green-600 font-semibold"
+                >
                   {t('signup-edit.email.available')}
                 </span>
               )}
