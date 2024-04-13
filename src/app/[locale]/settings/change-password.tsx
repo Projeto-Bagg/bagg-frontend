@@ -65,10 +65,18 @@ export const ChangePassword = () => {
         <h2 className="font-semibold">{t('settings.change-password.title')}</h2>
       </div>
       <div className="bg-accent/70 p-6 w-full">
-        <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
+        <form
+          data-test="change-password-form"
+          className="space-y-4"
+          onSubmit={handleSubmit(onSubmit)}
+        >
           <div>
             <Label>{t('settings.change-password.currentPassword.label')}</Label>
-            <Input {...register('currentPassword')} type="password" />
+            <Input
+              data-test="change-password-current-password"
+              {...register('currentPassword')}
+              type="password"
+            />
             {errors.currentPassword && (
               <span className="text-sm text-red-600 font-semibold">
                 {errors.currentPassword.type === 'too_small' &&
@@ -84,7 +92,7 @@ export const ChangePassword = () => {
                 {errors.newPassword.type === 'too_small' &&
                   t('signup-edit.password.too-small')}
                 {errors.newPassword.type === 'invalid_string' && (
-                  <>
+                  <span data-test="weak-password-error">
                     <span>{t('signup-edit.password.valid-conditions.title')}</span>
                     <ul className="list-disc ml-[18px]">
                       <li
@@ -118,7 +126,7 @@ export const ChangePassword = () => {
                         })}
                       </li>
                     </ul>
-                  </>
+                  </span>
                 )}
               </span>
             )}
@@ -130,10 +138,14 @@ export const ChangePassword = () => {
               <span className="text-sm text-red-600 font-semibold">
                 {errors.confirmPassword?.type === 'too_small' &&
                   t('settings.change-password.confirm-password.too-small')}
-                {errors.confirmPassword?.type === 'custom' &&
-                  t('settings.change-password.confirm-password.unmatched-passwords')}
-                {errors.newPassword?.type === 'custom' &&
-                  t('settings.change-password.newPassword.samePassword')}
+                <span data-test="unmatched-passwords-error">
+                  {errors.confirmPassword?.type === 'custom' &&
+                    t('settings.change-password.confirm-password.unmatched-passwords')}
+                </span>
+                <span data-test="same-password-error">
+                  {errors.newPassword?.type === 'custom' &&
+                    t('settings.change-password.newPassword.samePassword')}
+                </span>
               </span>
             )}
           </div>
@@ -142,7 +154,10 @@ export const ChangePassword = () => {
               {t('commons.confirm')}
             </Button>
             {changePassword.data?.status === 200 && (
-              <span className="text-sm text-green-500 font-semibold">
+              <span
+                data-test="password-changed-success"
+                className="text-sm text-green-500 font-semibold"
+              >
                 {t('settings.change-password.toast')}
               </span>
             )}

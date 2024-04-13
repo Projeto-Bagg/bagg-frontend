@@ -52,6 +52,7 @@ export default function Layout({ children }: Props) {
         </div>
         <div className="flex mt-2 mb-4 justify-center m-auto px-4 font-bold text-sm text-muted-foreground w-full sm:w-[432px]">
           <Link
+            data-test="search-user-link"
             className={cn(
               pathname === '/search'
                 ? 'border-b-2 border-blue-600 text-primary'
@@ -66,6 +67,7 @@ export default function Layout({ children }: Props) {
             {t('search-page.options.user')}
           </Link>
           <Link
+            data-test="search-country-link"
             className={cn(
               pathname.endsWith('/country')
                 ? 'border-b-2 border-blue-600 text-primary'
@@ -80,6 +82,7 @@ export default function Layout({ children }: Props) {
             {t('search-page.options.country')}
           </Link>
           <Link
+            data-test="search-city-link"
             className={cn(
               pathname.includes('/city')
                 ? 'border-b-2 border-blue-600 text-primary'

@@ -1,8 +1,6 @@
 'use client';
 
-import NextImage from 'next/image';
-import React, { ReactNode, useRef, useState } from 'react';
-import { AspectRatio } from '@/components/ui/aspect-ratio';
+import React, { ReactNode, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Command,
@@ -17,27 +15,24 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { Textarea } from '@/components/ui/textarea';
 import { useCreateDiaryPost } from '@/hooks/useCreateDiaryPost';
 import { cn } from '@/lib/utils';
 import axios from '@/services/axios';
-import { getVideoThumbnail } from '@/utils/getVideoThumbnail';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQuery } from '@tanstack/react-query';
 import { ChevronsUpDown, Trash2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { Image as ImageIcon } from 'lucide-react';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { useRouter } from 'next/navigation';
-import { useToast } from '@/components/ui/use-toast';
 import { CreateTripDiary } from '@/components/create-trip-diary';
 import { CountryFlag } from '@/components/ui/country-flag';
 import { useAuth } from '@/context/auth-context';
+import { CreatePostMedias } from '@/components/create-post/create-post-medias';
+import { MediaInput } from '@/components/create-post/media-input';
 
 const createDiaryPostSchema = z.object({
   tripDiaryId: z.number(),
@@ -54,23 +49,20 @@ const createDiaryPostSchema = z.object({
 
 export type CreateDiaryPostType = z.infer<typeof createDiaryPostSchema>;
 
-export const CreatePost = ({ children }: { children: ReactNode }) => {
+export const CreateDiaryPost = ({ children }: { children: ReactNode }) => {
   const [open, setOpen] = useState<boolean>();
   const [selectTripDiaryOpen, setSelectTripDiaryOpen] = useState<boolean>();
   const [isCreatingTripDiary, setIsCreatingTripDiary] = useState<boolean>(false);
   const auth = useAuth();
   const router = useRouter();
-  const { toast } = useToast();
   const t = useTranslations();
   const createDiaryPost = useCreateDiaryPost();
-  const imageInputFile = useRef<HTMLInputElement>(null);
   const {
     control,
     register,
     handleSubmit,
     setValue,
     watch,
-    getValues,
     setError,
     reset,
     formState: { errors, dirtyFields },
@@ -89,7 +81,7 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
     enabled: !!open,
   });
 
-  const handleCreatePost = async (data: CreateDiaryPostType) => {
+  const handleCreateDiaryPost = async (data: CreateDiaryPostType) => {
     const formData = new FormData();
 
     data.medias.length &&
@@ -108,6 +100,10 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
     if (open) {
       reset(undefined, { keepDefaultValues: true });
       return setOpen(true);
+    }
+
+    if (!open && isCreatingTripDiary) {
+      return setIsCreatingTripDiary(false);
     }
 
     if (Object.entries(dirtyFields).length) {
@@ -220,7 +216,7 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
             <form
               data-test="create-post-form"
               className="space-y-4"
-              onSubmit={handleSubmit(handleCreatePost)}
+              onSubmit={handleSubmit(handleCreateDiaryPost)}
             >
               <div>
                 <div className="flex justify-between mb-0.5">
@@ -238,107 +234,17 @@ export const CreatePost = ({ children }: { children: ReactNode }) => {
                   </span>
                 )}
               </div>
-              {watch('medias') && watch('medias')!.length > 0 && (
-                <ScrollArea className="w-96 sm:w-[462px] whitespace-nowrap rounded-md border">
-                  <div className="w-max flex justify-center gap-2 ">
-                    {watch('medias')?.map((file, index) => (
-                      <div className="overflow-hidden relative w-[110px]" key={index}>
-                        <AspectRatio ratio={1}>
-                          <button
-                            type="button"
-                            onClick={() =>
-                              setValue(
-                                'medias',
-                                getValues('medias')?.filter(
-                                  (media) => media.thumbnail !== file.thumbnail,
-                                ),
-                                {
-                                  shouldDirty: true,
-                                },
-                              )
-                            }
-                            className="absolute top-1 right-1 z-20 bg-black p-1 rounded-full"
-                          >
-                            <Trash2 size={16} className="text-red-500" />
-                          </button>
-                          <NextImage
-                            src={file.thumbnail}
-                            className="object-cover"
-                            alt=""
-                            fill
-                          />
-                        </AspectRatio>
-                      </div>
-                    ))}
-                    <ScrollBar orientation="horizontal" />
-                  </div>
-                </ScrollArea>
-              )}
+              <CreatePostMedias medias={watch('medias')} setValue={setValue} />
               <div className="flex justify-between">
                 <Controller
                   control={control}
                   name="medias"
                   render={({ field }) => (
-                    <button
-                      disabled={watch('medias')?.length === 10}
-                      type="button"
-                      onClick={() => imageInputFile.current?.click()}
-                    >
-                      <ImageIcon className="text-blue-500" size={20} />
-                      <Input
-                        multiple
-                        className="hidden"
-                        type="file"
-                        accept="image/jpeg,image/png,image/webp,video/mp4"
-                        onChange={async (e) => {
-                          const maxSize = 1048576 * 100;
-                          const currentMedias = getValues('medias') as {
-                            file: File;
-                            thumbnail: string;
-                          }[];
-                          const currentMediasSize =
-                            currentMedias?.reduce(
-                              (acc, curr) => acc + curr.file.size,
-                              0,
-                            ) || 0;
-                          const files = Array.from(e.target.files as ArrayLike<File>);
-                          const newImagesSize = files.reduce(
-                            (acc, curr) => acc + curr.size,
-                            0,
-                          );
-
-                          if (
-                            newImagesSize > maxSize - currentMediasSize ||
-                            files.length > 10 - (currentMedias?.length || 0)
-                          ) {
-                            setError('medias', {
-                              message: 'Max size is 100mb and 10 files',
-                              type: 'max',
-                            });
-                            toast({
-                              title: t('create-post.max-size-files'),
-                            });
-                            return;
-                          }
-
-                          field.onChange(
-                            await Promise.all(
-                              files.map(async (file) => {
-                                return {
-                                  file,
-                                  thumbnail: file.type.startsWith('video')
-                                    ? await getVideoThumbnail(file)
-                                    : URL.createObjectURL(file),
-                                };
-                              }),
-                            ).then((arr) =>
-                              currentMedias ? currentMedias.concat(arr) : arr,
-                            ),
-                          );
-                        }}
-                        ref={imageInputFile}
-                      />
-                    </button>
+                    <MediaInput
+                      medias={watch('medias')}
+                      onChange={field.onChange}
+                      setError={setError}
+                    />
                   )}
                 />
                 <Button
