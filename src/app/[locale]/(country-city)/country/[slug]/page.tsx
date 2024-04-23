@@ -3,9 +3,9 @@
 import React from 'react';
 import { GalleryCarousel } from '@/app/[locale]/(country-city)/gallery-carousel';
 import { GalleryImage } from '@/app/[locale]/(country-city)/gallery-image';
-import { CityRatingRanking } from '@/components/city-rating-ranking';
+import { CityRatingRanking } from '@/components/ranking/city-rating-ranking';
 import { CityVisit } from '@/components/city-visit';
-import { CityVisitRanking } from '@/components/city-visit-ranking';
+import { CityVisitRanking } from '@/components/ranking/city-visit-ranking';
 import { LazyMap, LazyMarker, LazyTileLayer } from '@/components/leaflet-map';
 import { CarouselItem } from '@/components/ui/carousel';
 import axios from '@/services/axios';

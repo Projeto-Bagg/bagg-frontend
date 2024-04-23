@@ -1,5 +1,6 @@
 'use client';
 
+import React, { ReactNode } from 'react';
 import { Link, usePathname, useRouter } from '@/common/navigation';
 import { CreateCityVisit } from '@/components/create-city-visit';
 import { CountryFlag } from '@/components/ui/country-flag';
@@ -17,7 +18,6 @@ import { Rating } from '@smastrom/react-rating';
 import { useQuery } from '@tanstack/react-query';
 import { MapPin, CheckCircle, Home } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import React, { ReactNode } from 'react';
 
 export default function Layout({
   params,

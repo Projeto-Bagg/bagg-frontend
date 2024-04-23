@@ -1,4 +1,4 @@
-import { CountryRatingRanking } from '@/components/country-rating-ranking';
+import { CountryRatingRanking } from '@/components/ranking/country-rating-ranking';
 import React from 'react';
 
 export default function Page() {

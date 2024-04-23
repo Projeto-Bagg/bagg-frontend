@@ -20,6 +20,12 @@ import { Link, useRouter } from '@/common/navigation';
 import { useDebounce } from 'use-debounce';
 import { useQuery } from '@tanstack/react-query';
 import axios from '@/services/axios';
+import { getDaysInMonth } from 'date-fns';
+import { months } from '@/common/months';
+import {
+  isDayAvailable,
+  isMonthAvailable,
+} from '@/app/[locale]/(auth)/signup/birthdate-validation';
 
 const signUpSchema = z
   .object({
@@ -44,26 +50,11 @@ const signUpSchema = z
   })
   .superRefine((data, ctx) => {
     if (data.password !== data.confirmPassword) {
-      ctx.addIssue({ code: 'custom', path: ['confirm-password'] });
+      ctx.addIssue({ code: 'custom', path: ['confirmPassword'] });
     }
   });
 
 type SignUpType = z.infer<typeof signUpSchema>;
-
-const months = [
-  'January',
-  'February',
-  'March',
-  'May',
-  'April',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December',
-] as const;
 
 export default function Page() {
   const auth = useAuth();
@@ -75,9 +66,12 @@ export default function Page() {
     formState: { errors },
     register,
     handleSubmit,
+    getValues,
+    setValue,
     watch,
   } = useForm<SignUpType>({
     resolver: zodResolver(signUpSchema),
+    mode: 'onChange',
     defaultValues: {
       confirmPassword: '',
       email: '',
@@ -144,7 +138,7 @@ export default function Page() {
   return (
     <div className="p-4 max-w-xl m-auto my-8">
       <form
-        id="signup-form"
+        data-test="signup-form"
         className="space-y-4 w-full h-full"
         onSubmit={handleSubmit(handleSignUp)}
       >
@@ -191,7 +185,7 @@ export default function Page() {
               {isUsernameAvailable.isSuccess && (
                 <span
                   data-test="username-available"
-                  className="text-sm text-green-600 font-semibold"
+                  className="text-sm text-green-500 font-semibold"
                 >
                   {t('signup-edit.username.available')}
                 </span>
@@ -231,13 +225,39 @@ export default function Page() {
               name="birthdateDay"
               control={control}
               render={({ field }) => (
-                <Select onValueChange={field.onChange}>
-                  <SelectTrigger id="birthdateDay">
+                <Select
+                  value={watch('birthdateDay')}
+                  onValueChange={(value) => {
+                    field.onChange(value);
+
+                    const currentMonth = getValues('birthdateMonth');
+                    if (!isMonthAvailable(+currentMonth, +watch('birthdateYear'))) {
+                      setValue('birthdateMonth', '');
+                    }
+                  }}
+                >
+                  <SelectTrigger data-test="birthdate-day">
                     <SelectValue placeholder={t('signup-edit.day')} />
                   </SelectTrigger>
                   <SelectContent className="max-h-[400px]">
-                    {[...Array(31)].map((_, index) => (
-                      <SelectItem key={index + 1} value={(index + 1).toString()}>
+                    {[
+                      ...Array(
+                        getDaysInMonth(
+                          new Date(+watch('birthdateYear'), +watch('birthdateMonth')),
+                        ),
+                      ),
+                    ].map((_, index) => (
+                      <SelectItem
+                        disabled={
+                          !isDayAvailable(
+                            index + 1,
+                            +watch('birthdateMonth'),
+                            +watch('birthdateYear'),
+                          )
+                        }
+                        key={index + 1}
+                        value={(index + 1).toString()}
+                      >
                         {index + 1}
                       </SelectItem>
                     ))}
@@ -249,13 +269,33 @@ export default function Page() {
               name="birthdateMonth"
               control={control}
               render={({ field }) => (
-                <Select onValueChange={field.onChange}>
-                  <SelectTrigger id="birthdateMonth">
+                <Select
+                  value={watch('birthdateMonth')}
+                  onValueChange={(value) => {
+                    field.onChange(value);
+
+                    const currentDay = getValues('birthdateDay');
+                    if (
+                      !isDayAvailable(
+                        +currentDay,
+                        +watch('birthdateMonth'),
+                        +watch('birthdateYear'),
+                      )
+                    ) {
+                      setValue('birthdateDay', '');
+                    }
+                  }}
+                >
+                  <SelectTrigger data-test="birthdate-month">
                     <SelectValue placeholder={t('signup-edit.month')} />
                   </SelectTrigger>
                   <SelectContent className="max-h-[400px]">
                     {months.map((month, index) => (
-                      <SelectItem key={month} value={index.toString()}>
+                      <SelectItem
+                        disabled={!isMonthAvailable(index, +watch('birthdateYear'))}
+                        key={month}
+                        value={index.toString()}
+                      >
                         {t(`signup-edit.months.${month}`)}
                       </SelectItem>
                     ))}
@@ -267,8 +307,28 @@ export default function Page() {
               name="birthdateYear"
               control={control}
               render={({ field }) => (
-                <Select onValueChange={field.onChange}>
-                  <SelectTrigger id="birthdateYear">
+                <Select
+                  onValueChange={(value) => {
+                    field.onChange(value);
+
+                    const currentDay = getValues('birthdateDay');
+                    if (
+                      !isDayAvailable(
+                        +currentDay,
+                        +watch('birthdateMonth'),
+                        +watch('birthdateYear'),
+                      )
+                    ) {
+                      setValue('birthdateDay', '');
+                    }
+
+                    const currentMonth = getValues('birthdateMonth');
+                    if (!isMonthAvailable(+currentMonth, +watch('birthdateYear'))) {
+                      setValue('birthdateMonth', '');
+                    }
+                  }}
+                >
+                  <SelectTrigger data-test="birthdate-year">
                     <SelectValue placeholder={t('signup-edit.year')} />
                   </SelectTrigger>
                   <SelectContent className="max-h-[400px]">
@@ -285,7 +345,10 @@ export default function Page() {
             />
           </div>
           {(errors.birthdateDay || errors.birthdateMonth || errors.birthdateYear) && (
-            <span className="text-sm text-red-600 font-semibold">
+            <span
+              data-test="birthdate-too-small"
+              className="text-sm text-red-600 font-semibold"
+            >
               {t('signup-edit.birthdate.too-small')}
             </span>
           )}
@@ -306,7 +369,7 @@ export default function Page() {
               {isEmailAvailable.isSuccess && (
                 <span
                   data-test="email-available"
-                  className="text-sm text-green-600 font-semibold"
+                  className="text-sm text-green-500 font-semibold"
                 >
                   {t('signup-edit.email.available')}
                 </span>
@@ -315,9 +378,11 @@ export default function Page() {
           )}
           {errors.email && (
             <span className="text-sm text-red-600 font-semibold">
-              {errors.email.type === 'too_small'
-                ? t('signup-edit.email.too-small')
-                : t('signup-edit.email.invalid')}
+              {errors.email.type === 'too_small' ? (
+                t('signup-edit.email.too-small')
+              ) : (
+                <span data-test="invalid-email">{t('signup-edit.email.invalid')}</span>
+              )}
             </span>
           )}
         </div>
@@ -334,20 +399,23 @@ export default function Page() {
                   <ul className="list-disc ml-[18px]">
                     <li
                       data-valid={/.{8,}/.test(watch('password'))}
+                      data-test="password-length"
                       className="data-[valid=true]:text-green-500"
                     >
                       {t('signup-edit.password.valid-conditions.condition1')}
                     </li>
                     <li
-                      data-valid={/(?=(.*[0-9]){1,})/.test(watch('password'))}
+                      data-valid={/(?=(.*[a-z]){1,})(?=(.*[A-Z]){1,})/.test(
+                        watch('password'),
+                      )}
+                      data-test="password-a-z"
                       className="data-[valid=true]:text-green-500"
                     >
                       {t('signup-edit.password.valid-conditions.condition2')}
                     </li>
                     <li
-                      data-valid={/(?=(.*[a-z]){1,})(?=(.*[A-Z]){1,})/.test(
-                        watch('password'),
-                      )}
+                      data-valid={/(?=(.*[0-9]){1,})/.test(watch('password'))}
+                      data-test="password-0-9"
                       className="data-[valid=true]:text-green-500"
                     >
                       {t('signup-edit.password.valid-conditions.condition3')}
@@ -356,6 +424,7 @@ export default function Page() {
                       data-valid={/(?=(.*[-!$%^&*()_+|~=`{}\[\]:\/;<>?,.@#]){1,})/.test(
                         watch('password'),
                       )}
+                      data-test="password-special-character"
                       className="data-[valid=true]:text-green-500"
                     >
                       {t('signup-edit.password.valid-conditions.condition4', {
@@ -372,7 +441,10 @@ export default function Page() {
           <Label>{t('signup-edit.confirm-password.label')}</Label>
           <Input type={'password'} {...register('confirmPassword')} />
           {errors.confirmPassword && (
-            <span className="text-sm text-red-600 font-semibold">
+            <span
+              data-test="unmatched-passwords"
+              className="text-sm text-red-600 font-semibold"
+            >
               {t('signup-edit.confirm-password.unmatched-passwords')}
             </span>
           )}

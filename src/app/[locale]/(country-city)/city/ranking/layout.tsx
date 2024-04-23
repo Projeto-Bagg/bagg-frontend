@@ -94,6 +94,7 @@ export default function Layout({ children }: { children: ReactNode }) {
               {t('ranking.city.rating')}
             </Link>
             <Link
+              data-test="visits"
               className={cn(
                 pathname.endsWith('visits')
                   ? 'border-b-2 border-blue-600 text-primary'
@@ -118,7 +119,7 @@ export default function Layout({ children }: { children: ReactNode }) {
                 defaultValue={date ? date : '0'}
                 onValueChange={handleChangeDatePreset}
               >
-                <SelectTrigger>
+                <SelectTrigger data-test="change-data-preset">
                   <div className="flex items-center gap-2">
                     <Calendar className="w-[16px]" />
                     <SelectValue

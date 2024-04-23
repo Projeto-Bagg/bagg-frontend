@@ -84,7 +84,7 @@
       "too-small": "Enter a password",
       "valid-conditions": {
         "title": "Your password must:",
-        "condition1": "Be at least six characters long",
+        "condition1": "Be at least eight characters long",
         "condition2": "Contain at least one lowercase and uppercase letter",
         "condition3": "Contain one or more numbers",
         "condition4": "Include at least one of the following special characters: {characters}"
@@ -367,7 +367,7 @@
     "title": "Settings",
     "username": {
       "title": "Change username",
-      "toast": "Username changed successfully!"
+      "success": "Username changed successfully!"
     },
     "change-password": {
       "title": "Change password",
@@ -385,7 +385,7 @@
         "too-small": "Enter your new password again",
         "unmatched-passwords": "Password do not match"
       },
-      "toast": "Password changed successfully!"
+      "success": "Password changed successfully!"
     },
     "delete-account": {
       "title": "Delete account",

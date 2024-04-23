@@ -73,7 +73,7 @@ export default function TripDiary({ tripDiary, seePostsAnchor }: TripDiaryProps)
             </span>
             <DropdownMenu>
               <DropdownMenuTrigger>
-                <div className="hover:bg-primary-foreground p-1.5 [&>svg]:hover:text-primary transition-all rounded-full">
+                <div className="hover:bg-primary-foreground p-1.5 [&>svg]:hover:text-primary text-muted-foreground transition-all rounded-full">
                   <MoreHorizontal size={20} className="transition-all" />
                 </div>
               </DropdownMenuTrigger>

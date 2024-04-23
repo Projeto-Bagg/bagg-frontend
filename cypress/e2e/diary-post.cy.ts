@@ -211,7 +211,7 @@ describe('Funcionalidades do diário', () => {
 
     cy.wait('@delete-diary-post');
 
-    cy.url().should('eq', Cypress.config().baseUrl + 'pt');
+    cy.url().should('eq', Cypress.config().baseUrl);
   });
 
   it('Copiar link da postagem', () => {

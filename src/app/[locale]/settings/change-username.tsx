@@ -1,7 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { toast } from '@/components/ui/use-toast';
 import { useAuth } from '@/context/auth-context';
 import { useChangeUsername } from '@/hooks/useChangeUsername';
 import axios from '@/services/axios';
@@ -51,9 +50,8 @@ export const ChangeUsername = () => {
       return;
     }
 
-    const response = await changeUsername.mutateAsync(data.username);
+    await changeUsername.mutateAsync(data.username);
     reset();
-    response.status === 200 && toast({ title: t('settings.username.toast') });
   };
 
   return (
@@ -108,7 +106,7 @@ export const ChangeUsername = () => {
                 {isUsernameAvailable.isSuccess && (
                   <span
                     data-test="username-available"
-                    className="text-sm text-green-600 font-semibold"
+                    className="text-sm text-green-500 font-semibold"
                   >
                     {t('signup-edit.username.available')}
                   </span>
@@ -116,10 +114,18 @@ export const ChangeUsername = () => {
               </>
             )}
           </div>
-          <div className="flex justify-end">
+          <div className="flex flex-col justify-end items-end">
             <Button loading={changeUsername.isPending} type="submit">
               {t('commons.confirm')}
             </Button>
+            {changeUsername.data?.status === 200 && (
+              <span
+                data-test="username-changed-success"
+                className="text-sm text-green-500 font-semibold"
+              >
+                {t('settings.username.success')}
+              </span>
+            )}
           </div>
         </form>
       </div>

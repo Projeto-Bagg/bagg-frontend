@@ -122,7 +122,10 @@ export const CreateDiaryPost = ({ children }: { children: ReactNode }) => {
         onInteractOutside={(e) => createDiaryPost.isPending && e.preventDefault()}
       >
         {isCreatingTripDiary && (
-          <CreateTripDiary setIsCreatingTripDiary={setIsCreatingTripDiary} />
+          <CreateTripDiary
+            onCreate={(tripDiaryId) => setValue('tripDiaryId', tripDiaryId)}
+            setIsCreatingTripDiary={setIsCreatingTripDiary}
+          />
         )}
         {!isCreatingTripDiary && (
           <>
@@ -174,10 +177,11 @@ export const CreateDiaryPost = ({ children }: { children: ReactNode }) => {
                               });
                               setSelectTripDiaryOpen(false);
                             }}
+                            className="gap-1"
                           >
                             <span
                               className={cn(
-                                'mr-2 flex h-[18px] w-[18px] items-center justify-center',
+                                'mr-1 flex h-[18px] shrink-0 w-[18px] items-center justify-center',
                                 watch('tripDiaryId') === tripDiary.id
                                   ? 'opacity-100'
                                   : 'opacity-0',
@@ -185,16 +189,17 @@ export const CreateDiaryPost = ({ children }: { children: ReactNode }) => {
                             >
                               <span className="w-[3px] h-full rounded-xl bg-primary" />
                             </span>
-                            <div className="flex items-end justify-between w-full gap-2">
-                              <div className="flex gap-2">
-                                <CountryFlag iso2={tripDiary.city.region.country.iso2} />
-                                <div className="gap-1 flex">
-                                  <span>{tripDiary.title}</span>
-                                  <span className="text-muted-foreground">
-                                    {tripDiary.city.name}
-                                  </span>
-                                </div>
+                            <CountryFlag
+                              className="shrink-0"
+                              iso2={tripDiary.city.region.country.iso2}
+                            />
+                            <div className="flex max-w-[216px]">
+                              <div className="whitespace-nowrap">
+                                <span className="mr-1">{tripDiary.title}</span>
                               </div>
+                              <span className="text-muted-foreground text-ellipsis whitespace-nowrap overflow-hidden">
+                                {tripDiary.city.name}
+                              </span>
                             </div>
                           </CommandItem>
                         ))

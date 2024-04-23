@@ -12,7 +12,7 @@ export const CityVisit = forwardRef<
     visit: CityVisit;
     city?: City;
   }
->(({ visit, city, ...props }, forwardRef) => {
+>(({ visit, city }, forwardRef) => {
   const locale = useLocale();
 
   return (
