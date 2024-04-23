@@ -90,8 +90,8 @@ export const Header = () => {
           <Search />
           <Select
             defaultValue={locale}
-            onValueChange={(lang) =>
-              router.replace(
+            onValueChange={(lang) => {
+              router.push(
                 // @ts-expect-error
                 {
                   params: { slug: params.slug as string },
@@ -102,8 +102,9 @@ export const Header = () => {
                   >,
                 },
                 { locale: lang },
-              )
-            }
+              );
+              router.refresh();
+            }}
           >
             <Tooltip>
               <TooltipTrigger

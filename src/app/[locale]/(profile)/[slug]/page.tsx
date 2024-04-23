@@ -18,8 +18,13 @@ import { useRouter, Link } from '@/common/navigation';
 import { usePathname } from 'next/navigation';
 import { CountryFlag } from '@/components/ui/country-flag';
 import { Skeleton } from '@/components/ui/skeleton';
+import { EditProfile } from '@/components/edit-profile';
 
-export default function Profile({ params }: { params: { slug: string } }) {
+export default function Profile({
+  params,
+}: {
+  params: { slug: string; locale: string };
+}) {
   const pathname = usePathname();
   const auth = useAuth();
   const t = useTranslations();
@@ -110,20 +115,14 @@ export default function Profile({ params }: { params: { slug: string } }) {
                   : t('follow.follow')}
               </Button>
             ) : (
-              <Link
-                data-test="settings"
-                href={{
-                  pathname: '/[slug]/settings/profile',
-                  params: { slug: params.slug },
-                }}
-              >
-                <div>
+              <EditProfile>
+                <div data-test="edit-profile">
                   <Button className="hidden sm:block">{t('profile.edit-profile')}</Button>
                   <Button className="flex sm:hidden rounded-full items-center justify-center w-10">
                     <UserCog className="shrink-0" size={20} />
                   </Button>
                 </div>
-              </Link>
+              </EditProfile>
             )}
           </div>
           <div className="text-sm mt-4">

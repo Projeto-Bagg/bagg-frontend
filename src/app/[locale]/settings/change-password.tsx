@@ -46,6 +46,7 @@ export const ChangePassword = () => {
     reset,
   } = useForm<ChangePasswordType>({
     resolver: zodResolver(changePasswordSchema),
+    mode: 'onChange',
   });
 
   const onSubmit = async (data: ChangePasswordType) => {
@@ -158,7 +159,7 @@ export const ChangePassword = () => {
                 data-test="password-changed-success"
                 className="text-sm text-green-500 font-semibold"
               >
-                {t('settings.change-password.toast')}
+                {t('settings.change-password.success')}
               </span>
             )}
           </div>

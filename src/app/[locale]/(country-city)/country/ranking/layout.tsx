@@ -1,7 +1,6 @@
 'use client';
 
 import { Link, usePathname, useRouter } from '@/common/navigation';
-import { Label } from '@/components/ui/label';
 import {
   Select,
   SelectContent,
@@ -15,7 +14,6 @@ import { useTranslations } from 'next-intl';
 import { useSearchParams } from 'next/navigation';
 import React, { ReactNode } from 'react';
 import queryString from 'query-string';
-import { Separator } from '@/components/ui/separator';
 
 export default function Layout({ children }: { children: ReactNode }) {
   const t = useTranslations();
@@ -48,6 +46,7 @@ export default function Layout({ children }: { children: ReactNode }) {
         <div className="flex text-sm flex-col gap-4 sm:mb-4 sm:flex-row justify-between sm:items-end">
           <div className="flex gap-4 text-muted-foreground font-bold">
             <Link
+              data-test="rating"
               className={cn(
                 pathname.endsWith('rating')
                   ? 'border-b-2 border-blue-600 text-primary'
@@ -65,6 +64,7 @@ export default function Layout({ children }: { children: ReactNode }) {
               {t('ranking.country.rating')}
             </Link>
             <Link
+              data-test="visits"
               className={cn(
                 pathname.endsWith('visits')
                   ? 'border-b-2 border-blue-600 text-primary'
@@ -87,7 +87,7 @@ export default function Layout({ children }: { children: ReactNode }) {
               defaultValue={date ? date : '0'}
               onValueChange={handleChangeDatePreset}
             >
-              <SelectTrigger>
+              <SelectTrigger data-test="change-data-preset">
                 <div className="flex items-center gap-2">
                   <Calendar className="w-[16px]" />
                   <SelectValue

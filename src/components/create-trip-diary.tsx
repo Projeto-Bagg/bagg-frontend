@@ -28,9 +28,10 @@ export type CreateTripDiaryType = z.infer<typeof createTripDiarySchema>;
 
 interface Props {
   setIsCreatingTripDiary: React.Dispatch<React.SetStateAction<boolean>>;
+  onCreate: (tripDiaryId: number) => void;
 }
 
-export const CreateTripDiary = ({ setIsCreatingTripDiary }: Props) => {
+export const CreateTripDiary = ({ setIsCreatingTripDiary, onCreate }: Props) => {
   const createTripDiary = useCreateTripDiary();
   const t = useTranslations();
   const {
@@ -39,15 +40,25 @@ export const CreateTripDiary = ({ setIsCreatingTripDiary }: Props) => {
     reset,
     watch,
     control,
-    formState: { errors },
+    formState: { errors, dirtyFields },
   } = useForm<CreateTripDiaryType>({
     resolver: zodResolver(createTripDiarySchema),
   });
 
   const handleCreateTripDiary = async (data: CreateTripDiaryType) => {
-    await createTripDiary.mutateAsync(data);
+    const tripDiary = await createTripDiary.mutateAsync(data);
     setIsCreatingTripDiary(false);
+    onCreate(tripDiary.id);
     reset(undefined, { keepDefaultValues: true });
+  };
+
+  const onClose = () => {
+    if (Object.entries(dirtyFields).length) {
+      const shouldClose = window.confirm(t('modal.close'));
+      if (!shouldClose) return;
+    }
+
+    setIsCreatingTripDiary(false);
   };
 
   return (
@@ -110,7 +121,7 @@ export const CreateTripDiary = ({ setIsCreatingTripDiary }: Props) => {
         )}
       </div>
       <DialogFooter>
-        <Button variant={'destructive'} onClick={() => setIsCreatingTripDiary(false)}>
+        <Button variant={'destructive'} onClick={onClose}>
           {t('create-trip-diary.cancel')}
         </Button>
         <Button

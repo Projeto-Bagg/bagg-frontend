@@ -17,17 +17,18 @@ import { useDeleteAccount } from '@/hooks/useDeleteAccount';
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
 import { useTranslations } from 'next-intl';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 const deleteAccountSchema = z.object({
-  currentPassword: z.string(),
+  currentPassword: z.string().min(1),
 });
 
 export type DeleteAccountType = z.infer<typeof deleteAccountSchema>;
 
 export const DeleteAccount = () => {
+  const hiddenButtonRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
   const t = useTranslations();
   const [open, setOpen] = useState<boolean>(false);
@@ -36,9 +37,11 @@ export const DeleteAccount = () => {
     register,
     handleSubmit,
     watch,
+    trigger,
     formState: { errors },
   } = useForm<DeleteAccountType>({
     resolver: zodResolver(deleteAccountSchema),
+    mode: 'onChange',
   });
 
   const onSubmit = async (data: DeleteAccountType) => {
@@ -85,10 +88,12 @@ export const DeleteAccount = () => {
             )}
           </div>
           <div className="flex justify-end">
+            <input type="submit" className="hidden" ref={hiddenButtonRef} />
             <AlertDialog
               open={open}
               onOpenChange={(open) => {
                 const currentPassword = watch('currentPassword');
+                trigger('currentPassword', { shouldFocus: true });
 
                 if (!currentPassword && open) {
                   return;
@@ -119,7 +124,13 @@ export const DeleteAccount = () => {
                   <AlertDialogCancel>
                     {t('settings.delete-account.confirm-modal.cancel')}
                   </AlertDialogCancel>
-                  <AlertDialogAction data-test="delete-account-action" type="submit">
+                  <AlertDialogAction
+                    onClick={() => {
+                      hiddenButtonRef.current?.click();
+                    }}
+                    data-test="delete-account-action"
+                    type="submit"
+                  >
                     {t('settings.delete-account.confirm-modal.action')}
                   </AlertDialogAction>
                 </AlertDialogFooter>

@@ -54,8 +54,7 @@ describe('Perfil', () => {
 
     cy.visit('/teste');
 
-    cy.get('[data-test="settings"]').click();
-    cy.url().should('eq', Cypress.config().baseUrl + 'pt/teste/settings/profile');
+    cy.get('[data-test="edit-profile"]').click();
 
     cy.get('[name="fullName"]').clear().type(newData.fullName);
     cy.get('[name="bio"]').clear().type(newData.bio);

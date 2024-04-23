@@ -55,7 +55,7 @@ export const CreateCityVisit = ({ children, city }: CreateCityVisitProps) => {
   const {
     handleSubmit,
     control,
-    formState: { errors, dirtyFields, defaultValues },
+    formState: { errors, dirtyFields },
     register,
     reset,
     watch,

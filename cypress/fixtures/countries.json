@@ -1,0 +1,90 @@
+[
+  {
+    "id": 252,
+    "name": "Afghanistan",
+    "iso2": "AF",
+    "capital": "Kabul",
+    "latitude": 33,
+    "longitude": 65
+  },
+  {
+    "id": 253,
+    "name": "Aland Islands",
+    "iso2": "AX",
+    "capital": "Mariehamn",
+    "latitude": 60.116667,
+    "longitude": 19.9
+  },
+  {
+    "id": 254,
+    "name": "Albania",
+    "iso2": "AL",
+    "capital": "Tirana",
+    "latitude": 41,
+    "longitude": 20
+  },
+  {
+    "id": 255,
+    "name": "Algeria",
+    "iso2": "DZ",
+    "capital": "Algiers",
+    "latitude": 28,
+    "longitude": 3
+  },
+  {
+    "id": 256,
+    "name": "American Samoa",
+    "iso2": "AS",
+    "capital": "Pago Pago",
+    "latitude": -14.33333333,
+    "longitude": -170
+  },
+  {
+    "id": 257,
+    "name": "Andorra",
+    "iso2": "AD",
+    "capital": "Andorra la Vella",
+    "latitude": 42.5,
+    "longitude": 1.5
+  },
+  {
+    "id": 258,
+    "name": "Angola",
+    "iso2": "AO",
+    "capital": "Luanda",
+    "latitude": -12.5,
+    "longitude": 18.5
+  },
+  {
+    "id": 259,
+    "name": "Anguilla",
+    "iso2": "AI",
+    "capital": "The Valley",
+    "latitude": 18.25,
+    "longitude": -63.16666666
+  },
+  {
+    "id": 260,
+    "name": "Antarctica",
+    "iso2": "AQ",
+    "capital": "",
+    "latitude": -74.65,
+    "longitude": 4.48
+  },
+  {
+    "id": 261,
+    "name": "Antigua and Barbuda",
+    "iso2": "AG",
+    "capital": "St. John's",
+    "latitude": 17.05,
+    "longitude": -61.8
+  },
+  {
+    "id": 262,
+    "name": "Argentina",
+    "iso2": "AR",
+    "capital": "Buenos Aires",
+    "latitude": -34,
+    "longitude": -64
+  }
+]

@@ -5,7 +5,7 @@ export function middleware(request: NextRequest) {
   const intlMiddleware = createIntlMiddleware({
     locales: ['en', 'pt'],
     defaultLocale: 'pt',
-    localePrefix: 'always',
+    localePrefix: 'never',
   });
 
   const isAuthenticated = request.cookies.has('bagg.sessionToken');
@@ -20,15 +20,6 @@ export function middleware(request: NextRequest) {
 
   if (request.nextUrl.pathname.endsWith('/settings') && !isAuthenticated) {
     return NextResponse.redirect(new URL('/', request.nextUrl.origin));
-  }
-
-  if (request.nextUrl.pathname.endsWith('/settings/profile') && !isAuthenticated) {
-    return NextResponse.redirect(
-      new URL(
-        request.nextUrl.pathname.replace('/settings/profile', ''),
-        request.url.replace('/settings/profile', ''),
-      ),
-    );
   }
 
   return intlMiddleware(request);
