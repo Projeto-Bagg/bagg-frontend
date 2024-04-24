@@ -14,7 +14,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Plus, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { MobileNav } from '@/components/mobile-nav';
+import { MobileNav } from '@/components/header/mobile-nav';
 import { languages } from '@/common/languages';
 import { Search } from '@/components/search/search-dialog';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';

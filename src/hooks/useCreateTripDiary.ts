@@ -1,4 +1,4 @@
-import { CreateTripDiaryType } from '@/components/create-trip-diary';
+import { CreateTripDiaryType } from '@/components/create-post/create-trip-diary';
 import { useAuth } from '@/context/auth-context';
 import axios from '@/services/axios';
 import { useMutation, useQueryClient } from '@tanstack/react-query';

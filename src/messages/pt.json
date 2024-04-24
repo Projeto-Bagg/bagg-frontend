@@ -30,14 +30,14 @@
   },
   "login": {
     "title": "Login",
-    "description": "Use seu nome de usuário/e-mail e senha para logar no Bagg",
+    "description": "Use seu nome de usuário/email e senha para logar no Bagg",
     "password": {
       "label": "Senha",
       "invalid": "Senha inválida",
       "too-small": "Digite sua senha"
     },
     "login": {
-      "label": "Login",
+      "label": "Nome de usuário ou email",
       "too-small": "Digite seu nome de usuário/e-mail",
       "invalid": "Login inválido"
     },
@@ -397,6 +397,18 @@
         "action": "Excluir conta"
       },
       "toast": "Senha incorreta"
+    },
+    "reset-password": {
+      "title": "Esqueceu sua senha?",
+      "description": "Digite seu email e enviaremos um link para ser realizado a alteração da senha",
+      "submit": "Alterar senha",
+      "reset": {
+        "title": "Alterar senha"
+      },
+      "done": {
+        "title": "Pronto!",
+        "text": "Caso o email inserido esteja atribuído a uma conta, será enviado um email na sua caixa de entrada com o link para a alteração da senha."
+      }
     }
   }
 }
