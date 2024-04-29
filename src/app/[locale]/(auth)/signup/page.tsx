@@ -110,8 +110,6 @@ export default function Page() {
       .then(async () => {
         await new Promise((resolve) => setTimeout(resolve, 700));
         await auth.login({ login: data.username, password: data.password });
-
-        router.back();
       })
       .catch(() => {
         setLoading(false);

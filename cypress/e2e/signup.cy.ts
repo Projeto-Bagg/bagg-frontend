@@ -48,7 +48,7 @@ describe('Cadastro', () => {
     cy.wait('@login');
     cy.wait('@me');
 
-    cy.url().should('not.contain', 'signup');
+    cy.url().should('contain', 'verify-email');
   });
 
   it('Inserir erro caso nome de usuário ou email estejam indisponíveis', () => {

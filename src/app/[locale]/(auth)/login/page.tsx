@@ -38,13 +38,10 @@ export default function Page() {
     },
   });
 
-  console.log(window.history);
-
   const handleSignIn = async (data: LoginType) => {
     try {
       setLoading(true);
       await auth.login(data);
-      window.history.length > 1 ? router.back() : router.push('/');
     } catch (error) {
       setLoading(false);
       toast({ title: t('login.unauthorized'), value: 'login-error' });
