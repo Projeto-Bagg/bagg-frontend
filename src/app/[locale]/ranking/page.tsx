@@ -1,10 +1,10 @@
 import React from 'react';
-import { CountryRatingRanking } from '@/components/country-rating-ranking';
-import { CityRatingRanking } from '@/components/city-rating-ranking';
-import { CountryVisitRanking } from '@/components/country-visit-ranking';
-import { CityVisitRanking } from '@/components/city-visit-ranking';
-import { CountryInterestRanking } from '@/components/country-interest-ranking';
-import { CityInterestRanking } from '@/components/city-interest-ranking';
+import { CountryRatingRanking } from '@/components/ranking/country-rating-ranking';
+import { CityRatingRanking } from '@/components/ranking/city-rating-ranking';
+import { CountryVisitRanking } from '@/components/ranking/country-visit-ranking';
+import { CityVisitRanking } from '@/components/ranking/city-visit-ranking';
+import { CountryInterestRanking } from '@/components/ranking/country-interest-ranking';
+import { CityInterestRanking } from '@/components/ranking/city-interest-ranking';
 
 export default function Page() {
   return (

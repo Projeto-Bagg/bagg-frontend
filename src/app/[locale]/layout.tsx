@@ -4,7 +4,7 @@ import { getMessages } from 'next-intl/server';
 import clsx from 'clsx';
 import { Inter } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
-import { Header } from '@/components/header';
+import { Header } from '@/components/header/header';
 import { Providers } from '@/app/[locale]/providers';
 
 const inter = Inter({ subsets: ['latin'], weight: ['400', '500', '600', '700'] });

@@ -15,6 +15,12 @@ interface User {
   };
 }
 
+interface UserFromJwt {
+  id: number;
+  username: string;
+  hasEmailBeenVerified: boolean;
+}
+
 interface FullInfoUser extends User {
   following: number;
   followers: number;

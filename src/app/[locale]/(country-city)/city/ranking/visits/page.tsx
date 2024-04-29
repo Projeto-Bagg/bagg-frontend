@@ -1,4 +1,4 @@
-import { CityVisitRanking } from '@/components/city-visit-ranking';
+import { CityVisitRanking } from '@/components/ranking/city-visit-ranking';
 import React from 'react';
 
 export default function Page() {

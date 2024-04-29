@@ -1,3 +1,4 @@
+import { passwordRegex } from '@/common/regex';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -13,13 +14,7 @@ import { z } from 'zod';
 const changePasswordSchema = z
   .object({
     currentPassword: z.string().min(1),
-    newPassword: z
-      .string()
-      .min(1)
-      .regex(
-        /^(?=(.*[a-z]){1,})(?=(.*[A-Z]){1,})(?=(.*[0-9]){1,})(?=(.*[-!$%^&*()_+|~=`{}\[\]:\/;<>?,.@#]){1,}).{8,}$/,
-        'Password too weak',
-      ),
+    newPassword: z.string().min(1).regex(passwordRegex, 'Password too weak'),
     confirmPassword: z.string().min(1),
   })
   .superRefine((data, ctx) => {
@@ -46,6 +41,7 @@ export const ChangePassword = () => {
     reset,
   } = useForm<ChangePasswordType>({
     resolver: zodResolver(changePasswordSchema),
+    mode: 'onChange',
   });
 
   const onSubmit = async (data: ChangePasswordType) => {
@@ -158,7 +154,7 @@ export const ChangePassword = () => {
                 data-test="password-changed-success"
                 className="text-sm text-green-500 font-semibold"
               >
-                {t('settings.change-password.toast')}
+                {t('settings.change-password.success')}
               </span>
             )}
           </div>

@@ -34,8 +34,6 @@ import { CountryFlag } from '@/components/ui/country-flag';
 import { TipComments } from '@/components/posts/tip-comments';
 import { Link, usePathname, useRouter } from '@/common/navigation';
 import { useQueryClient } from '@tanstack/react-query';
-import { Separator } from '@/components/ui/separator';
-
 import { Medias } from '@/components/posts/medias';
 
 export const Tip = forwardRef<
@@ -222,12 +220,7 @@ export const Tip = forwardRef<
           )}
         </div>
       </div>
-      {withComments && (
-        <div>
-          <Separator className="my-4" />
-          <TipComments tip={tip} />
-        </div>
-      )}
+      {withComments && <TipComments tip={tip} />}
     </div>
   );
 });

@@ -14,7 +14,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Plus, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { MobileNav } from '@/components/mobile-nav';
+import { MobileNav } from '@/components/header/mobile-nav';
 import { languages } from '@/common/languages';
 import { Search } from '@/components/search/search-dialog';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
@@ -90,8 +90,8 @@ export const Header = () => {
           <Search />
           <Select
             defaultValue={locale}
-            onValueChange={(lang) =>
-              router.replace(
+            onValueChange={(lang) => {
+              router.push(
                 // @ts-expect-error
                 {
                   params: { slug: params.slug as string },
@@ -102,8 +102,9 @@ export const Header = () => {
                   >,
                 },
                 { locale: lang },
-              )
-            }
+              );
+              router.refresh();
+            }}
           >
             <Tooltip>
               <TooltipTrigger

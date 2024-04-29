@@ -42,6 +42,7 @@ export const SelectCountry = ({ onSelect, defaultIso2 }: SelectCountryProps) => 
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
+          data-test="select-country"
           variant="outline-ring"
           role="combobox"
           aria-expanded={open}

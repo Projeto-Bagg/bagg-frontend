@@ -14,6 +14,7 @@ export const useCreateCityInterest = () => {
           old &&
           produce(old, (draft) => {
             draft.isInterested = true;
+            draft.interestsCount += 1;
           }),
       );
     },

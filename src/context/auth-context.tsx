@@ -4,9 +4,15 @@ import axios from '@/services/axios';
 import { createContext, useContext, useEffect, useState } from 'react';
 import { getCookie, deleteCookie, setCookie, hasCookie } from 'cookies-next';
 import { Spinner } from '@/assets';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import {
+  QueryObserverResult,
+  RefetchOptions,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import { useRouter } from '@/common/navigation';
+import { decodeJwt } from 'jose';
 
 type AuthContextType = {
   login: (user: UserSignIn) => Promise<void>;
@@ -15,6 +21,9 @@ type AuthContextType = {
   user: FullInfoUser | null | undefined;
   isAuthenticated: boolean;
   isLoading: boolean;
+  refetch: (
+    options?: RefetchOptions | undefined,
+  ) => Promise<QueryObserverResult<FullInfoUser, Error>>;
 };
 
 export const AuthContext = createContext({} as AuthContextType);
@@ -53,10 +62,21 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
 
     const { data } = await axios.post('/auth/login', user);
+
+    const decodedJwt = decodeJwt<UserFromJwt>(data.accessToken);
+
+    if (!decodedJwt.hasEmailBeenVerified) {
+      setCookie('bagg.tempSessionToken', data.accessToken);
+      setCookie('bagg.tempRefreshToken', data.refreshToken);
+      await new Promise((resolve) => setTimeout(resolve, 100));
+      return router.push('/settings/verify-email');
+    }
+
     setCookie('bagg.sessionToken', data.accessToken);
     setCookie('bagg.refreshToken', data.refreshToken);
     queryClient.invalidateQueries();
     await refetch();
+    window.history.length > 1 ? router.back() : router.push('/');
   };
 
   const signUp = async (user: UserSignUp) => {
@@ -80,7 +100,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <AuthContext.Provider
-      value={{ login, logout, user, isAuthenticated, signUp, isLoading }}
+      value={{ login, logout, user, isAuthenticated, refetch, signUp, isLoading }}
     >
       {isLoading ? (
         <div className="flex flex-col h-screen gap-2 justify-center items-center">

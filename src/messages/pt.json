@@ -30,14 +30,14 @@
   },
   "login": {
     "title": "Login",
-    "description": "Use seu nome de usuário/e-mail e senha para logar no Bagg",
+    "description": "Use seu nome de usuário/email e senha para logar no Bagg",
     "password": {
       "label": "Senha",
       "invalid": "Senha inválida",
       "too-small": "Digite sua senha"
     },
     "login": {
-      "label": "Login",
+      "label": "Nome de usuário ou email",
       "too-small": "Digite seu nome de usuário/e-mail",
       "invalid": "Login inválido"
     },
@@ -84,7 +84,7 @@
       "too-small": "Digite uma senha",
       "valid-conditions": {
         "title": "A senha deve conter:",
-        "condition1": "No mínimo seis caracteres",
+        "condition1": "No mínimo oito caracteres",
         "condition2": "No mínimo uma letra minúscula e maíuscula",
         "condition3": "No mínimo um número",
         "condition4": "No mínimo um dos caracteres especiais a seguir: {characters}"
@@ -187,7 +187,7 @@
     "trip-diary": "Diário de viagem",
     "not-found": "Diary não encontrado :(",
     "copy-link": "Copiar link",
-    "delete": "Remover",
+    "delete": "Excluir",
     "posts": "{count, plural, =0 {Sem postagens} =1 {# postagem} other {# postagens}}",
     "see-posts-anchor": "Ver postagens",
     "delete-modal": {
@@ -226,7 +226,7 @@
   },
   "diary-post": {
     "copy-link": "Copiar link",
-    "delete": "Remover",
+    "delete": "Excluir",
     "badge": "Diário",
     "liked-by": "Curtido por",
     "delete-modal": {
@@ -238,7 +238,7 @@
   },
   "tip": {
     "copy-link": "Copiar link",
-    "delete": "Remover",
+    "delete": "Excluir",
     "badge": "Tip",
     "liked-by": "Curtido por",
     "comments": "{count, plural, =0 {Comentar} =1 {Ver # comentário} other {Ver # comentários}}",
@@ -252,7 +252,7 @@
       "delete": {
         "label": "Excluir",
         "delete-modal": {
-          "title": "Excluir comment",
+          "title": "Excluir comentário",
           "description": "Tem certeza que deseja excluir o comentário?",
           "cancel": "Cancelar",
           "action": "Excluir"
@@ -367,7 +367,7 @@
     "title": "Configurações",
     "username": {
       "title": "Alterar nome de usuário",
-      "toast": "Nome de usuário alterado com sucesso!"
+      "success": "Nome de usuário alterado com sucesso!"
     },
     "change-password": {
       "title": "Alterar senha",
@@ -385,7 +385,7 @@
         "too-small": "Digite a senha novamente",
         "unmatched-passwords": "As senhas não se coincidem"
       },
-      "toast": "Senha alterada com sucesso!"
+      "success": "Senha alterada com sucesso!"
     },
     "delete-account": {
       "title": "Excluir conta",
@@ -397,6 +397,33 @@
         "action": "Excluir conta"
       },
       "toast": "Senha incorreta"
+    },
+    "reset-password": {
+      "title": "Esqueceu sua senha?",
+      "description": "Digite seu email e enviaremos um link para ser realizado a alteração da senha",
+      "submit": "Alterar senha",
+      "reset": {
+        "title": "Alterar senha"
+      },
+      "done": {
+        "title": "Pronto!",
+        "text": "Caso o email inserido esteja atribuído a uma conta, será enviado um email na sua caixa de entrada com o link para a alteração da senha."
+      }
+    },
+    "verify-email": {
+      "title": "Confirme seu email",
+      "description": "Obrigado por se cadastrar no Bagg! Para continuar, confirme seu email clicando no botão abaixo.",
+      "submit": "Confirmar email",
+      "success": "Email confirmado com sucesso!",
+      "fail": "Email não confirmado.",
+      "done": {
+        "done": "Pronto!",
+        "description": "Um link para a ativação da conta foi enviado ao email vinculado à conta.",
+        "already-verified": {
+          "label": "Caso você já tenha confirmado o email, clique no botão abaixo.",
+          "button": "Já confirmei"
+        }
+      }
     }
   }
 }

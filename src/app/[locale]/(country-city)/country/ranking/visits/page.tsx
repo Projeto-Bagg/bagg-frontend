@@ -1,4 +1,4 @@
-import { CountryVisitRanking } from '@/components/country-visit-ranking';
+import { CountryVisitRanking } from '@/components/ranking/country-visit-ranking';
 
 import React from 'react';
 

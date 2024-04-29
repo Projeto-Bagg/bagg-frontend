@@ -9,13 +9,13 @@ describe('Página de pesquisa', () => {
     cy.visit('/search');
     cy.get('input').type('teste');
     cy.wait(1000);
-    cy.url().should('eq', Cypress.config().baseUrl + 'pt/search?q=teste');
+    cy.url().should('eq', Cypress.config().baseUrl + 'search?q=teste');
   });
 
   it('Alterando fator de pesquisa', () => {
     cy.visit('/search');
     cy.get('[data-test="search-country-link"]').click();
-    cy.url().should('eq', Cypress.config().baseUrl + 'pt/search/country');
+    cy.url().should('eq', Cypress.config().baseUrl + 'search/country');
     cy.get('[data-test="search-country-link"]').should('have.class', 'border-blue-600');
   });
 
@@ -23,9 +23,9 @@ describe('Página de pesquisa', () => {
     cy.visit('/search');
     cy.get('input').type('teste');
     cy.wait(1000);
-    cy.url().should('eq', Cypress.config().baseUrl + 'pt/search?q=teste');
+    cy.url().should('eq', Cypress.config().baseUrl + 'search?q=teste');
     cy.get('[data-test="search-country-link"]').click();
-    cy.url().should('eq', Cypress.config().baseUrl + 'pt/search/country?q=teste');
+    cy.url().should('eq', Cypress.config().baseUrl + 'search/country?q=teste');
     cy.get('[data-test="search-country-link"]').should('have.class', 'border-blue-600');
   });
 
@@ -38,7 +38,7 @@ describe('Página de pesquisa', () => {
     cy.visit('/search');
     cy.get('input').type('teste');
     cy.wait(1000);
-    cy.url().should('eq', Cypress.config().baseUrl + 'pt/search?q=teste');
+    cy.url().should('eq', Cypress.config().baseUrl + 'search?q=teste');
     cy.get('[data-test="no-results"]').should('be.visible');
   });
 
@@ -55,7 +55,7 @@ describe('Página de pesquisa', () => {
     cy.wait(1000);
     cy.url().should(
       'eq',
-      Cypress.config().baseUrl + 'pt/search/city?q=S%C3%A3o+Sebasti%C3%A3o',
+      Cypress.config().baseUrl + 'search/city?q=S%C3%A3o+Sebasti%C3%A3o',
     );
 
     cy.get('[data-test="cities"]').children().should('have.length', 5);
