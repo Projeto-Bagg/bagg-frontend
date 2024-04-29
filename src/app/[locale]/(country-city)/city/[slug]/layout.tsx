@@ -64,6 +64,7 @@ export default function Layout({
 
     if (city.data.userVisit?.message) {
       return toast({
+        variant: 'destructive',
         duration: 1000 * 10,
         title: t('country-city-page.uncheck-visit-with-review-toast.title'),
         description: t('country-city-page.uncheck-visit-with-review-toast.description'),
