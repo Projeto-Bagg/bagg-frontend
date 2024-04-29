@@ -17,26 +17,16 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { useTranslations } from 'next-intl';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 import { useAuth } from '@/context/auth-context';
-import { ProfilePicDialog } from '@/components/profile-pic-dialog';
+import { ProfilePicDialog } from '@/app/[locale]/(profile)/[slug]/profile-pic-dialog';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Textarea } from '@/components/ui/textarea';
 import { useUpdateProfile } from '@/hooks/useUpdateProfile';
 import { useDeleteProfilePic } from '@/hooks/useDeleteProfilePic';
 import { SelectCity } from '@/components/select-city';
-import { getDaysInMonth } from 'date-fns';
-import { months } from '@/common/months';
-import {
-  isDayAvailable,
-  isMonthAvailable,
-} from '@/app/[locale]/(auth)/signup/birthdate-validation';
+import { BirthdateDay } from '@/components/form/birthdate-day';
+import { BrithdateMonth } from '@/components/form/birthdate-month';
+import { BirthdateYear } from '@/components/form/birthdate-year';
 
 const editFormSchema = z.object({
   fullName: z.string().min(3).max(64),
@@ -76,7 +66,6 @@ export const EditProfile = ({ children }: { children: ReactNode }) => {
     handleSubmit,
     control,
     reset,
-    getValues,
     setValue,
     formState: { errors, dirtyFields },
   } = useForm<EditFormType>({
@@ -221,123 +210,39 @@ export const EditProfile = ({ children }: { children: ReactNode }) => {
                 name="birthdateDay"
                 control={control}
                 render={({ field }) => (
-                  <Select
-                    value={watch('birthdateDay')}
-                    onValueChange={(value) => {
-                      field.onChange(value);
-
-                      const currentMonth = getValues('birthdateMonth');
-                      if (!isMonthAvailable(+currentMonth, +watch('birthdateYear'))) {
-                        setValue('birthdateMonth', '');
-                      }
-                    }}
-                  >
-                    <SelectTrigger id="birthdateDay">
-                      <SelectValue placeholder={t('signup-edit.day')} />
-                    </SelectTrigger>
-                    <SelectContent className="max-h-[400px]">
-                      {[
-                        ...Array(
-                          getDaysInMonth(
-                            new Date(+watch('birthdateYear'), +watch('birthdateMonth')),
-                          ),
-                        ),
-                      ].map((_, index) => (
-                        <SelectItem
-                          disabled={
-                            !isDayAvailable(
-                              index + 1,
-                              +watch('birthdateMonth'),
-                              +watch('birthdateYear'),
-                            )
-                          }
-                          key={index + 1}
-                          value={(index + 1).toString()}
-                        >
-                          {index + 1}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  <BirthdateDay
+                    day={watch('birthdateDay')}
+                    month={watch('birthdateMonth')}
+                    year={watch('birthdateYear')}
+                    onValueChange={field.onChange}
+                    setValue={setValue}
+                  />
                 )}
               />
               <Controller
                 name="birthdateMonth"
                 control={control}
                 render={({ field }) => (
-                  <Select
-                    value={watch('birthdateMonth')}
-                    onValueChange={(value) => {
-                      field.onChange(value);
-
-                      const currentDay = getValues('birthdateDay');
-                      if (
-                        !isDayAvailable(
-                          +currentDay,
-                          +watch('birthdateMonth'),
-                          +watch('birthdateYear'),
-                        )
-                      ) {
-                        setValue('birthdateDay', '');
-                      }
-                    }}
-                  >
-                    <SelectTrigger id="birthdateMonth">
-                      <SelectValue placeholder={t('signup-edit.month')} />
-                    </SelectTrigger>
-                    <SelectContent className="max-h-[400px]">
-                      {months.map((month, index) => (
-                        <SelectItem
-                          disabled={!isMonthAvailable(index, +watch('birthdateYear'))}
-                          key={month}
-                          value={index.toString()}
-                        >
-                          {t(`signup-edit.months.${month}`)}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  <BrithdateMonth
+                    day={watch('birthdateDay')}
+                    month={watch('birthdateMonth')}
+                    year={watch('birthdateYear')}
+                    onValueChange={field.onChange}
+                    setValue={setValue}
+                  />
                 )}
               />
               <Controller
                 name="birthdateYear"
                 control={control}
                 render={({ field }) => (
-                  <Select
-                    value={watch('birthdateYear')}
-                    onValueChange={(value) => {
-                      field.onChange(value);
-
-                      const currentDay = getValues('birthdateDay');
-                      if (
-                        !isDayAvailable(
-                          +currentDay,
-                          +watch('birthdateMonth'),
-                          +watch('birthdateYear'),
-                        )
-                      ) {
-                        setValue('birthdateDay', '');
-                      }
-
-                      const currentMonth = getValues('birthdateMonth');
-                      if (!isMonthAvailable(+currentMonth, +watch('birthdateYear'))) {
-                        setValue('birthdateMonth', '');
-                      }
-                    }}
-                  >
-                    <SelectTrigger id="birthdateYear">
-                      <SelectValue placeholder={t('signup-edit.year')} />
-                    </SelectTrigger>
-                    <SelectContent className="max-h-[400px]">
-                      {Array.apply(0, Array(104 - 1))
-                        .map((_, index) => new Date().getFullYear() - index - 16)
-                        .map((year, index) => (
-                          <SelectItem key={index} value={year.toString()}>
-                            {year}
-                          </SelectItem>
-                        ))}
-                    </SelectContent>
-                  </Select>
+                  <BirthdateYear
+                    day={watch('birthdateDay')}
+                    month={watch('birthdateMonth')}
+                    year={watch('birthdateYear')}
+                    onValueChange={field.onChange}
+                    setValue={setValue}
+                  />
                 )}
               />
             </div>

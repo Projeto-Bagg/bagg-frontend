@@ -9,43 +9,27 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { useTranslations } from 'next-intl';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 import { Link, useRouter } from '@/common/navigation';
 import { useDebounce } from 'use-debounce';
 import { useQuery } from '@tanstack/react-query';
 import axios from '@/services/axios';
-import { getDaysInMonth } from 'date-fns';
-import { months } from '@/common/months';
-import {
-  isDayAvailable,
-  isMonthAvailable,
-} from '@/app/[locale]/(auth)/signup/birthdate-validation';
+import { passwordRegex, usernameRegex } from '@/common/regex';
+import { PasswordInput } from '@/components/form/password-input';
+import { UsernameInput } from '@/components/form/username-input';
+import { EmailInput } from '@/components/form/email-input';
+import { BirthdateDay } from '@/components/form/birthdate-day';
+import { BirthdateYear } from '@/components/form/birthdate-year';
+import { BrithdateMonth } from '@/components/form/birthdate-month';
 
 const signUpSchema = z
   .object({
     fullName: z.string().min(3).max(64),
-    username: z
-      .string()
-      .min(3)
-      .max(20)
-      .regex(/^[a-zA-Z0-9_]+$/),
+    username: z.string().min(3).max(20).regex(usernameRegex),
     email: z.string().min(1).email(),
     birthdateDay: z.string().min(1),
     birthdateMonth: z.string().min(1),
     birthdateYear: z.string().min(1),
-    password: z
-      .string()
-      .min(1)
-      .regex(
-        /^(?=(.*[a-z]){1,})(?=(.*[A-Z]){1,})(?=(.*[0-9]){1,})(?=(.*[-!$%^&*()_+|~=`{}\[\]:\/;<>?,.@#]){1,}).{8,}$/,
-        'Password too weak',
-      ),
+    password: z.string().min(1).regex(passwordRegex, 'Password too weak'),
     confirmPassword: z.string(),
   })
   .superRefine((data, ctx) => {
@@ -66,7 +50,6 @@ export default function Page() {
     formState: { errors },
     register,
     handleSubmit,
-    getValues,
     setValue,
     watch,
   } = useForm<SignUpType>({
@@ -127,8 +110,6 @@ export default function Page() {
       .then(async () => {
         await new Promise((resolve) => setTimeout(resolve, 700));
         await auth.login({ login: data.username, password: data.password });
-
-        router.back();
       })
       .catch(() => {
         setLoading(false);
@@ -171,52 +152,14 @@ export default function Page() {
               {watch('username')?.length || 0} / 20
             </Label>
           </div>
-          <Input {...register('username')} />
-          {!errors.username && (
-            <>
-              {isUsernameAvailable.isError && (
-                <span
-                  data-test="username-not-available"
-                  className="text-sm text-red-600 font-semibold"
-                >
-                  {t('signup-edit.username.not-available')}
-                </span>
-              )}
-              {isUsernameAvailable.isSuccess && (
-                <span
-                  data-test="username-available"
-                  className="text-sm text-green-500 font-semibold"
-                >
-                  {t('signup-edit.username.available')}
-                </span>
-              )}
-            </>
-          )}
-          {errors.username && (
-            <span className="text-red-600 text-sm font-semibold">
-              {errors.username.type === 'too_small' ? (
-                t('signup-edit.username.too-small')
-              ) : (
-                <>
-                  {t('signup-edit.username.valid-conditions.title')}
-                  <ul className="list-disc ml-[18px]">
-                    <li
-                      data-valid={/^.{3,20}$/.test(watch('username'))}
-                      className="data-[valid=true]:text-green-500"
-                    >
-                      {t('signup-edit.username.valid-conditions.condition1')}
-                    </li>
-                    <li
-                      data-valid={/^[a-zA-Z0-9_]+$/.test(watch('username'))}
-                      className="data-[valid=true]:text-green-500"
-                    >
-                      {t('signup-edit.username.valid-conditions.condition2')}
-                    </li>
-                  </ul>
-                </>
-              )}
-            </span>
-          )}
+          <UsernameInput
+            {...register('username')}
+            errors={errors.username}
+            value={watch('username')}
+            isUsernameAvailable={
+              isUsernameAvailable.isFetched ? isUsernameAvailable.isSuccess : undefined
+            }
+          />
         </div>
         <div>
           <Label>{t('signup-edit.birthdate.label')}</Label>
@@ -225,122 +168,39 @@ export default function Page() {
               name="birthdateDay"
               control={control}
               render={({ field }) => (
-                <Select
-                  value={watch('birthdateDay')}
-                  onValueChange={(value) => {
-                    field.onChange(value);
-
-                    const currentMonth = getValues('birthdateMonth');
-                    if (!isMonthAvailable(+currentMonth, +watch('birthdateYear'))) {
-                      setValue('birthdateMonth', '');
-                    }
-                  }}
-                >
-                  <SelectTrigger data-test="birthdate-day">
-                    <SelectValue placeholder={t('signup-edit.day')} />
-                  </SelectTrigger>
-                  <SelectContent className="max-h-[400px]">
-                    {[
-                      ...Array(
-                        getDaysInMonth(
-                          new Date(+watch('birthdateYear'), +watch('birthdateMonth')),
-                        ),
-                      ),
-                    ].map((_, index) => (
-                      <SelectItem
-                        disabled={
-                          !isDayAvailable(
-                            index + 1,
-                            +watch('birthdateMonth'),
-                            +watch('birthdateYear'),
-                          )
-                        }
-                        key={index + 1}
-                        value={(index + 1).toString()}
-                      >
-                        {index + 1}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <BirthdateDay
+                  day={watch('birthdateDay')}
+                  month={watch('birthdateMonth')}
+                  year={watch('birthdateYear')}
+                  onValueChange={field.onChange}
+                  setValue={setValue}
+                />
               )}
             />
             <Controller
               name="birthdateMonth"
               control={control}
               render={({ field }) => (
-                <Select
-                  value={watch('birthdateMonth')}
-                  onValueChange={(value) => {
-                    field.onChange(value);
-
-                    const currentDay = getValues('birthdateDay');
-                    if (
-                      !isDayAvailable(
-                        +currentDay,
-                        +watch('birthdateMonth'),
-                        +watch('birthdateYear'),
-                      )
-                    ) {
-                      setValue('birthdateDay', '');
-                    }
-                  }}
-                >
-                  <SelectTrigger data-test="birthdate-month">
-                    <SelectValue placeholder={t('signup-edit.month')} />
-                  </SelectTrigger>
-                  <SelectContent className="max-h-[400px]">
-                    {months.map((month, index) => (
-                      <SelectItem
-                        disabled={!isMonthAvailable(index, +watch('birthdateYear'))}
-                        key={month}
-                        value={index.toString()}
-                      >
-                        {t(`signup-edit.months.${month}`)}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <BrithdateMonth
+                  day={watch('birthdateDay')}
+                  month={watch('birthdateMonth')}
+                  year={watch('birthdateYear')}
+                  onValueChange={field.onChange}
+                  setValue={setValue}
+                />
               )}
             />
             <Controller
               name="birthdateYear"
               control={control}
               render={({ field }) => (
-                <Select
-                  onValueChange={(value) => {
-                    field.onChange(value);
-
-                    const currentDay = getValues('birthdateDay');
-                    if (
-                      !isDayAvailable(
-                        +currentDay,
-                        +watch('birthdateMonth'),
-                        +watch('birthdateYear'),
-                      )
-                    ) {
-                      setValue('birthdateDay', '');
-                    }
-
-                    const currentMonth = getValues('birthdateMonth');
-                    if (!isMonthAvailable(+currentMonth, +watch('birthdateYear'))) {
-                      setValue('birthdateMonth', '');
-                    }
-                  }}
-                >
-                  <SelectTrigger data-test="birthdate-year">
-                    <SelectValue placeholder={t('signup-edit.year')} />
-                  </SelectTrigger>
-                  <SelectContent className="max-h-[400px]">
-                    {Array.apply(0, Array(104 - 1))
-                      .map((_, index) => new Date().getFullYear() - index - 16)
-                      .map((year, index) => (
-                        <SelectItem key={index} value={year.toString()}>
-                          {year}
-                        </SelectItem>
-                      ))}
-                  </SelectContent>
-                </Select>
+                <BirthdateYear
+                  day={watch('birthdateDay')}
+                  month={watch('birthdateMonth')}
+                  year={watch('birthdateYear')}
+                  onValueChange={field.onChange}
+                  setValue={setValue}
+                />
               )}
             />
           </div>
@@ -355,87 +215,22 @@ export default function Page() {
         </div>
         <div>
           <Label>{t('signup-edit.email.label')}</Label>
-          <Input {...register('email')} />
-          {!errors.email && (
-            <>
-              {isEmailAvailable.isError && (
-                <span
-                  data-test="email-not-available"
-                  className="text-sm text-red-600 font-semibold"
-                >
-                  {t('signup-edit.email.not-available')}
-                </span>
-              )}
-              {isEmailAvailable.isSuccess && (
-                <span
-                  data-test="email-available"
-                  className="text-sm text-green-500 font-semibold"
-                >
-                  {t('signup-edit.email.available')}
-                </span>
-              )}
-            </>
-          )}
-          {errors.email && (
-            <span className="text-sm text-red-600 font-semibold">
-              {errors.email.type === 'too_small' ? (
-                t('signup-edit.email.too-small')
-              ) : (
-                <span data-test="invalid-email">{t('signup-edit.email.invalid')}</span>
-              )}
-            </span>
-          )}
+          <EmailInput
+            errors={errors.email}
+            isEmailAvailable={
+              isEmailAvailable.isFetched ? isEmailAvailable.isSuccess : undefined
+            }
+            value={watch('email')}
+            {...register('email')}
+          />
         </div>
         <div>
           <Label>{t('signup-edit.password.label')}</Label>
-          <Input type={'password'} {...register('password')} />
-          {errors.password && (
-            <span className="text-sm text-red-600 font-semibold">
-              {errors.password.type === 'too_small' ? (
-                t('signup-edit.password.too-small')
-              ) : (
-                <>
-                  <span>{t('signup-edit.password.valid-conditions.title')}</span>
-                  <ul className="list-disc ml-[18px]">
-                    <li
-                      data-valid={/.{8,}/.test(watch('password'))}
-                      data-test="password-length"
-                      className="data-[valid=true]:text-green-500"
-                    >
-                      {t('signup-edit.password.valid-conditions.condition1')}
-                    </li>
-                    <li
-                      data-valid={/(?=(.*[a-z]){1,})(?=(.*[A-Z]){1,})/.test(
-                        watch('password'),
-                      )}
-                      data-test="password-a-z"
-                      className="data-[valid=true]:text-green-500"
-                    >
-                      {t('signup-edit.password.valid-conditions.condition2')}
-                    </li>
-                    <li
-                      data-valid={/(?=(.*[0-9]){1,})/.test(watch('password'))}
-                      data-test="password-0-9"
-                      className="data-[valid=true]:text-green-500"
-                    >
-                      {t('signup-edit.password.valid-conditions.condition3')}
-                    </li>
-                    <li
-                      data-valid={/(?=(.*[-!$%^&*()_+|~=`{}\[\]:\/;<>?,.@#]){1,})/.test(
-                        watch('password'),
-                      )}
-                      data-test="password-special-character"
-                      className="data-[valid=true]:text-green-500"
-                    >
-                      {t('signup-edit.password.valid-conditions.condition4', {
-                        characters: '!@#$%&*()-_=+<>:;/|,.^`}{[]',
-                      })}
-                    </li>
-                  </ul>
-                </>
-              )}
-            </span>
-          )}
+          <PasswordInput
+            errors={errors.password}
+            value={watch('password')}
+            {...register('password')}
+          />
         </div>
         <div>
           <Label>{t('signup-edit.confirm-password.label')}</Label>

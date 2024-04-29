@@ -30,14 +30,14 @@
   },
   "login": {
     "title": "Login",
-    "description": "Use your email and password to login to Bagg",
+    "description": "Use your username/email and password to login to Bagg",
     "password": {
       "label": "Password",
       "invalid": "Invalid password",
       "too-small": "Enter your password"
     },
     "login": {
-      "label": "Login",
+      "label": "Username or email",
       "too-small": "Enter your username/e-mail",
       "invalid": "Invalid login"
     },
@@ -397,6 +397,33 @@
         "action": "Delete account"
       },
       "toast": "Incorrect password"
+    },
+    "reset-password": {
+      "title": "Forgot your password?",
+      "description": "Enter your email address and we'll send a link to reset your password.",
+      "submit": "Reset password",
+      "reset": {
+        "title": "Reset password"
+      },
+      "done": {
+        "title": "Done!",
+        "text": "If the email you entered is assigned to an account, an email will be sent to your inbox with the link to reset your password."
+      }
+    },
+    "verify-email": {
+      "title": "Verify your email",
+      "description": "Thank you for signing up with Bagg! To continue, verify your email by clicking the button below.",
+      "submit": "Verify email",
+      "success": "Email verified successfully",
+      "fail": "Email has not been verified.",
+      "done": {
+        "done": "Done!",
+        "description": "A link to activate the account was sent to the email linked to the account.",
+        "already-verified": {
+          "label": "If you have already verified your email, click the button below.",
+          "button": "Already verified"
+        }
+      }
     }
   }
 }

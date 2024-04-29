@@ -28,7 +28,7 @@ import { useTranslations } from 'next-intl';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { useRouter } from 'next/navigation';
-import { CreateTripDiary } from '@/components/create-trip-diary';
+import { CreateTripDiary } from '@/components/create-post/create-trip-diary';
 import { CountryFlag } from '@/components/ui/country-flag';
 import { useAuth } from '@/context/auth-context';
 import { CreatePostMedias } from '@/components/create-post/create-post-medias';

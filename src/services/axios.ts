@@ -1,7 +1,7 @@
 import { default as instance } from 'axios';
 import { parseISO } from 'date-fns';
 import { getCookie, setCookie, deleteCookie } from 'cookies-next';
-import { decodeJwt } from 'jose';
+import { isTokenExpired } from '@/utils/isTokenExpired';
 
 const isoDateFormat =
   /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d*)?(?:[-+]\d{2}:?\d{2}|Z)?$/;
@@ -17,19 +17,6 @@ export function handleDates(body: any) {
     const value = body[key];
     if (isIsoDateString(value)) body[key] = parseISO(value);
     else if (typeof value === 'object') handleDates(value);
-  }
-}
-
-function isTokenExpired(token: string) {
-  try {
-    const payload = decodeJwt(token);
-    if (!payload || !payload.exp) {
-      return true;
-    }
-    const now = Math.floor(Date.now() / 1000);
-    return payload.exp < now;
-  } catch (error) {
-    return true;
   }
 }
 

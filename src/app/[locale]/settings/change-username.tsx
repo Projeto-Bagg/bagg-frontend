@@ -1,5 +1,6 @@
+import { usernameRegex } from '@/common/regex';
+import { UsernameInput } from '@/components/form/username-input';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useAuth } from '@/context/auth-context';
 import { useChangeUsername } from '@/hooks/useChangeUsername';
@@ -13,11 +14,7 @@ import { useDebounce } from 'use-debounce';
 import { z } from 'zod';
 
 const changeUsernameSchema = z.object({
-  username: z
-    .string()
-    .min(3)
-    .max(20)
-    .regex(/^[a-zA-Z0-9_]+$/),
+  username: z.string().min(3).max(20).regex(usernameRegex),
 });
 
 export type ChangeUsernameType = z.infer<typeof changeUsernameSchema>;
@@ -36,6 +33,8 @@ export const ChangeUsername = () => {
     resolver: zodResolver(changeUsernameSchema),
     mode: 'onChange',
   });
+
+  console.log(watch());
 
   const username = watch().username;
   const [debouncedQuery] = useDebounce(username, 1000);
@@ -67,52 +66,14 @@ export const ChangeUsername = () => {
         >
           <div>
             <Label>{t('signup-edit.username.label')}</Label>
-            <Input placeholder={auth.user?.username} {...register('username')} />
-            {errors.username && (
-              <span className="text-red-600 text-sm font-semibold">
-                {errors.username.type === 'too_small' ? (
-                  t('signup-edit.username.too-small')
-                ) : (
-                  <>
-                    {t('signup-edit.username.valid-conditions.title')}
-                    <ul className="list-disc ml-[18px]">
-                      <li
-                        data-valid={/^.{3,20}$/.test(watch('username'))}
-                        className="data-[valid=true]:text-green-500"
-                      >
-                        {t('signup-edit.username.valid-conditions.condition1')}
-                      </li>
-                      <li
-                        data-valid={/^[a-zA-Z0-9_]+$/.test(watch('username'))}
-                        className="data-[valid=true]:text-green-500"
-                      >
-                        {t('signup-edit.username.valid-conditions.condition2')}
-                      </li>
-                    </ul>
-                  </>
-                )}
-              </span>
-            )}
-            {!errors.username && (
-              <>
-                {isUsernameAvailable.isError && (
-                  <span
-                    data-test="username-not-available"
-                    className="text-sm text-red-600 font-semibold"
-                  >
-                    {t('signup-edit.username.not-available')}
-                  </span>
-                )}
-                {isUsernameAvailable.isSuccess && (
-                  <span
-                    data-test="username-available"
-                    className="text-sm text-green-500 font-semibold"
-                  >
-                    {t('signup-edit.username.available')}
-                  </span>
-                )}
-              </>
-            )}
+            <UsernameInput
+              {...register('username')}
+              placeholder={auth.user?.username}
+              errors={errors.username}
+              isUsernameAvailable={
+                isUsernameAvailable.isFetched ? isUsernameAvailable.isSuccess : undefined
+              }
+            />
           </div>
           <div className="flex flex-col justify-end items-end">
             <Button loading={changeUsername.isPending} type="submit">
