@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
 import { useTranslations } from 'next-intl';
-import { Link, useRouter } from '@/common/navigation';
+import { Link } from '@/common/navigation';
 
 const loginSchema = z.object({
   login: z.string().min(1),
@@ -21,7 +21,6 @@ type LoginType = z.infer<typeof loginSchema>;
 
 export default function Page() {
   const auth = useAuth();
-  const router = useRouter();
   const [loading, setLoading] = useState<boolean>();
   const { toast } = useToast();
   const t = useTranslations();
@@ -72,11 +71,12 @@ export default function Page() {
           <div className="flex justify-between">
             <Label htmlFor="password">{t('login.password.label')}</Label>
             <Link
+              data-test="forgot-password"
               tabIndex={-1}
               href={{ pathname: '/settings/reset-password' }}
               className="text-primary hover:underline text-sm"
             >
-              Esqueceu sua senha?
+              {t('login.forgot-password')}
             </Link>
           </div>
           <Input type={'password'} {...register('password')} />
