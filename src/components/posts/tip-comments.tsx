@@ -1,35 +1,14 @@
 import React, { FormEvent } from 'react';
 import { Link } from '@/common/navigation';
-import { UserHoverCard } from '@/components/user-hovercard';
 import { useQuery } from '@tanstack/react-query';
 import axios from '@/services/axios';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import { useAuth } from '@/context/auth-context';
-import { intlFormatDistance } from 'date-fns';
-import { useLocale, useTranslations } from 'next-intl';
-import { Settings } from 'lucide-react';
-import { useDeleteTipComment } from '@/hooks/useDeleteTipComment';
+import { useTranslations } from 'next-intl';
 import { useCreateTipComment } from '@/hooks/useCreateTipComment';
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from '@/components/ui/alert-dialog';
-import { Report } from '@/components/posts/report';
+
 import { TipComment } from '@/components/posts/tip-comment';
 
 interface TipCommentProps {
@@ -38,8 +17,6 @@ interface TipCommentProps {
 
 export const TipComments = ({ tip }: TipCommentProps) => {
   const auth = useAuth();
-  const locale = useLocale();
-  const deleteTipComment = useDeleteTipComment();
   const createTipComment = useCreateTipComment();
   const t = useTranslations();
 

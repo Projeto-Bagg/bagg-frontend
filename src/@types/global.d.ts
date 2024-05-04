@@ -55,7 +55,7 @@ interface DiaryPost {
 
 interface DiaryPostReport extends DiaryPost {
   reasons: {
-    reason: string;
+    reason: ReportReason;
     _count: { reason: number };
   }[];
   _count: {
@@ -104,7 +104,7 @@ interface TipComment {
 
 interface TipCommentReport extends TipComment {
   reasons: {
-    reason: string;
+    reason: ReportReason;
     _count: { reason: number };
   }[];
   _count: {
@@ -114,7 +114,7 @@ interface TipCommentReport extends TipComment {
 
 interface TipReport extends Tip {
   reasons: {
-    reason: string;
+    reason: ReportReason;
     _count: { reason: number };
   }[];
   _count: {
@@ -282,3 +282,5 @@ interface FullSearch {
   countries: Country[];
   cities: CityFromSearch[];
 }
+
+type ReportReason = 'hate' | 'violent' | 'spam' | 'nudity' | 'false-information';

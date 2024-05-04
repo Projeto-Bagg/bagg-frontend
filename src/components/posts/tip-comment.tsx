@@ -106,9 +106,8 @@ export const TipComment = ({ comment, tipId }: TipCommentProps) => {
                       <DropdownMenuItem
                         data-test="diary-post-delete"
                         onSelect={(e) => e.preventDefault()}
-                        className="font-bold"
                       >
-                        Report
+                        {t('reports.title')}
                       </DropdownMenuItem>
                     </Report>
                     <AlertDialog>

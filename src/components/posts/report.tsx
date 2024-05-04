@@ -7,7 +7,6 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Separator } from '@/components/ui/separator';
 import { toast } from '@/components/ui/use-toast';
 import axios from '@/services/axios';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -23,13 +22,7 @@ interface ReportProps {
   reportType: 'tip' | 'diary-post' | 'tip-comment';
 }
 
-const reasons = [
-  'hate',
-  'violent-speech',
-  'spam',
-  'nudity',
-  'false-information',
-] as const;
+const reasons = ['hate', 'violent', 'spam', 'nudity', 'false-information'] as const;
 
 const reportSchema = z.object({
   reason: z.enum(reasons),
@@ -91,9 +84,9 @@ export const Report = ({ children, id, reportType }: ReportProps) => {
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Reportar</DialogTitle>
+          <DialogTitle>{t('reports.title')}</DialogTitle>
         </DialogHeader>
-        <h2 className="font-semibold">Qual o motivo da denúncia?</h2>
+        <h2 className="font-semibold">{t('reports.description')}</h2>
         <form data-test="report-form" onSubmit={handleSubmit(onReport)}>
           <Controller
             name="reason"
@@ -103,7 +96,7 @@ export const Report = ({ children, id, reportType }: ReportProps) => {
                 {reasons.map((reason) => (
                   <div key={reason} className="flex items-center space-x-2">
                     <RadioGroupItem value={reason} id={reason} />
-                    <Label htmlFor={reason}>{reason}</Label>
+                    <Label htmlFor={reason}>{t(`reports.reasons.${reason}`)}</Label>
                   </div>
                 ))}
               </RadioGroup>
@@ -115,7 +108,7 @@ export const Report = ({ children, id, reportType }: ReportProps) => {
             </span>
           )}
           <Button disabled={!!errors.reason} className="w-full mt-4" type="submit">
-            Reportar
+            {t('reports.confirm')}
           </Button>
         </form>
       </DialogContent>

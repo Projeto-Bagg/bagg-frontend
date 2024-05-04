@@ -154,9 +154,8 @@ export const Tip = forwardRef<
                         <DropdownMenuItem
                           data-test="tip-delete"
                           onSelect={(e) => e.preventDefault()}
-                          className="font-bold"
                         >
-                          Report
+                          {t('reports.title')}
                         </DropdownMenuItem>
                       </Report>
                       <AlertDialog>

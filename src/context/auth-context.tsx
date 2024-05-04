@@ -98,10 +98,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     setCookie('bagg.sessionToken', data.accessToken);
     setCookie('bagg.refreshToken', data.refreshToken);
+
     queryClient.invalidateQueries();
     await refetch();
+
+    window.history.length > 1 ? router.back() : router.push('/');
     router.refresh();
-    return window.history.length > 1 ? router.back() : router.push('/');
   };
 
   const signUp = async (user: UserSignUp) => {

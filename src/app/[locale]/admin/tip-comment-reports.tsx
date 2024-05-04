@@ -4,13 +4,16 @@ import { TipComment } from '@/components/posts/tip-comment';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import axios from '@/services/axios';
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
+import { produce } from 'immer';
+import { useTranslations } from 'next-intl';
 import React, { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 
 export const TipCommentReports = () => {
   const [openDialogIndex, setOpenDialogIndex] = useState<number | null>(null);
   const { ref, inView } = useInView();
+  const queryClient = useQueryClient();
 
   const {
     data: tipCommentReports,
@@ -31,13 +34,28 @@ export const TipCommentReports = () => {
       page.length === 10 ? allPages.length + 1 : null,
   });
 
+  const removeFromList = (id: number) => {
+    queryClient.setQueryData<Pagination<TipReport[]>>(
+      ['tip-comment-reports'],
+      (old) =>
+        old &&
+        produce(old, (draft) => {
+          draft.pages = draft.pages.map((page) =>
+            page.filter((report) => report.id !== id),
+          );
+        }),
+    );
+  };
+
   const onRejectReport = async (id: number) => {
     await axios.post('admin/tip-comment-reports/' + id + '/reject');
+    removeFromList(id);
     setOpenDialogIndex(null);
   };
 
   const onAcceptReport = async (id: number) => {
     await axios.post('admin/tip-comment-reports/' + id + '/accept');
+    removeFromList(id);
     setOpenDialogIndex(null);
   };
 
@@ -48,7 +66,7 @@ export const TipCommentReports = () => {
   }, [inView, fetchNextPage, hasNextPage]);
 
   return (
-    <div>
+    <div className="divide-y">
       {tipCommentReports?.pages.map((page) =>
         page.map((report, index) => (
           <TipCommentReportDialog
@@ -80,16 +98,18 @@ const TipCommentReportDialog = React.forwardRef<
   HTMLButtonElement,
   TipCommentReportDialogProps
 >(({ report, open, onOpenChange, onRejectReport, onAcceptReport }, ref) => {
+  const t = useTranslations();
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange} key={report.id}>
       <DialogTrigger asChild>
-        <button ref={ref} className="flex w-full justify-between p-2">
+        <button ref={ref} className="flex w-full justify-between p-2 text-sm">
           <span>{report._count.tipCommentReport}</span>
           <div className="flex">
             {report.reasons.slice(0, 3).map((reason) => (
               <div key={reason.reason}>
                 <span>
-                  {reason.reason}: {reason._count.reason}
+                  {t(`reports.reasons.${reason.reason}`)}: {reason._count.reason}
                 </span>
               </div>
             ))}
@@ -102,9 +122,11 @@ const TipCommentReportDialog = React.forwardRef<
         </div>
         <div className="flex gap-2 justify-end">
           <Button variant={'destructive'} onClick={() => onRejectReport(report.id)}>
-            Rejeitar denúncia
+            {t('admin.reports.reject-report')}
           </Button>
-          <Button onClick={() => onAcceptReport(report.id)}>Aceitar denúncia</Button>
+          <Button onClick={() => onAcceptReport(report.id)}>
+            {t('admin.reports.accept-report')}
+          </Button>
         </div>
       </DialogContent>
     </Dialog>

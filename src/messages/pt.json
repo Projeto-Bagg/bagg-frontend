@@ -426,5 +426,27 @@
         }
       }
     }
+  },
+  "reports": {
+    "title": "Denunciar",
+    "description": "Qual o motivo da denúncia?",
+    "reasons": {
+      "hate": "Comentário de ódio",
+      "violent": "Violência",
+      "spam": "Spam",
+      "nudity": "Nudez",
+      "false-information": "Informação falsa"
+    },
+    "confirm": "Report"
+  },
+  "admin": {
+    "reports": {
+      "title": "Denúncias",
+      "tip": "Tip",
+      "tip-comments": "Comentários da tip",
+      "diary-post": "Postagem do diário",
+      "reject-report": "Rejeitar denúncia",
+      "accept-report": "Aceitar denúncia"
+    }
   }
 }
