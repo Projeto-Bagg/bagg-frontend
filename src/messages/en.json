@@ -1,7 +1,11 @@
 {
+  "commons": {
+    "confirm": "Confirm"
+  },
   "header": {
     "home": "Home",
     "ranking": "Ranking",
+    "admin": "Admin",
     "search": {
       "title": "Search",
       "input-placeholder": "Type to search",
@@ -27,44 +31,70 @@
   },
   "login": {
     "title": "Login",
-    "description": "Use your email and password to login to Bagg",
-    "password": "Password",
-    "password-error": "Invalid password",
-    "login-submit": "Login",
-    "login": "Email or username",
-    "login-error": "Invalid login",
-    "unauthorized": "Login or password provided is incorrect"
+    "description": "Use your username/email and password to login to Bagg",
+    "password": {
+      "label": "Password",
+      "invalid": "Invalid password",
+      "too-small": "Enter your password"
+    },
+    "login": {
+      "label": "Username or email",
+      "too-small": "Enter your username/e-mail",
+      "invalid": "Invalid login"
+    },
+    "submit": "Login",
+    "unauthorized": "Login or password provided is incorrect",
+    "signup-redirect": {
+      "title": "Don't have a profille?",
+      "link": "Sign up"
+    }
   },
-  "signup": {
+  "signup-edit": {
     "title": "Sign up",
     "description": "Fill out the form to register to Bagg",
-    "name": "Name",
-    "name-error": "Enter your display name",
-    "name-size-error": "The maximum length is 64 characters",
-    "username": "Username",
-    "username-error": {
-      "title": "The username must:",
-      "condition1": "Have a size of 3 to 20 characters",
-      "condition2": "Contain only letters, numbers or \"_\""
+    "name": {
+      "label": "Name",
+      "too-small": "Enter your display name",
+      "max-length-error": "The maximum length is 64 characters"
     },
-    "username-not-available": "Username not available",
-    "birthdate": "Birthdate",
-    "birthdate-placeholder": "Select a birthdate",
-    "birthdate-error": "What day you were born?",
-    "email": "Email",
-    "email-error": "Enter a valid email address",
-    "email-not-available": "Email not available",
-    "password": "Password",
-    "password-error": "Invalid password",
-    "password-too-weak": {
-      "title": "Your password must:",
-      "condition1": "Be at least six characters long",
-      "condition2": "Contain at least one lowercase and uppercase letter",
-      "condition3": "Contain one or more numbers",
-      "condition4": "Include at least one of the following special characters: {characters}"
+    "username": {
+      "label": "Username",
+      "too-small": "Enter a username",
+      "available": "Available username",
+      "not-available": "Username not available",
+      "valid-conditions": {
+        "title": "The username must:",
+        "condition1": "Have a size of 3 to 20 characters",
+        "condition2": "Contain only letters, numbers or \"_\""
+      }
     },
-    "confirm-password": "Confirm password",
-    "confirm-password-error": "Passwords do not match",
+    "birthdate": {
+      "label": "Birthdate",
+      "placeholder": "Select a birthdate",
+      "too-small": "Select a birthdate"
+    },
+    "email": {
+      "label": "Email",
+      "invalid": "Enter a valid email address",
+      "too-small": "Enter a email address",
+      "available": "Available email",
+      "not-available": "Email not available"
+    },
+    "password": {
+      "label": "Password",
+      "too-small": "Enter a password",
+      "valid-conditions": {
+        "title": "Your password must:",
+        "condition1": "Be at least eight characters long",
+        "condition2": "Contain at least one lowercase and uppercase letter",
+        "condition3": "Contain one or more numbers",
+        "condition4": "Include at least one of the following special characters: {characters}"
+      }
+    },
+    "confirm-password": {
+      "label": "Confirm password",
+      "unmatched-passwords": "Password do not match"
+    },
     "confirm": "By registering, you accept our terms of use and our privacy policy",
     "signup": "Sign up",
     "day": "Day",
@@ -83,6 +113,10 @@
       "October": "October",
       "November": "November",
       "December": "December"
+    },
+    "login-redirect": {
+      "title": "Already have an account?",
+      "link": "Login"
     }
   },
   "profile-pic-modal": {
@@ -93,6 +127,11 @@
     "cancel": "Cancel"
   },
   "profile": {
+    "not-found": {
+      "title": "User not found",
+      "redirect-to": "Redirect to",
+      "route": "homepage"
+    },
     "edit-profile": "Edit profile",
     "created-at": "Joined in {joinDate, date, long}",
     "birthdate": "Born in {joinDate, date, long}",
@@ -166,7 +205,12 @@
     "message-error": "Enter a message",
     "message-max-error": "The maximum length is 300 characters",
     "max-size-files": "Max size is 10 files and 100mb in total",
-    "confirm": "Confirm"
+    "confirm": "Confirm",
+    "tags": {
+      "label": "Tags",
+      "helper": "Press tab or enter to complete",
+      "placeholder": "Examples: restaurant, beach, climate..."
+    }
   },
   "select-city": {
     "title": "Select a city...",
@@ -176,7 +220,6 @@
     "error": "Something went wrong..."
   },
   "select-country": {
-    "label": "Country",
     "title": "Select a country...",
     "search": "Search a country...",
     "not-found": "No cities found",
@@ -189,7 +232,7 @@
     "liked-by": "Liked by",
     "delete-modal": {
       "title": "Delete diary post",
-      "description": "Are you sure you want to delete this post? This action cannot be undone",
+      "description": "Are you sure you want to delete this post? This action cannot be undone.",
       "cancel": "Cancel",
       "action": "Delete"
     }
@@ -202,9 +245,20 @@
     "comments": "{count, plural, =0 {Comment} =1 {See # comment} other {See # comments}}",
     "delete-modal": {
       "title": "Delete tip",
-      "description": "Are you sure you want to delete this post? This action cannot be undone",
+      "description": "Are you sure you want to delete this post? This action cannot be undone.",
       "cancel": "Cancel",
       "action": "Delete"
+    },
+    "comment": {
+      "delete": {
+        "label": "Delete",
+        "delete-modal": {
+          "title": "Delete comment",
+          "description": "Are you sure you want to delete this comment?",
+          "cancel": "Cancel",
+          "action": "Delete"
+        }
+      }
     }
   },
   "follow": {
@@ -219,13 +273,42 @@
     "visited": "Visited",
     "interested": "Interested",
     "interest": "Interest",
+    "uncheck-visit-with-review-toast": {
+      "title": "Delete the review before unchecking",
+      "description": "You cannot cancel the visit as you previously created a review in that city."
+    },
     "rate": "Rate",
     "review": "Review",
-    "no-images": "No images yet :(",
+    "no-images": "No images yet.",
     "reviews": "Last reviews",
-    "no-reviews": "Nobody has reviewed it yet.",
-    "view-more-reviews": "View more",
-    "go-back": "Go back"
+    "data": {
+      "rating": {
+        "tooltip": "Average of {rating} based on {count} reviews"
+      },
+      "visits": {
+        "tooltip": "Visited by {count} users"
+      },
+      "interest": {
+        "tooltip": "Interested by {count} users"
+      },
+      "resident": {
+        "tooltip": "Place of residence for {count} users"
+      }
+    },
+    "tabs": {
+      "overview": "Overview",
+      "gallery": {
+        "label": "Gallery"
+      },
+      "reviews": {
+        "label": "Reviews",
+        "no-reviews": "Nobody has reviewed it yet."
+      },
+      "residents": {
+        "label": "Residents",
+        "no-residents": "There are no users living here."
+      }
+    }
   },
   "create-city-visit": {
     "title": "Create a city review",
@@ -235,7 +318,16 @@
     "message-max-error": "The maximum length is 300 characters",
     "rating": "Rating",
     "ratingError": "Enter a rating",
-    "confirm": "Confirm"
+    "confirm": "Confirm",
+    "delete": {
+      "label": "Delete",
+      "delete-modal": {
+        "title": "Delete avaliação",
+        "description": "Are you sure you want to delete this review? This action cannot be undone.",
+        "cancel": "Cancelar",
+        "action": "Delete"
+      }
+    }
   },
   "ranking": {
     "top-rated-countries": "Top rated countries",
@@ -244,9 +336,8 @@
     "most-visited-cities": "Most visited cities",
     "countries-with-gratest-interest": "Countries with greatest interest",
     "cities-with-gratest-interest": "Cities with greatest interest",
-    "more": "More",
+    "empty": "Empty ranking.",
     "date-range": {
-      "label": "Date range",
       "date": "{count, plural, =0 {All time} other {Last # days}}"
     },
     "city": {
@@ -262,5 +353,100 @@
   },
   "modal": {
     "close": "Are you sure you want to abandon this entry?"
+  },
+  "search-page": {
+    "title": "Search",
+    "options": {
+      "user": "User",
+      "country": "Country",
+      "city": "City"
+    },
+    "no-results": "No results for"
+  },
+  "see-more": "More",
+  "settings": {
+    "title": "Settings",
+    "username": {
+      "title": "Change username",
+      "success": "Username changed successfully!"
+    },
+    "change-password": {
+      "title": "Change password",
+      "newPassword": {
+        "label": "New password",
+        "too-small": "Enter a new password",
+        "samePassword": "The new password and the current one are the same"
+      },
+      "currentPassword": {
+        "label": "Current password",
+        "too-small": "Enter your current password"
+      },
+      "confirm-password": {
+        "label": "Confirm password",
+        "too-small": "Enter your new password again",
+        "unmatched-passwords": "Password do not match"
+      },
+      "success": "Password changed successfully!"
+    },
+    "delete-account": {
+      "title": "Delete account",
+      "currentPassword": "Current password",
+      "confirm-modal": {
+        "label": "Confirm",
+        "description": "Are you sure you want to delete your account? This action cannot be undone and your data cannot be recovered.",
+        "cancel": "Cancel",
+        "action": "Delete account"
+      },
+      "toast": "Incorrect password"
+    },
+    "reset-password": {
+      "title": "Forgot your password?",
+      "description": "Enter your email address and we'll send a link to reset your password.",
+      "submit": "Reset password",
+      "reset": {
+        "title": "Reset password"
+      },
+      "done": {
+        "title": "Done!",
+        "text": "If the email you entered is assigned to an account, an email will be sent to your inbox with the link to reset your password."
+      }
+    },
+    "verify-email": {
+      "title": "Verify your email",
+      "description": "Thank you for signing up with Bagg! To continue, verify your email by clicking the button below.",
+      "submit": "Verify email",
+      "success": "Email verified successfully",
+      "fail": "Email has not been verified.",
+      "done": {
+        "done": "Done!",
+        "description": "A link to activate the account was sent to the email linked to the account.",
+        "already-verified": {
+          "label": "If you have already verified your email, click the button below.",
+          "button": "Already verified"
+        }
+      }
+    }
+  },
+  "reports": {
+    "title": "Report",
+    "description": "What type of issue are you reporting?",
+    "reasons": {
+      "hate": "Hate speech",
+      "violent": "Violent speech",
+      "spam": "Spam",
+      "nudity": "Nudity",
+      "false-information": "False information"
+    },
+    "confirm": "Report"
+  },
+  "admin": {
+    "reports": {
+      "title": "Reports",
+      "tip": "Tip",
+      "tip-comments": "Tip comments",
+      "diary-post": "Diary post",
+      "reject-report": "Reject report",
+      "accept-report": "Accept report"
+    }
   }
 }

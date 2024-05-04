@@ -5,6 +5,7 @@ const cspHeader = `
     script-src 'self' 'unsafe-eval' 'unsafe-inline';
     style-src 'self' 'unsafe-inline';
     img-src 'self' blob: data: https://baggstorage.blob.core.windows.net https://tiles.stadiamaps.com;
+    media-src 'self' blob: data: https://baggstorage.blob.core.windows.net;
     font-src 'self';
     object-src 'none';
     base-uri 'self';
@@ -69,6 +70,7 @@ const nextConfig = {
   reactStrictMode: true,
   output: 'standalone',
   images: {
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: 'https',

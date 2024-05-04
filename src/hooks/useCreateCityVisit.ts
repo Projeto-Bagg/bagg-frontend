@@ -15,8 +15,20 @@ export const useCreateCityVisit = () => {
           old &&
           produce(old, (draft) => {
             draft.userVisit = data.data;
+            draft.visitsCount += 1;
           }),
       );
+
+      if (data.data.message && data.data.rating) {
+        queryClient.setQueryData<Pagination<CityVisit[]>>(
+          ['city-visits', variables.cityId],
+          (old) =>
+            old &&
+            produce(old, (draft) => {
+              draft.pages[0].unshift(data.data);
+            }),
+        );
+      }
     },
   });
 };

@@ -28,9 +28,9 @@ export const UserHoverCard = ({ username, children }: UserHoverCardProps) => {
   const t = useTranslations();
   const [open, setOpen] = useState<boolean>();
 
-  const user = useQuery<User>({
+  const user = useQuery<FullInfoUser>({
     queryKey: ['user', username],
-    queryFn: async () => (await axios.get<User>('/users/' + username)).data,
+    queryFn: async () => (await axios.get<FullInfoUser>('/users/' + username)).data,
     enabled: !!open,
   });
 
@@ -56,9 +56,11 @@ export const UserHoverCard = ({ username, children }: UserHoverCardProps) => {
         {!user.isLoading && user.data && (
           <div className="space-y-1">
             <div className="flex justify-between items-center">
-              <Avatar className="w-[3rem] h-[3rem]">
-                <AvatarImage src={user.data.image} />
-              </Avatar>
+              <Link href={{ params: { slug: user.data.username }, pathname: '/[slug]' }}>
+                <Avatar className="w-[3rem] h-[3rem]">
+                  <AvatarImage src={user.data.image} />
+                </Avatar>
+              </Link>
               {auth.user?.id !== user.data.id && (
                 <Button
                   size={'sm'}
@@ -74,20 +76,28 @@ export const UserHoverCard = ({ username, children }: UserHoverCardProps) => {
             </div>
             <div className="mt-2 gap-1 flex-col flex">
               <div className="flex gap-1 items-baseline">
-                <span className="font-bold">{user.data.fullName}</span>
-                <span className="text-sm text-muted-foreground">
-                  @{user.data.username}
-                </span>
+                <Link
+                  className="hover:underline"
+                  href={{ params: { slug: user.data.username }, pathname: '/[slug]' }}
+                >
+                  <span className="font-bold">{user.data.fullName}</span>
+                </Link>
+                <Link
+                  className="hover:underline  text-muted-foreground"
+                  href={{ params: { slug: user.data.username }, pathname: '/[slug]' }}
+                >
+                  <span className="text-sm">@{user.data.username}</span>
+                </Link>
               </div>
               {user.data.bio && (
-                <span className="text-xs break-words whitespace-pre-wrap">
+                <span className="text-sm break-words whitespace-pre-wrap">
                   {user.data.bio}
                 </span>
               )}
             </div>
             <div>
               {user.data.city && (
-                <div className="text-muted-foreground flex gap-1 text-xs">
+                <div className="text-muted-foreground flex gap-1 text-sm">
                   <p>{t('profile.city')}</p>
                   <Link
                     href={{
@@ -104,7 +114,7 @@ export const UserHoverCard = ({ username, children }: UserHoverCardProps) => {
                   </Link>
                 </div>
               )}
-              <div className="text-xs">
+              <div className="text-sm">
                 <div className="flex gap-2">
                   <div className="flex gap-1">
                     <span className="font-bold">{user.data.followers}</span>

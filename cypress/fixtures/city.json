@@ -1,0 +1,31 @@
+{
+  "id": 166148,
+  "name": "São Sebastião",
+  "regionId": 5593,
+  "latitude": -23.76,
+  "longitude": -45.40972,
+  "region": {
+    "id": 5593,
+    "name": "São Paulo",
+    "countryId": 282,
+    "latitude": -23.5505199,
+    "longitude": -46.6333094,
+    "stateCode": "SP",
+    "type": null,
+    "country": {
+      "id": 282,
+      "name": "Brazil",
+      "iso2": "BR",
+      "capital": "Brasilia",
+      "latitude": -10,
+      "longitude": -55
+    }
+  },
+  "isInterested": false,
+  "userVisit": null,
+  "averageRating": 5,
+  "visitsCount": 1,
+  "interestsCount": 1,
+  "reviewsCount": 1,
+  "residentsCount": 0
+}

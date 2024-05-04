@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { DiaryPost } from '@/components/diary-post';
+import { DiaryPost } from '@/components/posts/diary-post';
 import { useOriginTracker } from '@/context/origin-tracker';
 import axios from '@/services/axios';
 import { useQuery } from '@tanstack/react-query';
@@ -13,13 +13,14 @@ export default function Page({ params }: { params: { slug: string } }) {
   const router = useRouter();
 
   const diaryPost = useQuery<DiaryPost>({
-    queryKey: ['diaryPost', params.slug],
-    queryFn: async () => (await axios.get<DiaryPost>('/diaryPosts/' + params.slug)).data,
+    queryKey: ['diary-post', +params.slug],
+    queryFn: async () =>
+      (await axios.get<DiaryPost>('/diary-posts/' + +params.slug)).data,
   });
 
   return (
-    <div>
-      <div className="flex p-4 items-center">
+    <div className="p-4">
+      <div className="flex items-center">
         <div
           onClick={() => (isWithinPage ? router.back() : router.push('/'))}
           className="flex mr-6 items-center justify-center rounded-full w-8 h-8 cursor-pointer"

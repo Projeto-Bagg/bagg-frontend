@@ -7,13 +7,14 @@ import {
 } from '@/components/ui/command';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
-import { Check, ChevronsUpDown } from 'lucide-react';
+import { ChevronsUpDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useDebounce } from 'use-debounce';
 import { useQuery } from '@tanstack/react-query';
 import axios from '@/services/axios';
 import { CountryFlag } from '@/components/ui/country-flag';
 import { useTranslations } from 'next-intl';
+import { ScrollArea, ScrollAreaViewport } from '@/components/ui/scroll-area';
 
 interface SelectCityProps {
   onSelect: (value: string) => void;
@@ -63,6 +64,7 @@ export const SelectCity = ({ onSelect, defaultValue }: SelectCityProps) => {
         <Button
           variant="outline-ring"
           role="combobox"
+          data-test="select-city"
           aria-expanded={open}
           className="w-full justify-between"
         >
@@ -81,49 +83,57 @@ export const SelectCity = ({ onSelect, defaultValue }: SelectCityProps) => {
         </Button>
       </PopoverTrigger>
       <PopoverContent className="p-0 w-full">
-        <Command shouldFilter={false}>
-          <CommandInput
-            onValueChange={setQuery}
-            value={query}
-            placeholder={t('select-city.search')}
-          />
-          <CommandGroup>
-            {isLoading && <div className="p-4 text-sm">{t('select-city.searching')}</div>}
-            {!cities.isError && !isLoading && !cities.data?.length && (
-              <div className="p-4 text-sm">{t('select-city.not-found')}</div>
-            )}
-            {cities.isError && (
-              <div className="p-4 text-sm">{t('select-city.error')}</div>
-            )}
-            {cities.data?.map((city) => (
-              <CommandItem
-                key={city.id}
-                value={city.id.toString()}
-                onSelect={(currentValue) => {
-                  setSelectedCity(
-                    currentValue === selectedCity?.id.toString() ? undefined : city,
-                  );
-                  onSelect(currentValue);
-                  setOpen(false);
-                }}
-              >
-                <Check
-                  className={cn(
-                    'mr-2 h-4 w-4',
-                    selectedCity?.id === city.id ? 'opacity-100' : 'opacity-0',
-                  )}
-                />
-                <div className="flex gap-2">
-                  <CountryFlag iso2={city.iso2} />
-                  <div className="flex gap-1">
-                    <span>{city.name}</span>
-                    <span className="text-muted-foreground">{city.region}</span>
-                  </div>
-                </div>
-              </CommandItem>
-            ))}
-          </CommandGroup>
-        </Command>
+        <ScrollArea>
+          <ScrollAreaViewport className="max-h-[440px]">
+            <Command shouldFilter={false}>
+              <CommandInput
+                onValueChange={setQuery}
+                value={query}
+                placeholder={t('select-city.search')}
+              />
+              <CommandGroup>
+                {isLoading && (
+                  <div className="p-4 text-sm">{t('select-city.searching')}</div>
+                )}
+                {!cities.isError && !isLoading && !cities.data?.length && (
+                  <div className="p-4 text-sm">{t('select-city.not-found')}</div>
+                )}
+                {cities.isError && (
+                  <div className="p-4 text-sm">{t('select-city.error')}</div>
+                )}
+                {cities.data?.map((city) => (
+                  <CommandItem
+                    key={city.id}
+                    value={city.id.toString()}
+                    onSelect={(currentValue) => {
+                      setSelectedCity(
+                        currentValue === selectedCity?.id.toString() ? undefined : city,
+                      );
+                      onSelect(currentValue);
+                      setOpen(false);
+                    }}
+                  >
+                    <span
+                      className={cn(
+                        'mr-2 flex h-[18px] w-[18px] items-center justify-center',
+                        selectedCity?.id === city.id ? 'opacity-100' : 'opacity-0',
+                      )}
+                    >
+                      <span className="w-[3px] h-full rounded-xl bg-primary" />
+                    </span>
+                    <div className="flex gap-2">
+                      <CountryFlag iso2={city.iso2} />
+                      <div className="flex gap-1">
+                        <span>{city.name}</span>
+                        <span className="text-muted-foreground">{city.region}</span>
+                      </div>
+                    </div>
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            </Command>
+          </ScrollAreaViewport>
+        </ScrollArea>
       </PopoverContent>
     </Popover>
   );

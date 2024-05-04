@@ -9,12 +9,26 @@ interface User {
   birthdate: Date;
   createdAt: Date;
   image?: string;
-  following: number;
-  followers: number;
   friendshipStatus: {
     isFollowing: boolean;
     followedBy: boolean;
   };
+}
+
+interface Admin {
+  id: number;
+}
+
+interface UserFromJwt {
+  id: number;
+  username: string;
+  hasEmailBeenVerified: boolean;
+  role: 'USER' | 'ADMIN';
+}
+
+interface FullInfoUser extends User {
+  following: number;
+  followers: number;
   city?: City;
 }
 
@@ -39,15 +53,25 @@ interface DiaryPost {
   tripDiary: TripDiary;
 }
 
+interface DiaryPostReport extends DiaryPost {
+  reasons: {
+    reason: ReportReason;
+    _count: { reason: number };
+  }[];
+  _count: {
+    diaryPostReport: number;
+  };
+}
+
 interface Media {
   id: number;
   url: string;
   createdAt: Date;
 }
 
-interface Pagination<T> {
-  pageParams: number[];
-  pages: T[][];
+interface Pagination<TData, TPageParam = unknown> {
+  pages: Array<TData>;
+  pageParams: Array<TPageParam>;
 }
 
 interface DiaryPostMedia extends Media {
@@ -78,6 +102,26 @@ interface TipComment {
   tipId: number;
 }
 
+interface TipCommentReport extends TipComment {
+  reasons: {
+    reason: ReportReason;
+    _count: { reason: number };
+  }[];
+  _count: {
+    tipCommentReport: number;
+  };
+}
+
+interface TipReport extends Tip {
+  reasons: {
+    reason: ReportReason;
+    _count: { reason: number };
+  }[];
+  _count: {
+    tipReport: number;
+  };
+}
+
 interface UserSignIn {
   login: string;
   password: string;
@@ -105,6 +149,8 @@ interface CountryPage extends Country {
   visitsCount: number;
   interestsCount: number;
   averageRating: number | null;
+  residentsCount: number;
+  reviewsCount: number;
 }
 
 interface Region {
@@ -117,17 +163,21 @@ interface Region {
 }
 
 interface CreateCityVisit {
-  rating?: number;
-  message?: string;
+  rating?: number | null;
+  message?: string | null;
   cityId: number;
 }
 
 interface CityVisit {
   id: number;
   createdAt: Date;
-  rating?: number;
-  message?: string;
+  rating?: number | null;
+  message?: string | null;
   user: User;
+}
+
+interface CountryCityVisit extends CityVisit {
+  city: City;
 }
 
 interface UserCityVisit {
@@ -153,17 +203,14 @@ interface CityPage extends City {
   averageRating: number | null;
   interestsCount: number;
   visitsCount: number;
+  residentsCount: number;
+  reviewsCount: number;
 }
 
-interface CityImage extends Media {
+interface CountryCityImage extends Media {
   userId: number;
   user: User;
-}
-
-interface CountryImage extends Media {
-  userId: number;
-  user: User;
-  city: City;
+  city?: City;
 }
 
 interface CityFromSearch {
@@ -235,3 +282,5 @@ interface FullSearch {
   countries: Country[];
   cities: CityFromSearch[];
 }
+
+type ReportReason = 'hate' | 'violent' | 'spam' | 'nudity' | 'false-information';

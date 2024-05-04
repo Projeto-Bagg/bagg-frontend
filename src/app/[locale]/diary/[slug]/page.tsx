@@ -1,14 +1,13 @@
 'use client';
 
 import React, { useEffect } from 'react';
-import { DiaryPost } from '@/components/diary-post';
+import { DiaryPost } from '@/components/posts/diary-post';
 import { useOriginTracker } from '@/context/origin-tracker';
 import axios from '@/services/axios';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { ArrowLeft } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { Separator } from '@/components/ui/separator';
 import { useInView } from 'react-intersection-observer';
 import TripDiary from '@/components/trip-diary';
 
@@ -30,8 +29,13 @@ export default function Page({ params }: { params: { slug: string } }) {
   } = useInfiniteQuery<DiaryPost[]>({
     queryKey: ['trip-diary-posts', +params.slug],
     queryFn: async ({ pageParam }) =>
-      (await axios.get<DiaryPost[]>(`trip-diaries/${params.slug}/posts?page${pageParam}`))
-        .data,
+      (
+        await axios.get<DiaryPost[]>(`trip-diaries/${params.slug}/posts`, {
+          params: {
+            page: pageParam,
+          },
+        })
+      ).data,
     initialPageParam: 1,
     getNextPageParam: (page, allPages) =>
       page.length === 10 ? allPages.length + 1 : null,
@@ -52,8 +56,8 @@ export default function Page({ params }: { params: { slug: string } }) {
   }
 
   return (
-    <div>
-      <div className="flex p-4 items-center">
+    <div className="p-4">
+      <div className="flex items-center">
         <div
           onClick={() => (isWithinPage ? router.back() : router.push('/'))}
           className="flex mr-6 items-center justify-center rounded-full w-8 cursor-pointer"

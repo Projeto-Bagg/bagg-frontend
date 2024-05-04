@@ -13,7 +13,7 @@ export const useCreateTip = () => {
       queryClient.setQueryData<Tip>(['tip', data.id], data);
 
       [['feed'], ['tips', auth.user?.username]].forEach((key) => {
-        queryClient.setQueryData<Pagination<Tip>>(
+        queryClient.setQueryData<Pagination<Tip[]>>(
           key,
           (old) =>
             old &&

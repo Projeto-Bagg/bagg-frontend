@@ -1,7 +1,11 @@
 {
+  "commons": {
+    "confirm": "Confirmar"
+  },
   "header": {
     "home": "Página principal",
     "ranking": "Ranking",
+    "admin": "Admin",
     "search": {
       "title": "Procurar",
       "input-placeholder": "Digite para pesquisar",
@@ -27,43 +31,69 @@
   },
   "login": {
     "title": "Login",
-    "description": "Use seu email e senha para fazer login no Bagg",
-    "password": "Senha",
-    "password-error": "Senha inválida",
-    "login-submit": "Logar",
-    "login": "Email ou nome de usuário",
-    "login-error": "Login inválido",
-    "unauthorized": "Login ou senha incorretos"
-  },
-  "signup": {
-    "title": "Cadastrar-se",
-    "description": "Preencha o formulário para se cadastrar no Bagg",
-    "name": "Nome",
-    "name-error": "Digite seu nome de exibição",
-    "username": "Nome de usuário",
-    "name-size-error": "O tamanho máximo é de 64 caracteres",
-    "username-error": {
-      "title": "O nome de usuário deve:",
-      "condition1": "Ter tamanho de 8 a 20 caracteres",
-      "condition2": "Conter apenas letras, números ou \"_\""
+    "description": "Use seu nome de usuário/email e senha para logar no Bagg",
+    "password": {
+      "label": "Senha",
+      "invalid": "Senha inválida",
+      "too-small": "Digite sua senha"
     },
-    "username-not-available": "Nome de usuário já cadastrado",
-    "birthdate": "Data de nascimento",
-    "birthdate-placeholder": "Selecione uma data",
-    "birthdate-error": "Em que dia você nasceu?",
-    "email": "Email",
-    "email-error": "Escreva um email válido",
-    "email-not-available": "Email já cadastrado",
-    "password": "Senha",
-    "password-error": "Senha inválida",
-    "confirm-password": "Confirmar senha",
-    "confirm-password-error": "As senhas não concidem",
-    "password-too-weak": {
-      "title": "A senha não é suficientemente forte. A senha deve:",
-      "condition1": "Ter pelo menos oito caracteres",
-      "condition2": "Conter um ou mais números",
-      "condition3": "Conter no mínimo uma letra minúscula e maiúscula",
-      "condition4": "Incluir pelo menos um dos seguintes caracteres especiais: {characters}"
+    "login": {
+      "label": "Nome de usuário ou email",
+      "too-small": "Digite seu nome de usuário/e-mail",
+      "invalid": "Login inválido"
+    },
+    "submit": "Login",
+    "unauthorized": "Login ou senha incorretos",
+    "signup-redirect": {
+      "title": "Não tem uma conta?",
+      "link": "Cadastrar-se"
+    }
+  },
+  "signup-edit": {
+    "title": "Cadastrar-se",
+    "description": "Preencha o formulário para se cadastrar no Bagg!",
+    "name": {
+      "label": "Nome",
+      "too-small": "Digite o nome de exibição",
+      "max-length-error": "O tamanho máximo é de 64 caracteres"
+    },
+    "username": {
+      "label": "Nome de usuário",
+      "too-small": "Digite o nome de usuário",
+      "available": "Nome de usuário disponível",
+      "not-available": "Nome de usuário indisponível",
+      "valid-conditions": {
+        "title": "O nome de usuário deve conter:",
+        "condition1": "Tamanho de 3 a 20 caracteres",
+        "condition2": "Conter letras, números ou \"_\""
+      }
+    },
+    "birthdate": {
+      "label": "Data de nascimento",
+      "placeholder": "Selecione sua data de nascimento",
+      "too-small": "Selecione sua data de nascimento"
+    },
+    "email": {
+      "label": "Email",
+      "invalid": "Digite um e-mail válido",
+      "too-small": "Digite um e-mail",
+      "available": "Email disponível",
+      "not-available": "Email indisponível"
+    },
+    "password": {
+      "label": "Senha",
+      "too-small": "Digite uma senha",
+      "valid-conditions": {
+        "title": "A senha deve conter:",
+        "condition1": "No mínimo oito caracteres",
+        "condition2": "No mínimo uma letra minúscula e maíuscula",
+        "condition3": "No mínimo um número",
+        "condition4": "No mínimo um dos caracteres especiais a seguir: {characters}"
+      }
+    },
+    "confirm-password": {
+      "label": "Confirmar senha",
+      "unmatched-passwords": "As senhas não se coincidem"
     },
     "confirm": "Ao se cadastrar, você aceita nossos termos de uso e a nossa política de privacidade",
     "signup": "Cadastrar-se",
@@ -83,6 +113,10 @@
       "October": "Outubro",
       "November": "Novembro",
       "December": "Dezembro"
+    },
+    "login-redirect": {
+      "title": "Já tem uma conta?",
+      "link": "Logar"
     }
   },
   "profile-pic-modal": {
@@ -93,6 +127,11 @@
     "cancel": "Cancelar"
   },
   "profile": {
+    "not-found": {
+      "title": "Usuário não encontrado",
+      "redirect-to": "Redirecionar para",
+      "route": "página inicial"
+    },
     "edit-profile": "Editar perfil",
     "created-at": "Entrou em {joinDate, date, long}",
     "birthdate": "Nasceu em {joinDate, date, long}",
@@ -149,7 +188,7 @@
     "trip-diary": "Diário de viagem",
     "not-found": "Diary não encontrado :(",
     "copy-link": "Copiar link",
-    "delete": "Remover",
+    "delete": "Excluir",
     "posts": "{count, plural, =0 {Sem postagens} =1 {# postagem} other {# postagens}}",
     "see-posts-anchor": "Ver postagens",
     "delete-modal": {
@@ -166,7 +205,12 @@
     "message-error": "Insira uma mensagem",
     "message-max-error": "O tamanho máximo é de 300 caracteres",
     "max-size-files": "O tamanho máximo é de 10 arquivos e 100mb no total",
-    "confirm": "Confirmar"
+    "confirm": "Confirmar",
+    "tags": {
+      "label": "Tags",
+      "helper": "Aperte tab ou enter para confirmar.",
+      "placeholder": "Exemplos: restaurante, praia, clima..."
+    }
   },
   "select-city": {
     "title": "Selecione uma cidade...",
@@ -176,7 +220,6 @@
     "error": "Algo deu errado..."
   },
   "select-country": {
-    "label": "País",
     "title": "Selecione um país...",
     "search": "Procurar um país...",
     "not-found": "Sem resultados",
@@ -184,7 +227,7 @@
   },
   "diary-post": {
     "copy-link": "Copiar link",
-    "delete": "Remover",
+    "delete": "Excluir",
     "badge": "Diário",
     "liked-by": "Curtido por",
     "delete-modal": {
@@ -196,7 +239,7 @@
   },
   "tip": {
     "copy-link": "Copiar link",
-    "delete": "Remover",
+    "delete": "Excluir",
     "badge": "Tip",
     "liked-by": "Curtido por",
     "comments": "{count, plural, =0 {Comentar} =1 {Ver # comentário} other {Ver # comentários}}",
@@ -205,6 +248,17 @@
       "description": "Tem certeza que deseja excluir a postagem? Essa ação é irreversível.",
       "cancel": "Cancelar",
       "action": "Excluir"
+    },
+    "comment": {
+      "delete": {
+        "label": "Excluir",
+        "delete-modal": {
+          "title": "Excluir comentário",
+          "description": "Tem certeza que deseja excluir o comentário?",
+          "cancel": "Cancelar",
+          "action": "Excluir"
+        }
+      }
     }
   },
   "follow": {
@@ -219,13 +273,42 @@
     "visited": "Visitado",
     "interested": "Interessado",
     "interest": "Interesse",
+    "uncheck-visit-with-review-toast": {
+      "title": "Exclua a avaliação antes de desmarcar",
+      "description": "Não é possível desmarcar a visita pois você criou uma avaliação nessa cidade anteriormente."
+    },
     "rate": "Dar nota",
     "review": "Avaliar",
-    "no-images": "Sem imagens :(",
+    "no-images": "Sem imagens.",
     "reviews": "Últimas avaliações",
-    "no-reviews": "Ninguém avaliou ainda.",
-    "view-more-reviews": "Ver mais",
-    "go-back": "Voltar"
+    "data": {
+      "rating": {
+        "tooltip": "Média de {rating} com base em {count} avaliações"
+      },
+      "visits": {
+        "tooltip": "Visitado por {count} usuários"
+      },
+      "interest": {
+        "tooltip": "Interessado por {count} usuários"
+      },
+      "resident": {
+        "tooltip": "Local de morada para {count} usuários"
+      }
+    },
+    "tabs": {
+      "overview": "Visão geral",
+      "gallery": {
+        "label": "Galeria"
+      },
+      "reviews": {
+        "label": "Avaliações",
+        "no-reviews": "Ninguém avaliou ainda."
+      },
+      "residents": {
+        "label": "Moradores",
+        "no-residents": "Não há usuários morando aqui."
+      }
+    }
   },
   "create-city-visit": {
     "title": "Avaliar cidade",
@@ -235,7 +318,16 @@
     "message-max-error": "O tamanho máximo é de 300 caracteres",
     "rating": "Nota",
     "ratingError": "Escolha uma nota",
-    "confirm": "Confirmar"
+    "confirm": "Confirmar",
+    "delete": {
+      "label": "Excluir",
+      "delete-modal": {
+        "title": "Excluir avaliação",
+        "description": "Tem certeza que deseja excluir a avaliação? Essa ação é irreversível.",
+        "cancel": "Cancelar",
+        "action": "Excluir"
+      }
+    }
   },
   "ranking": {
     "top-rated-countries": "Países com melhor avaliação",
@@ -244,9 +336,8 @@
     "top-rated-cities": "Cidades com melhor avaliação",
     "most-visited-cities": "Cidades mais visitadas",
     "cities-with-gratest-interest": "Cidades com maior interesse",
-    "more": "Ver mais",
+    "empty": "Ranking vazio.",
     "date-range": {
-      "label": "Intervalo de datas",
       "date": "{count, plural, =0 {Todo o período} other {Últimos # dias}}"
     },
     "city": {
@@ -262,5 +353,100 @@
   },
   "modal": {
     "close": "Tem certeza que deseja fechar o formulário?"
+  },
+  "search-page": {
+    "title": "Pesquisar",
+    "options": {
+      "user": "Usuários",
+      "country": "Países",
+      "city": "Cidades"
+    },
+    "no-results": "Sem resultados para"
+  },
+  "see-more": "Ver mais",
+  "settings": {
+    "title": "Configurações",
+    "username": {
+      "title": "Alterar nome de usuário",
+      "success": "Nome de usuário alterado com sucesso!"
+    },
+    "change-password": {
+      "title": "Alterar senha",
+      "newPassword": {
+        "label": "Nova senha",
+        "too-small": "Digite a nova senha",
+        "samePassword": "A nova senha e a atual são iguais"
+      },
+      "currentPassword": {
+        "label": "Senha atual",
+        "too-small": "Digite a senha atual"
+      },
+      "confirm-password": {
+        "label": "Confirmar senha",
+        "too-small": "Digite a senha novamente",
+        "unmatched-passwords": "As senhas não se coincidem"
+      },
+      "success": "Senha alterada com sucesso!"
+    },
+    "delete-account": {
+      "title": "Excluir conta",
+      "currentPassword": "Senha atual",
+      "confirm-modal": {
+        "label": "Confirmar",
+        "description": "Deseja mesmo excluir sua conta? Essa ação é irreversível e seus dados não poderão ser recuperados.",
+        "cancel": "Cancelar",
+        "action": "Excluir conta"
+      },
+      "toast": "Senha incorreta"
+    },
+    "reset-password": {
+      "title": "Esqueceu sua senha?",
+      "description": "Digite seu email e enviaremos um link para ser realizado a alteração da senha",
+      "submit": "Alterar senha",
+      "reset": {
+        "title": "Alterar senha"
+      },
+      "done": {
+        "title": "Pronto!",
+        "text": "Caso o email inserido esteja atribuído a uma conta, será enviado um email na sua caixa de entrada com o link para a alteração da senha."
+      }
+    },
+    "verify-email": {
+      "title": "Confirme seu email",
+      "description": "Obrigado por se cadastrar no Bagg! Para continuar, confirme seu email clicando no botão abaixo.",
+      "submit": "Confirmar email",
+      "success": "Email confirmado com sucesso!",
+      "fail": "Email não confirmado.",
+      "done": {
+        "done": "Pronto!",
+        "description": "Um link para a ativação da conta foi enviado ao email vinculado à conta.",
+        "already-verified": {
+          "label": "Caso você já tenha confirmado o email, clique no botão abaixo.",
+          "button": "Já confirmei"
+        }
+      }
+    }
+  },
+  "reports": {
+    "title": "Denunciar",
+    "description": "Qual o motivo da denúncia?",
+    "reasons": {
+      "hate": "Comentário de ódio",
+      "violent": "Violência",
+      "spam": "Spam",
+      "nudity": "Nudez",
+      "false-information": "Informação falsa"
+    },
+    "confirm": "Report"
+  },
+  "admin": {
+    "reports": {
+      "title": "Denúncias",
+      "tip": "Tip",
+      "tip-comments": "Comentários da tip",
+      "diary-post": "Postagem do diário",
+      "reject-report": "Rejeitar denúncia",
+      "accept-report": "Aceitar denúncia"
+    }
   }
 }
