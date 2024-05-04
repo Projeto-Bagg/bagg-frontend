@@ -38,5 +38,5 @@ export const Verified = () => {
     refreshToken();
   }, [auth, router, t]);
 
-  return redirect('/');
+  return <></>;
 };
