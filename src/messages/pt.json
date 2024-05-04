@@ -5,6 +5,7 @@
   "header": {
     "home": "Página principal",
     "ranking": "Ranking",
+    "admin": "Admin",
     "search": {
       "title": "Procurar",
       "input-placeholder": "Digite para pesquisar",

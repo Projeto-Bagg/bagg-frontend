@@ -33,6 +33,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import { intlFormatDistance } from 'date-fns';
 import { UserHoverCard } from '@/components/user-hovercard';
 import { Medias } from '@/components/posts/medias';
+import { Report } from '@/components/posts/report';
 
 export const DiaryPost = forwardRef<
   HTMLDivElement,
@@ -131,6 +132,15 @@ export const DiaryPost = forwardRef<
                   </DropdownMenuItem>
                   {auth.user?.id === post.user.id && (
                     <>
+                      <Report id={post.id} reportType="diary-post">
+                        <DropdownMenuItem
+                          data-test="diary-post-delete"
+                          onSelect={(e) => e.preventDefault()}
+                          className="font-bold"
+                        >
+                          Report
+                        </DropdownMenuItem>
+                      </Report>
                       <AlertDialog>
                         <AlertDialogTrigger asChild>
                           <DropdownMenuItem

@@ -1,3 +1,4 @@
+import { decodeJwt } from 'jose';
 import createIntlMiddleware from 'next-intl/middleware';
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -8,7 +9,17 @@ export function middleware(request: NextRequest) {
     localePrefix: 'never',
   });
 
-  const isAuthenticated = request.cookies.has('bagg.sessionToken');
+  const sessionToken = request.cookies.get('bagg.sessionToken');
+
+  const isAuthenticated = !!sessionToken;
+
+  const sessionJwt = sessionToken
+    ? decodeJwt<UserFromJwt>(sessionToken.value)
+    : undefined;
+
+  if (!request.nextUrl.pathname.endsWith('admin') && sessionJwt?.role === 'ADMIN') {
+    return NextResponse.redirect(new URL('/admin', request.nextUrl.origin));
+  }
 
   if (request.nextUrl.pathname.endsWith('/login') && isAuthenticated) {
     return NextResponse.redirect(new URL('/', request.nextUrl.origin));

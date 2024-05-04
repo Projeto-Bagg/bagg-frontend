@@ -7,6 +7,7 @@ export const pathnames = {
   '/login': '/login',
   '/signup': '/signup',
   '/ranking': '/ranking',
+  '/admin': '/admin',
   '/search': '/search',
   '/search/city': '/search/city',
   '/search/country': '/search/country',

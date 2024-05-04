@@ -5,6 +5,7 @@
   "header": {
     "home": "Home",
     "ranking": "Ranking",
+    "admin": "Admin",
     "search": {
       "title": "Search",
       "input-placeholder": "Type to search",
