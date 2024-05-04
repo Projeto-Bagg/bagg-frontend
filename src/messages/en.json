@@ -5,6 +5,7 @@
   "header": {
     "home": "Home",
     "ranking": "Ranking",
+    "admin": "Admin",
     "search": {
       "title": "Search",
       "input-placeholder": "Type to search",
@@ -424,6 +425,28 @@
           "button": "Already verified"
         }
       }
+    }
+  },
+  "reports": {
+    "title": "Report",
+    "description": "What type of issue are you reporting?",
+    "reasons": {
+      "hate": "Hate speech",
+      "violent": "Violent speech",
+      "spam": "Spam",
+      "nudity": "Nudity",
+      "false-information": "False information"
+    },
+    "confirm": "Report"
+  },
+  "admin": {
+    "reports": {
+      "title": "Reports",
+      "tip": "Tip",
+      "tip-comments": "Tip comments",
+      "diary-post": "Diary post",
+      "reject-report": "Reject report",
+      "accept-report": "Accept report"
     }
   }
 }

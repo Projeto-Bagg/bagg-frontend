@@ -15,30 +15,19 @@ import {
 import { Plus, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { MobileNav } from '@/components/header/mobile-nav';
-import { languages } from '@/common/languages';
 import { Search } from '@/components/search/search-dialog';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { CountryFlag } from '@/components/ui/country-flag';
 import { CreateDiaryPost } from '@/components/create-post/create-diary-post';
 import { Link, usePathname, useRouter } from '@/common/navigation';
-import { useParams, useSearchParams } from 'next/navigation';
 import { CreateTip } from '@/components/create-post/create-tip';
-import {
-  PrimitiveSelectTrigger,
-  Select,
-  SelectContent,
-  SelectItem,
-} from '@/components/ui/select';
-import queryString from 'query-string';
+
+import { SelectLanguage } from '@/components/select-language';
 
 export const Header = () => {
   const t = useTranslations();
   const router = useRouter();
-  const locale = useLocale();
   const auth = useAuth();
   const pathname = usePathname();
-  const params = useParams();
-  const searchParams = useSearchParams();
 
   return (
     <header className="text-sm m-auto border-b fixed top-0 left-0 right-0 w-full px-4 sm:px-0 z-50 bg-background/70">
@@ -88,52 +77,7 @@ export const Header = () => {
             </React.Fragment>
           )}
           <Search />
-          <Select
-            defaultValue={locale}
-            onValueChange={(lang) => {
-              router.push(
-                // @ts-expect-error
-                {
-                  params: { slug: params.slug as string },
-                  pathname,
-                  query: queryString.parse(searchParams.toString()) as Record<
-                    'string',
-                    'string'
-                  >,
-                },
-                { locale: lang },
-              );
-              router.refresh();
-            }}
-          >
-            <Tooltip>
-              <TooltipTrigger
-                data-test="locale-select"
-                onFocus={(e) => e.preventDefault()}
-                asChild
-              >
-                <PrimitiveSelectTrigger asChild>
-                  <Button className="hidden sm:flex" size={'icon'} variant={'ghost'}>
-                    <CountryFlag
-                      className="w-[1.6rem]"
-                      iso2={languages.find((lang) => lang.locale === locale)!.country}
-                    />
-                  </Button>
-                </PrimitiveSelectTrigger>
-              </TooltipTrigger>
-              <TooltipContent>{t('header.languages')}</TooltipContent>
-            </Tooltip>
-            <SelectContent>
-              {languages.map((lang) => (
-                <SelectItem data-test={lang.locale} key={lang.locale} value={lang.locale}>
-                  <div className="flex gap-2">
-                    <CountryFlag iso2={lang.country} />
-                    <span>{lang.label}</span>
-                  </div>
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <SelectLanguage />
           <ThemeToggle />
           <div className="hidden sm:block">
             {auth.user ? (
