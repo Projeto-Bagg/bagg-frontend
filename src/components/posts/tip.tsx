@@ -152,7 +152,7 @@ export const Tip = forwardRef<
                     <>
                       <Report reportType="tip" id={tip.id}>
                         <DropdownMenuItem
-                          data-test="tip-delete"
+                          data-test="report"
                           onSelect={(e) => e.preventDefault()}
                         >
                           {t('reports.title')}

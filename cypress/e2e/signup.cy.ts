@@ -11,8 +11,10 @@ describe('Cadastro', () => {
     cy.intercept('POST', '/auth/login', {
       statusCode: 200,
       body: {
-        accessToken: 'token',
-        refreshToken: 'token',
+        accessToken:
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInJvbGUiOiJVU0VSIiwiaGFzRW1haWxCZWVuVmVyaWZpZWQiOmZhbHNlLCJpYXQiOjE3MTQ4NDg0MDMsImV4cCI6MjcxNDg1MjAwM30.iiYbVT4yQfEjZzZt4VnOcTk_9P2OK3TJzmyqCDVqWHI',
+        refreshToken:
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInJvbGUiOiJVU0VSIiwiaGFzRW1haWxCZWVuVmVyaWZpZWQiOmZhbHNlLCJpYXQiOjE3MTQ4NDg0MDMsImV4cCI6MjcxNDg1MjAwM30.iiYbVT4yQfEjZzZt4VnOcTk_9P2OK3TJzmyqCDVqWHI',
       },
     }).as('login');
 
@@ -46,7 +48,6 @@ describe('Cadastro', () => {
 
     cy.wait('@signup-request');
     cy.wait('@login');
-    cy.wait('@me');
 
     cy.url().should('contain', 'verify-email');
   });
@@ -106,16 +107,26 @@ describe('Cadastro', () => {
 
   describe('Data de nascimento', () => {
     it('Idade mínima de 16 anos', () => {
+      const date = new Date();
+
       cy.get('[data-test="birthdate-year"]').click();
-      cy.get('[role=option]').contains('2008').click();
+      cy.get('[role=option]')
+        .contains(date.getFullYear() - 16)
+        .click();
       cy.get('[data-test="birthdate-month"]').click();
-      cy.get('[role=option]').eq(2).should('not.have.data', 'disabled');
-      cy.get('[role=option]').eq(6).should('have.data', 'disabled');
-      cy.get('[role=option]').contains('Abril').click();
+      cy.get('[role=option]').eq(date.getMonth()).should('not.have.data', 'disabled');
+      cy.get('[role=option]')
+        .eq(date.getMonth() + 4)
+        .should('have.data', 'disabled');
+      cy.get('[role=option]').eq(date.getMonth()).click();
 
       cy.get('[data-test="birthdate-day"]').click();
-      cy.get('[role=option]').eq(28).should('have.data', 'disabled');
-      cy.get('[role=option]').eq(2).should('not.have.data', 'disabled');
+      cy.get('[role=option]')
+        .eq(date.getDate() + 1)
+        .should('have.data', 'disabled');
+      cy.get('[role=option]')
+        .eq(date.getDate() - 1)
+        .should('not.have.data', 'disabled');
     });
 
     it('Desmarcar dia caso o mês seja alterado para um que não tenha a quantidade de dias do anterior', () => {

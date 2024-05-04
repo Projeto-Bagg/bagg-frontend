@@ -30,9 +30,9 @@ describe('Logar', () => {
       statusCode: 200,
       body: {
         accessToken:
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEzLCJ1c2VybmFtZSI6ImZlZmV6b2thIiwiaWF0IjoxNzExNzYzNDIwLCJleHAiOjE3MTE3NjcwMjB9.uXRAVSrAFZ7S32klVoElmLCmq_S3l4Zhl1L2KXOssjA',
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInJvbGUiOiJVU0VSIiwiaGFzRW1haWxCZWVuVmVyaWZpZWQiOnRydWUsImlhdCI6MTcxNDg0ODQwMywiZXhwIjoyNzE0ODUyMDAzfQ.59WECadq6ehgb_6HruXZm5eovzZ3TnvUb-QxQkd1wUE',
         refreshToken:
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEzLCJ1c2VybmFtZSI6ImZlZmV6b2thIiwiaWF0IjoxNzExNzYzNDIwLCJleHAiOjE3MTE3NjcwMjB9.uXRAVSrAFZ7S32klVoElmLCmq_S3l4Zhl1L2KXOssjA',
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInJvbGUiOiJVU0VSIiwiaGFzRW1haWxCZWVuVmVyaWZpZWQiOnRydWUsImlhdCI6MTcxNDg0ODQwMywiZXhwIjoyNzE0ODUyMDAzfQ.59WECadq6ehgb_6HruXZm5eovzZ3TnvUb-QxQkd1wUE',
       },
     }).as('loginRequest');
 

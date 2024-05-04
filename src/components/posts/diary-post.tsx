@@ -134,7 +134,7 @@ export const DiaryPost = forwardRef<
                     <>
                       <Report id={post.id} reportType="diary-post">
                         <DropdownMenuItem
-                          data-test="diary-post-delete"
+                          data-test="report"
                           onSelect={(e) => e.preventDefault()}
                         >
                           {t('reports.title')}
