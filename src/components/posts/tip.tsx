@@ -35,6 +35,7 @@ import { TipComments } from '@/components/posts/tip-comments';
 import { Link, usePathname, useRouter } from '@/common/navigation';
 import { useQueryClient } from '@tanstack/react-query';
 import { Medias } from '@/components/posts/medias';
+import { Report } from '@/components/posts/report';
 
 export const Tip = forwardRef<
   HTMLDivElement,
@@ -149,6 +150,14 @@ export const Tip = forwardRef<
                   </DropdownMenuItem>
                   {auth.user?.id === tip.user.id && (
                     <>
+                      <Report reportType="tip" id={tip.id}>
+                        <DropdownMenuItem
+                          data-test="tip-delete"
+                          onSelect={(e) => e.preventDefault()}
+                        >
+                          {t('reports.title')}
+                        </DropdownMenuItem>
+                      </Report>
                       <AlertDialog>
                         <AlertDialogTrigger asChild>
                           <DropdownMenuItem
