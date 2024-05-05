@@ -188,6 +188,11 @@ interface UserCityVisit {
   city: City;
 }
 
+interface Continent {
+  id: number;
+  name: 'Africa' | 'Europe' | 'Americas' | 'Asia' | 'Polar' | 'Oceania';
+}
+
 interface City {
   id: number;
   name: string;

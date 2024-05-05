@@ -225,6 +225,20 @@
     "not-found": "No cities found",
     "error": "Something went wrong..."
   },
+  "select-continent": {
+    "title": "Select a continent...",
+    "search": "Search a continent...",
+    "not-found": "No cities found",
+    "error": "Something went wrong..."
+  },
+  "continents": {
+    "Africa": "Africa",
+    "Americas": "Americas",
+    "Asia": "Asia",
+    "Europe": "Europe",
+    "Oceania": "Oceania",
+    "Polar": "Polar"
+  },
   "diary-post": {
     "copy-link": "Copy link",
     "delete": "Delete",
