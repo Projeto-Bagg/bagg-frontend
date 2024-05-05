@@ -3,8 +3,6 @@ import { CountryRatingRanking } from '@/components/ranking/country-rating-rankin
 import { CityRatingRanking } from '@/components/ranking/city-rating-ranking';
 import { CountryVisitRanking } from '@/components/ranking/country-visit-ranking';
 import { CityVisitRanking } from '@/components/ranking/city-visit-ranking';
-import { CountryInterestRanking } from '@/components/ranking/country-interest-ranking';
-import { CityInterestRanking } from '@/components/ranking/city-interest-ranking';
 
 export default function Page() {
   return (
@@ -16,11 +14,9 @@ export default function Page() {
       </div>
       <div className="grid w-full grid-cols-1 sm:grid-cols-2 gap-4">
         <CountryRatingRanking seeMore />
-        <CityRatingRanking seeMore />
         <CountryVisitRanking seeMore />
+        <CityRatingRanking seeMore />
         <CityVisitRanking seeMore />
-        <CountryInterestRanking />
-        <CityInterestRanking />
       </div>
     </div>
   );

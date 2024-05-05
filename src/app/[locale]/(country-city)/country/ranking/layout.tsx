@@ -14,6 +14,7 @@ import { useTranslations } from 'next-intl';
 import { useSearchParams } from 'next/navigation';
 import React, { ReactNode } from 'react';
 import queryString from 'query-string';
+import { SelectContinent } from '@/components/select-continent';
 
 export default function Layout({ children }: { children: ReactNode }) {
   const t = useTranslations();
@@ -21,6 +22,7 @@ export default function Layout({ children }: { children: ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
   const date = searchParams.get('date');
+  const continent = searchParams.get('continent');
 
   const handleChangeDatePreset = (value: string) => {
     // @ts-expect-error
@@ -29,11 +31,44 @@ export default function Layout({ children }: { children: ReactNode }) {
       params: {
         slug: '',
       },
-      ...(+value && {
-        query: {
+      query: {
+        ...(+value && {
           date: +value,
+        }),
+        ...(continent && {
+          continent,
+        }),
+      },
+    });
+  };
+
+  const handleChangeContinent = (value: Continent | undefined) => {
+    if (!value) {
+      // @ts-expect-error
+      return router.push({
+        pathname: pathname,
+        params: { slug: '' },
+        query: {
+          ...(date && {
+            date: date,
+          }),
         },
-      }),
+      });
+    }
+
+    // @ts-expect-error
+    router.push({
+      pathname: pathname,
+      params: {
+        slug: '',
+      },
+      query: {
+        ...(date &&
+          +date && {
+            date,
+          }),
+        continent: value.id,
+      },
     });
   };
 
@@ -83,6 +118,10 @@ export default function Layout({ children }: { children: ReactNode }) {
             </Link>
           </div>
           <div className="grid grid-cols-2 sm:flex sm:[&>*]:w-[180px] gap-2">
+            <SelectContinent
+              defaultContinentId={continent ? +continent : undefined}
+              onSelect={handleChangeContinent}
+            />
             <Select
               defaultValue={date ? date : '0'}
               onValueChange={handleChangeDatePreset}

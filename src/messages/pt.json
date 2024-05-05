@@ -225,6 +225,20 @@
     "not-found": "Sem resultados",
     "error": "Algo deu errado.."
   },
+  "select-continent": {
+    "title": "Selecione um continente...",
+    "search": "Procurar um continente...",
+    "not-found": "Sem resultados",
+    "error": "Algo deu errado.."
+  },
+  "continents": {
+    "Africa": "África",
+    "Americas": "Americas",
+    "Asia": "Asia",
+    "Europe": "Europa",
+    "Oceania": "Oceania",
+    "Polar": "Polar"
+  },
   "diary-post": {
     "copy-link": "Copiar link",
     "delete": "Excluir",
