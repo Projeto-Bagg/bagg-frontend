@@ -1,7 +1,6 @@
 'use client';
 
 import { Link, usePathname, useRouter } from '@/common/navigation';
-import { Label } from '@/components/ui/label';
 import {
   Select,
   SelectContent,
@@ -15,7 +14,7 @@ import { useTranslations } from 'next-intl';
 import { useSearchParams } from 'next/navigation';
 import React, { ReactNode } from 'react';
 import queryString from 'query-string';
-import { Separator } from '@/components/ui/separator';
+import { SelectContinent } from '@/components/select-continent';
 
 export default function Layout({ children }: { children: ReactNode }) {
   const t = useTranslations();
@@ -23,6 +22,7 @@ export default function Layout({ children }: { children: ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
   const date = searchParams.get('date');
+  const continent = searchParams.get('continent');
 
   const handleChangeDatePreset = (value: string) => {
     // @ts-expect-error
@@ -31,11 +31,44 @@ export default function Layout({ children }: { children: ReactNode }) {
       params: {
         slug: '',
       },
-      ...(+value && {
-        query: {
+      query: {
+        ...(+value && {
           date: +value,
+        }),
+        ...(continent && {
+          continent,
+        }),
+      },
+    });
+  };
+
+  const handleChangeContinent = (value: Continent | undefined) => {
+    if (!value) {
+      // @ts-expect-error
+      return router.push({
+        pathname: pathname,
+        params: { slug: '' },
+        query: {
+          ...(date && {
+            date: date,
+          }),
         },
-      }),
+      });
+    }
+
+    // @ts-expect-error
+    router.push({
+      pathname: pathname,
+      params: {
+        slug: '',
+      },
+      query: {
+        ...(date &&
+          +date && {
+            date,
+          }),
+        continent: value.id,
+      },
     });
   };
 
@@ -48,6 +81,7 @@ export default function Layout({ children }: { children: ReactNode }) {
         <div className="flex text-sm flex-col gap-4 sm:mb-4 sm:flex-row justify-between sm:items-end">
           <div className="flex gap-4 text-muted-foreground font-bold">
             <Link
+              data-test="rating"
               className={cn(
                 pathname.endsWith('rating')
                   ? 'border-b-2 border-blue-600 text-primary'
@@ -65,6 +99,7 @@ export default function Layout({ children }: { children: ReactNode }) {
               {t('ranking.country.rating')}
             </Link>
             <Link
+              data-test="visits"
               className={cn(
                 pathname.endsWith('visits')
                   ? 'border-b-2 border-blue-600 text-primary'
@@ -83,11 +118,15 @@ export default function Layout({ children }: { children: ReactNode }) {
             </Link>
           </div>
           <div className="grid grid-cols-2 sm:flex sm:[&>*]:w-[180px] gap-2">
+            <SelectContinent
+              defaultContinentId={continent ? +continent : undefined}
+              onSelect={handleChangeContinent}
+            />
             <Select
               defaultValue={date ? date : '0'}
               onValueChange={handleChangeDatePreset}
             >
-              <SelectTrigger>
+              <SelectTrigger data-test="change-data-preset">
                 <div className="flex items-center gap-2">
                   <Calendar className="w-[16px]" />
                   <SelectValue

@@ -1,6 +1,7 @@
 'use client';
 
 import { Tip } from '@/components/posts/tip';
+import { useAuth } from '@/context/auth-context';
 import axios from '@/services/axios';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
@@ -9,6 +10,7 @@ import { useInView } from 'react-intersection-observer';
 
 export default function Page() {
   const t = useTranslations();
+  const auth = useAuth();
   const { ref, inView } = useInView();
 
   const { data, fetchNextPage, hasNextPage } = useInfiniteQuery<Tip[]>({
@@ -18,6 +20,11 @@ export default function Page() {
         await axios.get<Tip[]>('/tips/feed', {
           params: {
             page: pageParam,
+            relevancy: true,
+            ...(auth.user && {
+              follows: true,
+              cityInterest: true,
+            }),
           },
         })
       ).data,

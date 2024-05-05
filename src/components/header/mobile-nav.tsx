@@ -32,7 +32,7 @@ import {
   Settings,
   User2,
 } from 'lucide-react';
-import { Link as IntlLink, usePathname } from '@/common/navigation';
+import { useRouter as useIntlRouter, usePathname } from '@/common/navigation';
 import queryString from 'query-string';
 
 export const MobileNav = () => {
@@ -44,6 +44,7 @@ export const MobileNav = () => {
   const pathname = usePathname();
   const params = useParams();
   const searchParams = useSearchParams();
+  const router = useIntlRouter();
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -138,27 +139,35 @@ export const MobileNav = () => {
             </CollapsibleTrigger>
             <CollapsibleContent>
               {languages.map((lang) => (
-                <IntlLink
-                  // @ts-expect-error
-                  href={{
-                    params: { slug: params.slug as string },
-                    pathname,
-                    query: queryString.parse(searchParams.toString()) as Record<
-                      'string',
-                      'string'
-                    >,
-                  }}
-                  key={lang.locale}
-                  className="ml-3 mt-2 flex justify-between"
-                  locale={lang.locale}
-                  data-test={lang.locale}
-                >
-                  <div className="flex gap-2">
-                    <CountryFlag iso2={lang.country} />
-                    <span className="text-muted-foreground">{lang.label}</span>
-                  </div>
-                  {lang.locale === locale && <Check size={20} className="text-primary" />}
-                </IntlLink>
+                <div key={lang.locale} className="ml-3 mt-2">
+                  <button
+                    data-test={lang.locale}
+                    className="flex justify-between w-full"
+                    onClick={() => {
+                      router.push(
+                        // @ts-expect-error
+                        {
+                          params: { slug: params.slug as string },
+                          pathname,
+                          query: queryString.parse(searchParams.toString()) as Record<
+                            'string',
+                            'string'
+                          >,
+                        },
+                        { locale: lang.locale },
+                      );
+                      router.refresh();
+                    }}
+                  >
+                    <div className="flex gap-2">
+                      <CountryFlag iso2={lang.country} />
+                      <span className="text-muted-foreground">{lang.label}</span>
+                    </div>
+                    {lang.locale === locale && (
+                      <Check size={20} className="text-primary" />
+                    )}
+                  </button>
+                </div>
               ))}
             </CollapsibleContent>
           </Collapsible>

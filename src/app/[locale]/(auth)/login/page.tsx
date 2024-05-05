@@ -42,7 +42,6 @@ export default function Page() {
     try {
       setLoading(true);
       await auth.login(data);
-      router.back();
     } catch (error) {
       setLoading(false);
       toast({ title: t('login.unauthorized'), value: 'login-error' });
@@ -61,7 +60,7 @@ export default function Page() {
           <p className="text-sm text-muted-foreground">{t('login.description')}</p>
         </div>
         <div>
-          <Label htmlFor="email">{t('login.login.label')}</Label>
+          <Label htmlFor="login">{t('login.login.label')}</Label>
           <Input {...register('login')} />
           {errors.login && (
             <span className="text-red-600 text-sm leading-none font-bold">
@@ -70,7 +69,16 @@ export default function Page() {
           )}
         </div>
         <div>
-          <Label htmlFor="password">{t('login.password.label')}</Label>
+          <div className="flex justify-between">
+            <Label htmlFor="password">{t('login.password.label')}</Label>
+            <Link
+              tabIndex={-1}
+              href={{ pathname: '/settings/reset-password' }}
+              className="text-primary hover:underline text-sm"
+            >
+              Esqueceu sua senha?
+            </Link>
+          </div>
           <Input type={'password'} {...register('password')} />
           {errors.password && (
             <span className="text-red-600 text-sm leading-none font-bold">

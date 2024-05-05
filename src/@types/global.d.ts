@@ -15,6 +15,17 @@ interface User {
   };
 }
 
+interface Admin {
+  id: number;
+}
+
+interface UserFromJwt {
+  id: number;
+  username: string;
+  hasEmailBeenVerified: boolean;
+  role: 'USER' | 'ADMIN';
+}
+
 interface FullInfoUser extends User {
   following: number;
   followers: number;
@@ -40,6 +51,16 @@ interface DiaryPost {
   user: User;
   diaryPostMedias: DiaryPostMedia[];
   tripDiary: TripDiary;
+}
+
+interface DiaryPostReport extends DiaryPost {
+  reasons: {
+    reason: ReportReason;
+    _count: { reason: number };
+  }[];
+  _count: {
+    diaryPostReport: number;
+  };
 }
 
 interface Media {
@@ -79,6 +100,26 @@ interface TipComment {
   createdAt: Date;
   user: User;
   tipId: number;
+}
+
+interface TipCommentReport extends TipComment {
+  reasons: {
+    reason: ReportReason;
+    _count: { reason: number };
+  }[];
+  _count: {
+    tipCommentReport: number;
+  };
+}
+
+interface TipReport extends Tip {
+  reasons: {
+    reason: ReportReason;
+    _count: { reason: number };
+  }[];
+  _count: {
+    tipReport: number;
+  };
 }
 
 interface UserSignIn {
@@ -145,6 +186,11 @@ interface UserCityVisit {
   rating?: number;
   message?: string;
   city: City;
+}
+
+interface Continent {
+  id: number;
+  name: 'Africa' | 'Europe' | 'Americas' | 'Asia' | 'Polar' | 'Oceania';
 }
 
 interface City {
@@ -241,3 +287,5 @@ interface FullSearch {
   countries: Country[];
   cities: CityFromSearch[];
 }
+
+type ReportReason = 'hate' | 'violent' | 'spam' | 'nudity' | 'false-information';

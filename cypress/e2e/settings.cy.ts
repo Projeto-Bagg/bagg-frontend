@@ -64,7 +64,7 @@ describe('Alterar nome de usuário', () => {
 
     cy.get('[name="username"]').should('have.attr', 'placeholder', 'teste');
 
-    cy.get('[data-test="toasts"]').children().should('have.length', 1);
+    cy.get('[data-test="username-changed-success"]').should('be.visible');
 
     cy.get('[data-test="header-dropdown-button"]').click();
     cy.get('[data-test="header-username"]').should('have.text', 'teste');
@@ -162,7 +162,7 @@ describe('Excluir conta', () => {
     cy.get('[data-test="delete-account-button"]').click();
     cy.get('[data-test="delete-account-action"]').click();
 
-    cy.url().should('eq', Cypress.config().baseUrl + 'pt');
+    cy.url().should('eq', Cypress.config().baseUrl);
 
     cy.getCookie('bagg.sessionToken').should('not.exist');
     cy.getCookie('bagg.refreshToken').should('not.exist');

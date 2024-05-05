@@ -14,6 +14,7 @@ export const useDeleteCityInterest = () => {
           old &&
           produce(old, (draft) => {
             draft.isInterested = false;
+            draft.interestsCount -= 1;
           }),
       );
     },

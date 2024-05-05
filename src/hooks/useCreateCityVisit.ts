@@ -15,6 +15,7 @@ export const useCreateCityVisit = () => {
           old &&
           produce(old, (draft) => {
             draft.userVisit = data.data;
+            draft.visitsCount += 1;
           }),
       );
 

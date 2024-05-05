@@ -362,7 +362,7 @@ describe('Funcionalidades da tip', () => {
 
     cy.wait('@delete-tip');
 
-    cy.url().should('eq', Cypress.config().baseUrl + 'pt');
+    cy.url().should('eq', Cypress.config().baseUrl);
   });
 
   it('Copiar link da postagem', () => {

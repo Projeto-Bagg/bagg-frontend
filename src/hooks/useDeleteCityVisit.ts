@@ -15,6 +15,7 @@ export const useDeleteCityVisit = () => {
           old &&
           produce(old, (draft) => {
             draft.userVisit = null;
+            draft.visitsCount -= 1;
           }),
       );
     },

@@ -13,45 +13,54 @@ import {
   RankingFooter,
 } from '@/components/ui/ranking';
 import axios from '@/services/axios';
+import { Rating } from '@smastrom/react-rating';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 import { useSearchParams } from 'next/navigation';
 import React, { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 
-interface CountryVisitRankingProps {
+interface CountryRatingRankingProps {
   count?: number;
   isPagination?: boolean;
   seeMore?: boolean;
   skeleton?: boolean;
   showTitle?: boolean;
+  continent?: number;
 }
 
-export const CountryVisitRanking = ({
+export const CountryRatingRanking = ({
   count = 10,
   isPagination = false,
   seeMore = false,
   skeleton = true,
+  continent,
   showTitle = true,
-}: CountryVisitRankingProps) => {
+}: CountryRatingRankingProps) => {
   const t = useTranslations();
   const { ref, inView } = useInView();
   const searchParams = useSearchParams();
 
   const {
     data: ranking,
-    hasNextPage,
     fetchNextPage,
+    hasNextPage,
     isLoading,
-  } = useInfiniteQuery<CountryVisitRanking>({
-    queryKey: ['country-visit-ranking', searchParams.get('date'), isPagination],
+  } = useInfiniteQuery<CountryRatingRanking>({
+    queryKey: [
+      'country-rating-ranking',
+      searchParams.get('date'),
+      isPagination,
+      searchParams.get('continent'),
+    ],
     queryFn: async ({ pageParam }) =>
       (
-        await axios.get<CountryVisitRanking>(`/countries/ranking/visit`, {
+        await axios.get<CountryRatingRanking>(`/countries/ranking/rating`, {
           params: {
             page: pageParam,
             count,
             date: searchParams.get('date'),
+            continent: continent || searchParams.get('continent'),
           },
         })
       ).data,
@@ -79,17 +88,18 @@ export const CountryVisitRanking = ({
     <Ranking>
       {showTitle && (
         <RankingHeader>
-          <RankingTitle>{t('ranking.most-visited-countries')}</RankingTitle>
+          <RankingTitle>{t('ranking.top-rated-countries')}</RankingTitle>
         </RankingHeader>
       )}
       <RankingContent>
-        {isLoading && skeleton && <RankingSkeleton count={25} />}
+        {isLoading && skeleton && <RankingSkeleton count={count} />}
         {ranking &&
           ranking.pages.map((page, pageIndex) =>
             page.map((country, index) => (
               <RankingItem
                 key={country.iso2}
                 ref={page.length - 1 === index ? ref : undefined}
+                className=""
               >
                 <div className="flex gap-2 items-center">
                   <h3 className="w-[24px] font-bold shrink-0">
@@ -122,9 +132,17 @@ export const CountryVisitRanking = ({
                     params: { slug: country.iso2 },
                     pathname: '/country/[slug]/visits',
                   }}
-                  className="font-bold"
                 >
-                  {country.totalVisit}
+                  <div className="flex items-center gap-1">
+                    <Rating
+                      className="max-w-[72px] sm:max-w-[84px]"
+                      value={country.averageRating}
+                      readOnly
+                    />
+                    <span className="font-bold w-[24px] sm:w-[28px]">
+                      {country.averageRating}
+                    </span>
+                  </div>
                 </Link>
               </RankingItem>
             )),
@@ -137,7 +155,7 @@ export const CountryVisitRanking = ({
       </RankingContent>
       {seeMore && ranking?.pages[0].length !== 0 && (
         <RankingFooter>
-          <SeeMore href={'/country/ranking/visits'} />
+          <SeeMore href={'/country/ranking/rating'} />
         </RankingFooter>
       )}
     </Ranking>

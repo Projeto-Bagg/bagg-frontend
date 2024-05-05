@@ -6,19 +6,19 @@ describe('Cabeçalho deslogado', () => {
   it('Botões mobile', () => {
     cy.viewport('iphone-xr');
 
-    cy.get('a[href="/pt"]').should('be.visible');
+    cy.get('a[href="/"]').should('be.visible');
     cy.get('[data-test="search-dialog"]').should('be.visible');
     cy.get('[data-test="mobile-nav-trigger"]').should('be.visible');
   });
 
   it('Botões desktop', () => {
-    cy.get('a[href="/pt"]').should('be.visible');
-    cy.get('a[href="/pt/ranking"]').should('be.visible');
+    cy.get('a[href="/"]').should('be.visible');
+    cy.get('a[href="/ranking"]').should('be.visible');
     cy.get('[data-test="search-dialog"]').should('be.visible');
     cy.get('[data-test="locale-select"]').should('be.visible');
     cy.get('[data-test="theme-toggle"]').should('be.visible');
-    cy.get('a[href="/pt/login"]').should('be.visible');
-    cy.get('a[href="/pt/signup"]').should('be.visible');
+    cy.get('a[href="/login"]').should('be.visible');
+    cy.get('a[href="/signup"]').should('be.visible');
   });
 
   it('Abrir menú lateral mobile deslogado', () => {
@@ -76,8 +76,7 @@ describe('Linguagens', () => {
     cy.visit('/');
     cy.get('[data-test="locale-select"]').click();
     cy.get('[data-test="en"]').click();
-
-    cy.url().should('contain', 'en');
+    cy.getCookie('NEXT_LOCALE').should('have.nested.property', 'value', 'en');
   });
 
   it('Trocar linguagem para inglês mobile', () => {
@@ -89,14 +88,13 @@ describe('Linguagens', () => {
     cy.get('[data-test="language-collapsible"]').click();
     cy.get('[data-test="en"]').click();
 
-    cy.url().should('contain', 'en');
+    cy.getCookie('NEXT_LOCALE').should('have.nested.property', 'value', 'en');
   });
 
   it('Persistência da linguagem', () => {
     cy.setCookie('NEXT_LOCALE', 'en');
     cy.visit('/');
-
-    cy.url().should('contain', 'en');
+    cy.getCookie('NEXT_LOCALE').should('have.nested.property', 'value', 'en');
   });
 });
 
@@ -109,14 +107,14 @@ describe('Logado', () => {
   it('Botões mobile', () => {
     cy.viewport('iphone-xr');
 
-    cy.get('a[href="/pt"]').should('be.visible');
+    cy.get('a[href="/"]').should('be.visible');
     cy.get('[data-test="create-tip"]').should('be.visible');
     cy.get('[data-test="create-post"]').should('be.visible');
   });
 
   it('Botões desktop', () => {
-    cy.get('a[href="/pt"]').should('be.visible');
-    cy.get('a[href="/pt/ranking"]').should('be.visible');
+    cy.get('a[href="/"]').should('be.visible');
+    cy.get('a[href="/ranking"]').should('be.visible');
     cy.get('[data-test="create-tip"]').should('be.visible');
     cy.get('[data-test="create-post"]').should('be.visible');
     cy.get('[data-test="search-dialog"]').should('be.visible');
@@ -131,8 +129,8 @@ describe('Logado', () => {
     cy.get('[data-test="mobile-nav-trigger"]').click();
     cy.get('[role="dialog"]').should('have.data', 'state', 'open');
     cy.get('[role="dialog"]').should('contain.text', 'Sair');
-    cy.get('a[href="/pt/login"]').should('not.exist');
-    cy.get('a[href="/pt/signup"]').should('not.exist');
+    cy.get('a[href="/login"]').should('not.exist');
+    cy.get('a[href="/signup"]').should('not.exist');
     cy.get('[role="dialog"]').should('contain.text', 'Sair');
   });
 });

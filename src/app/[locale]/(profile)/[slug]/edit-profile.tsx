@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { ReactNode, useState } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -8,6 +8,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
+  DialogTrigger,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Controller, useForm } from 'react-hook-form';
@@ -16,33 +17,20 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { useTranslations } from 'next-intl';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 import { useAuth } from '@/context/auth-context';
-import { ProfilePicDialog } from '@/components/profile-pic-dialog';
+import { ProfilePicDialog } from '@/app/[locale]/(profile)/[slug]/profile-pic-dialog';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Textarea } from '@/components/ui/textarea';
 import { useUpdateProfile } from '@/hooks/useUpdateProfile';
 import { useDeleteProfilePic } from '@/hooks/useDeleteProfilePic';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
-import { Info } from 'lucide-react';
-import { useRouter } from '@/common/navigation';
-import { useOriginTracker } from '@/context/origin-tracker';
 import { SelectCity } from '@/components/select-city';
+import { BirthdateDay } from '@/components/form/birthdate-day';
+import { BrithdateMonth } from '@/components/form/birthdate-month';
+import { BirthdateYear } from '@/components/form/birthdate-year';
 
 const editFormSchema = z.object({
   fullName: z.string().min(3).max(64),
-  // username: z
-  //   .string()
-  //   .min(3)
-  //   .max(20)
-  //   .regex(/^[a-zA-Z0-9_]+$/),
-  cityId: z.number().optional(),
+  cityId: z.number().optional().nullable(),
   birthdateDay: z.string().min(1),
   birthdateMonth: z.string().min(1),
   birthdateYear: z.string().min(1),
@@ -65,39 +53,24 @@ export type EditFormTypeWithDate = Omit<
   birthdate?: Date;
 };
 
-const months = [
-  'January',
-  'February',
-  'March',
-  'May',
-  'April',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December',
-] as const;
-
-export default function EditProfile({ params }: { params: { slug: string } }) {
+export const EditProfile = ({ children }: { children: ReactNode }) => {
+  const [open, setOpen] = useState<boolean>();
   const auth = useAuth();
   const [loading, setLoading] = useState<boolean>();
-  const router = useRouter();
   const updateProfile = useUpdateProfile();
   const t = useTranslations();
   const deletePic = useDeleteProfilePic();
-  const isWithinPage = useOriginTracker();
   const {
     watch,
     register,
     handleSubmit,
     control,
-    setError,
+    reset,
     setValue,
     formState: { errors, dirtyFields },
   } = useForm<EditFormType>({
     resolver: zodResolver(editFormSchema),
+    mode: 'onChange',
     defaultValues: {
       bio: auth.user?.bio,
       fullName: auth.user?.fullName,
@@ -129,32 +102,38 @@ export default function EditProfile({ params }: { params: { slug: string } }) {
       );
 
       formData.append('birthdate', birthdate.toISOString());
-      await updateProfile.mutateAsync(formData);
-      router.back();
+      const { data: user } = await updateProfile.mutateAsync(formData);
+      setOpen(false);
+
+      reset({
+        ...user,
+        birthdateDay: user.birthdate.getDate().toString(),
+        birthdateMonth: user.birthdate.getMonth().toString(),
+        birthdateYear: user.birthdate.getFullYear().toString(),
+      });
     } catch (error: any) {
-      // error.response.data?.username?.code === 'username-not-available' &&
-      //   setError('username', {
-      //     message: t('signup-edit.username.not-available'),
-      //     type: 'username-not-available',
-      //   });
     } finally {
       setLoading(false);
     }
   };
 
-  const onOpenChange = () => {
+  const onOpenChange = (open: boolean) => {
+    if (open) {
+      reset(undefined, { keepDefaultValues: true });
+      return setOpen(true);
+    }
+
     if (Object.entries(dirtyFields).length) {
       const shouldClose = window.confirm(t('modal.close'));
       if (!shouldClose) return;
     }
 
-    isWithinPage
-      ? router.back()
-      : router.replace({ pathname: '/[slug]', params: { slug: params.slug } });
+    setOpen(false);
   };
 
   return (
-    <Dialog open onOpenChange={onOpenChange}>
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{t('edit-profile.title')}</DialogTitle>
@@ -209,14 +188,6 @@ export default function EditProfile({ params }: { params: { slug: string } }) {
                 />
               )}
             />
-            {errors.cityId && (
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Info size={18} className="text-red-600" />
-                </TooltipTrigger>
-                <TooltipContent>{t('create-trip-diary.city-field-error')}</TooltipContent>
-              </Tooltip>
-            )}
           </div>
           <div>
             <div>
@@ -234,62 +205,44 @@ export default function EditProfile({ params }: { params: { slug: string } }) {
           </div>
           <div>
             <Label>{t('signup-edit.birthdate.label')}</Label>
-
             <div className="flex gap-2 justify-between">
               <Controller
                 name="birthdateDay"
                 control={control}
                 render={({ field }) => (
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <SelectTrigger>
-                      <SelectValue placeholder={t('signup-edit.day')} />
-                    </SelectTrigger>
-                    <SelectContent className="max-h-[400px]">
-                      {[...Array(31)].map((_, index) => (
-                        <SelectItem key={index + 1} value={(index + 1).toString()}>
-                          {index + 1}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  <BirthdateDay
+                    day={watch('birthdateDay')}
+                    month={watch('birthdateMonth')}
+                    year={watch('birthdateYear')}
+                    onValueChange={field.onChange}
+                    setValue={setValue}
+                  />
                 )}
               />
               <Controller
                 name="birthdateMonth"
                 control={control}
                 render={({ field }) => (
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <SelectTrigger>
-                      <SelectValue placeholder={t('signup-edit.month')} />
-                    </SelectTrigger>
-                    <SelectContent className="max-h-[400px]">
-                      {months.map((month, index) => (
-                        <SelectItem key={month} value={index.toString()}>
-                          {t(`signup-edit.months.${month}`)}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  <BrithdateMonth
+                    day={watch('birthdateDay')}
+                    month={watch('birthdateMonth')}
+                    year={watch('birthdateYear')}
+                    onValueChange={field.onChange}
+                    setValue={setValue}
+                  />
                 )}
               />
               <Controller
                 name="birthdateYear"
                 control={control}
                 render={({ field }) => (
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <SelectTrigger>
-                      <SelectValue placeholder={t('signup-edit.year')} />
-                    </SelectTrigger>
-                    <SelectContent className="max-h-[400px]">
-                      {Array.apply(0, Array(104 - 1))
-                        .map((_, index) => new Date().getFullYear() - index - 16)
-                        .map((year, index) => (
-                          <SelectItem key={index} value={year.toString()}>
-                            {year}
-                          </SelectItem>
-                        ))}
-                    </SelectContent>
-                  </Select>
+                  <BirthdateYear
+                    day={watch('birthdateDay')}
+                    month={watch('birthdateMonth')}
+                    year={watch('birthdateYear')}
+                    onValueChange={field.onChange}
+                    setValue={setValue}
+                  />
                 )}
               />
             </div>
@@ -313,4 +266,4 @@ export default function EditProfile({ params }: { params: { slug: string } }) {
       </DialogContent>
     </Dialog>
   );
-}
+};
