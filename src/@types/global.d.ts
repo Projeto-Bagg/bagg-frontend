@@ -201,6 +201,13 @@ interface City {
   region: Region;
 }
 
+interface TrendingCity extends City {
+  variation: number;
+  variationPercentage: number | null;
+  interestsCount: number;
+  percentFromTotal: number;
+}
+
 interface CityPage extends City {
   isVisited: boolean;
   isInterested: boolean;

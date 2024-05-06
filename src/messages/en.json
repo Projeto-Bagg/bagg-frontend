@@ -348,8 +348,9 @@
     "most-visited-countries": "Most visited countries",
     "top-rated-cities": "Top rated cities",
     "most-visited-cities": "Most visited cities",
-    "countries-with-gratest-interest": "Countries with greatest interest",
-    "cities-with-gratest-interest": "Cities with greatest interest",
+    "trending": {
+      "variation": "{count}% from last month"
+    },
     "empty": "Empty ranking.",
     "date-range": {
       "date": "{count, plural, =0 {All time} other {Last # days}}"
