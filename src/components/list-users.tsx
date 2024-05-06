@@ -44,8 +44,8 @@ export const ListUsers = ({ users, showIfUserFollowYou = true }: IListUsers) => 
               size={'sm'}
               onClick={() =>
                 user.friendshipStatus.isFollowing
-                  ? unfollow.mutate(user.username)
-                  : follow.mutate(user.username)
+                  ? unfollow.mutate(user)
+                  : follow.mutate(user)
               }
               disabled={!auth.isAuthenticated || follow.isPending || unfollow.isPending}
             >

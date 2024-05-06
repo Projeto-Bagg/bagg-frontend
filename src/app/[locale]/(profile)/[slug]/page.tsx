@@ -60,9 +60,13 @@ export default function Profile({
       return router.push('/login');
     }
 
-    user.data?.friendshipStatus.isFollowing
-      ? unfollow.mutate(params.slug)
-      : follow.mutate(params.slug);
+    if (!user.data) {
+      return;
+    }
+
+    user.data.friendshipStatus.isFollowing
+      ? unfollow.mutate(user.data)
+      : follow.mutate(user.data);
   };
 
   if (!params.slug) {

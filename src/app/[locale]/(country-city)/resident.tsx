@@ -48,8 +48,8 @@ export const Resident = forwardRef<
             size={'sm'}
             onClick={() =>
               user.friendshipStatus.isFollowing
-                ? unfollow.mutate(user.username)
-                : follow.mutate(user.username)
+                ? unfollow.mutate(user)
+                : follow.mutate(user)
             }
           >
             {user.friendshipStatus.isFollowing
