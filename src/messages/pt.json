@@ -346,11 +346,12 @@
   "ranking": {
     "top-rated-countries": "Países com melhor avaliação",
     "most-visited-countries": "Países mais visitados",
-    "countries-with-gratest-interest": "Países com maior interesse",
     "top-rated-cities": "Cidades com melhor avaliação",
     "most-visited-cities": "Cidades mais visitadas",
-    "cities-with-gratest-interest": "Cidades com maior interesse",
     "empty": "Ranking vazio.",
+    "trending": {
+      "variation": "{count}% em relação ao mês passado"
+    },
     "date-range": {
       "date": "{count, plural, =0 {Todo o período} other {Últimos # dias}}"
     },
