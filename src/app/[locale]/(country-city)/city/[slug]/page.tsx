@@ -11,6 +11,17 @@ import { GalleryCarousel } from '@/app/[locale]/(country-city)/gallery-carousel'
 import Autoplay from 'embla-carousel-autoplay';
 import { CarouselItem } from '@/components/ui/carousel';
 import { SeeMore } from '@/components/see-more';
+import {
+  Ranking,
+  RankingContent,
+  RankingHeader,
+  RankingItem,
+  RankingSkeleton,
+  RankingTitle,
+} from '@/components/ui/ranking';
+import { Link } from '@/common/navigation';
+import { Resident } from '@/app/[locale]/(country-city)/resident';
+import { CountryFlag } from '@/components/ui/country-flag';
 
 export default function Page({ params }: { params: { slug: string } }) {
   const t = useTranslations();
@@ -32,6 +43,32 @@ export default function Page({ params }: { params: { slug: string } }) {
     queryKey: ['city-visits', +params.slug],
     queryFn: async () =>
       (await axios.get<CityVisit[]>(`/city-visits/${params.slug}`)).data,
+    initialPageParam: 1,
+    getNextPageParam: () => null,
+  });
+
+  const closest = useInfiniteQuery<(City & { distance: number })[]>({
+    queryKey: ['closest-cities', +params.slug],
+    queryFn: async () =>
+      (
+        await axios.get<(City & { distance: number })[]>(
+          `/distance/closest-cities/${params.slug}`,
+        )
+      ).data,
+    initialPageParam: 1,
+    getNextPageParam: () => null,
+  });
+
+  const { data: residents } = useInfiniteQuery<User[]>({
+    queryKey: ['city', 'residents', +params.slug],
+    queryFn: async () =>
+      (
+        await axios.get<User[]>(`/cities/${params.slug}/residents`, {
+          params: {
+            count: 5,
+          },
+        })
+      ).data,
     initialPageParam: 1,
     getNextPageParam: () => null,
   });
@@ -94,6 +131,73 @@ export default function Page({ params }: { params: { slug: string } }) {
           />
           <LazyMarker position={[city.data.latitude, city.data.longitude]} />
         </LazyMap>
+      </div>
+      <div>
+        <Ranking>
+          <RankingHeader>
+            <RankingTitle>{t('country-city-page.near-cities')}</RankingTitle>
+          </RankingHeader>
+          <RankingContent>
+            {closest.isLoading && <RankingSkeleton count={10} />}
+            {closest.data?.pages.map((page, pageIndex) =>
+              page.map((city, index) => (
+                <RankingItem key={city.id}>
+                  <div className="flex gap-2 items-center w-full">
+                    <h3 className="w-[24px] font-bold shrink-0">
+                      {pageIndex * 10 + (index + 1)}º
+                    </h3>
+                    <Link
+                      href={{
+                        params: { slug: city.region.country.iso2 },
+                        pathname: '/country/[slug]',
+                      }}
+                    >
+                      <CountryFlag
+                        className="w-[36px]"
+                        iso2={city.region.country.iso2}
+                        tooltip={city.region.country.name}
+                      />
+                    </Link>
+                    <div className="flex justify-between min-w-0 w-full">
+                      <div className="flex-1 whitespace-nowrap overflow-hidden text-ellipsis">
+                        <Link
+                          className="hover:underline mr-1"
+                          href={{ params: { slug: city.id }, pathname: '/city/[slug]' }}
+                        >
+                          <span>{city.name}</span>
+                        </Link>
+                        <span className="text-muted-foreground">{city.region.name}</span>
+                      </div>
+                      <span className="whitespace-nowrap">
+                        {city.distance.toFixed(1)} km
+                      </span>
+                    </div>
+                  </div>
+                </RankingItem>
+              )),
+            )}
+          </RankingContent>
+        </Ranking>
+      </div>
+      <div>
+        <div className="mb-2 pb-1 border-b-2 border-primary">
+          <h3 className="font-bold text-xl">
+            {t('country-city-page.tabs.residents.label')}
+          </h3>
+        </div>
+        {residents?.pages[0].length === 0 && (
+          <div className="py-4 text-sm text-center">
+            <span>{t('country-city-page.tabs.residents.no-residents')}</span>
+          </div>
+        )}
+        {residents?.pages.map((page) =>
+          page.map((user) => <Resident key={user.id} user={user} />),
+        )}
+        {residents?.pages[0].length === 5 && (
+          <SeeMore
+            href={{ params: { slug: params.slug }, pathname: '/city/[slug]/residents' }}
+          />
+        )}
       </div>
       <div className="sm:col-span-2">
         <div>
