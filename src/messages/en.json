@@ -350,6 +350,8 @@
     "top-rated-cities": "Top rated cities",
     "most-visited-cities": "Most visited cities",
     "trending": {
+      "title": "Trending cities 🔥",
+      "description": "Cities with the highest percentage of people interested this month",
       "variation": "{count}% from last month"
     },
     "empty": "Empty ranking.",

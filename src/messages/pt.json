@@ -351,7 +351,9 @@
     "most-visited-cities": "Cidades mais visitadas",
     "empty": "Ranking vazio.",
     "trending": {
-      "variation": "{count}% em relação ao mês passado"
+      "title": "Cidades em alta 🔥",
+      "description": "Cidades com o maior porcentagem de pessoas interessadas neste mês",
+      "variation": "{count}% do mês anterior"
     },
     "date-range": {
       "date": "{count, plural, =0 {Todo o período} other {Últimos # dias}}"
