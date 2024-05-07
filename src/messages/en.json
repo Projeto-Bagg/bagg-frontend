@@ -295,6 +295,7 @@
     "review": "Review",
     "no-images": "No images yet.",
     "reviews": "Last reviews",
+    "near-cities": "Near cities",
     "data": {
       "rating": {
         "tooltip": "Average of {rating} based on {count} reviews"

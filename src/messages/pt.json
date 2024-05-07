@@ -295,6 +295,7 @@
     "review": "Avaliar",
     "no-images": "Sem imagens.",
     "reviews": "Últimas avaliações",
+    "near-cities": "Cidades próximas",
     "data": {
       "rating": {
         "tooltip": "Média de {rating} com base em {count} avaliações"
