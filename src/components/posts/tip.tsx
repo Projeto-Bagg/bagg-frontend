@@ -42,8 +42,9 @@ export const Tip = forwardRef<
   HTMLProps<HTMLDivElement> & {
     tip: Tip;
     withComments?: boolean;
+    boldMessage?: string | null;
   }
->(({ tip, withComments, ...props }, forwardRef) => {
+>(({ tip, boldMessage, withComments, ...props }, forwardRef) => {
   const { toast } = useToast();
   const auth = useAuth();
   const queryClient = useQueryClient();
@@ -213,7 +214,14 @@ export const Tip = forwardRef<
             </Link>
           </div>
           <div>
-            <p className="text-sm sm:text-base">{tip.message}</p>
+            <p
+              dangerouslySetInnerHTML={{
+                __html: boldMessage
+                  ? tip.message.replaceAll(boldMessage, `<b>${boldMessage}</b>`)
+                  : tip.message,
+              }}
+              className="text-sm sm:text-base"
+            />
           </div>
           <Medias medias={tip.tipMedias} />
           {!withComments && (

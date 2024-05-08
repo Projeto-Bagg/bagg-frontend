@@ -213,6 +213,7 @@
     }
   },
   "select-city": {
+    "label": "City",
     "title": "Select a city...",
     "search": "Search a city...",
     "searching": "Searching",
@@ -295,6 +296,7 @@
     "review": "Review",
     "no-images": "No images yet.",
     "reviews": "Last reviews",
+    "near-cities": "Near cities",
     "data": {
       "rating": {
         "tooltip": "Average of {rating} based on {count} reviews"
@@ -348,8 +350,11 @@
     "most-visited-countries": "Most visited countries",
     "top-rated-cities": "Top rated cities",
     "most-visited-cities": "Most visited cities",
-    "countries-with-gratest-interest": "Countries with greatest interest",
-    "cities-with-gratest-interest": "Cities with greatest interest",
+    "trending": {
+      "title": "Trending cities 🔥",
+      "description": "Cities with the highest percentage of people interested in the current month",
+      "variation": "{count}% from last month"
+    },
     "empty": "Empty ranking.",
     "date-range": {
       "date": "{count, plural, =0 {All time} other {Last # days}}"
@@ -371,9 +376,10 @@
   "search-page": {
     "title": "Search",
     "options": {
-      "user": "User",
-      "country": "Country",
-      "city": "City"
+      "tip": { "title": "Tips", "no-results": "No results" },
+      "user": "Users",
+      "country": "Countries",
+      "city": "Cities"
     },
     "no-results": "No results for"
   },

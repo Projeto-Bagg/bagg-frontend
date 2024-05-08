@@ -113,7 +113,7 @@ export const CityRatingRanking = ({
                       tooltip={city.country}
                     />
                   </Link>
-                  <div className="flex justify-between w-full">
+                  <div className="flex justify-between w-full min-w-0">
                     <div className="flex-1 whitespace-nowrap overflow-hidden text-ellipsis">
                       <Link
                         className="hover:underline mr-1"

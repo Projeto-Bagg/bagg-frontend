@@ -91,7 +91,7 @@ export const CountryVisitRanking = ({
         </RankingHeader>
       )}
       <RankingContent>
-        {isLoading && skeleton && <RankingSkeleton count={25} />}
+        {isLoading && skeleton && <RankingSkeleton count={count} />}
         {ranking &&
           ranking.pages.map((page, pageIndex) =>
             page.map((country, index) => (

@@ -201,6 +201,13 @@ interface City {
   region: Region;
 }
 
+interface TrendingCity extends City {
+  variation: number;
+  variationPercentage: number | null;
+  interestsCount: number;
+  percentFromTotal: number;
+}
+
 interface CityPage extends City {
   isVisited: boolean;
   isInterested: boolean;
@@ -286,6 +293,7 @@ interface FullSearch {
   users: User[];
   countries: Country[];
   cities: CityFromSearch[];
+  tips: Tip[];
 }
 
 type ReportReason = 'hate' | 'violent' | 'spam' | 'nudity' | 'false-information';

@@ -18,8 +18,9 @@ export default function Page() {
   const alreadyConfirmed = async () => {
     const tempAccessToken = getCookie('bagg.tempSessionToken');
     const tempRefreshToken = getCookie('bagg.tempRefreshToken');
+    const accessToken = getCookie('bagg.sessionToken');
 
-    if (!tempRefreshToken) {
+    if (!tempRefreshToken && !accessToken) {
       return router.replace('/login');
     }
 
@@ -36,6 +37,13 @@ export default function Page() {
       return;
     }
 
+    if (accessToken) {
+      await auth.refetch();
+      setLoading(false);
+      router.push('/');
+      return;
+    }
+
     const { data } = await axios.post('/auth/refresh', {
       refreshToken: tempRefreshToken,
     });
@@ -49,9 +57,7 @@ export default function Page() {
     toast({ variant: 'success', title: t('settings.verify-email.success') });
 
     await auth.refetch();
-
     setLoading(false);
-
     router.push('/');
   };
 

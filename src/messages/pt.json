@@ -213,6 +213,7 @@
     }
   },
   "select-city": {
+    "label": "Cidade",
     "title": "Selecione uma cidade...",
     "search": "Procurar uma cidade...",
     "searching": "Procurando",
@@ -295,6 +296,7 @@
     "review": "Avaliar",
     "no-images": "Sem imagens.",
     "reviews": "Últimas avaliações",
+    "near-cities": "Cidades próximas",
     "data": {
       "rating": {
         "tooltip": "Média de {rating} com base em {count} avaliações"
@@ -346,11 +348,14 @@
   "ranking": {
     "top-rated-countries": "Países com melhor avaliação",
     "most-visited-countries": "Países mais visitados",
-    "countries-with-gratest-interest": "Países com maior interesse",
     "top-rated-cities": "Cidades com melhor avaliação",
     "most-visited-cities": "Cidades mais visitadas",
-    "cities-with-gratest-interest": "Cidades com maior interesse",
     "empty": "Ranking vazio.",
+    "trending": {
+      "title": "Cidades em alta 🔥",
+      "description": "Cidades com o maior porcentagem de pessoas interessadas no corrente mês",
+      "variation": "{count}% do mês anterior"
+    },
     "date-range": {
       "date": "{count, plural, =0 {Todo o período} other {Últimos # dias}}"
     },
@@ -371,6 +376,7 @@
   "search-page": {
     "title": "Pesquisar",
     "options": {
+      "tip": { "title": "Tips", "no-results": "Sem resultados" },
       "user": "Usuários",
       "country": "Países",
       "city": "Cidades"

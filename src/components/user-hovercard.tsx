@@ -44,8 +44,8 @@ export const UserHoverCard = ({ username, children }: UserHoverCardProps) => {
     }
 
     user.data.friendshipStatus.isFollowing
-      ? unfollow.mutate(user.data.username)
-      : follow.mutate(user.data.username);
+      ? unfollow.mutate(user.data)
+      : follow.mutate(user.data);
   };
 
   return (
