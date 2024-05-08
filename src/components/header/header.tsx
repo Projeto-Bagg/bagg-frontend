@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import { useLocale } from 'next-intl';
 import { useTranslations } from 'next-intl';
 import { useAuth } from '@/context/auth-context';
 import { ThemeToggle } from '@/components/theme-toggle';
@@ -20,7 +19,6 @@ import { CountryFlag } from '@/components/ui/country-flag';
 import { CreateDiaryPost } from '@/components/create-post/create-diary-post';
 import { Link, usePathname, useRouter } from '@/common/navigation';
 import { CreateTip } from '@/components/create-post/create-tip';
-
 import { SelectLanguage } from '@/components/select-language';
 
 export const Header = () => {

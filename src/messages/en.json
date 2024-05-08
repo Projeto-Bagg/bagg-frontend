@@ -213,6 +213,7 @@
     }
   },
   "select-city": {
+    "label": "City",
     "title": "Select a city...",
     "search": "Search a city...",
     "searching": "Searching",
@@ -351,7 +352,7 @@
     "most-visited-cities": "Most visited cities",
     "trending": {
       "title": "Trending cities 🔥",
-      "description": "Cities with the highest percentage of people interested this month",
+      "description": "Cities with the highest percentage of people interested in the current month",
       "variation": "{count}% from last month"
     },
     "empty": "Empty ranking.",
@@ -375,9 +376,10 @@
   "search-page": {
     "title": "Search",
     "options": {
-      "user": "User",
-      "country": "Country",
-      "city": "City"
+      "tip": { "title": "Tips", "no-results": "No results" },
+      "user": "Users",
+      "country": "Countries",
+      "city": "Cities"
     },
     "no-results": "No results for"
   },

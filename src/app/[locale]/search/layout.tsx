@@ -18,16 +18,27 @@ export default function Layout({ children }: Props) {
   const searchParams = useSearchParams();
   const t = useTranslations();
   const q = searchParams.get('q');
+  const city = searchParams.get('city');
+  const tags = searchParams.get('tags');
+  const tagsArray = tags?.split(';') || [];
   const router = useRouter();
   const [query, setQuery] = useState<string | null>(q);
+
   const debounce = useDebouncedCallback((q) => {
+    // @ts-expect-error
     router.replace({
       pathname,
-      ...(q && {
-        query: {
+      query: {
+        ...(q && {
           q,
-        },
-      }),
+        }),
+        ...(city && {
+          city,
+        }),
+        ...(tagsArray.length !== 0 && {
+          tags: tagsArray.join(';'),
+        }),
+      },
     });
   }, 1000);
 
@@ -61,6 +72,21 @@ export default function Layout({ children }: Props) {
             )}
             href={{
               pathname: '/search',
+              ...(q && { query: { q } }),
+            }}
+          >
+            {t('search-page.options.tip.title')}
+          </Link>
+          <Link
+            data-test="search-user-link"
+            className={cn(
+              pathname === '/search/user'
+                ? 'border-b-2 border-blue-600 text-primary'
+                : 'hover:text-foreground transition-all duration-75',
+              'py-2 flex justify-center flex-1',
+            )}
+            href={{
+              pathname: '/search/user',
               ...(q && { query: { q } }),
             }}
           >
