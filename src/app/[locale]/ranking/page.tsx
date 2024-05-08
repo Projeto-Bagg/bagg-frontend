@@ -17,6 +17,7 @@ import {
 import { CountryFlag } from '@/components/ui/country-flag';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/common/navigation';
+import Autoplay from 'embla-carousel-autoplay';
 
 export default function Page() {
   const t = useTranslations();
@@ -51,23 +52,24 @@ export default function Page() {
         <span>{t('ranking.trending.description')}</span>
         <span className="text-sm font-normal">Total: {trending.totalInterest}</span>
       </div>
-      <Carousel className="mb-4 w-full">
+      <Carousel
+        plugins={[
+          Autoplay({
+            delay: 3500,
+            stopOnLastSnap: true,
+          }),
+        ]}
+        className="mb-4 w-full"
+      >
         <CarouselContent>
           {trending.cities.map((city) => (
             <CarouselItem className="basis-[45%] sm:basis-1/4" key={city.id}>
-              <div className="border h-full overflow-hidden aspect-[12/9] rounded-lg text-sm">
-                <Link
-                  href={{
-                    params: { slug: city.region.country.iso2 },
-                    pathname: '/country/[slug]',
-                  }}
-                >
-                  <CountryFlag
-                    className="w-full h-1/2 border-none aspect-auto bg-cover bg-center rounded-none"
-                    iso2={city.region.country.iso2}
-                  />
-                </Link>
-                <div className="p-2 h-1/2 flex flex-col justify-between">
+              <div className="border relative h-full overflow-hidden aspect-[12/9] rounded-lg text-sm">
+                <CountryFlag
+                  className="w-full h-full absolute gradient-mask-b-[rgba(0,0,0,1.0)_4px] -z-10 border-none aspect-auto bg-cover bg-center rounded-none"
+                  iso2={city.region.country.iso2}
+                />
+                <div className="p-2 h-full  flex flex-col justify-end">
                   <div>
                     <div className="flex justify-between min-w-0 w-full">
                       <div className="flex-1 whitespace-nowrap overflow-hidden text-ellipsis">

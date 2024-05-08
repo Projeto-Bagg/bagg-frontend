@@ -213,6 +213,7 @@
     }
   },
   "select-city": {
+    "label": "Cidade",
     "title": "Selecione uma cidade...",
     "search": "Procurar uma cidade...",
     "searching": "Procurando",
@@ -352,7 +353,7 @@
     "empty": "Ranking vazio.",
     "trending": {
       "title": "Cidades em alta 🔥",
-      "description": "Cidades com o maior porcentagem de pessoas interessadas neste mês",
+      "description": "Cidades com o maior porcentagem de pessoas interessadas no corrente mês",
       "variation": "{count}% do mês anterior"
     },
     "date-range": {
@@ -375,6 +376,7 @@
   "search-page": {
     "title": "Pesquisar",
     "options": {
+      "tip": { "title": "Tips", "no-results": "Sem resultados" },
       "user": "Usuários",
       "country": "Países",
       "city": "Cidades"

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Command,
   CommandGroup,
@@ -17,28 +17,16 @@ import { useTranslations } from 'next-intl';
 import { ScrollArea, ScrollAreaViewport } from '@/components/ui/scroll-area';
 
 interface SelectCityProps {
-  onSelect: (value: string) => void;
+  onSelect: (value: string | undefined) => void;
   defaultValue?: City;
 }
 
 export const SelectCity = ({ onSelect, defaultValue }: SelectCityProps) => {
   const t = useTranslations();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const [query, setQuery] = useState<string>();
   const [debouncedQuery] = useDebounce(query, 1000);
-  const [selectedCity, setSelectedCity] = React.useState<CityFromSearch | undefined>(
-    defaultValue
-      ? {
-          id: defaultValue.id,
-          country: defaultValue.region.country.name,
-          iso2: defaultValue.region.country.iso2,
-          latitude: defaultValue.latitude,
-          longitude: defaultValue.longitude,
-          name: defaultValue.name,
-          region: defaultValue.region.name,
-        }
-      : undefined,
-  );
+  const [selectedCity, setSelectedCity] = React.useState<CityFromSearch | undefined>();
 
   const enabled = !!debouncedQuery;
 
@@ -57,6 +45,22 @@ export const SelectCity = ({ onSelect, defaultValue }: SelectCityProps) => {
   });
 
   const isLoading = enabled && cities.isLoading;
+
+  useEffect(() => {
+    setSelectedCity(
+      defaultValue
+        ? {
+            id: defaultValue.id,
+            country: defaultValue.region.country.name,
+            iso2: defaultValue.region.country.iso2,
+            latitude: defaultValue.latitude,
+            longitude: defaultValue.longitude,
+            name: defaultValue.name,
+            region: defaultValue.region.name,
+          }
+        : undefined,
+    );
+  }, [defaultValue]);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -109,7 +113,11 @@ export const SelectCity = ({ onSelect, defaultValue }: SelectCityProps) => {
                       setSelectedCity(
                         currentValue === selectedCity?.id.toString() ? undefined : city,
                       );
-                      onSelect(currentValue);
+                      onSelect(
+                        currentValue === selectedCity?.id.toString()
+                          ? undefined
+                          : currentValue,
+                      );
                       setOpen(false);
                     }}
                   >

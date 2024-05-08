@@ -293,6 +293,7 @@ interface FullSearch {
   users: User[];
   countries: Country[];
   cities: CityFromSearch[];
+  tips: Tip[];
 }
 
 type ReportReason = 'hate' | 'violent' | 'spam' | 'nudity' | 'false-information';
