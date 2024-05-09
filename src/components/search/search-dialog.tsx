@@ -17,9 +17,6 @@ import { useTranslations } from 'next-intl';
 import { Link } from '@/common/navigation';
 import { useEffect, useState } from 'react';
 import { useDebounce } from 'use-debounce';
-import { UserSearch } from '@/components/search/user-search';
-import { CountrySearch } from '@/components/search/country-search';
-import { CitySearch } from '@/components/search/city-search';
 import { SeeMore } from '@/components/see-more';
 import { ScrollArea, ScrollAreaViewport } from '@/components/ui/scroll-area';
 import {
@@ -30,6 +27,9 @@ import {
   CarouselPrevious,
 } from '@/components/ui/carousel';
 import { TipSearch } from '@/components/search/tip-search';
+import { UserSearch } from '@/components/search/user-search';
+import { CountrySearch } from '@/components/search/country-search';
+import { CitySearch } from '@/components/search/city-search';
 
 export const Search = () => {
   const [open, setOpen] = useState<boolean>();
@@ -131,23 +131,20 @@ export const Search = () => {
               <div className="space-y-2">
                 <div>
                   <h3 className="font-semibold border-b-2 border-primary pb-1 w-fit">
-                    Resultado de pesquisa de tips
+                    {t('search.tip-search-results')}
                   </h3>
                   <div className="mt-4">
                     {search.data && search.data.tips.length > 0 ? (
                       <div>
-                        <Carousel>
+                        <Carousel className="w-[calc(100vw-32px)] sm:w-[686px]">
                           <CarouselContent>
                             {search.data?.tips.map((tip) => (
-                              <CarouselItem
-                                className="basis-[60%] sm:basis-1/3 text-sm"
-                                key={tip.id}
-                              >
+                              <CarouselItem className="sm:basis-1/3 text-sm" key={tip.id}>
                                 <TipSearch tip={tip} boldMessage={query} />
                               </CarouselItem>
                             ))}
                           </CarouselContent>
-                          <CarouselNext className="-right-3" />
+                          <CarouselNext className="-right-10" />
                           <CarouselPrevious className="-left-10" />
                         </Carousel>
                         <SeeMore

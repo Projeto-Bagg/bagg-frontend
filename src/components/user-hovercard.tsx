@@ -1,3 +1,5 @@
+'use client';
+
 import { Link, useRouter } from '@/common/navigation';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';

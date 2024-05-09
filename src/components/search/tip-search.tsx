@@ -2,7 +2,6 @@ import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { CountryFlag } from '@/components/ui/country-flag';
 import { UserHoverCard } from '@/components/user-hovercard';
 import Image from 'next/image';
-import React from 'react';
 
 interface TipSearchProps {
   tip: Tip;

@@ -18,7 +18,7 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { useTranslations } from 'next-intl';
 import { useAuth } from '@/context/auth-context';
-import { ProfilePicDialog } from '@/app/[locale]/(profile)/[slug]/profile-pic-dialog';
+import { ProfilePicDialog } from '@/app/[locale]/(profile)/[slug]/components/profile-pic-dialog';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Textarea } from '@/components/ui/textarea';
 import { useUpdateProfile } from '@/hooks/useUpdateProfile';

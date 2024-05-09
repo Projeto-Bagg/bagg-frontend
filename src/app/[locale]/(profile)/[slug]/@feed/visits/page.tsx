@@ -14,7 +14,7 @@ export default function Visits({ params }: { params: { slug: string } }) {
   const locale = useLocale();
 
   const visits = useQuery<UserCityVisit[]>({
-    queryKey: ['userVisits', params.slug],
+    queryKey: ['user-visits', params.slug],
     queryFn: async () =>
       (await axios.get<UserCityVisit[]>(`/users/${params.slug}/visits`)).data,
   });
