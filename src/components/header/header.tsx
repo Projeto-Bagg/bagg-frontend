@@ -14,7 +14,7 @@ import {
 import { Plus, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { MobileNav } from '@/components/header/mobile-nav';
-import { Search } from '@/components/search-dialog';
+import { Search } from '@/components/search/search-dialog';
 import { CountryFlag } from '@/components/ui/country-flag';
 import { CreateDiaryPost } from '@/components/create-post/create-diary-post';
 import { Link, usePathname, useRouter } from '@/common/navigation';

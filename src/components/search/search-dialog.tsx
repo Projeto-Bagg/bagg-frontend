@@ -26,10 +26,10 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel';
-import { CountryFlag } from '@/components/ui/country-flag';
-import { UserHoverCard } from '@/components/user-hovercard';
-import { Avatar, AvatarImage } from '@/components/ui/avatar';
-import Image from 'next/image';
+import { TipSearch } from '@/components/search/tip-search';
+import { UserSearch } from '@/components/search/user-search';
+import { CountrySearch } from '@/components/search/country-search';
+import { CitySearch } from '@/components/search/city-search';
 
 export const Search = () => {
   const [open, setOpen] = useState<boolean>();
@@ -299,108 +299,5 @@ export const Search = () => {
         )}
       </DialogContent>
     </Dialog>
-  );
-};
-
-interface CitySearch {
-  city: CityFromSearch;
-}
-
-const CitySearch = ({ city }: CitySearch) => {
-  return (
-    <div className="flex items-center gap-2 bg-primary-foreground hover:bg-secondary rounded-lg transition-all">
-      <CountryFlag
-        className="h-[40px] w-[53.3px] rounded-lg"
-        iso2={city.iso2}
-        tooltip={city.country}
-      />
-      <div className="flex gap-1 items-baseline">
-        <span>{city.name}</span>
-        <span className="text-sm text-muted-foreground">{city.region}</span>
-      </div>
-    </div>
-  );
-};
-
-interface TipSearchProps {
-  tip: Tip;
-  boldMessage?: string | null;
-}
-
-const TipSearch = ({ tip, boldMessage }: TipSearchProps) => {
-  return (
-    <div className="border p-2">
-      <div className="flex items-center mb-1 gap-2">
-        <UserHoverCard username={tip.user.username}>
-          <Avatar>
-            <AvatarImage src={tip.user.image} />
-          </Avatar>
-        </UserHoverCard>
-        <UserHoverCard username={tip.user.username}>
-          <div className="flex flex-col">
-            <span>{tip.user.fullName}</span>
-            <span className="text-muted-foreground">@{tip.user.username}</span>
-          </div>
-        </UserHoverCard>
-      </div>
-      <div className="flex gap-1">
-        <CountryFlag iso2={tip.city.region.country.iso2} />
-        <span className="text-muted-foreground">{tip.city.name}</span>
-      </div>
-      <p
-        dangerouslySetInnerHTML={{
-          __html: boldMessage
-            ? tip.message.replaceAll(boldMessage, `<b>${boldMessage}</b>`)
-            : tip.message,
-        }}
-        className="line-clamp-3 mb-1"
-      />
-      {tip.tipMedias.slice(0, 2).map((media) => (
-        <div className="relative w-1/4 aspect-square" key={media.id}>
-          <Image src={media.url} alt="" fill />
-        </div>
-      ))}
-    </div>
-  );
-};
-
-interface UserSearchProps {
-  user: User;
-}
-
-const UserSearch = ({ user }: UserSearchProps) => {
-  return (
-    <div className="flex gap-2 bg-primary-foreground hover:bg-secondary rounded-lg transition-all">
-      <UserHoverCard username={user.username}>
-        <Avatar className="rounded-sm bg-muted">
-          <AvatarImage src={user.image} />
-        </Avatar>
-      </UserHoverCard>
-      <div className="flex items-center gap-1">
-        <UserHoverCard username={user.username}>
-          <span className="font-medium">{user.fullName}</span>
-        </UserHoverCard>
-        <UserHoverCard username={user.username}>
-          <span className="text-sm text-muted-foreground">@{user.username}</span>
-        </UserHoverCard>
-      </div>
-    </div>
-  );
-};
-
-interface CountrySearchInterface {
-  country: Country;
-}
-
-const CountrySearch = ({ country }: CountrySearchInterface) => {
-  return (
-    <div className="flex items-center gap-2 bg-primary-foreground hover:bg-secondary rounded-lg transition-all">
-      <CountryFlag
-        className="h-[40px] w-[53.3px] rounded-lg"
-        iso2={country.iso2}
-        tooltip={country.name}
-      />
-      <span>{country.name}</span>
-    </div>
   );
 };
