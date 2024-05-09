@@ -1,13 +1,11 @@
-'use client';
-
 import React from 'react';
-import { useTranslations } from 'next-intl';
 import { DeleteAccount } from '@/app/[locale]/settings/delete-account';
 import { ChangePassword } from '@/app/[locale]/settings/change-password';
 import { ChangeUsername } from '@/app/[locale]/settings/change-username';
+import { getTranslations } from 'next-intl/server';
 
-export default function Page() {
-  const t = useTranslations();
+export default async function Page() {
+  const t = await getTranslations();
 
   return (
     <div className="p-4">
@@ -17,9 +15,32 @@ export default function Page() {
         </h2>
       </div>
       <div className="space-y-2">
-        <ChangeUsername />
-        <ChangePassword />
-        <DeleteAccount />
+        <div className="flex flex-col sm:flex-row rounded-lg overflow-hidden">
+          <div className="bg-accent w-full sm:w-[280px] px-6 sm:px-10 py-6 shrink-0">
+            <h2 className="font-semibold">{t('settings.username.title')}</h2>
+          </div>
+          <div className="bg-accent/70 p-6 w-full">
+            <ChangeUsername />
+          </div>
+        </div>
+        <div className="flex flex-col sm:flex-row rounded-lg overflow-hidden">
+          <div className="bg-accent w-full sm:w-[280px] px-6 sm:px-10 py-6 shrink-0">
+            <h2 className="font-semibold">{t('settings.change-password.title')}</h2>
+          </div>
+          <div className="bg-accent/70 p-6 w-full">
+            <ChangePassword />
+          </div>
+        </div>
+        <div className="flex flex-col sm:flex-row rounded-lg overflow-hidden">
+          <div className="bg-accent w-full sm:w-[280px] px-6 sm:px-10 py-6 shrink-0">
+            <h2 className="font-semibold text-red-600">
+              {t('settings.delete-account.title')}
+            </h2>
+          </div>
+          <div className="bg-accent/70 p-6 w-full">
+            <DeleteAccount />
+          </div>
+        </div>
       </div>
     </div>
   );

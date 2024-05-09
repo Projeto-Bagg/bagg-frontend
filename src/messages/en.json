@@ -10,6 +10,7 @@
       "title": "Search",
       "input-placeholder": "Type to search",
       "not-found": "No results",
+      "tip-search-results": "Tip search results",
       "user-search-results": "User search results",
       "country-search-results": "Country search results",
       "city-search-results": "City search results"
@@ -32,6 +33,7 @@
   "login": {
     "title": "Login",
     "description": "Use your username/email and password to login to Bagg",
+    "forgot-password": "Forgot your password?",
     "password": {
       "label": "Password",
       "invalid": "Invalid password",

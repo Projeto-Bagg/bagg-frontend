@@ -10,9 +10,10 @@
       "title": "Procurar",
       "input-placeholder": "Digite para pesquisar",
       "not-found": "Sem resultados",
+      "tip-search-results": "Resultados de pesquisa de tip",
       "user-search-results": "Resultados de pesquisa de usuário",
-      "country-search-results": "Resultados de pesquisa de países",
-      "city-search-results": "Resultados de pesquisa de cidades"
+      "country-search-results": "Resultados de pesquisa de país",
+      "city-search-results": "Resultados de pesquisa de cidade"
     },
     "login": "Entrar",
     "signup": "Criar conta",
@@ -32,6 +33,7 @@
   "login": {
     "title": "Login",
     "description": "Use seu nome de usuário/email e senha para logar no Bagg",
+    "forgot-password": "Esqueceu sua senha?",
     "password": {
       "label": "Senha",
       "invalid": "Senha inválida",
