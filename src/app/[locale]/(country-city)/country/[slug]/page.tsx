@@ -6,13 +6,16 @@ import { GalleryImage } from '@/app/[locale]/(country-city)/gallery-image';
 import { CityRatingRanking } from '@/components/ranking/city-rating-ranking';
 import { CityVisit } from '@/components/city-visit';
 import { CityVisitRanking } from '@/components/ranking/city-visit-ranking';
-import { LazyMap, LazyMarker, LazyTileLayer } from '@/components/leaflet-map';
 import { CarouselItem } from '@/components/ui/carousel';
 import axios from '@/services/axios';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 import Autoplay from 'embla-carousel-autoplay';
 import { SeeMore } from '@/components/see-more';
+import dynamic from 'next/dynamic';
+export const LazyMap = dynamic(async () => (await import('@/components/map')).Map, {
+  ssr: false,
+});
 
 export default function Page({ params }: { params: { slug: string } }) {
   const t = useTranslations();
@@ -87,19 +90,7 @@ export default function Page({ params }: { params: { slug: string } }) {
             {t('country-city-page.location')}
           </h2>
         </div>
-        <LazyMap
-          center={[country.data.latitude, country.data.longitude]}
-          zoom={3}
-          className="w-full aspect-square rounded-lg border-2"
-          scrollWheelZoom={false}
-          dragging={false}
-        >
-          <LazyTileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
-          />
-          <LazyMarker position={[country.data.latitude, country.data.longitude]} />
-        </LazyMap>
+        <LazyMap LatLng={[country.data.latitude, country.data.longitude]} />
       </div>
       <CityRatingRanking countryIso2={country.data.iso2} seeMore />
       <CityVisitRanking countryIso2={country.data.iso2} seeMore />
