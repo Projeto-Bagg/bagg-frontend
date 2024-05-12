@@ -140,7 +140,7 @@ export const Search = () => {
                           <CarouselContent>
                             {search.data?.tips.map((tip) => (
                               <CarouselItem className="sm:basis-1/3 text-sm" key={tip.id}>
-                                <TipSearch tip={tip} boldMessage={query} />
+                                <TipSearch tip={tip} boldMessage={debouncedQuery} />
                               </CarouselItem>
                             ))}
                           </CarouselContent>
