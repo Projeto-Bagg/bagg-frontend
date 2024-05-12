@@ -160,40 +160,38 @@ export const Tip = forwardRef<
                     </Report>
                   )}
                   {auth.user?.id === tip.user.id && (
-                    <>
-                      <AlertDialog>
-                        <AlertDialogTrigger asChild>
-                          <DropdownMenuItem
-                            data-test="tip-delete"
-                            onSelect={(e) => e.preventDefault()}
-                            className="font-bold"
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <DropdownMenuItem
+                          data-test="tip-delete"
+                          onSelect={(e) => e.preventDefault()}
+                          className="font-bold"
+                        >
+                          {t('tip.delete')}
+                        </DropdownMenuItem>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>
+                            {t('tip.delete-modal.title')}
+                          </AlertDialogTitle>
+                          <AlertDialogDescription>
+                            {t('tip.delete-modal.description')}
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>
+                            {t('tip.delete-modal.cancel')}
+                          </AlertDialogCancel>
+                          <AlertDialogAction
+                            data-test="tip-delete-confirm"
+                            onClick={handleDeleteClick}
                           >
-                            {t('tip.delete')}
-                          </DropdownMenuItem>
-                        </AlertDialogTrigger>
-                        <AlertDialogContent>
-                          <AlertDialogHeader>
-                            <AlertDialogTitle>
-                              {t('tip.delete-modal.title')}
-                            </AlertDialogTitle>
-                            <AlertDialogDescription>
-                              {t('tip.delete-modal.description')}
-                            </AlertDialogDescription>
-                          </AlertDialogHeader>
-                          <AlertDialogFooter>
-                            <AlertDialogCancel>
-                              {t('tip.delete-modal.cancel')}
-                            </AlertDialogCancel>
-                            <AlertDialogAction
-                              data-test="tip-delete-confirm"
-                              onClick={handleDeleteClick}
-                            >
-                              {t('tip.delete-modal.action')}
-                            </AlertDialogAction>
-                          </AlertDialogFooter>
-                        </AlertDialogContent>
-                      </AlertDialog>
-                    </>
+                            {t('tip.delete-modal.action')}
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
                   )}
                 </DropdownMenuContent>
               </DropdownMenu>

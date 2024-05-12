@@ -66,6 +66,7 @@
       "too-small": "Enter your username/e-mail",
       "invalid": "Invalid login"
     },
+    "forgot-password": "Forgot your password?",
     "submit": "Login",
     "unauthorized": "Login or password provided is incorrect",
     "signup-redirect": {
