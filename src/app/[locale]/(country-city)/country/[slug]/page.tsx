@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { GalleryCarousel } from '@/app/[locale]/(country-city)/gallery-carousel';
 import { GalleryImage } from '@/app/[locale]/(country-city)/gallery-image';
 import { CityRatingRanking } from '@/components/ranking/city-rating-ranking';
@@ -13,9 +13,6 @@ import { useTranslations } from 'next-intl';
 import Autoplay from 'embla-carousel-autoplay';
 import { SeeMore } from '@/components/see-more';
 import dynamic from 'next/dynamic';
-export const LazyMap = dynamic(async () => (await import('@/components/map')).Map, {
-  ssr: false,
-});
 
 export default function Page({ params }: { params: { slug: string } }) {
   const t = useTranslations();
@@ -41,6 +38,14 @@ export default function Page({ params }: { params: { slug: string } }) {
     getNextPageParam: (page, allPages) =>
       page.length === 10 ? allPages.length + 1 : null,
   });
+
+  const LazyMap = useMemo(
+    () =>
+      dynamic(async () => (await import('@/components/map')).Map, {
+        ssr: false,
+      }),
+    [],
+  );
 
   if (!country.data || !images || !visits) {
     return;

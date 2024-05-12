@@ -2,7 +2,7 @@
 
 import axios from '@/services/axios';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { CityVisit } from '@/components/city-visit';
 import { useTranslations } from 'next-intl';
 import { GalleryImage } from '@/app/[locale]/(country-city)/gallery-image';
@@ -22,9 +22,6 @@ import { Link } from '@/common/navigation';
 import { Resident } from '@/app/[locale]/(country-city)/resident';
 import { CountryFlag } from '@/components/ui/country-flag';
 import dynamic from 'next/dynamic';
-export const LazyMap = dynamic(async () => (await import('@/components/map')).Map, {
-  ssr: false,
-});
 
 export default function Page({ params }: { params: { slug: string } }) {
   const t = useTranslations();
@@ -83,6 +80,14 @@ export default function Page({ params }: { params: { slug: string } }) {
     initialPageParam: 1,
     getNextPageParam: () => null,
   });
+
+  const LazyMap = useMemo(
+    () =>
+      dynamic(async () => (await import('@/components/map')).Map, {
+        ssr: false,
+      }),
+    [],
+  );
 
   return (
     <div className="grid gap-x-4 gap-y-6 grid-cols-1 sm:grid-cols-2">
