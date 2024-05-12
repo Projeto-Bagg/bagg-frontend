@@ -26,6 +26,7 @@ interface CountryRatingRankingProps {
   seeMore?: boolean;
   skeleton?: boolean;
   showTitle?: boolean;
+  continent?: number;
 }
 
 export const CountryRatingRanking = ({
@@ -33,6 +34,7 @@ export const CountryRatingRanking = ({
   isPagination = false,
   seeMore = false,
   skeleton = true,
+  continent,
   showTitle = true,
 }: CountryRatingRankingProps) => {
   const t = useTranslations();
@@ -45,7 +47,12 @@ export const CountryRatingRanking = ({
     hasNextPage,
     isLoading,
   } = useInfiniteQuery<CountryRatingRanking>({
-    queryKey: ['country-rating-ranking', searchParams.get('date'), isPagination],
+    queryKey: [
+      'country-rating-ranking',
+      searchParams.get('date'),
+      isPagination,
+      searchParams.get('continent'),
+    ],
     queryFn: async ({ pageParam }) =>
       (
         await axios.get<CountryRatingRanking>(`/countries/ranking/rating`, {
@@ -53,6 +60,7 @@ export const CountryRatingRanking = ({
             page: pageParam,
             count,
             date: searchParams.get('date'),
+            continent: continent || searchParams.get('continent'),
           },
         })
       ).data,

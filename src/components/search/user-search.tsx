@@ -1,6 +1,5 @@
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { UserHoverCard } from '@/components/user-hovercard';
-import React from 'react';
 
 interface UserSearchProps {
   user: User;

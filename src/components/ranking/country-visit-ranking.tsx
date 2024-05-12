@@ -25,6 +25,7 @@ interface CountryVisitRankingProps {
   seeMore?: boolean;
   skeleton?: boolean;
   showTitle?: boolean;
+  continent?: number;
 }
 
 export const CountryVisitRanking = ({
@@ -33,6 +34,7 @@ export const CountryVisitRanking = ({
   seeMore = false,
   skeleton = true,
   showTitle = true,
+  continent,
 }: CountryVisitRankingProps) => {
   const t = useTranslations();
   const { ref, inView } = useInView();
@@ -44,7 +46,12 @@ export const CountryVisitRanking = ({
     fetchNextPage,
     isLoading,
   } = useInfiniteQuery<CountryVisitRanking>({
-    queryKey: ['country-visit-ranking', searchParams.get('date'), isPagination],
+    queryKey: [
+      'country-visit-ranking',
+      searchParams.get('date'),
+      isPagination,
+      searchParams.get('continent'),
+    ],
     queryFn: async ({ pageParam }) =>
       (
         await axios.get<CountryVisitRanking>(`/countries/ranking/visit`, {
@@ -52,6 +59,7 @@ export const CountryVisitRanking = ({
             page: pageParam,
             count,
             date: searchParams.get('date'),
+            continent: continent || searchParams.get('continent'),
           },
         })
       ).data,
@@ -83,7 +91,7 @@ export const CountryVisitRanking = ({
         </RankingHeader>
       )}
       <RankingContent>
-        {isLoading && skeleton && <RankingSkeleton count={25} />}
+        {isLoading && skeleton && <RankingSkeleton count={count} />}
         {ranking &&
           ranking.pages.map((page, pageIndex) =>
             page.map((country, index) => (

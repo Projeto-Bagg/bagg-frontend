@@ -1,3 +1,5 @@
+'use client';
+
 import { Link, useRouter } from '@/common/navigation';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -44,8 +46,8 @@ export const UserHoverCard = ({ username, children }: UserHoverCardProps) => {
     }
 
     user.data.friendshipStatus.isFollowing
-      ? unfollow.mutate(user.data.username)
-      : follow.mutate(user.data.username);
+      ? unfollow.mutate(user.data)
+      : follow.mutate(user.data);
   };
 
   return (

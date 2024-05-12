@@ -4,11 +4,13 @@ export const locales = ['pt', 'en'] as const;
 
 export const pathnames = {
   '/': '/',
+  '/home': '/home',
   '/login': '/login',
   '/signup': '/signup',
   '/ranking': '/ranking',
   '/admin': '/admin',
   '/search': '/search',
+  '/search/user': '/search/user',
   '/search/city': '/search/city',
   '/search/country': '/search/country',
   '/settings': '/settings',

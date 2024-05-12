@@ -49,14 +49,14 @@ export default function Page({ params }: { params: { slug: string } }) {
 
   if (tripDiary.isError) {
     return (
-      <div className="mt-4 flex w-full justify-center">
+      <div className="mt-4 flex w-full container justify-center">
         <span>{t('trip-diary.not-found')}</span>
       </div>
     );
   }
 
   return (
-    <div className="p-4">
+    <div className="p-4 container">
       <div className="flex items-center">
         <div
           onClick={() => (isWithinPage ? router.back() : router.push('/'))}

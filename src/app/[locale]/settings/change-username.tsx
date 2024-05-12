@@ -1,3 +1,5 @@
+'use client';
+
 import { usernameRegex } from '@/common/regex';
 import { UsernameInput } from '@/components/form/username-input';
 import { Button } from '@/components/ui/button';
@@ -54,42 +56,35 @@ export const ChangeUsername = () => {
   };
 
   return (
-    <div className="flex flex-col sm:flex-row rounded-lg overflow-hidden">
-      <div className="bg-accent w-full sm:w-[280px] px-6 sm:px-10 py-6 shrink-0">
-        <h2 className="font-semibold">{t('settings.username.title')}</h2>
+    <form
+      data-test="change-username-form"
+      className="space-y-4"
+      onSubmit={handleSubmit(onSubmit)}
+    >
+      <div>
+        <Label>{t('signup-edit.username.label')}</Label>
+        <UsernameInput
+          {...register('username')}
+          placeholder={auth.user?.username}
+          errors={errors.username}
+          isUsernameAvailable={
+            isUsernameAvailable.isFetched ? isUsernameAvailable.isSuccess : undefined
+          }
+        />
       </div>
-      <div className="bg-accent/70 p-6 w-full">
-        <form
-          data-test="change-username-form"
-          className="space-y-4"
-          onSubmit={handleSubmit(onSubmit)}
-        >
-          <div>
-            <Label>{t('signup-edit.username.label')}</Label>
-            <UsernameInput
-              {...register('username')}
-              placeholder={auth.user?.username}
-              errors={errors.username}
-              isUsernameAvailable={
-                isUsernameAvailable.isFetched ? isUsernameAvailable.isSuccess : undefined
-              }
-            />
-          </div>
-          <div className="flex flex-col justify-end items-end">
-            <Button loading={changeUsername.isPending} type="submit">
-              {t('commons.confirm')}
-            </Button>
-            {changeUsername.data?.status === 200 && (
-              <span
-                data-test="username-changed-success"
-                className="text-sm text-green-500 font-semibold"
-              >
-                {t('settings.username.success')}
-              </span>
-            )}
-          </div>
-        </form>
+      <div className="flex flex-col justify-end items-end">
+        <Button loading={changeUsername.isPending} type="submit">
+          {t('commons.confirm')}
+        </Button>
+        {changeUsername.data?.status === 200 && (
+          <span
+            data-test="username-changed-success"
+            className="text-sm text-green-500 font-semibold"
+          >
+            {t('settings.username.success')}
+          </span>
+        )}
       </div>
-    </div>
+    </form>
   );
 };

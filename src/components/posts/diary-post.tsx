@@ -130,49 +130,49 @@ export const DiaryPost = forwardRef<
                   >
                     {t('diary-post.copy-link')}
                   </DropdownMenuItem>
+                  {auth.user && (
+                    <Report id={post.id} reportType="diary-post">
+                      <DropdownMenuItem
+                        data-test="diary-post-delete"
+                        onSelect={(e) => e.preventDefault()}
+                      >
+                        {t('reports.title')}
+                      </DropdownMenuItem>
+                    </Report>
+                  )}
                   {auth.user?.id === post.user.id && (
-                    <>
-                      <Report id={post.id} reportType="diary-post">
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
                         <DropdownMenuItem
-                          data-test="report"
+                          data-test="diary-post-delete"
                           onSelect={(e) => e.preventDefault()}
+                          className="font-bold"
                         >
-                          {t('reports.title')}
+                          {t('diary-post.delete')}
                         </DropdownMenuItem>
-                      </Report>
-                      <AlertDialog>
-                        <AlertDialogTrigger asChild>
-                          <DropdownMenuItem
-                            data-test="diary-post-delete"
-                            onSelect={(e) => e.preventDefault()}
-                            className="font-bold"
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>
+                            {t('diary-post.delete-modal.title')}
+                          </AlertDialogTitle>
+                          <AlertDialogDescription>
+                            {t('diary-post.delete-modal.description')}
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>
+                            {t('diary-post.delete-modal.cancel')}
+                          </AlertDialogCancel>
+                          <AlertDialogAction
+                            data-test="diary-post-delete-confirm"
+                            onClick={handleDeleteClick}
                           >
-                            {t('diary-post.delete')}
-                          </DropdownMenuItem>
-                        </AlertDialogTrigger>
-                        <AlertDialogContent>
-                          <AlertDialogHeader>
-                            <AlertDialogTitle>
-                              {t('diary-post.delete-modal.title')}
-                            </AlertDialogTitle>
-                            <AlertDialogDescription>
-                              {t('diary-post.delete-modal.description')}
-                            </AlertDialogDescription>
-                          </AlertDialogHeader>
-                          <AlertDialogFooter>
-                            <AlertDialogCancel>
-                              {t('diary-post.delete-modal.cancel')}
-                            </AlertDialogCancel>
-                            <AlertDialogAction
-                              data-test="diary-post-delete-confirm"
-                              onClick={handleDeleteClick}
-                            >
-                              {t('diary-post.delete-modal.action')}
-                            </AlertDialogAction>
-                          </AlertDialogFooter>
-                        </AlertDialogContent>
-                      </AlertDialog>
-                    </>
+                            {t('diary-post.delete-modal.action')}
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
                   )}
                 </DropdownMenuContent>
               </DropdownMenu>

@@ -8,11 +8,10 @@ export const useUnfollow = () => {
   const auth = useAuth();
 
   return useMutation({
-    mutationFn: async (followingUsername: string) =>
-      await axios.delete('/follows/' + followingUsername),
-    onMutate(followingUsername) {
+    mutationFn: async (user: User) => await axios.delete('/follows/' + user.id),
+    onMutate(unfollowedUser) {
       queryClient.setQueryData<FullInfoUser>(
-        ['user', followingUsername],
+        ['user', unfollowedUser.username],
         (old) =>
           old &&
           produce(old, (draft) => {
@@ -37,7 +36,7 @@ export const useUnfollow = () => {
             old &&
             produce(old, (draft) => {
               draft.forEach((user) => {
-                if (user.username === followingUsername) {
+                if (user.username === unfollowedUser.username) {
                   user.friendshipStatus.isFollowing = false;
                   user.followers -= 1;
                 }
@@ -54,7 +53,7 @@ export const useUnfollow = () => {
           produce(old, (draft) => {
             draft?.pages.map((page) =>
               page.map((user) => {
-                if (user.username === followingUsername) {
+                if (user.username === unfollowedUser.username) {
                   user.friendshipStatus.isFollowing = false;
                 }
               }),
@@ -63,7 +62,7 @@ export const useUnfollow = () => {
       );
 
       queryClient.setQueryData<User[]>(
-        ['followers', followingUsername],
+        ['followers', unfollowedUser.username],
         (old) =>
           old &&
           produce(old, (draft) => draft.filter((user) => user.id !== auth.user?.id)),

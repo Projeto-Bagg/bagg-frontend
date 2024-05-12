@@ -188,12 +188,24 @@ interface UserCityVisit {
   city: City;
 }
 
+interface Continent {
+  id: number;
+  name: 'Africa' | 'Europe' | 'Americas' | 'Asia' | 'Polar' | 'Oceania';
+}
+
 interface City {
   id: number;
   name: string;
   latitude: number;
   longitude: number;
   region: Region;
+}
+
+interface TrendingCity extends City {
+  variation: number;
+  variationPercentage: number | null;
+  interestsCount: number;
+  percentFromTotal: number;
 }
 
 interface CityPage extends City {
@@ -281,6 +293,7 @@ interface FullSearch {
   users: User[];
   countries: Country[];
   cities: CityFromSearch[];
+  tips: Tip[];
 }
 
 type ReportReason = 'hate' | 'violent' | 'spam' | 'nudity' | 'false-information';

@@ -11,14 +11,14 @@ import { useFollow } from '@/hooks/useFollow';
 import { useUnfollow } from '@/hooks/useUnfollow';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { Separator } from '@/components/ui/separator';
-import { UserFollowTabs } from '@/app/[locale]/(profile)/[slug]/user-follow-tabs';
+import { UserFollowTabs } from '@/app/[locale]/(profile)/[slug]/components/user-follow-tabs';
 import { UserCog } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useRouter, Link } from '@/common/navigation';
 import { usePathname } from 'next/navigation';
 import { CountryFlag } from '@/components/ui/country-flag';
 import { Skeleton } from '@/components/ui/skeleton';
-import { EditProfile } from '@/app/[locale]/(profile)/[slug]/edit-profile';
+import { EditProfile } from '@/app/[locale]/(profile)/[slug]/components/edit-profile';
 
 export default function Profile({
   params,
@@ -60,9 +60,13 @@ export default function Profile({
       return router.push('/login');
     }
 
-    user.data?.friendshipStatus.isFollowing
-      ? unfollow.mutate(params.slug)
-      : follow.mutate(params.slug);
+    if (!user.data) {
+      return;
+    }
+
+    user.data.friendshipStatus.isFollowing
+      ? unfollow.mutate(user.data)
+      : follow.mutate(user.data);
   };
 
   if (!params.slug) {

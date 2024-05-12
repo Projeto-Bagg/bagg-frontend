@@ -1,4 +1,26 @@
 {
+  "index": {
+    "description": "Discover the world, connect with travelers.",
+    "why-join-us": {
+      "title": "Why join us?",
+      "reason1": {
+        "title": "Endless inspiration:",
+        "description": "Explore inspiring stories from other travelers, discover incredible destinations, and plan your next great adventure."
+      },
+      "reason2": {
+        "title": "Authentic connections:",
+        "description": "Conheça pessoas apaixonadas por viagens como você, troque dicas valiosas e faça amizades que durarão para sempre."
+      },
+      "reason3": {
+        "title": "Community support:",
+        "description": "Access a community of experienced travelers ready to answer your questions, offer advice, and share their own experiences."
+      }
+    },
+    "got-interested": "Got interested?",
+    "create-account": "Create account",
+    "or": "or",
+    "login": "Login"
+  },
   "commons": {
     "confirm": "Confirm"
   },
@@ -10,6 +32,7 @@
       "title": "Search",
       "input-placeholder": "Type to search",
       "not-found": "No results",
+      "tip-search-results": "Tip search results",
       "user-search-results": "User search results",
       "country-search-results": "Country search results",
       "city-search-results": "City search results"
@@ -32,6 +55,7 @@
   "login": {
     "title": "Login",
     "description": "Use your username/email and password to login to Bagg",
+    "forgot-password": "Forgot your password?",
     "password": {
       "label": "Password",
       "invalid": "Invalid password",
@@ -155,7 +179,15 @@
     "save": "Save changes"
   },
   "homepage": {
-    "title": "Homepage"
+    "title": "Homepage",
+    "feed": {
+      "for-you": "For you",
+      "following": "Following"
+    },
+    "empty-feed": {
+      "title": "Empty feed",
+      "description": "Try following users and marking interest in more cities!"
+    }
   },
   "create-post": {
     "trigger": "Diary",
@@ -214,6 +246,7 @@
     }
   },
   "select-city": {
+    "label": "City",
     "title": "Select a city...",
     "search": "Search a city...",
     "searching": "Searching",
@@ -225,6 +258,20 @@
     "search": "Search a country...",
     "not-found": "No cities found",
     "error": "Something went wrong..."
+  },
+  "select-continent": {
+    "title": "Select a continent...",
+    "search": "Search a continent...",
+    "not-found": "No cities found",
+    "error": "Something went wrong..."
+  },
+  "continents": {
+    "Africa": "Africa",
+    "Americas": "Americas",
+    "Asia": "Asia",
+    "Europe": "Europe",
+    "Oceania": "Oceania",
+    "Polar": "Polar"
   },
   "diary-post": {
     "copy-link": "Copy link",
@@ -282,6 +329,7 @@
     "review": "Review",
     "no-images": "No images yet.",
     "reviews": "Last reviews",
+    "near-cities": "Near cities",
     "data": {
       "rating": {
         "tooltip": "Average of {rating} based on {count} reviews"
@@ -335,8 +383,11 @@
     "most-visited-countries": "Most visited countries",
     "top-rated-cities": "Top rated cities",
     "most-visited-cities": "Most visited cities",
-    "countries-with-gratest-interest": "Countries with greatest interest",
-    "cities-with-gratest-interest": "Cities with greatest interest",
+    "trending": {
+      "title": "Trending cities 🔥",
+      "description": "Cities with the highest percentage of people interested in the current month",
+      "variation": "{count}% from last month"
+    },
     "empty": "Empty ranking.",
     "date-range": {
       "date": "{count, plural, =0 {All time} other {Last # days}}"
@@ -358,9 +409,10 @@
   "search-page": {
     "title": "Search",
     "options": {
-      "user": "User",
-      "country": "Country",
-      "city": "City"
+      "tip": { "title": "Tips", "no-results": "No results" },
+      "user": "Users",
+      "country": "Countries",
+      "city": "Cities"
     },
     "no-results": "No results for"
   },

@@ -1,4 +1,26 @@
 {
+  "index": {
+    "description": "Descubra o mundo, conecte-se com viajantes.",
+    "why-join-us": {
+      "title": "Por que se juntar a nós?",
+      "reason1": {
+        "title": "Inspiração sem fim:",
+        "description": "Explore histórias inspiradoras de outros viajantes, descubra destinos incríveis e planeje sua próxima grande aventura."
+      },
+      "reason2": {
+        "title": "Conexões autênticas:",
+        "description": "Conheça pessoas apaixonadas por viagens como você, troque dicas valiosas e faça amizades que durarão para sempre."
+      },
+      "reason3": {
+        "title": "Suporte da comunidade:",
+        "description": "Tenha acesso a uma comunidade de viajantes experientes prontos para responder suas perguntas, oferecer conselhos e compartilhar suas próprias experiências."
+      }
+    },
+    "got-interested": "Se interessou?",
+    "create-account": "Criar conta",
+    "or": "ou",
+    "login": "Logar"
+  },
   "commons": {
     "confirm": "Confirmar"
   },
@@ -10,9 +32,10 @@
       "title": "Procurar",
       "input-placeholder": "Digite para pesquisar",
       "not-found": "Sem resultados",
+      "tip-search-results": "Resultados de pesquisa de tip",
       "user-search-results": "Resultados de pesquisa de usuário",
-      "country-search-results": "Resultados de pesquisa de países",
-      "city-search-results": "Resultados de pesquisa de cidades"
+      "country-search-results": "Resultados de pesquisa de país",
+      "city-search-results": "Resultados de pesquisa de cidade"
     },
     "login": "Entrar",
     "signup": "Criar conta",
@@ -32,6 +55,7 @@
   "login": {
     "title": "Login",
     "description": "Use seu nome de usuário/email e senha para logar no Bagg",
+    "forgot-password": "Esqueceu sua senha?",
     "password": {
       "label": "Senha",
       "invalid": "Senha inválida",
@@ -155,7 +179,15 @@
     "save": "Salvar alterações"
   },
   "homepage": {
-    "title": "Página inicial"
+    "title": "Página inicial",
+    "feed": {
+      "for-you": "Para você",
+      "following": "Seguindo"
+    },
+    "empty-feed": {
+      "title": "Feed vazio",
+      "description": "Tente seguir usuários e marcar interesse em mais cidades!"
+    }
   },
   "create-post": {
     "trigger": "Diário",
@@ -214,6 +246,7 @@
     }
   },
   "select-city": {
+    "label": "Cidade",
     "title": "Selecione uma cidade...",
     "search": "Procurar uma cidade...",
     "searching": "Procurando",
@@ -225,6 +258,20 @@
     "search": "Procurar um país...",
     "not-found": "Sem resultados",
     "error": "Algo deu errado.."
+  },
+  "select-continent": {
+    "title": "Selecione um continente...",
+    "search": "Procurar um continente...",
+    "not-found": "Sem resultados",
+    "error": "Algo deu errado.."
+  },
+  "continents": {
+    "Africa": "África",
+    "Americas": "Americas",
+    "Asia": "Asia",
+    "Europe": "Europa",
+    "Oceania": "Oceania",
+    "Polar": "Polar"
   },
   "diary-post": {
     "copy-link": "Copiar link",
@@ -282,6 +329,7 @@
     "review": "Avaliar",
     "no-images": "Sem imagens.",
     "reviews": "Últimas avaliações",
+    "near-cities": "Cidades próximas",
     "data": {
       "rating": {
         "tooltip": "Média de {rating} com base em {count} avaliações"
@@ -333,11 +381,14 @@
   "ranking": {
     "top-rated-countries": "Países com melhor avaliação",
     "most-visited-countries": "Países mais visitados",
-    "countries-with-gratest-interest": "Países com maior interesse",
     "top-rated-cities": "Cidades com melhor avaliação",
     "most-visited-cities": "Cidades mais visitadas",
-    "cities-with-gratest-interest": "Cidades com maior interesse",
     "empty": "Ranking vazio.",
+    "trending": {
+      "title": "Cidades em alta 🔥",
+      "description": "Cidades com o maior porcentagem de pessoas interessadas no corrente mês",
+      "variation": "{count}% do mês anterior"
+    },
     "date-range": {
       "date": "{count, plural, =0 {Todo o período} other {Últimos # dias}}"
     },
@@ -358,6 +409,7 @@
   "search-page": {
     "title": "Pesquisar",
     "options": {
+      "tip": { "title": "Tips", "no-results": "Sem resultados" },
       "user": "Usuários",
       "country": "Países",
       "city": "Cidades"

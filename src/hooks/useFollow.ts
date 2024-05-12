@@ -8,11 +8,10 @@ export const useFollow = () => {
   const auth = useAuth();
 
   return useMutation({
-    mutationFn: async (followingUsername: string) =>
-      await axios.post('/follows/' + followingUsername),
-    onMutate(followingUsername) {
+    mutationFn: async (user: User) => await axios.post('/follows/' + user.id),
+    onMutate(followedUser) {
       queryClient.setQueryData<FullInfoUser>(
-        ['user', followingUsername],
+        ['user', followedUser.username],
         (old) =>
           old &&
           produce(old, (draft) => {
@@ -37,7 +36,7 @@ export const useFollow = () => {
             old &&
             produce(old, (draft) => {
               draft.map((user) => {
-                if (user.username === followingUsername) {
+                if (user.username === followedUser.username) {
                   user.friendshipStatus.isFollowing = true;
                   user.followers += 1;
                 }
@@ -54,7 +53,7 @@ export const useFollow = () => {
           produce(old, (draft) => {
             draft?.pages.map((page) =>
               page.map((user) => {
-                if (user.username === followingUsername) {
+                if (user.username === followedUser.username) {
                   user.friendshipStatus.isFollowing = true;
                 }
               }),
@@ -63,7 +62,7 @@ export const useFollow = () => {
       );
 
       queryClient.setQueryData<User[]>(
-        ['followers', followingUsername],
+        ['followers', followedUser.username],
         (old) =>
           old &&
           produce(old, (draft) => {

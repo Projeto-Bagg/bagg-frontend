@@ -17,11 +17,19 @@ import { useTranslations } from 'next-intl';
 import { Link } from '@/common/navigation';
 import { useEffect, useState } from 'react';
 import { useDebounce } from 'use-debounce';
+import { SeeMore } from '@/components/see-more';
+import { ScrollArea, ScrollAreaViewport } from '@/components/ui/scroll-area';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from '@/components/ui/carousel';
+import { TipSearch } from '@/components/search/tip-search';
 import { UserSearch } from '@/components/search/user-search';
 import { CountrySearch } from '@/components/search/country-search';
 import { CitySearch } from '@/components/search/city-search';
-import { SeeMore } from '@/components/see-more';
-import { ScrollArea, ScrollAreaViewport } from '@/components/ui/scroll-area';
 
 export const Search = () => {
   const [open, setOpen] = useState<boolean>();
@@ -33,6 +41,14 @@ export const Search = () => {
   const search = useQuery<FullSearch>({
     queryKey: ['search', debouncedQuery],
     queryFn: async () => {
+      const tips = (
+        await axios.get<Tip[]>(`/tips/search`, {
+          params: {
+            q: debouncedQuery,
+            count: 5,
+          },
+        })
+      ).data;
       const users = (
         await axios.get<User[]>(`/users/search`, {
           params: {
@@ -62,6 +78,7 @@ export const Search = () => {
         users,
         countries,
         cities,
+        tips,
       };
     },
     enabled: !!debouncedQuery,
@@ -112,6 +129,44 @@ export const Search = () => {
           <ScrollArea>
             <ScrollAreaViewport className="max-h-[700px] px-4 sm:px-10 py-4 pt-0">
               <div className="space-y-2">
+                <div>
+                  <h3 className="font-semibold border-b-2 border-primary pb-1 w-fit">
+                    {t('search.tip-search-results')}
+                  </h3>
+                  <div className="mt-4">
+                    {search.data && search.data.tips.length > 0 ? (
+                      <div>
+                        <Carousel className="w-[calc(100vw-32px)] sm:w-[686px]">
+                          <CarouselContent>
+                            {search.data?.tips.map((tip) => (
+                              <CarouselItem className="sm:basis-1/3 text-sm" key={tip.id}>
+                                <TipSearch tip={tip} boldMessage={query} />
+                              </CarouselItem>
+                            ))}
+                          </CarouselContent>
+                          <CarouselNext className="-right-10" />
+                          <CarouselPrevious className="-left-10" />
+                        </Carousel>
+                        <SeeMore
+                          className="w-fit"
+                          onClick={() => {
+                            setOpen(false);
+                          }}
+                          href={{
+                            pathname: '/search',
+                            query: {
+                              q: debouncedQuery,
+                            },
+                          }}
+                        />
+                      </div>
+                    ) : (
+                      <span className="text-muted-foreground">
+                        {t('search.not-found')}
+                      </span>
+                    )}
+                  </div>
+                </div>
                 <div>
                   <h3 className="font-semibold border-b-2 border-primary pb-1 w-fit">
                     {t('search.user-search-results')}
@@ -200,36 +255,43 @@ export const Search = () => {
                   <h3 className="font-semibold border-b-2 border-primary pb-1 w-fit">
                     {t('search.city-search-results')}
                   </h3>
-                  {search.data && search.data.cities.length > 0 ? (
-                    <div>
-                      <div id="cities" className="space-y-0.5 mt-4 mb-1">
-                        {search.data.cities.map((city, index) => (
-                          <Link
-                            key={index}
-                            onClick={() => setOpen(false)}
-                            className="block"
-                            href={{ params: { slug: city.id }, pathname: '/city/[slug]' }}
-                          >
-                            <CitySearch city={city} />
-                          </Link>
-                        ))}
+                  <div className="mt-4">
+                    {search.data && search.data.cities.length > 0 ? (
+                      <div>
+                        <div id="cities" className="space-y-0.5 mt-4 mb-1">
+                          {search.data.cities.map((city, index) => (
+                            <Link
+                              key={index}
+                              onClick={() => setOpen(false)}
+                              className="block"
+                              href={{
+                                params: { slug: city.id },
+                                pathname: '/city/[slug]',
+                              }}
+                            >
+                              <CitySearch city={city} />
+                            </Link>
+                          ))}
+                        </div>
+                        <SeeMore
+                          onClick={() => {
+                            setOpen(false);
+                          }}
+                          className="w-fit"
+                          href={{
+                            pathname: '/search/city',
+                            query: {
+                              q: debouncedQuery,
+                            },
+                          }}
+                        />
                       </div>
-                      <SeeMore
-                        onClick={() => {
-                          setOpen(false);
-                        }}
-                        className="w-fit"
-                        href={{
-                          pathname: '/search/city',
-                          query: {
-                            q: debouncedQuery,
-                          },
-                        }}
-                      />
-                    </div>
-                  ) : (
-                    <span className="text-muted-foreground">{t('search.not-found')}</span>
-                  )}
+                    ) : (
+                      <span className="text-muted-foreground">
+                        {t('search.not-found')}
+                      </span>
+                    )}
+                  </div>
                 </div>
               </div>
             </ScrollAreaViewport>

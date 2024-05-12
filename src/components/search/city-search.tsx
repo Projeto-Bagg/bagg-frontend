@@ -1,5 +1,4 @@
 import { CountryFlag } from '@/components/ui/country-flag';
-import React from 'react';
 
 interface CitySearch {
   city: CityFromSearch;
