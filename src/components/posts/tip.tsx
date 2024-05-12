@@ -149,16 +149,18 @@ export const Tip = forwardRef<
                   <DropdownMenuItem data-test="tip-copy-link" onSelect={handleShareClick}>
                     {t('tip.copy-link')}
                   </DropdownMenuItem>
+                  {auth.user && (
+                    <Report reportType="tip" id={tip.id}>
+                      <DropdownMenuItem
+                        data-test="tip-delete"
+                        onSelect={(e) => e.preventDefault()}
+                      >
+                        {t('reports.title')}
+                      </DropdownMenuItem>
+                    </Report>
+                  )}
                   {auth.user?.id === tip.user.id && (
                     <>
-                      <Report reportType="tip" id={tip.id}>
-                        <DropdownMenuItem
-                          data-test="tip-delete"
-                          onSelect={(e) => e.preventDefault()}
-                        >
-                          {t('reports.title')}
-                        </DropdownMenuItem>
-                      </Report>
                       <AlertDialog>
                         <AlertDialogTrigger asChild>
                           <DropdownMenuItem

@@ -102,7 +102,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     queryClient.invalidateQueries();
     await refetch();
 
-    window.history.length > 1 ? router.back() : router.push('/');
+    window.history.length > 1 ? router.back() : router.push('/home');
     router.refresh();
   };
 

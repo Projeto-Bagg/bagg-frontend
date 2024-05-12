@@ -7,7 +7,7 @@ export default async function Page() {
   const t = await getTranslations();
 
   return (
-    <div className="p-4 max-w-xl m-auto my-8">
+    <div className="p-4 container max-w-xl m-auto my-8">
       <SignupForm />
       <div className="flex text-sm justify-center mt-4">
         <span>

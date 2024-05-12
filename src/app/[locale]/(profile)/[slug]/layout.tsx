@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default function Layout(props: Props) {
   return (
-    <div className="p-4">
+    <div className="p-4 container">
       {props.children}
       {props.feed}
       {props.settings}

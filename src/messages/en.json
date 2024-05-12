@@ -1,4 +1,26 @@
 {
+  "index": {
+    "description": "Discover the world, connect with travelers.",
+    "why-join-us": {
+      "title": "Why join us?",
+      "reason1": {
+        "title": "Endless inspiration:",
+        "description": "Explore inspiring stories from other travelers, discover incredible destinations, and plan your next great adventure."
+      },
+      "reason2": {
+        "title": "Authentic connections:",
+        "description": "Conheça pessoas apaixonadas por viagens como você, troque dicas valiosas e faça amizades que durarão para sempre."
+      },
+      "reason3": {
+        "title": "Community support:",
+        "description": "Access a community of experienced travelers ready to answer your questions, offer advice, and share their own experiences."
+      }
+    },
+    "got-interested": "Got interested?",
+    "create-account": "Create account",
+    "or": "or",
+    "login": "Login"
+  },
   "commons": {
     "confirm": "Confirm"
   },
@@ -156,7 +178,15 @@
     "save": "Save changes"
   },
   "homepage": {
-    "title": "Homepage"
+    "title": "Homepage",
+    "feed": {
+      "for-you": "For you",
+      "following": "Following"
+    },
+    "empty-feed": {
+      "title": "Empty feed",
+      "description": "Try following users and marking interest in more cities!"
+    }
   },
   "create-post": {
     "trigger": "Diary",

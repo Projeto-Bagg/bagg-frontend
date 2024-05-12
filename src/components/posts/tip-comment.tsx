@@ -94,7 +94,7 @@ export const TipComment = ({ comment, tipId }: TipCommentProps) => {
                   locale,
                 })}
               </span>
-              {auth.user?.id === comment.user.id && (
+              {auth.user && (
                 <DropdownMenu modal={false}>
                   <DropdownMenuTrigger asChild>
                     <button data-test="comment-options">
@@ -110,43 +110,45 @@ export const TipComment = ({ comment, tipId }: TipCommentProps) => {
                         {t('reports.title')}
                       </DropdownMenuItem>
                     </Report>
-                    <AlertDialog>
-                      <AlertDialogTrigger asChild>
-                        <DropdownMenuItem
-                          data-test="delete"
-                          onSelect={(e) => e.preventDefault()}
-                          className="font-bold"
-                        >
-                          {t('tip.comment.delete.label')}
-                        </DropdownMenuItem>
-                      </AlertDialogTrigger>
-                      <AlertDialogContent>
-                        <AlertDialogHeader>
-                          <AlertDialogTitle>
-                            {t('tip.comment.delete.delete-modal.title')}
-                          </AlertDialogTitle>
-                          <AlertDialogDescription>
-                            {t('tip.comment.delete.delete-modal.description')}
-                          </AlertDialogDescription>
-                        </AlertDialogHeader>
-                        <AlertDialogFooter>
-                          <AlertDialogCancel>
-                            {t('tip.comment.delete.delete-modal.cancel')}
-                          </AlertDialogCancel>
-                          <AlertDialogAction
-                            data-test="confirm"
-                            onClick={() =>
-                              deleteTipComment.mutate({
-                                commentId: comment.id,
-                                tipId,
-                              })
-                            }
+                    {auth.user.id === comment.user.id && (
+                      <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                          <DropdownMenuItem
+                            data-test="delete"
+                            onSelect={(e) => e.preventDefault()}
+                            className="font-bold"
                           >
-                            {t('tip.comment.delete.delete-modal.action')}
-                          </AlertDialogAction>
-                        </AlertDialogFooter>
-                      </AlertDialogContent>
-                    </AlertDialog>
+                            {t('tip.comment.delete.label')}
+                          </DropdownMenuItem>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>
+                              {t('tip.comment.delete.delete-modal.title')}
+                            </AlertDialogTitle>
+                            <AlertDialogDescription>
+                              {t('tip.comment.delete.delete-modal.description')}
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel>
+                              {t('tip.comment.delete.delete-modal.cancel')}
+                            </AlertDialogCancel>
+                            <AlertDialogAction
+                              data-test="confirm"
+                              onClick={() =>
+                                deleteTipComment.mutate({
+                                  commentId: comment.id,
+                                  tipId,
+                                })
+                              }
+                            >
+                              {t('tip.comment.delete.delete-modal.action')}
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
+                    )}
                   </DropdownMenuContent>
                 </DropdownMenu>
               )}

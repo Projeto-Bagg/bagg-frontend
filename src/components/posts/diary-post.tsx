@@ -130,16 +130,18 @@ export const DiaryPost = forwardRef<
                   >
                     {t('diary-post.copy-link')}
                   </DropdownMenuItem>
+                  {auth.user && (
+                    <Report id={post.id} reportType="diary-post">
+                      <DropdownMenuItem
+                        data-test="diary-post-delete"
+                        onSelect={(e) => e.preventDefault()}
+                      >
+                        {t('reports.title')}
+                      </DropdownMenuItem>
+                    </Report>
+                  )}
                   {auth.user?.id === post.user.id && (
                     <>
-                      <Report id={post.id} reportType="diary-post">
-                        <DropdownMenuItem
-                          data-test="diary-post-delete"
-                          onSelect={(e) => e.preventDefault()}
-                        >
-                          {t('reports.title')}
-                        </DropdownMenuItem>
-                      </Report>
                       <AlertDialog>
                         <AlertDialogTrigger asChild>
                           <DropdownMenuItem

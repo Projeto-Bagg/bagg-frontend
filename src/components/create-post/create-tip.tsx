@@ -111,7 +111,7 @@ export const CreateTip = ({ children }: { children: ReactNode }) => {
               control={control}
               render={({ field }) => (
                 <SelectCity
-                  onSelect={(value) => field.onChange(value ? value : undefined)}
+                  onSelect={(value) => field.onChange(value ? Number(value) : undefined)}
                 />
               )}
             />

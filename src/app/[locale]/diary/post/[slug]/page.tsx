@@ -19,7 +19,7 @@ export default function Page({ params }: { params: { slug: string } }) {
   });
 
   return (
-    <div className="p-4">
+    <div className="p-4 container">
       <div className="flex items-center">
         <div
           onClick={() => (isWithinPage ? router.back() : router.push('/'))}

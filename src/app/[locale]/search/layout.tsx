@@ -43,7 +43,7 @@ export default function Layout({ children }: Props) {
   }, 1000);
 
   return (
-    <div className="p-4">
+    <div className="p-4 container">
       <div className="mb-2">
         <h2 className="font-bold w-fit text-xl sm:text-2xl border-b-2 border-primary pb-1">
           {t('search-page.title')}

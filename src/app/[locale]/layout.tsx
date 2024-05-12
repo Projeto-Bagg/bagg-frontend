@@ -53,9 +53,7 @@ export default async function LocaleLayout({
         <NextIntlClientProvider locale={locale} messages={messages}>
           <Providers>
             {jwt?.role !== 'ADMIN' && <Header />}
-            <div
-              className={cn(jwt?.role !== 'ADMIN' && 'container top-[3.75rem] relative')}
-            >
+            <div className={cn(jwt?.role !== 'ADMIN' && 'top-[3.75rem] relative')}>
               {auth}
               {children}
             </div>
