@@ -89,7 +89,7 @@ describe('Perfil', () => {
       cy.intercept('GET', '/users/teste2', user2);
     });
 
-    cy.intercept('POST', '/follows/teste2', {
+    cy.intercept('POST', '/follows/2', {
       statusCode: 201,
     }).as('follow-user');
 
@@ -120,7 +120,7 @@ describe('Perfil', () => {
       });
     });
 
-    cy.intercept('DELETE', '/follows/teste2', {
+    cy.intercept('DELETE', '/follows/2', {
       statusCode: 201,
     }).as('unfollow-user');
 

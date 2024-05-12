@@ -64,7 +64,7 @@ export const ResetPasswordForm = () => {
   return (
     <div className="p-4 max-w-xl m-auto my-8">
       <form
-        id="forgot-password-form"
+        data-test="forgot-password-form"
         className="w-full h-full space-y-4"
         onSubmit={handleSubmit(handleForgotPassword)}
       >

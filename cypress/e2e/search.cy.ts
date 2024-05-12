@@ -7,7 +7,7 @@ describe('Página de pesquisa', () => {
 
   it('Inserindo texto', () => {
     cy.visit('/search');
-    cy.get('input').type('teste');
+    cy.get('[data-test="search-input"]').type('teste');
     cy.wait(1000);
     cy.url().should('eq', Cypress.config().baseUrl + 'search?q=teste');
   });
@@ -21,7 +21,7 @@ describe('Página de pesquisa', () => {
 
   it('Alterando fator de pesquisa com texto', () => {
     cy.visit('/search');
-    cy.get('input').type('teste');
+    cy.get('[data-test="search-input"]').type('teste');
     cy.wait(1000);
     cy.url().should('eq', Cypress.config().baseUrl + 'search?q=teste');
     cy.get('[data-test="search-country-link"]').click();
@@ -35,10 +35,10 @@ describe('Página de pesquisa', () => {
       statusCode: 200,
     });
 
-    cy.visit('/search');
-    cy.get('input').type('teste');
+    cy.visit('/search/user');
+    cy.get('[data-test="search-input"]').type('teste');
     cy.wait(1000);
-    cy.url().should('eq', Cypress.config().baseUrl + 'search?q=teste');
+    cy.url().should('eq', Cypress.config().baseUrl + 'search/user?q=teste');
     cy.get('[data-test="no-results"]').should('be.visible');
   });
 
@@ -51,7 +51,7 @@ describe('Página de pesquisa', () => {
     });
 
     cy.visit('/search/city');
-    cy.get('input').type('São Sebastião');
+    cy.get('[data-test="search-input"]').type('São Sebastião');
     cy.wait(1000);
     cy.url().should(
       'eq',

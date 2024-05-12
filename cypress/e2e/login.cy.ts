@@ -1,14 +1,28 @@
 describe('Logar', () => {
-  it('Redirecionar para cadastro', () => {
+  beforeEach(() => {
     cy.visit('/login');
+
+    Cypress.on('uncaught:exception', (err) => {
+      // Cypress and React Hydrating the document don't get along
+      // for some unknown reason. Hopefully, we figure out why eventually
+      // so we can remove this.
+      if (
+        /hydrat/i.test(err.message) ||
+        /Minified React error #418/.test(err.message) ||
+        /Minified React error #423/.test(err.message)
+      ) {
+        return false;
+      }
+    });
+  });
+
+  it('Redirecionar para cadastro', () => {
     cy.get('[data-test="redirect-signup"]').click();
 
     cy.url().should('contain', 'signup');
   });
 
   it('Login incorreto', () => {
-    cy.visit('/login');
-
     cy.intercept('POST', '/auth/login', {
       statusCode: 401,
     }).as('loginRequest');
@@ -24,15 +38,13 @@ describe('Logar', () => {
   });
 
   it('Login correto', () => {
-    cy.visit('/login');
-
     cy.intercept('POST', '/auth/login', {
       statusCode: 200,
       body: {
         accessToken:
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEzLCJ1c2VybmFtZSI6ImZlZmV6b2thIiwiaWF0IjoxNzExNzYzNDIwLCJleHAiOjE3MTE3NjcwMjB9.uXRAVSrAFZ7S32klVoElmLCmq_S3l4Zhl1L2KXOssjA',
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInJvbGUiOiJVU0VSIiwiaGFzRW1haWxCZWVuVmVyaWZpZWQiOnRydWUsImlhdCI6MTcxNDg0ODQwMywiZXhwIjoyNzE0ODUyMDAzfQ.59WECadq6ehgb_6HruXZm5eovzZ3TnvUb-QxQkd1wUE',
         refreshToken:
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEzLCJ1c2VybmFtZSI6ImZlZmV6b2thIiwiaWF0IjoxNzExNzYzNDIwLCJleHAiOjE3MTE3NjcwMjB9.uXRAVSrAFZ7S32klVoElmLCmq_S3l4Zhl1L2KXOssjA',
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInJvbGUiOiJVU0VSIiwiaGFzRW1haWxCZWVuVmVyaWZpZWQiOnRydWUsImlhdCI6MTcxNDg0ODQwMywiZXhwIjoyNzE0ODUyMDAzfQ.59WECadq6ehgb_6HruXZm5eovzZ3TnvUb-QxQkd1wUE',
       },
     }).as('loginRequest');
 

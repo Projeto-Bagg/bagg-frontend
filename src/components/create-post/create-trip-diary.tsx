@@ -95,7 +95,9 @@ export const CreateTripDiary = ({ setIsCreatingTripDiary, onCreate }: Props) => 
           name="cityId"
           control={control}
           render={({ field }) => (
-            <SelectCity onSelect={(value) => field.onChange(value ? value : undefined)} />
+            <SelectCity
+              onSelect={(value) => field.onChange(value ? Number(value) : undefined)}
+            />
           )}
         />
         {errors.cityId && (

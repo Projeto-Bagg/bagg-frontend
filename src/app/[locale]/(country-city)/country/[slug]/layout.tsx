@@ -30,7 +30,7 @@ export default function Layout({
   }
 
   return (
-    <div className="px-4 pb-4 relative">
+    <div className="px-4 container pb-4 relative">
       <CountryFlag
         className="w-full left-0 right-0 m-auto absolute -z-10 gradient-mask-b-[rgba(0,0,0,1.0)_4px] rounded-none"
         iso2={country.data.iso2}

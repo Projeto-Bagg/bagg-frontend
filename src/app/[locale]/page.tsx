@@ -1,61 +1,72 @@
-'use client';
+import Image from 'next/image';
+import React from 'react';
+import Ranking from '@/assets/ranking.png';
+import { Link, redirect } from '@/common/navigation';
+import { getTranslations } from 'next-intl/server';
+import { getCookie } from 'cookies-next';
+import { cookies } from 'next/headers';
+import { decodeJwt } from 'jose';
+import { isTokenExpired } from '@/utils/isTokenExpired';
 
-import { Tip } from '@/components/posts/tip';
-import { useAuth } from '@/context/auth-context';
-import axios from '@/services/axios';
-import { useInfiniteQuery } from '@tanstack/react-query';
-import { useTranslations } from 'next-intl';
-import React, { useEffect } from 'react';
-import { useInView } from 'react-intersection-observer';
+export default async function Page() {
+  const accessToken = getCookie('bagg.sessionToken', { cookies });
 
-export default function Page() {
-  const t = useTranslations();
-  const auth = useAuth();
-  const { ref, inView } = useInView();
+  const jwt = accessToken ? decodeJwt<UserFromJwt>(accessToken) : undefined;
 
-  const { data, fetchNextPage, hasNextPage } = useInfiniteQuery<Tip[]>({
-    queryKey: ['feed'],
-    queryFn: async ({ pageParam }) =>
-      (
-        await axios.get<Tip[]>('/tips/feed', {
-          params: {
-            page: pageParam,
-            relevancy: true,
-            ...(auth.user && {
-              follows: true,
-              cityInterest: true,
-            }),
-          },
-        })
-      ).data,
-    initialPageParam: 1,
-    getNextPageParam: (page, allPages) =>
-      page.length === 10 ? allPages.length + 1 : null,
-  });
+  if (jwt && accessToken && !isTokenExpired(accessToken)) {
+    return redirect('/home');
+  }
 
-  useEffect(() => {
-    if (inView && hasNextPage) {
-      fetchNextPage();
-    }
-  }, [inView, fetchNextPage, hasNextPage]);
+  const t = await getTranslations();
 
   return (
-    <div data-test="homepage-feed" className="p-4">
-      <div>
-        <h2 className="font-bold w-fit text-xl sm:text-2xl border-b-2 border-primary pb-1">
-          {t('homepage.title')}
-        </h2>
+    <div className="flex flex-col lg:flex-row justify-center">
+      <div className="p-8 lg:w-[550px] flex-1 flex justify-end">
+        <div>
+          <div className="mb-4">
+            <h2 className="font-semibold text-2xl">Bagg</h2>
+            <span className="text-muted-foreground">{t('index.description')}</span>
+          </div>
+          <div className="flex flex-col  sm:w-[550px]">
+            <h2 className="font-bold">{t('index.why-join-us.title')}</h2>
+            <ul className="list-disc mb-4 space-y-2">
+              <li>
+                <span className="font-bold">{t('index.why-join-us.reason1.title')} </span>
+                {t('index.why-join-us.reason1.description')}
+              </li>
+              <li>
+                <span className="font-bold">{t('index.why-join-us.reason2.title')} </span>
+                {t('index.why-join-us.reason2.description')}
+              </li>
+              <li>
+                <span className="font-bold">{t('index.why-join-us.reason3.title')} </span>
+                {t('index.why-join-us.reason3.description')}
+              </li>
+            </ul>
+            <div className="w-full space-y-2">
+              <h2 className="font-semibold text-xl">{t('index.got-interested')}</h2>
+              <Link
+                href={'/signup'}
+                className="p-2 border flex justify-center text-sm font-semibold items-center w-full transition-colors bg-primary hover:bg-primary/90 rounded-2xl"
+              >
+                {t('index.create-account')}
+              </Link>
+              <span className="flex justify-center">{t('index.or')}</span>
+              <Link
+                href={'/login'}
+                className="p-2 border flex text-primary justify-center text-sm font-semibold items-center w-full border-input rounded-2xl"
+              >
+                {t('index.login')}
+              </Link>
+            </div>
+          </div>
+        </div>
       </div>
-      {data &&
-        data.pages.map((page) =>
-          page.map((tip, index) => (
-            <Tip
-              ref={page.length - 1 === index ? ref : undefined}
-              tip={tip}
-              key={tip.id}
-            />
-          )),
-        )}
+      <div className="p-8 flex-1">
+        <div className="lg:w-[550px]">
+          <Image src={Ranking} alt="" />
+        </div>
+      </div>
     </div>
   );
 }

@@ -70,6 +70,7 @@ export const LoginForm = () => {
         <div className="flex justify-between">
           <Label htmlFor="password">{t('login.password.label')}</Label>
           <Link
+            data-test="forgot-password"
             tabIndex={-1}
             href={{ pathname: '/settings/reset-password' }}
             className="text-primary hover:underline text-sm"

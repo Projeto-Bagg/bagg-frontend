@@ -2,14 +2,14 @@ describe('Criar tip', () => {
   beforeEach(() => {
     cy.login();
 
-    cy.visit('/');
+    cy.visit('/home');
   });
 
   it('Criar tip', () => {
     cy.intercept(
       {
         method: 'GET',
-        url: '/tips/feed?page=1',
+        url: '/tips/feed?page=1&relevancy=true&follows=true&cityInterest=true',
       },
       {
         body: [],
@@ -362,7 +362,7 @@ describe('Funcionalidades da tip', () => {
 
     cy.wait('@delete-tip');
 
-    cy.url().should('eq', Cypress.config().baseUrl);
+    cy.url().should('contain', '/home');
   });
 
   it('Copiar link da postagem', () => {

@@ -77,7 +77,7 @@ export const Tip = forwardRef<
     await deleteTip.mutateAsync(+tip.id);
 
     if (pathname === '/tip/[slug]') {
-      router.push({ pathname: '/' });
+      router.push({ pathname: '/home' });
     }
   };
 
@@ -149,49 +149,49 @@ export const Tip = forwardRef<
                   <DropdownMenuItem data-test="tip-copy-link" onSelect={handleShareClick}>
                     {t('tip.copy-link')}
                   </DropdownMenuItem>
+                  {auth.user && (
+                    <Report reportType="tip" id={tip.id}>
+                      <DropdownMenuItem
+                        data-test="report"
+                        onSelect={(e) => e.preventDefault()}
+                      >
+                        {t('reports.title')}
+                      </DropdownMenuItem>
+                    </Report>
+                  )}
                   {auth.user?.id === tip.user.id && (
-                    <>
-                      <Report reportType="tip" id={tip.id}>
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
                         <DropdownMenuItem
                           data-test="tip-delete"
                           onSelect={(e) => e.preventDefault()}
+                          className="font-bold"
                         >
-                          {t('reports.title')}
+                          {t('tip.delete')}
                         </DropdownMenuItem>
-                      </Report>
-                      <AlertDialog>
-                        <AlertDialogTrigger asChild>
-                          <DropdownMenuItem
-                            data-test="tip-delete"
-                            onSelect={(e) => e.preventDefault()}
-                            className="font-bold"
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>
+                            {t('tip.delete-modal.title')}
+                          </AlertDialogTitle>
+                          <AlertDialogDescription>
+                            {t('tip.delete-modal.description')}
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>
+                            {t('tip.delete-modal.cancel')}
+                          </AlertDialogCancel>
+                          <AlertDialogAction
+                            data-test="tip-delete-confirm"
+                            onClick={handleDeleteClick}
                           >
-                            {t('tip.delete')}
-                          </DropdownMenuItem>
-                        </AlertDialogTrigger>
-                        <AlertDialogContent>
-                          <AlertDialogHeader>
-                            <AlertDialogTitle>
-                              {t('tip.delete-modal.title')}
-                            </AlertDialogTitle>
-                            <AlertDialogDescription>
-                              {t('tip.delete-modal.description')}
-                            </AlertDialogDescription>
-                          </AlertDialogHeader>
-                          <AlertDialogFooter>
-                            <AlertDialogCancel>
-                              {t('tip.delete-modal.cancel')}
-                            </AlertDialogCancel>
-                            <AlertDialogAction
-                              data-test="tip-delete-confirm"
-                              onClick={handleDeleteClick}
-                            >
-                              {t('tip.delete-modal.action')}
-                            </AlertDialogAction>
-                          </AlertDialogFooter>
-                        </AlertDialogContent>
-                      </AlertDialog>
-                    </>
+                            {t('tip.delete-modal.action')}
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
                   )}
                 </DropdownMenuContent>
               </DropdownMenu>

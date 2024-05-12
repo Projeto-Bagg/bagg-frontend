@@ -47,12 +47,20 @@ export default function Page({ params }: { params: { slug: string } }) {
     getNextPageParam: () => null,
   });
 
-  const closest = useInfiniteQuery<(City & { distance: number })[]>({
+  const closest = useInfiniteQuery<
+    {
+      id: number;
+      places: (City & { distance: number })[];
+    }[]
+  >({
     queryKey: ['closest-cities', +params.slug],
     queryFn: async () =>
       (
-        await axios.get<(City & { distance: number })[]>(
-          `/distance/closest-cities/${params.slug}`,
+        await axios.post<{ id: number; places: (City & { distance: number })[] }[]>(
+          `/distance/closest-cities?count=10`,
+          {
+            ids: [Number(params.slug)],
+          },
         )
       ).data,
     initialPageParam: 1,
@@ -73,10 +81,6 @@ export default function Page({ params }: { params: { slug: string } }) {
     getNextPageParam: () => null,
   });
 
-  if (!images || !city.data || !visits) {
-    return;
-  }
-
   return (
     <div className="grid gap-x-4 gap-y-6 grid-cols-1 sm:grid-cols-2">
       <div>
@@ -86,25 +90,27 @@ export default function Page({ params }: { params: { slug: string } }) {
           </h2>
         </div>
         <div className="aspect-square w-full">
-          <GalleryCarousel
-            plugins={[
-              Autoplay({
-                delay: 3500,
-                stopOnMouseEnter: true,
-                stopOnLastSnap: true,
-              }),
-            ]}
-          >
-            {images.pages.map((page) =>
-              page.map((image) => (
-                <CarouselItem key={image.id}>
-                  <GalleryImage className="object-cover" image={image} />
-                </CarouselItem>
-              )),
-            )}
-          </GalleryCarousel>
+          {images && (
+            <GalleryCarousel
+              plugins={[
+                Autoplay({
+                  delay: 3500,
+                  stopOnMouseEnter: true,
+                  stopOnLastSnap: true,
+                }),
+              ]}
+            >
+              {images.pages.map((page) =>
+                page.map((image) => (
+                  <CarouselItem key={image.id}>
+                    <GalleryImage className="object-cover" image={image} />
+                  </CarouselItem>
+                )),
+              )}
+            </GalleryCarousel>
+          )}
         </div>
-        {images.pages[0].length !== 0 && (
+        {images?.pages[0].length !== 0 && city.data && (
           <div className="w-full text-right mt-1">
             <SeeMore
               href={{ params: { slug: city.data.id }, pathname: '/city/[slug]/gallery' }}
@@ -118,19 +124,21 @@ export default function Page({ params }: { params: { slug: string } }) {
             {t('country-city-page.location')}
           </h2>
         </div>
-        <LazyMap
-          center={[city.data.latitude, city.data.longitude]}
-          zoom={8}
-          className="w-full aspect-square rounded-lg border-2"
-          scrollWheelZoom={false}
-          dragging={false}
-        >
-          <LazyTileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
-          />
-          <LazyMarker position={[city.data.latitude, city.data.longitude]} />
-        </LazyMap>
+        {city.data && (
+          <LazyMap
+            center={[city.data.latitude, city.data.longitude]}
+            zoom={8}
+            className="w-full aspect-square rounded-lg border-2"
+            scrollWheelZoom={false}
+            dragging={false}
+          >
+            <LazyTileLayer
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
+            />
+            <LazyMarker position={[city.data.latitude, city.data.longitude]} />
+          </LazyMap>
+        )}
       </div>
       <div>
         <Ranking>
@@ -140,41 +148,45 @@ export default function Page({ params }: { params: { slug: string } }) {
           <RankingContent>
             {closest.isLoading && <RankingSkeleton count={10} />}
             {closest.data?.pages.map((page, pageIndex) =>
-              page.map((city, index) => (
-                <RankingItem key={city.id}>
-                  <div className="flex gap-2 items-center w-full">
-                    <h3 className="w-[24px] font-bold shrink-0">
-                      {pageIndex * 10 + (index + 1)}º
-                    </h3>
-                    <Link
-                      href={{
-                        params: { slug: city.region.country.iso2 },
-                        pathname: '/country/[slug]',
-                      }}
-                    >
-                      <CountryFlag
-                        className="w-[36px]"
-                        iso2={city.region.country.iso2}
-                        tooltip={city.region.country.name}
-                      />
-                    </Link>
-                    <div className="flex justify-between min-w-0 w-full">
-                      <div className="flex-1 whitespace-nowrap overflow-hidden text-ellipsis">
-                        <Link
-                          className="hover:underline mr-1"
-                          href={{ params: { slug: city.id }, pathname: '/city/[slug]' }}
-                        >
-                          <span>{city.name}</span>
-                        </Link>
-                        <span className="text-muted-foreground">{city.region.name}</span>
+              page.map((city) =>
+                city.places.map((city, index) => (
+                  <RankingItem key={city.id}>
+                    <div className="flex gap-2 items-center w-full">
+                      <h3 className="w-[24px] font-bold shrink-0">
+                        {pageIndex * 10 + (index + 1)}º
+                      </h3>
+                      <Link
+                        href={{
+                          params: { slug: city.region.country.iso2 },
+                          pathname: '/country/[slug]',
+                        }}
+                      >
+                        <CountryFlag
+                          className="w-[36px]"
+                          iso2={city.region.country.iso2}
+                          tooltip={city.region.country.name}
+                        />
+                      </Link>
+                      <div className="flex justify-between min-w-0 w-full">
+                        <div className="flex-1 whitespace-nowrap overflow-hidden text-ellipsis">
+                          <Link
+                            className="hover:underline mr-1"
+                            href={{ params: { slug: city.id }, pathname: '/city/[slug]' }}
+                          >
+                            <span>{city.name}</span>
+                          </Link>
+                          <span className="text-muted-foreground">
+                            {city.region.name}
+                          </span>
+                        </div>
+                        <span className="whitespace-nowrap">
+                          {city.distance.toFixed(1)} km
+                        </span>
                       </div>
-                      <span className="whitespace-nowrap">
-                        {city.distance.toFixed(1)} km
-                      </span>
                     </div>
-                  </div>
-                </RankingItem>
-              )),
+                  </RankingItem>
+                )),
+              ),
             )}
           </RankingContent>
         </Ranking>
@@ -207,17 +219,17 @@ export default function Page({ params }: { params: { slug: string } }) {
             </h2>
           </div>
           <div data-test="city-visits">
-            {visits.pages[0].length === 0 && (
+            {visits?.pages[0].length === 0 && (
               <div className="py-4 text-sm text-center">
                 <span>{t('country-city-page.tabs.reviews.no-reviews')}</span>
               </div>
             )}
-            {visits.pages[0].length !== 0 &&
-              visits.pages[0]
+            {visits?.pages[0].length !== 0 &&
+              visits?.pages[0]
                 .slice(0, 5)
                 .map((visit) => <CityVisit key={visit.id} visit={visit} />)}
           </div>
-          {visits.pages[0].length !== 0 && (
+          {visits?.pages[0].length !== 0 && city.data && (
             <div className="w-full text-right mt-1">
               <SeeMore
                 href={{ params: { slug: city.data.id }, pathname: '/city/[slug]/visits' }}

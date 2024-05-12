@@ -12,7 +12,7 @@ export const useDeleteTip = () => {
     onSuccess: (_, id) => {
       queryClient.setQueryData<Tip>(['tip', id], undefined);
 
-      [['feed'], ['tips', auth.user?.username]].forEach((key) => {
+      [['homepage-feed'], ['tips', auth.user?.username]].forEach((key) => {
         queryClient.setQueryData<Pagination<Tip[]>>(
           key,
           (old) =>

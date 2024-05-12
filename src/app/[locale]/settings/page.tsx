@@ -8,7 +8,7 @@ export default async function Page() {
   const t = await getTranslations();
 
   return (
-    <div className="p-4">
+    <div className="p-4 container">
       <div className="mb-4">
         <h2 className="font-bold w-fit text-xl sm:text-2xl border-b-2 border-primary pb-1">
           {t('settings.title')}

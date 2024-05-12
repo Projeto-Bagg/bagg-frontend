@@ -1,4 +1,26 @@
 {
+  "index": {
+    "description": "Descubra o mundo, conecte-se com viajantes.",
+    "why-join-us": {
+      "title": "Por que se juntar a nós?",
+      "reason1": {
+        "title": "Inspiração sem fim:",
+        "description": "Explore histórias inspiradoras de outros viajantes, descubra destinos incríveis e planeje sua próxima grande aventura."
+      },
+      "reason2": {
+        "title": "Conexões autênticas:",
+        "description": "Conheça pessoas apaixonadas por viagens como você, troque dicas valiosas e faça amizades que durarão para sempre."
+      },
+      "reason3": {
+        "title": "Suporte da comunidade:",
+        "description": "Tenha acesso a uma comunidade de viajantes experientes prontos para responder suas perguntas, oferecer conselhos e compartilhar suas próprias experiências."
+      }
+    },
+    "got-interested": "Se interessou?",
+    "create-account": "Criar conta",
+    "or": "ou",
+    "login": "Logar"
+  },
   "commons": {
     "confirm": "Confirmar"
   },
@@ -44,6 +66,7 @@
       "too-small": "Digite seu nome de usuário/e-mail",
       "invalid": "Login inválido"
     },
+    "forgot-password": "Esqueceu a senha?",
     "submit": "Login",
     "unauthorized": "Login ou senha incorretos",
     "signup-redirect": {
@@ -156,7 +179,15 @@
     "save": "Salvar alterações"
   },
   "homepage": {
-    "title": "Página inicial"
+    "title": "Página inicial",
+    "feed": {
+      "for-you": "Para você",
+      "following": "Seguindo"
+    },
+    "empty-feed": {
+      "title": "Feed vazio",
+      "description": "Tente seguir usuários e marcar interesse em mais cidades!"
+    }
   },
   "create-post": {
     "trigger": "Diário",

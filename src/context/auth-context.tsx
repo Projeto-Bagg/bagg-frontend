@@ -53,6 +53,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
       const jwt = accessToken ? decodeJwt<UserFromJwt>(accessToken) : undefined;
 
+      console.log(jwt);
+
       if (jwt?.role === 'USER') {
         return refetchUser({ ...options });
       }
@@ -102,7 +104,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     queryClient.invalidateQueries();
     await refetch();
 
-    window.history.length > 1 ? router.back() : router.push('/');
+    window.history.length > 1 ? router.back() : router.push('/home');
     router.refresh();
   };
 
