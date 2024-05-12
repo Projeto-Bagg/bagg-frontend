@@ -77,7 +77,7 @@ export const Tip = forwardRef<
     await deleteTip.mutateAsync(+tip.id);
 
     if (pathname === '/tip/[slug]') {
-      router.push({ pathname: '/' });
+      router.push({ pathname: '/home' });
     }
   };
 
@@ -152,7 +152,7 @@ export const Tip = forwardRef<
                   {auth.user && (
                     <Report reportType="tip" id={tip.id}>
                       <DropdownMenuItem
-                        data-test="tip-delete"
+                        data-test="report"
                         onSelect={(e) => e.preventDefault()}
                       >
                         {t('reports.title')}

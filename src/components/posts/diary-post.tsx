@@ -70,7 +70,7 @@ export const DiaryPost = forwardRef<
   const handleDeleteClick = async () => {
     await deletePost.mutateAsync(post.id);
 
-    router.push('/');
+    router.push('/home');
   };
 
   return (
@@ -133,7 +133,7 @@ export const DiaryPost = forwardRef<
                   {auth.user && (
                     <Report id={post.id} reportType="diary-post">
                       <DropdownMenuItem
-                        data-test="diary-post-delete"
+                        data-test="report"
                         onSelect={(e) => e.preventDefault()}
                       >
                         {t('reports.title')}
