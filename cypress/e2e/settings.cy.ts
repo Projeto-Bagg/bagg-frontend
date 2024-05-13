@@ -144,7 +144,7 @@ describe('Excluir conta', () => {
   });
 
   it('Senha incorreta', () => {
-    cy.intercept('DELETE', '/users?currentPassword=Teste123', {
+    cy.intercept('POST', '/users/delete', {
       statusCode: 403,
     });
     cy.get('[data-test="delete-account-current-password"]').type('Teste123');
@@ -155,7 +155,7 @@ describe('Excluir conta', () => {
   });
 
   it('Senha correta', () => {
-    cy.intercept('DELETE', '/users?currentPassword=Teste123', {
+    cy.intercept('POST', '/users/delete', {
       statusCode: 200,
     });
     cy.get('[data-test="delete-account-current-password"]').type('Teste123');

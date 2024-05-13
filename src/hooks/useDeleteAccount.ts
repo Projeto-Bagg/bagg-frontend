@@ -9,10 +9,8 @@ export const useDeleteAccount = () => {
 
   return useMutation({
     mutationFn: (currentPassword: string) =>
-      axios.delete('/users', {
-        params: {
-          currentPassword,
-        },
+      axios.post('/users/delete', {
+        currentPassword,
       }),
     onSuccess: () => {
       deleteCookie('bagg.sessionToken');
