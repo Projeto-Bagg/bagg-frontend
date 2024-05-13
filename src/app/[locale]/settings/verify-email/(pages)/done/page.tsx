@@ -40,7 +40,7 @@ export default function Page() {
     if (accessToken) {
       await auth.refetch();
       setLoading(false);
-      router.push('/');
+      router.push('/home');
       return;
     }
 
@@ -58,7 +58,7 @@ export default function Page() {
 
     await auth.refetch();
     setLoading(false);
-    router.push('/');
+    router.push('/home');
   };
 
   return (
