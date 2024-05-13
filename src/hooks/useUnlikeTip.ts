@@ -8,22 +8,23 @@ export const useUnlikeTip = () => {
   return useMutation({
     mutationFn: async (tip: Tip) => await axios.delete(`/tip-likes/${tip.id}`),
     onMutate: (data) => {
-      [['feed'], ['tips', data.user.username]].forEach((key) =>
-        queryClient.setQueryData<Pagination<Tip[]>>(
-          key,
-          (old) =>
-            old &&
-            produce(old, (draft) => {
-              draft.pages.map((page) => {
-                page.map((tip) => {
-                  if (tip.id === data.id) {
-                    tip.likedBy -= 1;
-                    tip.isLiked = false;
-                  }
+      [['following-feed'], ['for-you-feed'], ['tips', data.user.username]].forEach(
+        (key) =>
+          queryClient.setQueryData<Pagination<Tip[]>>(
+            key,
+            (old) =>
+              old &&
+              produce(old, (draft) => {
+                draft.pages.map((page) => {
+                  page.map((tip) => {
+                    if (tip.id === data.id) {
+                      tip.likedBy -= 1;
+                      tip.isLiked = false;
+                    }
+                  });
                 });
-              });
-            }),
-        ),
+              }),
+          ),
       );
 
       queryClient.setQueryData<Tip>(

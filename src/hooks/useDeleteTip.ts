@@ -12,18 +12,20 @@ export const useDeleteTip = () => {
     onSuccess: (_, id) => {
       queryClient.setQueryData<Tip>(['tip', id], undefined);
 
-      [['homepage-feed'], ['tips', auth.user?.username]].forEach((key) => {
-        queryClient.setQueryData<Pagination<Tip[]>>(
-          key,
-          (old) =>
-            old &&
-            produce(old, (draft) => {
-              draft.pages = draft.pages.map((page) =>
-                page.filter((tip) => tip.id !== id),
-              );
-            }),
-        );
-      });
+      [['following-feed'], ['for-you-feed'], ['tips', auth.user?.username]].forEach(
+        (key) => {
+          queryClient.setQueryData<Pagination<Tip[]>>(
+            key,
+            (old) =>
+              old &&
+              produce(old, (draft) => {
+                draft.pages = draft.pages.map((page) =>
+                  page.filter((tip) => tip.id !== id),
+                );
+              }),
+          );
+        },
+      );
     },
   });
 };
