@@ -73,7 +73,7 @@ export default function Layout({ children }: { children: ReactNode }) {
   };
 
   return (
-    <div className="p-4">
+    <div className="p-4 container">
       <div className="mb-4">
         <h1 className="font-bold mb-4 w-fit text-xl sm:text-2xl border-b-2 border-primary pb-1">
           {t('ranking.country.title')}

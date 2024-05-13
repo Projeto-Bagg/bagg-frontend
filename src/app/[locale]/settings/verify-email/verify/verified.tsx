@@ -1,21 +1,26 @@
 'use client';
 
-import { redirect, useRouter } from '@/common/navigation';
+import { useRouter } from '@/common/navigation';
 import { toast } from '@/components/ui/use-toast';
 import { useAuth } from '@/context/auth-context';
 import axios from '@/services/axios';
 import { deleteCookie, getCookie, setCookie } from 'cookies-next';
 import { useTranslations } from 'next-intl';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 export const Verified = () => {
   const auth = useAuth();
   const router = useRouter();
   const t = useTranslations();
+  const [confirmed, setConfirmed] = useState<boolean>(false);
 
   useEffect(() => {
     const refreshToken = async () => {
       const tempRefreshToken = getCookie('bagg.tempRefreshToken');
+
+      if (confirmed) {
+        return;
+      }
 
       if (!tempRefreshToken) {
         return router.replace('/login');
@@ -34,9 +39,11 @@ export const Verified = () => {
       toast({ variant: 'success', title: t('settings.verify-email.success') });
 
       await auth.refetch();
+      setConfirmed(true);
+      router.replace('/home');
     };
     refreshToken();
-  }, [auth, router, t]);
+  }, [auth, router, t, confirmed]);
 
   return <></>;
 };

@@ -55,7 +55,6 @@ describe('Temas', () => {
 
   it('Utilizar tema padrão do navegador', () => {
     if (window.matchMedia) {
-      console.log(window.matchMedia('(prefers-color-scheme: dark)').matches);
       if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
         cy.get('html').should('have.class', 'dark');
       } else {

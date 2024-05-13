@@ -53,8 +53,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
       const jwt = accessToken ? decodeJwt<UserFromJwt>(accessToken) : undefined;
 
-      console.log(jwt);
-
       if (jwt?.role === 'USER') {
         return refetchUser({ ...options });
       }

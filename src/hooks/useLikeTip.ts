@@ -8,7 +8,7 @@ export const useLikeTip = () => {
   return useMutation({
     mutationFn: async (tip: Tip) => await axios.post(`/tip-likes/${tip.id}`),
     onMutate: (data) => {
-      ['feed', 'tips'].forEach((tab) =>
+      ['following-feed', 'for-you-feed', 'tips'].forEach((tab) =>
         queryClient.setQueriesData<Pagination<Tip[]>>(
           { queryKey: [tab] },
           (old) =>

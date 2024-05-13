@@ -36,8 +36,6 @@ export const ChangeUsername = () => {
     mode: 'onChange',
   });
 
-  console.log(watch());
-
   const username = watch().username;
   const [debouncedQuery] = useDebounce(username, 1000);
   const isUsernameAvailable = useQuery({

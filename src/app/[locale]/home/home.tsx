@@ -81,8 +81,7 @@ const ForYouFeed = () => {
         })
       ).data,
     initialPageParam: 1,
-    getNextPageParam: (page, allPages) =>
-      page.length === 10 ? allPages.length + 1 : null,
+    getNextPageParam: (page, allPages) => (page.length > 3 ? allPages.length + 1 : null),
   });
 
   useEffect(() => {
