@@ -104,7 +104,7 @@ export const Report = ({ children, id, reportType }: ReportProps) => {
           />
           {errors.reason && (
             <span className="text-sm text-red-600 font-semibold">
-              {t('create-post.trip-diary-error')}
+              {t('reports.empty-reason')}
             </span>
           )}
           <Button disabled={!!errors.reason} className="w-full mt-4" type="submit">

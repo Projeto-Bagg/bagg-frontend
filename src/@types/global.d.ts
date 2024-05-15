@@ -297,3 +297,9 @@ interface FullSearch {
 }
 
 type ReportReason = 'hate' | 'violent' | 'spam' | 'nudity' | 'false-information';
+
+interface AdminDashboard {
+  totalUsers: number;
+  totalReports: number;
+  totalPosts: number;
+}

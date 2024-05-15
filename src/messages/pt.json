@@ -489,7 +489,8 @@
       "nudity": "Nudez",
       "false-information": "Informação falsa"
     },
-    "confirm": "Report"
+    "confirm": "Report",
+    "empty-reason": "É necessário selecionar um motivo para a denúncia"
   },
   "admin": {
     "reports": {
@@ -499,6 +500,11 @@
       "diary-post": "Postagem do diário",
       "reject-report": "Rejeitar denúncia",
       "accept-report": "Aceitar denúncia"
+    },
+    "dashboard": {
+      "total-users": { "title": "Total de usuários", "label": "{count} usuários" },
+      "total-posts": { "title": "Total de postagens", "label": "{count} postagens" },
+      "total-reports": { "title": "Total de denúncias", "label": "{count} denúncias" }
     }
   }
 }
