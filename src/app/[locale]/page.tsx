@@ -5,15 +5,11 @@ import { Link, redirect } from '@/common/navigation';
 import { getTranslations } from 'next-intl/server';
 import { getCookie } from 'cookies-next';
 import { cookies } from 'next/headers';
-import { decodeJwt } from 'jose';
-import { isTokenExpired } from '@/utils/isTokenExpired';
 
 export default async function Page() {
   const accessToken = getCookie('bagg.sessionToken', { cookies });
 
-  const jwt = accessToken ? decodeJwt<UserFromJwt>(accessToken) : undefined;
-
-  if (jwt && accessToken && !isTokenExpired(accessToken)) {
+  if (accessToken) {
     return redirect('/home');
   }
 

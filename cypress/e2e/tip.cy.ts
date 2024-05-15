@@ -329,7 +329,7 @@ describe('Funcionalidades da tip', () => {
           body: {
             ...tip,
             isLiked: true,
-            likedBy: 1,
+            likesAmount: 1,
           },
           statusCode: 200,
         },

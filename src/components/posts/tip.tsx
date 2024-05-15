@@ -123,7 +123,7 @@ export const Tip = forwardRef<
             </div>
             <div className="flex shrink-0 items-center gap-2 text-muted-foreground">
               <TipLikedByList id={tip.id}>
-                <span className="text-sm">{tip.likedBy}</span>
+                <span className="text-sm">{tip.likesAmount}</span>
               </TipLikedByList>
               <Heart
                 data-test="like-tip"

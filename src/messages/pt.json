@@ -387,7 +387,7 @@
     "trending": {
       "title": "Cidades em alta 🔥",
       "description": "Cidades com o maior porcentagem de pessoas interessadas no corrente mês",
-      "variation": "{count}% do mês anterior"
+      "variation": "do mês anterior"
     },
     "date-range": {
       "date": "{count, plural, =0 {Todo o período} other {Últimos # dias}}"

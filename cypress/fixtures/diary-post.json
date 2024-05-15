@@ -22,7 +22,7 @@
     "createdAt": "2024-04-01T00:26:10.501Z",
     "cityId": 0
   },
-  "likedBy": 0,
+  "likesAmount": 0,
   "isLiked": false,
   "diaryPostMedias": []
 }

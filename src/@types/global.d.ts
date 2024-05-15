@@ -45,7 +45,7 @@ interface TripDiary {
 interface DiaryPost {
   id: number;
   message: string;
-  likedBy: number;
+  likesAmount: number;
   isLiked: boolean;
   createdAt: Date;
   user: User;
@@ -85,7 +85,7 @@ interface TipMedia extends Media {
 interface Tip {
   id: number;
   message: string;
-  likedBy: number;
+  likesAmount: number;
   isLiked: boolean;
   createdAt: Date;
   user: User;

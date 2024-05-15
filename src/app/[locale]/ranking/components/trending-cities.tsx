@@ -13,6 +13,7 @@ import { CountryFlag } from '@/components/ui/country-flag';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/common/navigation';
 import Autoplay from 'embla-carousel-autoplay';
+import { cn } from '@/lib/utils';
 
 export const TrendingCities = () => {
   const t = useTranslations();
@@ -25,6 +26,8 @@ export const TrendingCities = () => {
         )
       ).data,
   });
+
+  console.log(trending);
 
   if (!trending) {
     return;
@@ -75,12 +78,21 @@ export const TrendingCities = () => {
                       {city.region.name}
                     </span>
                   </div>
-                  {city.variationPercentage && (
+                  {city.variationPercentage?.toString() && (
                     <div className="text-xs text-muted-foreground">
-                      {city.variationPercentage >= 0 ? '+' : ''}
-                      {t('ranking.trending.variation', {
-                        count: city.variationPercentage,
-                      })}
+                      <span
+                        className={cn(
+                          city.variation === 0
+                            ? 'text-yellow-400'
+                            : city.variation > 0
+                            ? 'text-green-500'
+                            : 'text-red-500',
+                        )}
+                      >
+                        {city.variationPercentage >= 0 ? '+' : ''}
+                        {city.variationPercentage}%
+                      </span>{' '}
+                      {t('ranking.trending.variation')}
                     </div>
                   )}
                 </div>

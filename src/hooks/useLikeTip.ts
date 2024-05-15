@@ -17,7 +17,7 @@ export const useLikeTip = () => {
               draft.pages.map((page) => {
                 page.map((tip) => {
                   if (tip.id === data.id) {
-                    tip.likedBy += 1;
+                    tip.likesAmount += 1;
                     tip.isLiked = true;
                   }
                 });
@@ -32,7 +32,7 @@ export const useLikeTip = () => {
           old &&
           produce(old, (draft) => {
             draft.isLiked = true;
-            draft.likedBy += 1;
+            draft.likesAmount += 1;
           }),
       );
     },

@@ -179,7 +179,7 @@ describe('Funcionalidades do diário', () => {
           body: {
             ...diaryPost,
             isLiked: true,
-            likedBy: 1,
+            likesAmount: 1,
           },
           statusCode: 200,
         },
