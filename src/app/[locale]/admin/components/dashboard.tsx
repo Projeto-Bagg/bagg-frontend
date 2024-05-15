@@ -21,7 +21,7 @@ export const Dashboard = () => {
           <User className="w-8" />
         </div>
         <span className="font-bold text-lg">
-          {t('admin.dashboard.total-users.label', { count: data?.totalUsers })}
+          {t('admin.dashboard.total-users.label', { count: data?.totalUsers || 0 })}
         </span>
       </div>
       <div className="flex gap-2 flex-col p-4 border-2 rounded-lg">
@@ -30,7 +30,7 @@ export const Dashboard = () => {
           <MessageCircle className="w-8" />
         </div>
         <span className="font-bold text-lg">
-          {t('admin.dashboard.total-posts.label', { count: data?.totalPosts })}
+          {t('admin.dashboard.total-posts.label', { count: data?.totalPosts || 0 })}
         </span>
       </div>
       <div className="flex gap-2 flex-col p-4 border-2 rounded-lg">
@@ -39,7 +39,7 @@ export const Dashboard = () => {
           <ShieldAlert className="w-8" />
         </div>
         <span className="font-bold text-lg">
-          {t('admin.dashboard.total-reports.label', { count: data?.totalReports })}
+          {t('admin.dashboard.total-reports.label', { count: data?.totalReports || 0 })}
         </span>
       </div>
     </div>

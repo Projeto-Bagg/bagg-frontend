@@ -103,7 +103,10 @@ export const Report = ({ children, id, reportType }: ReportProps) => {
             )}
           />
           {errors.reason && (
-            <span className="text-sm text-red-600 font-semibold">
+            <span
+              data-test="empty-reason-error"
+              className="text-sm text-red-600 font-semibold"
+            >
               {t('reports.empty-reason')}
             </span>
           )}

@@ -12,23 +12,23 @@ import { DiaryPostReports } from '@/app/[locale]/admin/components/diary-post-rep
 import { Dashboard } from '@/app/[locale]/admin/components/dashboard';
 
 export default async function Page() {
-  const jwt = getCookie('bagg.sessionToken', { cookies });
+  const accessToken = getCookie('bagg.sessionToken', { cookies });
 
-  if (!jwt) {
+  if (!accessToken) {
     return redirect('/');
   }
 
-  const currentUser = decodeJwt<UserFromJwt>(jwt);
+  const jwt = decodeJwt<UserFromJwt>(accessToken);
 
-  if (currentUser.role !== 'ADMIN') {
+  if (jwt.role !== 'ADMIN') {
     return redirect('/');
   }
 
   const t = await getTranslations();
 
   return (
-    <div className="max-w-[1337px] p-4 sm:p-10 m-auto container">
-      <div className="p-8 border-2 rounded-lg">
+    <div className="max-w-[1337px] sm:p-10 m-auto container">
+      <div className="p-4 pt-6 sm:p-8 sm:border-2 rounded-lg">
         <div className="flex justify-between mb-4">
           <h2 className="font-bold text-2xl">Dashboard</h2>
           <div className="flex gap-2">
@@ -40,7 +40,7 @@ export default async function Page() {
         <Dashboard />
         <div>
           <h2 className="font-bold mb-2 text-2xl">{t('admin.reports.title')}</h2>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 min-h-96 overflow-y-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 min-h-96 overflow-y-auto">
             <div className="p-4 border-2 rounded-lg w-full">
               <h3>{t('admin.reports.tip')}</h3>
               <TipReports />

@@ -100,7 +100,7 @@ describe('Linguagens', () => {
 describe('Logado', () => {
   beforeEach(() => {
     cy.login();
-    cy.visit('/');
+    cy.visit('/home');
   });
 
   it('Botões mobile', () => {
