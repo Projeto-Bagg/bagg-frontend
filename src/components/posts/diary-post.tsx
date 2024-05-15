@@ -101,7 +101,7 @@ export const DiaryPost = forwardRef<
             </div>
             <div className="flex shrink-0 items-center gap-2 text-muted-foreground">
               <DiaryLikedByList id={post.id}>
-                <span className="text-sm">{post.likedBy}</span>
+                <span className="text-sm">{post.likesAmount}</span>
               </DiaryLikedByList>
               <Heart
                 data-test="diary-post-like"
