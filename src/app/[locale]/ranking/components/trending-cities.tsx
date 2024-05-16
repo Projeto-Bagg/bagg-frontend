@@ -27,8 +27,6 @@ export const TrendingCities = () => {
       ).data,
   });
 
-  console.log(trending);
-
   if (!trending) {
     return;
   }

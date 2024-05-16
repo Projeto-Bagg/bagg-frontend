@@ -184,9 +184,7 @@ export const EditProfile = ({ children }: { children: ReactNode }) => {
               render={({ field }) => (
                 <SelectCity
                   defaultValue={auth.user?.city}
-                  onSelect={(value) =>
-                    value ? field.onChange(Number(value)) : undefined
-                  }
+                  onSelect={(value) => field.onChange(value ? Number(value) : null)}
                 />
               )}
             />

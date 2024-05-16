@@ -42,14 +42,14 @@ export default async function Page() {
             <h2 className="font-semibold text-xl">{t('index.got-interested')}</h2>
             <Link
               href={'/signup'}
-              className="p-2 border flex justify-center text-sm font-semibold items-center w-full transition-colors bg-primary hover:bg-primary/90 rounded-2xl"
+              className="px-2 py-3 border flex justify-center text-sm font-semibold items-center w-full transition-colors bg-primary hover:bg-primary/90 rounded-2xl"
             >
               {t('index.create-account')}
             </Link>
             <span className="flex justify-center">{t('index.or')}</span>
             <Link
               href={'/login'}
-              className="p-2 border flex text-primary justify-center text-sm font-semibold items-center w-full border-input rounded-2xl"
+              className="px-2 py-3 border flex text-primary justify-center text-sm font-semibold items-center w-full border-input rounded-2xl"
             >
               {t('index.login')}
             </Link>

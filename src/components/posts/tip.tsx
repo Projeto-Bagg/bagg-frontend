@@ -36,6 +36,7 @@ import { Link, usePathname, useRouter } from '@/common/navigation';
 import { useQueryClient } from '@tanstack/react-query';
 import { Medias } from '@/components/posts/medias';
 import { Report } from '@/components/posts/report';
+import { replaceByBold } from '@/utils/replaceByBold';
 
 export const Tip = forwardRef<
   HTMLDivElement,
@@ -217,7 +218,7 @@ export const Tip = forwardRef<
             <p
               dangerouslySetInnerHTML={{
                 __html: boldMessage
-                  ? tip.message.replaceAll(boldMessage, `<b>${boldMessage}</b>`)
+                  ? replaceByBold(tip.message, boldMessage.split(' '))
                   : tip.message,
               }}
               className="text-sm sm:text-base"

@@ -11,7 +11,7 @@ import {
   useQueryClient,
 } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
-import { useRouter } from '@/common/navigation';
+import { usePathname, useRouter } from '@/common/navigation';
 import { decodeJwt } from 'jose';
 
 type AuthContextType = {
@@ -31,6 +31,7 @@ export const AuthContext = createContext({} as AuthContextType);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const pathname = usePathname();
   const queryClient = useQueryClient();
   const { data: user, refetch: refetchUser } = useQuery<FullInfoUser>({
     queryKey: ['session'],
@@ -78,11 +79,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, [queryClient, refetch]);
 
   const login = async (user: UserSignIn) => {
-    if (hasCookie('bagg.sessionToken')) {
-      await refetch();
-      router.back();
-    }
-
     const { data } = await axios.post('/auth/login', user);
 
     const decodedJwt = decodeJwt<UserFromJwt>(data.accessToken);
@@ -91,7 +87,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       if (!decodedJwt.hasEmailBeenVerified) {
         setCookie('bagg.tempSessionToken', data.accessToken);
         setCookie('bagg.tempRefreshToken', data.refreshToken);
-        await new Promise((resolve) => setTimeout(resolve, 100));
+        await new Promise((resolve) => setTimeout(resolve, 200));
         return router.push('/settings/verify-email');
       }
     }
@@ -102,7 +98,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     queryClient.invalidateQueries();
     await refetch();
 
+    if (decodedJwt.role === 'ADMIN') {
+      router.push('/admin');
+      router.refresh();
+      return;
+    }
+
     window.history.length > 1 ? router.back() : router.push('/home');
+    await new Promise((resolve) => setTimeout(resolve, 200));
     router.refresh();
   };
 
@@ -120,10 +123,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     deleteCookie('bagg.refreshToken');
     queryClient.setQueryData(['session'], null);
 
-    router.push('/');
     router.refresh();
 
-    queryClient.invalidateQueries();
+    pathname !== '/home' && queryClient.invalidateQueries();
   };
 
   return (

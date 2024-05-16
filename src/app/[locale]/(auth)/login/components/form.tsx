@@ -1,6 +1,7 @@
 'use client';
 
 import { Link } from '@/common/navigation';
+import { PasswordInput } from '@/components/form/password-input';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -29,6 +30,7 @@ export const LoginForm = () => {
     formState: { errors },
     register,
     handleSubmit,
+    watch,
   } = useForm<LoginType>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -78,12 +80,11 @@ export const LoginForm = () => {
             {t('login.forgot-password')}
           </Link>
         </div>
-        <Input type={'password'} {...register('password')} />
-        {errors.password && (
-          <span className="text-red-600 text-sm leading-none font-bold">
-            {t('login.password.too-small')}
-          </span>
-        )}
+        <PasswordInput
+          errors={errors.password}
+          value={watch('password')}
+          {...register('password')}
+        />
       </div>
       <div>
         <Button disabled={loading} type={'submit'} loading={loading} className="w-full">

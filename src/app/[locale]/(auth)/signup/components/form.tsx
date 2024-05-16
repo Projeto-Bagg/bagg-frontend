@@ -224,6 +224,7 @@ export default function SignupForm() {
       <div>
         <Label>{t('signup-edit.password.label')}</Label>
         <PasswordInput
+          isCreatingPassword
           errors={errors.password}
           value={watch('password')}
           {...register('password')}
