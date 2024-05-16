@@ -42,6 +42,11 @@ export const ChangePassword = () => {
     watch,
     reset,
   } = useForm<ChangePasswordType>({
+    defaultValues: {
+      confirmPassword: '',
+      currentPassword: '',
+      newPassword: '',
+    },
     resolver: zodResolver(changePasswordSchema),
     mode: 'onChange',
   });

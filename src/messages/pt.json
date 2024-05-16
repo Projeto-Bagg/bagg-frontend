@@ -120,7 +120,7 @@
       "label": "Confirmar senha",
       "unmatched-passwords": "As senhas não se coincidem"
     },
-    "confirm": "Ao se cadastrar, você aceita nossos termos de uso e a nossa política de privacidade",
+    "confirm": "Ao se cadastrar, você aceita nossos <link>termos de uso e a nossa política de privacidade</link>",
     "signup": "Cadastrar-se",
     "day": "Dia",
     "month": "Mês",

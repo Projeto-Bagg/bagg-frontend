@@ -9,7 +9,7 @@
       },
       "reason2": {
         "title": "Authentic connections:",
-        "description": "Conheça pessoas apaixonadas por viagens como você, troque dicas valiosas e faça amizades que durarão para sempre."
+        "description": "Meet people who are passionate about travel like you, exchange valuable tips and make friendships that will last forever."
       },
       "reason3": {
         "title": "Community support:",
@@ -120,7 +120,7 @@
       "label": "Confirm password",
       "unmatched-passwords": "Password do not match"
     },
-    "confirm": "By registering, you accept our terms of use and our privacy policy",
+    "confirm": "By registering, you accept our <link>terms of use and our privacy policy</link>",
     "signup": "Sign up",
     "day": "Day",
     "month": "Month",

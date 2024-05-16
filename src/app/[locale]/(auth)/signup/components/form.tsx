@@ -245,9 +245,15 @@ export default function SignupForm() {
           </span>
         )}
       </div>
-      <span className="text-center block text-sm font-medium text-muted-foreground">
-        {t('signup-edit.confirm')}
-      </span>
+      <span
+        className="text-center block text-sm font-medium text-muted-foreground"
+        dangerouslySetInnerHTML={{
+          __html: t.markup('signup-edit.confirm', {
+            link: (text) =>
+              `<a class="text-primary hover:underline" href="/terms-of-use">${text}</a>`,
+          }),
+        }}
+      />
       <div className="flex justify-end mb-2">
         <Button type={'submit'} loading={loading} className="w-full">
           {t('signup-edit.signup')}

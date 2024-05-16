@@ -9,6 +9,7 @@ export const pathnames = {
   '/signup': '/signup',
   '/ranking': '/ranking',
   '/admin': '/admin',
+  '/terms-of-use': '/terms-of-use',
   '/search': '/search',
   '/search/user': '/search/user',
   '/search/city': '/search/city',
