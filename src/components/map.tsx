@@ -1,16 +1,21 @@
+'use client';
+
 import { LatLngExpression } from 'leaflet';
 import React from 'react';
 import { Marker, MapContainer, TileLayer } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css'; // Re-uses images from ~leaflet package
+import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css';
 import 'leaflet-defaulticon-compatibility';
 import { cn } from '@/lib/utils';
+import { useTheme } from 'next-themes';
 
 interface MapProps extends React.ComponentProps<typeof MapContainer> {
   LatLng: LatLngExpression;
 }
 
 export const Map = ({ LatLng, className, ...props }: MapProps) => {
+  const { theme } = useTheme();
+
   return (
     <MapContainer
       center={LatLng}
@@ -22,7 +27,11 @@ export const Map = ({ LatLng, className, ...props }: MapProps) => {
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
+        url={
+          theme === 'light'
+            ? 'https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png'
+            : 'https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png'
+        }
       />
       <Marker position={LatLng} />
     </MapContainer>

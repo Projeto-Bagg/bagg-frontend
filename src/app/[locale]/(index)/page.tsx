@@ -1,10 +1,9 @@
-import Image from 'next/image';
 import React from 'react';
-import Ranking from '@/assets/ranking.png';
 import { Link, redirect } from '@/common/navigation';
 import { getTranslations } from 'next-intl/server';
 import { getCookie } from 'cookies-next';
 import { cookies } from 'next/headers';
+import { Ranking } from '@/app/[locale]/(index)/components/ranking';
 
 export default async function Page() {
   const accessToken = getCookie('bagg.sessionToken', { cookies });
@@ -49,7 +48,7 @@ export default async function Page() {
             <span className="flex justify-center">{t('index.or')}</span>
             <Link
               href={'/login'}
-              className="px-2 py-3 border flex text-primary justify-center text-sm font-semibold items-center w-full border-input rounded-2xl"
+              className="px-2 py-3 border flex text-primary justify-center text-sm font-semibold items-center w-full hover:bg-input/30 transition-colors border-input rounded-2xl"
             >
               {t('index.login')}
             </Link>
@@ -58,7 +57,7 @@ export default async function Page() {
       </div>
       <div className="p-8">
         <div className="flex justify-center lg:max-w-[512px]">
-          <Image src={Ranking} alt="" />
+          <Ranking />
         </div>
       </div>
     </div>

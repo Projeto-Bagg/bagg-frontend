@@ -95,7 +95,7 @@ export default function Page({ params }: { params: { slug: string } }) {
             {t('country-city-page.location')}
           </h2>
         </div>
-        <LazyMap LatLng={[country.data.latitude, country.data.longitude]} />
+        <LazyMap zoom={5} LatLng={[country.data.latitude, country.data.longitude]} />
       </div>
       <CityRatingRanking countryIso2={country.data.iso2} seeMore />
       <CityVisitRanking countryIso2={country.data.iso2} seeMore />

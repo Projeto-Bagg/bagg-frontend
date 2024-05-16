@@ -22,7 +22,8 @@
     "login": "Logar"
   },
   "commons": {
-    "confirm": "Confirmar"
+    "confirm": "Confirmar",
+    "copy-link": "Link copiado para a área de transferência"
   },
   "header": {
     "home": "Página principal",
@@ -63,7 +64,7 @@
     },
     "login": {
       "label": "Nome de usuário ou email",
-      "too-small": "Digite seu nome de usuário/e-mail",
+      "too-small": "Digite seu nome de usuário/email",
       "invalid": "Login inválido"
     },
     "submit": "Login",
@@ -99,8 +100,8 @@
     },
     "email": {
       "label": "Email",
-      "invalid": "Digite um e-mail válido",
-      "too-small": "Digite um e-mail",
+      "invalid": "Digite um email válido",
+      "too-small": "Digite um email",
       "available": "Email disponível",
       "not-available": "Email indisponível"
     },
@@ -270,7 +271,7 @@
     "Asia": "Asia",
     "Europe": "Europa",
     "Oceania": "Oceania",
-    "Polar": "Polar"
+    "Antarctica": "Antártica"
   },
   "diary-post": {
     "copy-link": "Copiar link",

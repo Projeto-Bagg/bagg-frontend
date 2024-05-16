@@ -9,18 +9,24 @@ import { FieldError } from 'react-hook-form';
 export const PasswordInput = React.forwardRef<
   HTMLInputElement,
   React.ComponentProps<typeof Input> & {
-    isCreatingPassword?: boolean;
     errors: FieldError | undefined;
+    value: string;
   }
->(({ errors, isCreatingPassword, ...props }, ref) => {
+>(({ errors, value, ...props }, ref) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
   const t = useTranslations();
 
   return (
     <div>
       <div className="relative">
-        <Input type={isPasswordVisible ? 'text' : 'password'} {...props} ref={ref} />
+        <Input
+          type={isPasswordVisible ? 'text' : 'password'}
+          value={value}
+          {...props}
+          ref={ref}
+        />
         <button
+          tabIndex={-1}
           type="button"
           onClick={() => {
             setIsPasswordVisible((curr) => !curr);
@@ -38,12 +44,12 @@ export const PasswordInput = React.forwardRef<
         <span className="text-sm text-red-600 font-semibold">
           {errors.type === 'too_small'
             ? t('signup-edit.password.too-small')
-            : isCreatingPassword && (
-                <>
+            : errors.message === 'Password too weak' && (
+                <div data-test="weak-password-error">
                   <span>{t('signup-edit.password.valid-conditions.title')}</span>
                   <ul className="list-disc ml-[18px]">
                     <li
-                      data-valid={/.{8,}/.test(props.value?.toString() || '')}
+                      data-valid={/.{8,}/.test(value.toString() || '')}
                       data-test="password-length"
                       className="data-[valid=true]:text-green-500"
                     >
@@ -51,7 +57,7 @@ export const PasswordInput = React.forwardRef<
                     </li>
                     <li
                       data-valid={/(?=(.*[a-z]){1,})(?=(.*[A-Z]){1,})/.test(
-                        props.value?.toString() || '',
+                        value.toString() || '',
                       )}
                       data-test="password-a-z"
                       className="data-[valid=true]:text-green-500"
@@ -59,7 +65,7 @@ export const PasswordInput = React.forwardRef<
                       {t('signup-edit.password.valid-conditions.condition2')}
                     </li>
                     <li
-                      data-valid={/(?=(.*[0-9]){1,})/.test(props.value?.toString() || '')}
+                      data-valid={/(?=(.*[0-9]){1,})/.test(value.toString() || '')}
                       data-test="password-0-9"
                       className="data-[valid=true]:text-green-500"
                     >
@@ -67,7 +73,7 @@ export const PasswordInput = React.forwardRef<
                     </li>
                     <li
                       data-valid={/(?=(.*[-!$%^&*()_+|~=`{}\[\]:\/;<>?,.@#]){1,})/.test(
-                        props.value?.toString() || '',
+                        value.toString() || '',
                       )}
                       data-test="password-special-character"
                       className="data-[valid=true]:text-green-500"
@@ -77,7 +83,7 @@ export const PasswordInput = React.forwardRef<
                       })}
                     </li>
                   </ul>
-                </>
+                </div>
               )}
         </span>
       )}

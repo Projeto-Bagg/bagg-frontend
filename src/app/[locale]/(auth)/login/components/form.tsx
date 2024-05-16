@@ -45,7 +45,7 @@ export const LoginForm = () => {
       await auth.login(data);
     } catch (error) {
       setLoading(false);
-      toast({ title: t('login.unauthorized'), value: 'login-error' });
+      toast({ title: t('login.unauthorized'), variant: 'destructive' });
     }
   };
 

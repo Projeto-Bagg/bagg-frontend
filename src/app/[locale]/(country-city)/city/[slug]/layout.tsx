@@ -238,7 +238,7 @@ export default function Layout({
             </Link>
           </div>
         </div>
-        <div className="flex flex-col font-semibold text-sm bg-accent rounded-lg w-full sm:w-[200px] space-y-1 divide-y-2 divide-background">
+        <div className="flex shrink-0 flex-col font-semibold text-sm bg-accent rounded-lg w-full sm:w-[200px] space-y-1 divide-y-2 divide-background">
           <div className="flex justify-center gap-4 py-3">
             <button
               id="check-visit"

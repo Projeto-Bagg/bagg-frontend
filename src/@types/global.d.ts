@@ -190,7 +190,7 @@ interface UserCityVisit {
 
 interface Continent {
   id: number;
-  name: 'Africa' | 'Europe' | 'Americas' | 'Asia' | 'Polar' | 'Oceania';
+  name: 'Africa' | 'Europe' | 'Americas' | 'Asia' | 'Antarctica' | 'Oceania';
 }
 
 interface City {

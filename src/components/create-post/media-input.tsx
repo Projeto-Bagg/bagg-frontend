@@ -58,6 +58,7 @@ export const MediaInput = <T extends FieldValues>({
             });
             toast({
               title: t('create-tip.max-size-files'),
+              variant: 'destructive',
             });
             return;
           }

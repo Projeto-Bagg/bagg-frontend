@@ -71,7 +71,7 @@ export const Tip = forwardRef<
   const handleShareClick = () => {
     navigator.clipboard.writeText(window.location.origin + '/tip/' + tip.id);
 
-    toast({ title: 'Link copiado para a área de transferência' });
+    toast({ title: t('commons.copy-link'), variant: 'success' });
   };
 
   const handleDeleteClick = async () => {

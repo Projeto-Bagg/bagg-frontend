@@ -22,7 +22,8 @@
     "login": "Login"
   },
   "commons": {
-    "confirm": "Confirm"
+    "confirm": "Confirm",
+    "copy-link": "Link copied to clipboard"
   },
   "header": {
     "home": "Home",
@@ -63,7 +64,7 @@
     },
     "login": {
       "label": "Username or email",
-      "too-small": "Enter your username/e-mail",
+      "too-small": "Enter your username/email",
       "invalid": "Invalid login"
     },
     "submit": "Login",
@@ -270,7 +271,7 @@
     "Asia": "Asia",
     "Europe": "Europe",
     "Oceania": "Oceania",
-    "Polar": "Polar"
+    "Antarctica": "Antarctica"
   },
   "diary-post": {
     "copy-link": "Copy link",

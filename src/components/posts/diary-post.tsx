@@ -64,7 +64,7 @@ export const DiaryPost = forwardRef<
   const handleShareClick = () => {
     navigator.clipboard.writeText(window.location.origin + '/diary/post/' + post.id);
 
-    toast({ title: 'Link copiado para a área de transferência' });
+    toast({ title: t('commons.copy-link'), variant: 'success' });
   };
 
   const handleDeleteClick = async () => {
