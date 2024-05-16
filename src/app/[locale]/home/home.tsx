@@ -8,6 +8,10 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 import React, { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
+import { ads } from '@/common/ads';
+import Image from 'next/image';
+import { produce } from 'immer';
+import Link from 'next/link';
 
 type Feed = 'for-you' | 'following';
 
@@ -70,16 +74,16 @@ const ForYouFeed = () => {
   const t = useTranslations();
   const { ref, inView } = useInView();
 
-  const { data, fetchNextPage, hasNextPage } = useInfiniteQuery<Tip[]>({
+  const { data, fetchNextPage, hasNextPage } = useInfiniteQuery<(Ad | Tip)[]>({
     queryKey: ['for-you-feed'],
     queryFn: async ({ pageParam }) =>
-      (
-        await axios.get<Tip[]>('/tips/recommend/feed', {
+      await axios
+        .get<(Ad | Tip)[]>('/tips/recommend/feed', {
           params: {
             page: pageParam,
           },
         })
-      ).data,
+        .then((response) => spliceAdOnFeed(response.data)),
     initialPageParam: 1,
     getNextPageParam: (page, allPages) => (page.length > 3 ? allPages.length + 1 : null),
   });
@@ -101,9 +105,18 @@ const ForYouFeed = () => {
 
   return (
     data &&
-    data.pages.map((page) =>
-      page.map((tip, index) => (
-        <Tip ref={page.length - 1 === index ? ref : undefined} tip={tip} key={tip.id} />
+    data.pages.map((page, pageIndex) =>
+      page.map((element, index) => (
+        <div
+          ref={page.length - 1 === index ? ref : undefined}
+          key={`${pageIndex}-${index}`}
+        >
+          {determineIfIsTipOrAd(element) ? (
+            <Tip tip={element} key={element.id} />
+          ) : (
+            <Ad key={element.url} ad={element} />
+          )}
+        </div>
       )),
     )
   );
@@ -113,11 +126,11 @@ const FollowingFeed = () => {
   const { ref, inView } = useInView();
   const t = useTranslations();
 
-  const { data, fetchNextPage, hasNextPage } = useInfiniteQuery<Tip[]>({
+  const { data, fetchNextPage, hasNextPage } = useInfiniteQuery<(Tip | Ad)[]>({
     queryKey: ['following-feed'],
     queryFn: async ({ pageParam }) =>
-      (
-        await axios.get<Tip[]>('/tips/feed', {
+      await axios
+        .get<(Tip | Ad)[]>('/tips/feed', {
           params: {
             page: pageParam,
             relevancy: true,
@@ -125,10 +138,9 @@ const FollowingFeed = () => {
             cityInterest: true,
           },
         })
-      ).data,
+        .then((response) => spliceAdOnFeed(response.data)),
     initialPageParam: 1,
-    getNextPageParam: (page, allPages) =>
-      page.length === 10 ? allPages.length + 1 : null,
+    getNextPageParam: (page, allPages) => (page.length > 1 ? allPages.length + 1 : null),
   });
 
   useEffect(() => {
@@ -148,10 +160,47 @@ const FollowingFeed = () => {
 
   return (
     data &&
-    data.pages.map((page) =>
-      page.map((tip, index) => (
-        <Tip ref={page.length - 1 === index ? ref : undefined} tip={tip} key={tip.id} />
+    data.pages.map((page, pageIndex) =>
+      page.map((element, index) => (
+        <div
+          ref={page.length - 1 === index ? ref : undefined}
+          key={`${pageIndex}-${index}`}
+        >
+          {determineIfIsTipOrAd(element) ? (
+            <Tip tip={element} key={element.id} />
+          ) : (
+            <Ad key={element.url} ad={element} />
+          )}
+        </div>
       )),
     )
+  );
+};
+
+const spliceAdOnFeed = (elements: (Ad | Tip)[]) => {
+  return produce(elements, (draft) => {
+    draft.length !== 0 &&
+      draft.splice(
+        Math.floor(Math.random() * (draft.length - 1 - 1 + 1) + 1),
+        0,
+        ads[Math.floor(Math.random() * ads.length)],
+      );
+  });
+};
+
+const determineIfIsTipOrAd = (toBeDetermined: Ad | Tip): toBeDetermined is Tip => {
+  if ((toBeDetermined as Tip).tipMedias) {
+    return true;
+  }
+  return false;
+};
+
+const Ad = ({ ad }: { ad: Ad }) => {
+  return (
+    <div key={ad.url} className="pl-14 py-4 border-b">
+      <Link href={ad.url} target="_blank">
+        <Image className="rounded-lg w-full object-contain" alt="" src={ad.adImg} />
+      </Link>
+    </div>
   );
 };

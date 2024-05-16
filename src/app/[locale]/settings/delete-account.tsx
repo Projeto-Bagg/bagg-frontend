@@ -42,6 +42,9 @@ export const DeleteAccount = () => {
     trigger,
     formState: { errors },
   } = useForm<DeleteAccountType>({
+    defaultValues: {
+      currentPassword: '',
+    },
     resolver: zodResolver(deleteAccountSchema),
     mode: 'onChange',
   });

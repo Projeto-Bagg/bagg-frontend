@@ -303,3 +303,8 @@ interface AdminDashboard {
   totalReports: number;
   totalPosts: number;
 }
+
+interface Ad {
+  adImg: import('next/image').StaticImageData;
+  url: string;
+}

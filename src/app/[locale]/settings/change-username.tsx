@@ -32,6 +32,9 @@ export const ChangeUsername = () => {
     formState: { errors },
     reset,
   } = useForm<ChangeUsernameType>({
+    defaultValues: {
+      username: '',
+    },
     resolver: zodResolver(changeUsernameSchema),
     mode: 'onChange',
   });
