@@ -34,7 +34,7 @@ const editFormSchema = z.object({
   birthdateDay: z.string().min(1),
   birthdateMonth: z.string().min(1),
   birthdateYear: z.string().min(1),
-  bio: z.string().max(300),
+  bio: z.string().max(300).nullable(),
   profilePic: z
     .object({
       file: z.any(),
@@ -92,7 +92,7 @@ export const EditProfile = ({ children }: { children: ReactNode }) => {
       const formData = new FormData();
       data.profilePic && formData.append('profilePic', data.profilePic.file);
       formData.append('fullName', data.fullName);
-      formData.append('bio', data.bio);
+      data.bio && formData.append('bio', data.bio);
       data.cityId && formData.append('cityId', data.cityId.toString());
 
       const birthdate = new Date(
