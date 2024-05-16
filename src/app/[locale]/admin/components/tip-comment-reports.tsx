@@ -103,7 +103,11 @@ const TipCommentReportDialog = React.forwardRef<
   return (
     <Dialog open={open} onOpenChange={onOpenChange} key={report.id}>
       <DialogTrigger asChild>
-        <button ref={ref} className="flex w-full justify-between p-2 text-sm">
+        <button
+          data-test={'tip-comment-report-' + report.id}
+          ref={ref}
+          className="flex w-full justify-between p-2 text-sm"
+        >
           <span>{report._count.tipCommentReport}</span>
           <div className="flex">
             {report.reasons.slice(0, 3).map((reason) => (
@@ -121,10 +125,14 @@ const TipCommentReportDialog = React.forwardRef<
           <TipComment comment={report} tipId={report.tipId} />
         </div>
         <div className="flex gap-2 justify-end">
-          <Button variant={'destructive'} onClick={() => onRejectReport(report.id)}>
+          <Button
+            data-test="reject-report"
+            variant={'destructive'}
+            onClick={() => onRejectReport(report.id)}
+          >
             {t('admin.reports.reject-report')}
           </Button>
-          <Button onClick={() => onAcceptReport(report.id)}>
+          <Button data-test="accept-report" onClick={() => onAcceptReport(report.id)}>
             {t('admin.reports.accept-report')}
           </Button>
         </div>

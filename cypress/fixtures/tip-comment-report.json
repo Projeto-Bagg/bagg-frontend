@@ -1,0 +1,29 @@
+{
+  "id": 1,
+  "userId": 0,
+  "tipId": 0,
+  "message": "string",
+  "createdAt": "2024-05-15T18:21:46.963Z",
+  "user": {
+    "id": 0,
+    "fullName": "string",
+    "username": "string",
+    "bio": "string",
+    "birthdate": "2024-05-15T18:21:46.963Z",
+    "image": "string",
+    "cityId": 0,
+    "accountId": 0,
+    "createdAt": "2024-05-15T18:21:46.963Z"
+  },
+  "_count": {
+    "tipCommentReport": 22
+  },
+  "reasons": [
+    {
+      "_count": {
+        "reason": 0
+      },
+      "reason": "spam"
+    }
+  ]
+}

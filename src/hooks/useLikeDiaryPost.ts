@@ -21,7 +21,7 @@ export const useLikeDiaryPost = () => {
               draft.pages.map((page) => {
                 page.map((diaryPost) => {
                   if (diaryPost.id === post.id) {
-                    diaryPost.likedBy += 1;
+                    diaryPost.likesAmount += 1;
                     diaryPost.isLiked = true;
                   }
                 });

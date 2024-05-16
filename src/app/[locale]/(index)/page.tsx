@@ -1,19 +1,14 @@
-import Image from 'next/image';
 import React from 'react';
-import Ranking from '@/assets/ranking.png';
 import { Link, redirect } from '@/common/navigation';
 import { getTranslations } from 'next-intl/server';
 import { getCookie } from 'cookies-next';
 import { cookies } from 'next/headers';
-import { decodeJwt } from 'jose';
-import { isTokenExpired } from '@/utils/isTokenExpired';
+import { Ranking } from '@/app/[locale]/(index)/components/ranking';
 
 export default async function Page() {
   const accessToken = getCookie('bagg.sessionToken', { cookies });
 
-  const jwt = accessToken ? decodeJwt<UserFromJwt>(accessToken) : undefined;
-
-  if (jwt && accessToken && !isTokenExpired(accessToken)) {
+  if (accessToken) {
     return redirect('/home');
   }
 
@@ -46,14 +41,14 @@ export default async function Page() {
             <h2 className="font-semibold text-xl">{t('index.got-interested')}</h2>
             <Link
               href={'/signup'}
-              className="p-2 border flex justify-center text-sm font-semibold items-center w-full transition-colors bg-primary hover:bg-primary/90 rounded-2xl"
+              className="px-2 py-3 border flex justify-center text-sm font-semibold items-center w-full transition-colors bg-primary hover:bg-primary/90 rounded-2xl"
             >
               {t('index.create-account')}
             </Link>
             <span className="flex justify-center">{t('index.or')}</span>
             <Link
               href={'/login'}
-              className="p-2 border flex text-primary justify-center text-sm font-semibold items-center w-full border-input rounded-2xl"
+              className="px-2 py-3 border flex text-primary justify-center text-sm font-semibold items-center w-full hover:bg-input/30 transition-colors border-input rounded-2xl"
             >
               {t('index.login')}
             </Link>
@@ -62,7 +57,7 @@ export default async function Page() {
       </div>
       <div className="p-8">
         <div className="flex justify-center lg:max-w-[512px]">
-          <Image src={Ranking} alt="" />
+          <Ranking />
         </div>
       </div>
     </div>

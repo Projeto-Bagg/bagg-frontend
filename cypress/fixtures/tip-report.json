@@ -1,0 +1,63 @@
+{
+  "id": 1,
+  "message": "string",
+  "userId": 0,
+  "cityId": 0,
+  "createdAt": "2024-05-15T18:04:16.144Z",
+  "user": {
+    "id": 0,
+    "fullName": "string",
+    "username": "string",
+    "bio": "string",
+    "birthdate": "2024-05-15T18:04:16.144Z",
+    "image": "string",
+    "cityId": 0,
+    "accountId": 0,
+    "createdAt": "2024-05-15T18:04:16.144Z"
+  },
+  "tipMedias": [],
+  "_count": {
+    "tipReport": 22
+  },
+  "tags": "string",
+  "commentsAmount": 0,
+  "city": {
+    "id": 0,
+    "name": "string",
+    "regionId": 0,
+    "latitude": 0,
+    "longitude": 0,
+    "region": {
+      "id": 0,
+      "name": "string",
+      "countryId": 0,
+      "latitude": 0,
+      "longitude": 0,
+      "country": {
+        "id": 0,
+        "name": "string",
+        "capital": "string",
+        "iso2": "string",
+        "latitude": 0,
+        "longitude": 0,
+        "continentId": 0
+      }
+    }
+  },
+  "likesAmount": 0,
+  "isLiked": false,
+  "reasons": [
+    {
+      "_count": {
+        "reason": 2
+      },
+      "reason": "spam"
+    },
+    {
+      "_count": {
+        "reason": 1
+      },
+      "reason": "violent"
+    }
+  ]
+}

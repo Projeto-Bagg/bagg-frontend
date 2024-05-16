@@ -231,7 +231,11 @@ export default function SignupForm() {
       </div>
       <div>
         <Label>{t('signup-edit.confirm-password.label')}</Label>
-        <Input type={'password'} {...register('confirmPassword')} />
+        <PasswordInput
+          errors={errors.confirmPassword}
+          value={watch('confirmPassword')}
+          {...register('confirmPassword')}
+        />
         {errors.confirmPassword && (
           <span
             data-test="unmatched-passwords"

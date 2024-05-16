@@ -29,7 +29,24 @@ export const useUpdateCityVisit = () => {
           (old) =>
             old &&
             produce(old, (draft) => {
-              draft.pages[0].unshift(data.data);
+              let haveAlreadyPosted = false;
+
+              draft.pages = draft.pages.map((page) =>
+                page.map((visit) => {
+                  if (visit.user.id === auth.user?.id) {
+                    haveAlreadyPosted = true;
+
+                    return {
+                      ...visit,
+                      message: variables.message,
+                      rating: variables.rating,
+                    };
+                  }
+                  return visit;
+                }),
+              );
+
+              !haveAlreadyPosted && draft.pages[0].unshift(data.data);
             }),
         );
       }

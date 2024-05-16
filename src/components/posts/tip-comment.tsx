@@ -104,7 +104,7 @@ export const TipComment = ({ comment, tipId }: TipCommentProps) => {
                   <DropdownMenuContent>
                     <Report id={comment.id} reportType="tip-comment">
                       <DropdownMenuItem
-                        data-test="diary-post-delete"
+                        data-test="report"
                         onSelect={(e) => e.preventDefault()}
                       >
                         {t('reports.title')}

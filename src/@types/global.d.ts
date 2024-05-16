@@ -45,7 +45,7 @@ interface TripDiary {
 interface DiaryPost {
   id: number;
   message: string;
-  likedBy: number;
+  likesAmount: number;
   isLiked: boolean;
   createdAt: Date;
   user: User;
@@ -85,7 +85,7 @@ interface TipMedia extends Media {
 interface Tip {
   id: number;
   message: string;
-  likedBy: number;
+  likesAmount: number;
   isLiked: boolean;
   createdAt: Date;
   user: User;
@@ -190,7 +190,7 @@ interface UserCityVisit {
 
 interface Continent {
   id: number;
-  name: 'Africa' | 'Europe' | 'Americas' | 'Asia' | 'Polar' | 'Oceania';
+  name: 'Africa' | 'Europe' | 'Americas' | 'Asia' | 'Antarctica' | 'Oceania';
 }
 
 interface City {
@@ -297,3 +297,9 @@ interface FullSearch {
 }
 
 type ReportReason = 'hate' | 'violent' | 'spam' | 'nudity' | 'false-information';
+
+interface AdminDashboard {
+  totalUsers: number;
+  totalReports: number;
+  totalPosts: number;
+}

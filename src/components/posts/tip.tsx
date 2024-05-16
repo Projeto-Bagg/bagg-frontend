@@ -36,6 +36,7 @@ import { Link, usePathname, useRouter } from '@/common/navigation';
 import { useQueryClient } from '@tanstack/react-query';
 import { Medias } from '@/components/posts/medias';
 import { Report } from '@/components/posts/report';
+import { replaceByBold } from '@/utils/replaceByBold';
 
 export const Tip = forwardRef<
   HTMLDivElement,
@@ -70,7 +71,7 @@ export const Tip = forwardRef<
   const handleShareClick = () => {
     navigator.clipboard.writeText(window.location.origin + '/tip/' + tip.id);
 
-    toast({ title: 'Link copiado para a área de transferência' });
+    toast({ title: t('commons.copy-link'), variant: 'success' });
   };
 
   const handleDeleteClick = async () => {
@@ -123,7 +124,7 @@ export const Tip = forwardRef<
             </div>
             <div className="flex shrink-0 items-center gap-2 text-muted-foreground">
               <TipLikedByList id={tip.id}>
-                <span className="text-sm">{tip.likedBy}</span>
+                <span className="text-sm">{tip.likesAmount}</span>
               </TipLikedByList>
               <Heart
                 data-test="like-tip"
@@ -217,7 +218,7 @@ export const Tip = forwardRef<
             <p
               dangerouslySetInnerHTML={{
                 __html: boldMessage
-                  ? tip.message.replaceAll(boldMessage, `<b>${boldMessage}</b>`)
+                  ? replaceByBold(tip.message, boldMessage.split(' '))
                   : tip.message,
               }}
               className="text-sm sm:text-base"

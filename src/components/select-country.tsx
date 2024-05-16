@@ -124,7 +124,7 @@ export const SelectCountry = ({ onSelect, defaultIso2 }: SelectCountryProps) => 
                     </span>
                     <div className="flex gap-2">
                       <CountryFlag iso2={country.iso2} />
-                      <span className="w-[216px] whitespace-nowrap text-ellipsis overflow-hidden">
+                      <span className="w-[208px] whitespace-nowrap text-ellipsis overflow-hidden">
                         {country.name}
                       </span>
                     </div>

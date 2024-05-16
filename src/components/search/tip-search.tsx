@@ -1,6 +1,7 @@
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { CountryFlag } from '@/components/ui/country-flag';
 import { UserHoverCard } from '@/components/user-hovercard';
+import { replaceByBold } from '@/utils/replaceByBold';
 import Image from 'next/image';
 
 interface TipSearchProps {
@@ -31,7 +32,7 @@ export const TipSearch = ({ tip, boldMessage }: TipSearchProps) => {
       <p
         dangerouslySetInnerHTML={{
           __html: boldMessage
-            ? tip.message.replaceAll(boldMessage, `<b>${boldMessage}</b>`)
+            ? replaceByBold(tip.message, boldMessage.split(' '))
             : tip.message,
         }}
         className="line-clamp-3 mb-1"

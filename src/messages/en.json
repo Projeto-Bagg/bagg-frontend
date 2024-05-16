@@ -22,7 +22,8 @@
     "login": "Login"
   },
   "commons": {
-    "confirm": "Confirm"
+    "confirm": "Confirm",
+    "copy-link": "Link copied to clipboard"
   },
   "header": {
     "home": "Home",
@@ -63,10 +64,9 @@
     },
     "login": {
       "label": "Username or email",
-      "too-small": "Enter your username/e-mail",
+      "too-small": "Enter your username/email",
       "invalid": "Invalid login"
     },
-    "forgot-password": "Forgot your password?",
     "submit": "Login",
     "unauthorized": "Login or password provided is incorrect",
     "signup-redirect": {
@@ -271,7 +271,7 @@
     "Asia": "Asia",
     "Europe": "Europe",
     "Oceania": "Oceania",
-    "Polar": "Polar"
+    "Antarctica": "Antarctica"
   },
   "diary-post": {
     "copy-link": "Copy link",
@@ -386,7 +386,7 @@
     "trending": {
       "title": "Trending cities 🔥",
       "description": "Cities with the highest percentage of people interested in the current month",
-      "variation": "{count}% from last month"
+      "variation": "from last month"
     },
     "empty": "Empty ranking.",
     "date-range": {
@@ -490,7 +490,8 @@
       "nudity": "Nudity",
       "false-information": "False information"
     },
-    "confirm": "Report"
+    "confirm": "Report",
+    "empty-reason": "You must select a reason for the report"
   },
   "admin": {
     "reports": {
@@ -500,6 +501,11 @@
       "diary-post": "Diary post",
       "reject-report": "Reject report",
       "accept-report": "Accept report"
+    },
+    "dashboard": {
+      "total-users": { "title": "Total users", "label": "{count} users" },
+      "total-posts": { "title": "Total posts", "label": "{count} posts" },
+      "total-reports": { "title": "Total reports", "label": "{count} reports" }
     }
   }
 }

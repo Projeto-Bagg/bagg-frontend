@@ -136,6 +136,7 @@ export default function Page() {
           {tagsArray.map((tag) => (
             <div
               className="px-1 flex items-center gap-1 h-fit rounded-sm bg-accent"
+              data-test={'tag-' + tag}
               key={tag}
             >
               <span className="text-xs max-w-[86px] text-ellipsis overflow-hidden whitespace-nowrap">
@@ -143,6 +144,7 @@ export default function Page() {
               </span>
               <button
                 type="button"
+                data-test={'remove-tag-' + tag}
                 onClick={() => {
                   const newTags = tagsArray.filter((currentTag) => currentTag !== tag);
 

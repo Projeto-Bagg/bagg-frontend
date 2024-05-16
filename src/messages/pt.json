@@ -22,7 +22,8 @@
     "login": "Logar"
   },
   "commons": {
-    "confirm": "Confirmar"
+    "confirm": "Confirmar",
+    "copy-link": "Link copiado para a área de transferência"
   },
   "header": {
     "home": "Página principal",
@@ -63,10 +64,9 @@
     },
     "login": {
       "label": "Nome de usuário ou email",
-      "too-small": "Digite seu nome de usuário/e-mail",
+      "too-small": "Digite seu nome de usuário/email",
       "invalid": "Login inválido"
     },
-    "forgot-password": "Esqueceu a senha?",
     "submit": "Login",
     "unauthorized": "Login ou senha incorretos",
     "signup-redirect": {
@@ -100,8 +100,8 @@
     },
     "email": {
       "label": "Email",
-      "invalid": "Digite um e-mail válido",
-      "too-small": "Digite um e-mail",
+      "invalid": "Digite um email válido",
+      "too-small": "Digite um email",
       "available": "Email disponível",
       "not-available": "Email indisponível"
     },
@@ -271,7 +271,7 @@
     "Asia": "Asia",
     "Europe": "Europa",
     "Oceania": "Oceania",
-    "Polar": "Polar"
+    "Antarctica": "Antártica"
   },
   "diary-post": {
     "copy-link": "Copiar link",
@@ -387,7 +387,7 @@
     "trending": {
       "title": "Cidades em alta 🔥",
       "description": "Cidades com o maior porcentagem de pessoas interessadas no corrente mês",
-      "variation": "{count}% do mês anterior"
+      "variation": "do mês anterior"
     },
     "date-range": {
       "date": "{count, plural, =0 {Todo o período} other {Últimos # dias}}"
@@ -490,7 +490,8 @@
       "nudity": "Nudez",
       "false-information": "Informação falsa"
     },
-    "confirm": "Report"
+    "confirm": "Report",
+    "empty-reason": "É necessário selecionar um motivo para a denúncia"
   },
   "admin": {
     "reports": {
@@ -500,6 +501,11 @@
       "diary-post": "Postagem do diário",
       "reject-report": "Rejeitar denúncia",
       "accept-report": "Aceitar denúncia"
+    },
+    "dashboard": {
+      "total-users": { "title": "Total de usuários", "label": "{count} usuários" },
+      "total-posts": { "title": "Total de postagens", "label": "{count} postagens" },
+      "total-reports": { "title": "Total de denúncias", "label": "{count} denúncias" }
     }
   }
 }

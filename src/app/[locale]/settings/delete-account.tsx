@@ -1,5 +1,6 @@
 'use client';
 
+import { PasswordInput } from '@/components/form/password-input';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -12,7 +13,6 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
 import { useDeleteAccount } from '@/hooks/useDeleteAccount';
@@ -52,7 +52,10 @@ export const DeleteAccount = () => {
     } catch (e) {
       if (axios.isAxiosError(e)) {
         if (e.response?.status === 403) {
-          return toast({ title: t('settings.delete-account.toast') });
+          return toast({
+            title: t('settings.delete-account.toast'),
+            variant: 'destructive',
+          });
         }
       }
     }
@@ -71,16 +74,12 @@ export const DeleteAccount = () => {
     >
       <div>
         <Label>{t('settings.delete-account.currentPassword')}</Label>
-        <Input
+        <PasswordInput
+          value={watch('currentPassword')}
+          errors={errors.currentPassword}
           data-test="delete-account-current-password"
           {...register('currentPassword')}
-          type="password"
         />
-        {errors.currentPassword && (
-          <span className="text-sm text-red-600 font-semibold">
-            {t('signup-edit.password.too-small')}
-          </span>
-        )}
       </div>
       <div className="flex justify-end">
         <input type="submit" className="hidden" ref={hiddenButtonRef} />

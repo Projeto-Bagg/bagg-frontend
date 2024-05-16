@@ -15,7 +15,6 @@ const inter = Inter({ subsets: ['latin'], weight: ['400', '500', '600', '700'] }
 
 interface Props {
   children: ReactNode;
-  auth: ReactNode;
   params: { locale: string };
 }
 
@@ -37,11 +36,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function LocaleLayout({
-  children,
-  auth,
-  params: { locale },
-}: Props) {
+export default async function LocaleLayout({ children, params: { locale } }: Props) {
   const messages = await getMessages();
 
   const accessToken = getCookie('bagg.sessionToken', { cookies });
@@ -54,7 +49,6 @@ export default async function LocaleLayout({
           <Providers>
             {jwt?.role !== 'ADMIN' && <Header />}
             <div className={cn(jwt?.role !== 'ADMIN' && 'top-[3.75rem] relative')}>
-              {auth}
               {children}
             </div>
           </Providers>
