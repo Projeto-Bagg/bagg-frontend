@@ -1,32 +1,26 @@
 'use client';
 
-import React, { useEffect } from 'react';
-import { DiaryPost } from '@/components/posts/diary-post';
+import React from 'react';
 import { useOriginTracker } from '@/context/origin-tracker';
 import axios from '@/services/axios';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { ArrowLeft } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { useInView } from 'react-intersection-observer';
 import { TripDiary } from '@/components/posts/trip-diary';
+import { Feed } from '@/components/feed';
 
 export default function Page({ params }: { params: { slug: string } }) {
   const isWithinPage = useOriginTracker();
   const router = useRouter();
   const t = useTranslations();
-  const { ref, inView } = useInView();
 
   const tripDiary = useQuery<TripDiary>({
     queryKey: ['trip-diary', +params.slug],
     queryFn: async () => (await axios.get<TripDiary>('trip-diaries/' + params.slug)).data,
   });
 
-  const {
-    data: tripDiaryPosts,
-    fetchNextPage,
-    hasNextPage,
-  } = useInfiniteQuery<DiaryPost[]>({
+  const posts = useInfiniteQuery<DiaryPost[]>({
     queryKey: ['trip-diary-posts', +params.slug],
     queryFn: async ({ pageParam }) =>
       (
@@ -40,12 +34,6 @@ export default function Page({ params }: { params: { slug: string } }) {
     getNextPageParam: (page, allPages) =>
       page.length === 10 ? allPages.length + 1 : null,
   });
-
-  useEffect(() => {
-    if (inView && hasNextPage) {
-      fetchNextPage();
-    }
-  }, [inView, fetchNextPage, hasNextPage]);
 
   if (tripDiary.isError) {
     return (
@@ -67,16 +55,7 @@ export default function Page({ params }: { params: { slug: string } }) {
         <h3 className="font-bold text-lg">{t('trip-diary.trip-diary')}</h3>
       </div>
       {tripDiary.data && <TripDiary tripDiary={tripDiary.data} />}
-      {tripDiaryPosts &&
-        tripDiaryPosts.pages.map((page) =>
-          page.map((post, index) => (
-            <DiaryPost
-              ref={page.length - 1 === index ? ref : undefined}
-              key={post.id}
-              post={post}
-            />
-          )),
-        )}
+      {posts && <Feed feed={posts} />}
     </div>
   );
 }
