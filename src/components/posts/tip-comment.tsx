@@ -22,7 +22,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { UserHoverCard } from '@/components/user-hovercard';
 import { useAuth } from '@/context/auth-context';
-import { useDeleteTipComment } from '@/hooks/useDeleteTipComment';
+import { useDeleteTipComment } from '@/hooks/tip';
 import { intlFormatDistance } from 'date-fns';
 import { Settings } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
@@ -76,7 +76,7 @@ export const TipComment = ({ comment, tipId }: TipCommentProps) => {
               </UserHoverCard>
               <UserHoverCard username={comment.user.username}>
                 <Link
-                  className="text-muted-foreground"
+                  className="text-muted-foreground hover:underline"
                   href={{
                     params: { slug: comment.user.username },
                     pathname: '/[slug]',

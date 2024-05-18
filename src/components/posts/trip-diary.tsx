@@ -23,7 +23,7 @@ import {
 import { Link, useRouter } from '@/common/navigation';
 import { useFormatter, useTranslations } from 'next-intl';
 import { toast } from '@/components/ui/use-toast';
-import { useDeleteTripDiary } from '@/hooks/useDeleteTripDiary';
+import { useDeleteTripDiary } from '@/hooks/trip-diary';
 import { useAuth } from '@/context/auth-context';
 
 interface TripDiaryProps {
@@ -31,7 +31,7 @@ interface TripDiaryProps {
   seePostsAnchor?: boolean;
 }
 
-export default function TripDiary({ tripDiary, seePostsAnchor }: TripDiaryProps) {
+export const TripDiary = ({ tripDiary, seePostsAnchor }: TripDiaryProps) => {
   const formatter = useFormatter();
   const t = useTranslations();
   const deleteTripDiary = useDeleteTripDiary();
@@ -149,4 +149,4 @@ export default function TripDiary({ tripDiary, seePostsAnchor }: TripDiaryProps)
       </div>
     </div>
   );
-}
+};

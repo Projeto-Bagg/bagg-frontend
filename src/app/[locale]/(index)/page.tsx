@@ -16,14 +16,14 @@ export default async function Page() {
 
   return (
     <div className="flex flex-col lg:flex-row justify-center text-sm lg:text-base">
-      <div className="p-8">
+      <div className="p-4 sm:p-8">
         <div className="mb-4">
           <h2 className="font-semibold text-2xl">Bagg</h2>
           <span className="text-muted-foreground">{t('index.description')}</span>
         </div>
         <div className="flex flex-col lg:w-[512px]">
           <h2 className="font-bold">{t('index.why-join-us.title')}</h2>
-          <ul className="list-disc mb-4 space-y-2">
+          <ul className="list-disc mb-4 space-y-2 ml-4">
             <li>
               <span className="font-bold">{t('index.why-join-us.reason1.title')} </span>
               {t('index.why-join-us.reason1.description')}
@@ -55,7 +55,7 @@ export default async function Page() {
           </div>
         </div>
       </div>
-      <div className="p-8">
+      <div className="p-4 sm:p-8">
         <div className="flex justify-center lg:max-w-[512px]">
           <Ranking />
         </div>

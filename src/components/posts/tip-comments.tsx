@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/context/auth-context';
 import { useTranslations } from 'next-intl';
-import { useCreateTipComment } from '@/hooks/useCreateTipComment';
+import { useCreateTipComment } from '@/hooks/tip';
 
 import { TipComment } from '@/components/posts/tip-comment';
 

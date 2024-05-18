@@ -24,7 +24,7 @@ export default function Visits({ params }: { params: { slug: string } }) {
       {visits.data?.map((visit) => (
         <div
           key={visit.id}
-          className="w-full h-[220px] rounded-sm overflow-hidden relative"
+          className="w-full shadow h-[220px] rounded-sm overflow-hidden relative"
         >
           <CountryFlag
             className="w-full left-0 right-0 m-auto absolute -z-10 gradient-mask-b-[rgba(0,0,0,1.0)_4px]"

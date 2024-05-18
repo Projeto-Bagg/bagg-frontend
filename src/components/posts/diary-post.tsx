@@ -25,9 +25,11 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useToast } from '@/components/ui/use-toast';
 import { useAuth } from '@/context/auth-context';
-import { useDeleteDiaryPost } from '@/hooks/useDeleteDiaryPost';
-import { useLikeDiaryPost } from '@/hooks/useLikeDiaryPost';
-import { useUnlikeDiaryPost } from '@/hooks/useUnlikeDiaryPost';
+import {
+  useDeleteDiaryPost,
+  useLikeDiaryPost,
+  useUnlikeDiaryPost,
+} from '@/hooks/diary-post';
 import { Heart, MoreHorizontal } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
 import { intlFormatDistance } from 'date-fns';

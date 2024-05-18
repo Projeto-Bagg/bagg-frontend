@@ -3,7 +3,6 @@
 import axios from '@/services/axios';
 import { createContext, useCallback, useContext, useEffect, useState } from 'react';
 import { getCookie, deleteCookie, setCookie, hasCookie } from 'cookies-next';
-import { Spinner } from '@/assets';
 import {
   QueryObserverResult,
   RefetchOptions,
@@ -136,8 +135,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         <div className="flex flex-col h-screen gap-2 justify-center items-center">
           <h1 className="text-3xl font-bold">Bagg</h1>
           <div>
-            <Spinner
-              priority={'true'}
+            <img
+              src={'/spinner.svg'}
+              alt=""
               className="[&>circle]:stroke-foreground"
               width="40"
               height="40"

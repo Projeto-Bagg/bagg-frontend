@@ -2,7 +2,7 @@
 
 import { Input } from '@/components/ui/input';
 import { toast } from '@/components/ui/use-toast';
-import { getVideoThumbnail } from '@/utils/getVideoThumbnail';
+import { getVideoThumbnail } from '@/utils/get-video-thumbnail';
 import { ImageIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import React, { useRef } from 'react';

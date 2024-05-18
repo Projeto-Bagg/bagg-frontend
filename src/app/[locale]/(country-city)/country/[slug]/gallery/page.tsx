@@ -1,7 +1,7 @@
 'use client';
 
-import { GalleryCarousel } from '@/app/[locale]/(country-city)/gallery-carousel';
-import { GalleryImage } from '@/app/[locale]/(country-city)/gallery-image';
+import { GalleryCarousel } from '@/app/[locale]/(country-city)/components/gallery-carousel';
+import { GalleryImage } from '@/app/[locale]/(country-city)/components/gallery-image';
 import { CarouselItem } from '@/components/ui/carousel';
 import axios from '@/services/axios';
 import { useInfiniteQuery } from '@tanstack/react-query';

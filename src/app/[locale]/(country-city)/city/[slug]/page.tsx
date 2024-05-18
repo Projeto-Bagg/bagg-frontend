@@ -3,10 +3,10 @@
 import axios from '@/services/axios';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import React, { useMemo } from 'react';
-import { CityVisit } from '@/components/city-visit';
+import { CityVisit } from '@/app/[locale]/(country-city)/components/city-visit';
 import { useTranslations } from 'next-intl';
-import { GalleryImage } from '@/app/[locale]/(country-city)/gallery-image';
-import { GalleryCarousel } from '@/app/[locale]/(country-city)/gallery-carousel';
+import { GalleryImage } from '@/app/[locale]/(country-city)/components/gallery-image';
+import { GalleryCarousel } from '@/app/[locale]/(country-city)/components/gallery-carousel';
 import Autoplay from 'embla-carousel-autoplay';
 import { CarouselItem } from '@/components/ui/carousel';
 import { SeeMore } from '@/components/see-more';
@@ -19,7 +19,7 @@ import {
   RankingTitle,
 } from '@/components/ui/ranking';
 import { Link } from '@/common/navigation';
-import { Resident } from '@/app/[locale]/(country-city)/resident';
+import { Resident } from '@/app/[locale]/(country-city)/components/resident';
 import { CountryFlag } from '@/components/ui/country-flag';
 import dynamic from 'next/dynamic';
 

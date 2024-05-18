@@ -7,8 +7,6 @@ import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { useQuery } from '@tanstack/react-query';
 import { useAuth } from '@/context/auth-context';
 import { Button } from '@/components/ui/button';
-import { useFollow } from '@/hooks/useFollow';
-import { useUnfollow } from '@/hooks/useUnfollow';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { Separator } from '@/components/ui/separator';
 import { UserFollowTabs } from '@/app/[locale]/(profile)/[slug]/components/user-follow-tabs';
@@ -19,6 +17,7 @@ import { usePathname } from 'next/navigation';
 import { CountryFlag } from '@/components/ui/country-flag';
 import { Skeleton } from '@/components/ui/skeleton';
 import { EditProfile } from '@/app/[locale]/(profile)/[slug]/components/edit-profile';
+import { useFollow, useUnfollow } from '@/hooks/user';
 
 export default function Profile({
   params,

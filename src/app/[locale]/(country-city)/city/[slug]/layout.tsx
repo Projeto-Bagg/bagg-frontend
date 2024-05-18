@@ -2,22 +2,23 @@
 
 import React, { ReactNode } from 'react';
 import { Link, usePathname, useRouter } from '@/common/navigation';
-import { CreateCityVisit } from '@/components/create-city-visit';
+import { CreateCityVisit } from '@/app/[locale]/(country-city)/city/[slug]/components/create-city-visit';
 import { CountryFlag } from '@/components/ui/country-flag';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { toast } from '@/components/ui/use-toast';
 import { useAuth } from '@/context/auth-context';
-import { useCreateCityInterest } from '@/hooks/useCreateCityInterest';
-import { useCreateCityVisit } from '@/hooks/useCreateCityVisit';
-import { useDeleteCityInterest } from '@/hooks/useDeleteCityInterest';
-import { useDeleteCityVisit } from '@/hooks/useDeleteCityVisit';
-import { useUpdateCityVisit } from '@/hooks/useUpdateCityVisit';
 import { cn } from '@/lib/utils';
 import axios from '@/services/axios';
 import { Rating } from '@smastrom/react-rating';
 import { useQuery } from '@tanstack/react-query';
 import { MapPin, CheckCircle, Home } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { useCreateCityInterest, useDeleteCityInterest } from '@/hooks/city-interest';
+import {
+  useCreateCityVisit,
+  useUpdateCityVisit,
+  useDeleteCityVisit,
+} from '@/hooks/city-visit';
 
 export default function Layout({
   params,
@@ -238,7 +239,7 @@ export default function Layout({
             </Link>
           </div>
         </div>
-        <div className="flex shrink-0 flex-col font-semibold text-sm bg-accent rounded-lg w-full sm:w-[200px] space-y-1 divide-y-2 divide-background">
+        <div className="flex shadow shrink-0 flex-col font-semibold text-sm bg-accent rounded-lg w-full sm:w-[200px] space-y-1 divide-y-2 divide-background">
           <div className="flex justify-center gap-4 py-3">
             <button
               id="check-visit"

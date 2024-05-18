@@ -1,6 +1,5 @@
 'use client';
 
-import { Spinner } from '@/assets';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -106,11 +105,13 @@ export const Search = () => {
         </TooltipTrigger>
         <TooltipContent>{t('search.title')}</TooltipContent>
       </Tooltip>
-      <DialogContent className="sm:max-w-[48rem] p-0 sm:0">
+      <DialogContent className="sm:max-w-[48rem] p-0 sm:p-0">
         <DialogHeader className="bg-secondary shrink-0 rounded-t-lg overflow-hidden py-6 px-4 sm:px-10">
           <div className="relative">
             {search.isFetching ? (
-              <Spinner
+              <img
+                alt=""
+                src={'/spinner.svg'}
                 className={
                   'absolute left-0 top-4 h-[24px] w-[24px] [&>circle]:stroke-foreground'
                 }
@@ -140,7 +141,11 @@ export const Search = () => {
                           <CarouselContent>
                             {search.data?.tips.map((tip) => (
                               <CarouselItem className="sm:basis-1/3 text-sm" key={tip.id}>
-                                <TipSearch tip={tip} boldMessage={debouncedQuery} />
+                                <TipSearch
+                                  setOpen={setOpen}
+                                  tip={tip}
+                                  boldMessage={debouncedQuery}
+                                />
                               </CarouselItem>
                             ))}
                           </CarouselContent>

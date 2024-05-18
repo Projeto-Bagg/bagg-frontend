@@ -21,12 +21,11 @@ import { useAuth } from '@/context/auth-context';
 import { ProfilePicDialog } from '@/app/[locale]/(profile)/[slug]/components/profile-pic-dialog';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Textarea } from '@/components/ui/textarea';
-import { useUpdateProfile } from '@/hooks/useUpdateProfile';
-import { useDeleteProfilePic } from '@/hooks/useDeleteProfilePic';
 import { SelectCity } from '@/components/select-city';
 import { BirthdateDay } from '@/components/form/birthdate-day';
 import { BrithdateMonth } from '@/components/form/birthdate-month';
 import { BirthdateYear } from '@/components/form/birthdate-year';
+import { useDeleteProfilePic, useUpdateProfile } from '@/hooks/profile';
 
 const editFormSchema = z.object({
   fullName: z.string().min(3).max(64),

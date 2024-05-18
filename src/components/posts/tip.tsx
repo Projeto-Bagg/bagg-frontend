@@ -26,9 +26,7 @@ import { Heart, MoreHorizontal } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
 import { intlFormatDistance } from 'date-fns';
 import { UserHoverCard } from '@/components/user-hovercard';
-import { useLikeTip } from '@/hooks/useLikeTip';
-import { useUnlikeTip } from '@/hooks/useUnlikeTip';
-import { useDeleteTip } from '@/hooks/useDeleteTip';
+import { useLikeTip, useUnlikeTip, useDeleteTip } from '@/hooks/tip';
 import { TipLikedByList } from '@/components/posts/tip-liked-by-list';
 import { CountryFlag } from '@/components/ui/country-flag';
 import { TipComments } from '@/components/posts/tip-comments';
@@ -36,7 +34,7 @@ import { Link, usePathname, useRouter } from '@/common/navigation';
 import { useQueryClient } from '@tanstack/react-query';
 import { Medias } from '@/components/posts/medias';
 import { Report } from '@/components/posts/report';
-import { replaceByBold } from '@/utils/replaceByBold';
+import { replaceByBold } from '@/utils/replace-by-bold';
 
 export const Tip = forwardRef<
   HTMLDivElement,
@@ -109,13 +107,14 @@ export const Tip = forwardRef<
               <UserHoverCard username={tip.user.username}>
                 <div className="flex flex-col">
                   <Link
+                    className="hover:underline"
                     href={{ params: { slug: tip.user.username }, pathname: '/[slug]' }}
                   >
                     <span>{tip.user.fullName}</span>
                   </Link>
                   <Link
                     href={{ params: { slug: tip.user.username }, pathname: '/[slug]' }}
-                    className="text-muted-foreground"
+                    className="text-muted-foreground hover:underline"
                   >
                     <span className="text-sm">@{tip.user.username}</span>
                   </Link>
