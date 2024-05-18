@@ -15,7 +15,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip
 
 type ThemeType = 'dark' | 'light' | 'system';
 
-export const ThemeToggle = () => {
+export const SelectTheme = () => {
   const { setTheme, theme: activeTheme, themes } = useTheme();
   const t = useTranslations();
 

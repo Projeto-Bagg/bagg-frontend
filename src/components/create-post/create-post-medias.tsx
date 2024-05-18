@@ -1,7 +1,6 @@
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
 import { Trash2 } from 'lucide-react';
-import Image from 'next/image';
 import React from 'react';
 import {
   FieldValues,
@@ -52,7 +51,11 @@ export const CreatePostMedias = <T extends FieldValues>({
                 >
                   <Trash2 size={16} className="text-red-500" />
                 </button>
-                <Image src={file.thumbnail} className="object-cover" alt="" fill />
+                <img
+                  src={file.thumbnail}
+                  className="object-cover absolute w-full h-full inset-0"
+                  alt=""
+                />
               </AspectRatio>
             </CarouselItem>
           ))}

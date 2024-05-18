@@ -5,12 +5,12 @@ import axios from '@/services/axios';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { Feed } from '@/components/feed';
 
-export default function DiaryPosts({ params }: { params: { slug: string } }) {
-  const diaryPosts = useInfiniteQuery<DiaryPost[]>({
-    queryKey: ['diary-posts', params.slug],
+export default function Default({ params }: { params: { slug: string } }) {
+  const tips = useInfiniteQuery<Tip[]>({
+    queryKey: ['tips', params.slug],
     queryFn: async ({ pageParam }) =>
       (
-        await axios.get<DiaryPost[]>(`/diary-posts/user/${params.slug}`, {
+        await axios.get<Tip[]>(`/tips/user/${params.slug}`, {
           params: {
             page: pageParam,
           },
@@ -21,9 +21,5 @@ export default function DiaryPosts({ params }: { params: { slug: string } }) {
       page.length === 10 ? allPages.length + 1 : null,
   });
 
-  return (
-    <div data-test="diary-posts-feed">
-      <Feed feed={diaryPosts} />
-    </div>
-  );
+  return <Feed feed={tips} />;
 }

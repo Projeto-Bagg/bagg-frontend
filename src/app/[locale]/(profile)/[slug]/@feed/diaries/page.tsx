@@ -3,7 +3,7 @@
 import axios from '@/services/axios';
 import { useQuery } from '@tanstack/react-query';
 import React from 'react';
-import TripDiary from '@/components/trip-diary';
+import { TripDiary } from '@/components/posts/trip-diary';
 
 export default function Page({ params }: { params: { slug: string } }) {
   const tripDiaries = useQuery<TripDiary[]>({

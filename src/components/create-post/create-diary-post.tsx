@@ -18,7 +18,7 @@ import {
 import { Label } from '@/components/ui/label';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Textarea } from '@/components/ui/textarea';
-import { useCreateDiaryPost } from '@/hooks/useCreateDiaryPost';
+import { useCreateDiaryPost } from '@/hooks/diary-post';
 import { cn } from '@/lib/utils';
 import axios from '@/services/axios';
 import { zodResolver } from '@hookform/resolvers/zod';

@@ -1,6 +1,6 @@
 'use client';
 
-import { CityVisit } from '@/components/city-visit';
+import { CityVisit } from '@/app/[locale]/(country-city)/components/city-visit';
 import axios from '@/services/axios';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';

@@ -1,6 +1,6 @@
 'use client';
 
-import { Resident } from '@/app/[locale]/(country-city)/resident';
+import { Resident } from '@/app/[locale]/(country-city)/components/resident';
 import axios from '@/services/axios';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';

@@ -1,7 +1,7 @@
 import { default as instance } from 'axios';
 import { parseISO } from 'date-fns';
 import { getCookie, setCookie, deleteCookie } from 'cookies-next';
-import { isTokenExpired } from '@/utils/isTokenExpired';
+import { isTokenExpired } from '@/utils/is-token-expired';
 
 const isoDateFormat =
   /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d*)?(?:[-+]\d{2}:?\d{2}|Z)?$/;

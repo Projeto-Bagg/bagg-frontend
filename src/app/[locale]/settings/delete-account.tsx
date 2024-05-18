@@ -15,7 +15,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
-import { useDeleteAccount } from '@/hooks/useDeleteAccount';
+import { useDeleteAccount } from '@/hooks/settings';
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
 import { useTranslations } from 'next-intl';

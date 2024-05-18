@@ -1,7 +1,7 @@
 import { Verified } from '@/app/[locale]/settings/verify-email/verify/verified';
 import { redirect } from '@/common/navigation';
 import axios from '@/services/axios';
-import { isTokenExpired } from '@/utils/isTokenExpired';
+import { isTokenExpired } from '@/utils/is-token-expired';
 import { hasCookie } from 'cookies-next';
 import { cookies } from 'next/headers';
 

@@ -187,6 +187,9 @@
     "empty-feed": {
       "title": "Empty feed",
       "description": "Try following users and marking interest in more cities!"
+    },
+    "ad": {
+      "label": "Ad"
     }
   },
   "create-post": {

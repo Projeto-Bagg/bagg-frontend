@@ -1,8 +1,7 @@
 'use client';
 
 import React from 'react';
-import { useFollow } from '@/hooks/useFollow';
-import { useUnfollow } from '@/hooks/useUnfollow';
+import { useFollow, useUnfollow } from '@/hooks/user';
 import { useAuth } from '@/context/auth-context';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';

@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from '@/common/navigation';
-import { Tip } from '@/components/posts/tip';
+import { Feed } from '@/components/feed';
 import { SelectCity } from '@/components/select-city';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -11,14 +11,12 @@ import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useSearchParams } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
-import { useInView } from 'react-intersection-observer';
+import React, { useState } from 'react';
 
 export default function Page() {
   const router = useRouter();
   const t = useTranslations();
   const searchParams = useSearchParams();
-  const { ref, inView } = useInView();
   const q = searchParams.get('q');
   const tags = searchParams.get('tags');
   const tagsArray = tags?.split(';') || [];
@@ -31,7 +29,7 @@ export default function Page() {
     enabled: !!defaultCity,
   });
 
-  const { data, fetchNextPage, hasNextPage } = useInfiniteQuery<Tip[]>({
+  const tips = useInfiniteQuery<Tip[]>({
     queryKey: ['tip-search', q, tagsArray.join(';'), city],
     queryFn: async ({ pageParam }) =>
       (
@@ -61,12 +59,6 @@ export default function Page() {
     },
     enabled: !!q || tagsArray.length !== 0 || !!city,
   });
-
-  useEffect(() => {
-    if (inView && hasNextPage) {
-      fetchNextPage();
-    }
-  }, [inView, fetchNextPage, hasNextPage]);
 
   return (
     <div>
@@ -171,22 +163,16 @@ export default function Page() {
         </div>
       </div>
       <Separator className="my-2" />
-      {data && data.pages[0].length === 0 && (
-        <span data-test="no-results" className="flex mt-4 justify-center font-bold">
-          {t('search-page.options.tip.no-results')}
-        </span>
+      {tips && (
+        <Feed
+          feed={tips}
+          emptyFeedComponent={
+            <span data-test="no-results" className="flex mt-4 justify-center font-bold">
+              {t('search-page.options.tip.no-results')}
+            </span>
+          }
+        />
       )}
-      {data &&
-        data.pages.map((page) =>
-          page.map((tip, index) => (
-            <Tip
-              tip={tip}
-              boldMessage={q}
-              ref={page.length - 1 === index ? ref : undefined}
-              key={index}
-            />
-          )),
-        )}
     </div>
   );
 }
