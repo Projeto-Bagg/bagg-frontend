@@ -22,7 +22,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { UserHoverCard } from '@/components/user-hovercard';
 import { useAuth } from '@/context/auth-context';
-import { useDeleteTipComment } from '@/hooks/useDeleteTipComment';
+import { useDeleteTipComment } from '@/hooks/tip';
 import { intlFormatDistance } from 'date-fns';
 import { Settings } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';

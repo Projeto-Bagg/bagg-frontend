@@ -3,7 +3,7 @@
 import React from 'react';
 import { useTranslations } from 'next-intl';
 import { useAuth } from '@/context/auth-context';
-import { ThemeToggle } from '@/components/theme-toggle';
+import { SelectTheme } from '@/components/select-theme';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import {
   DropdownMenu,
@@ -76,7 +76,7 @@ export const Header = () => {
           )}
           <Search />
           <SelectLanguage />
-          <ThemeToggle />
+          <SelectTheme />
           <div className="hidden sm:block">
             {auth.user ? (
               <div className="flex items-center gap-2">

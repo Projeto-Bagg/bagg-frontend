@@ -2,8 +2,7 @@ import { Link } from '@/common/navigation';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/context/auth-context';
-import { useFollow } from '@/hooks/useFollow';
-import { useUnfollow } from '@/hooks/useUnfollow';
+import { useFollow, useUnfollow } from '@/hooks/user';
 import { useTranslations } from 'next-intl';
 import React, { HTMLProps, forwardRef } from 'react';
 

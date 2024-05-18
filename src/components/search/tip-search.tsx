@@ -2,7 +2,7 @@ import { Link } from '@/common/navigation';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { CountryFlag } from '@/components/ui/country-flag';
 import { UserHoverCard } from '@/components/user-hovercard';
-import { replaceByBold } from '@/utils/replaceByBold';
+import { replaceByBold } from '@/utils/replace-by-bold';
 
 interface TipSearchProps {
   tip: Tip;

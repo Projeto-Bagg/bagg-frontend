@@ -20,3 +20,22 @@ export const useCreateCityInterest = () => {
     },
   });
 };
+
+export const useDeleteCityInterest = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (cityId: number) => axios.delete('/city-interests/' + cityId),
+    onSuccess: (_, cityId) => {
+      queryClient.setQueryData<CityPage>(
+        ['city', cityId],
+        (old) =>
+          old &&
+          produce(old, (draft) => {
+            draft.isInterested = false;
+            draft.interestsCount -= 1;
+          }),
+      );
+    },
+  });
+};

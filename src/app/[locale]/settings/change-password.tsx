@@ -5,7 +5,7 @@ import { PasswordInput } from '@/components/form/password-input';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { toast } from '@/components/ui/use-toast';
-import { useChangePassword } from '@/hooks/useChangePassword';
+import { useChangePassword } from '@/hooks/settings';
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
 import { useTranslations } from 'next-intl';

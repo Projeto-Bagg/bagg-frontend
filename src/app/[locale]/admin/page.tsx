@@ -4,12 +4,12 @@ import { decodeJwt } from 'jose';
 import { redirect } from '@/common/navigation';
 import { getTranslations } from 'next-intl/server';
 import { SelectLanguage } from '@/components/select-language';
-import { ThemeToggle } from '@/components/theme-toggle';
 import { LogoutButton } from '@/app/[locale]/admin/components/logout-button';
 import { TipReports } from '@/app/[locale]/admin/components/tip-reports';
 import { TipCommentReports } from '@/app/[locale]/admin/components/tip-comment-reports';
 import { DiaryPostReports } from '@/app/[locale]/admin/components/diary-post-reports';
 import { Dashboard } from '@/app/[locale]/admin/components/dashboard';
+import { SelectTheme } from '@/components/select-theme';
 
 export default async function Page() {
   const accessToken = getCookie('bagg.sessionToken', { cookies });
@@ -33,7 +33,7 @@ export default async function Page() {
           <h2 className="font-bold text-2xl">Dashboard</h2>
           <div className="flex gap-2">
             <SelectLanguage />
-            <ThemeToggle />
+            <SelectTheme />
             <LogoutButton />
           </div>
         </div>

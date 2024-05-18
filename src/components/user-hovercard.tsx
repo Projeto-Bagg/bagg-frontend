@@ -10,8 +10,7 @@ import {
   HoverCardTrigger,
 } from '@/components/ui/hover-card';
 import { useAuth } from '@/context/auth-context';
-import { useFollow } from '@/hooks/useFollow';
-import { useUnfollow } from '@/hooks/useUnfollow';
+import { useFollow, useUnfollow } from '@/hooks/user';
 import axios from '@/services/axios';
 import { useQuery } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';

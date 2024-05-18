@@ -19,3 +19,16 @@ export const useDeleteProfilePic = () => {
     },
   });
 };
+
+export const useUpdateProfile = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (editForm: FormData) =>
+      await axios.put<FullInfoUser>('/users', editForm),
+    onSuccess(data) {
+      queryClient.setQueryData<FullInfoUser>(['session'], data.data);
+      queryClient.setQueryData<FullInfoUser>(['user', data.data.username], data.data);
+    },
+  });
+};

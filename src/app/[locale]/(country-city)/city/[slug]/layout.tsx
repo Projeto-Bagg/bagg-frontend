@@ -7,17 +7,18 @@ import { CountryFlag } from '@/components/ui/country-flag';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { toast } from '@/components/ui/use-toast';
 import { useAuth } from '@/context/auth-context';
-import { useCreateCityInterest } from '@/hooks/useCreateCityInterest';
-import { useCreateCityVisit } from '@/hooks/useCreateCityVisit';
-import { useDeleteCityInterest } from '@/hooks/useDeleteCityInterest';
-import { useDeleteCityVisit } from '@/hooks/useDeleteCityVisit';
-import { useUpdateCityVisit } from '@/hooks/useUpdateCityVisit';
 import { cn } from '@/lib/utils';
 import axios from '@/services/axios';
 import { Rating } from '@smastrom/react-rating';
 import { useQuery } from '@tanstack/react-query';
 import { MapPin, CheckCircle, Home } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { useCreateCityInterest, useDeleteCityInterest } from '@/hooks/city-interest';
+import {
+  useCreateCityVisit,
+  useUpdateCityVisit,
+  useDeleteCityVisit,
+} from '@/hooks/city-visit';
 
 export default function Layout({
   params,
