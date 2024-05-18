@@ -31,7 +31,7 @@ interface TripDiaryProps {
   seePostsAnchor?: boolean;
 }
 
-export default function TripDiary({ tripDiary, seePostsAnchor }: TripDiaryProps) {
+export const TripDiary = ({ tripDiary, seePostsAnchor }: TripDiaryProps) => {
   const formatter = useFormatter();
   const t = useTranslations();
   const deleteTripDiary = useDeleteTripDiary();
@@ -149,4 +149,4 @@ export default function TripDiary({ tripDiary, seePostsAnchor }: TripDiaryProps)
       </div>
     </div>
   );
-}
+};

@@ -1,11 +1,10 @@
 'use client';
 
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
-import Image from 'next/image';
-import React from 'react';
+import React, { HTMLAttributes } from 'react';
 import { twMerge } from 'tailwind-merge';
 
-type ICountryFlag = Omit<React.ComponentProps<typeof Image>, 'alt' | 'src'> & {
+type ICountryFlag = HTMLAttributes<HTMLSpanElement> & {
   iso2: string;
   tooltip?: string;
 };
@@ -18,6 +17,7 @@ export const CountryFlag = ({ iso2, tooltip, className, ...props }: ICountryFlag
           `fi-${iso2.toLocaleLowerCase()} border w-[20px] aspect-[4/3] rounded-sm block self-center`,
           className,
         )}
+        {...props}
       />
     );
   }
@@ -30,6 +30,7 @@ export const CountryFlag = ({ iso2, tooltip, className, ...props }: ICountryFlag
             `fi-${iso2.toLocaleLowerCase()} border w-[20px] aspect-[4/3] rounded-sm block self-center`,
             className,
           )}
+          {...props}
         />
       </TooltipTrigger>
       <TooltipContent>

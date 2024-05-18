@@ -14,7 +14,7 @@ interface MapProps extends React.ComponentProps<typeof MapContainer> {
 }
 
 export const Map = ({ LatLng, className, ...props }: MapProps) => {
-  const { theme } = useTheme();
+  const { resolvedTheme } = useTheme();
 
   return (
     <MapContainer
@@ -28,7 +28,7 @@ export const Map = ({ LatLng, className, ...props }: MapProps) => {
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url={
-          theme === 'light'
+          resolvedTheme === 'light'
             ? 'https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png'
             : 'https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png'
         }

@@ -6,10 +6,9 @@ import { UserHoverCard } from '@/components/user-hovercard';
 import { cn } from '@/lib/utils';
 import { intlFormatDistance } from 'date-fns';
 import { useLocale } from 'next-intl';
-import Image from 'next/image';
-import React from 'react';
+import React, { ImgHTMLAttributes } from 'react';
 
-interface GalleryImage extends Omit<React.ComponentProps<typeof Image>, 'alt' | 'src'> {
+interface GalleryImage extends Omit<ImgHTMLAttributes<HTMLImageElement>, 'alt' | 'src'> {
   image: CountryCityImage;
 }
 
@@ -18,12 +17,14 @@ export const GalleryImage = ({ image, className, ...props }: GalleryImage) => {
 
   return (
     <div key={image.id} className={cn('relative aspect-square w-full h-full', className)}>
-      <Image
+      <img
         src={image.url}
         alt=""
-        fill
         {...props}
-        className={cn('object-center', className)}
+        className={cn(
+          'object-center absolute w-full h-full inset-0 text-transparent',
+          className,
+        )}
       />
       <div className="absolute h-1/2 bottom-0 left-0 w-full">
         <div className="absolute w-full h-full bg-black gradient-mask-t-[rgba(0,0,0,1.0)]" />
@@ -37,19 +38,20 @@ export const GalleryImage = ({ image, className, ...props }: GalleryImage) => {
                     pathname: '/[slug]',
                   }}
                 >
-                  <Avatar>
+                  <Avatar className="text-foreground">
                     <AvatarImage src={image.user.image} />
                   </Avatar>
                 </Link>
               </UserHoverCard>
               <UserHoverCard username={image.user.username}>
                 <Link
+                  className="hover:underline"
                   href={{
                     params: { slug: image.user.username },
                     pathname: '/[slug]',
                   }}
                 >
-                  <div className="flex flex-col items-center">
+                  <div className="flex flex-col">
                     <span>{image.user.fullName}</span>
                     <span>@{image.user.username}</span>
                   </div>

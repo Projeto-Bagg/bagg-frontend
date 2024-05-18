@@ -305,6 +305,7 @@ interface AdminDashboard {
 }
 
 interface Ad {
-  adImg: import('next/image').StaticImageData;
+  company: string;
+  adImg: string;
   url: string;
 }

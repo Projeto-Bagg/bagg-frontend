@@ -9,7 +9,7 @@ import { ArrowLeft } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useInView } from 'react-intersection-observer';
-import TripDiary from '@/components/trip-diary';
+import { TripDiary } from '@/components/posts/trip-diary';
 
 export default function Page({ params }: { params: { slug: string } }) {
   const isWithinPage = useOriginTracker();

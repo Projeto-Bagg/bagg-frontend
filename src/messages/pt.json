@@ -187,6 +187,9 @@
     "empty-feed": {
       "title": "Feed vazio",
       "description": "Tente seguir usuários e marcar interesse em mais cidades!"
+    },
+    "ad": {
+      "label": "Anúncio"
     }
   },
   "create-post": {
@@ -490,7 +493,7 @@
       "nudity": "Nudez",
       "false-information": "Informação falsa"
     },
-    "confirm": "Report",
+    "confirm": "Denunciar",
     "empty-reason": "É necessário selecionar um motivo para a denúncia"
   },
   "admin": {

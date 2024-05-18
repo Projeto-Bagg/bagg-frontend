@@ -1,17 +1,14 @@
 'use client';
 
-import { Tip } from '@/components/posts/tip';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
 import axios from '@/services/axios';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
-import React, { useEffect, useState } from 'react';
-import { useInView } from 'react-intersection-observer';
+import React, { useState } from 'react';
 import { ads } from '@/common/ads';
-import Image from 'next/image';
 import { produce } from 'immer';
-import Link from 'next/link';
+import { Feed } from '@/components/feed';
 
 type Feed = 'for-you' | 'following';
 
@@ -19,62 +16,7 @@ export default function Home() {
   const [feed, setFeed] = useState<Feed>('following');
   const t = useTranslations();
 
-  return (
-    <div data-test="homepage-feed" className="p-4 container">
-      <div className="mb-2">
-        <h2 className="font-bold w-fit text-xl sm:text-2xl border-b-2 border-primary pb-1">
-          {t('homepage.title')}
-        </h2>
-      </div>
-      <Tabs
-        value={feed}
-        defaultValue="for-you"
-        onValueChange={(value) => setFeed(value as Feed)}
-      >
-        <div className="flex justify-center">
-          <TabsList className="p-0 bg-transparent">
-            <TabsTrigger value="following">
-              <div>
-                <h2
-                  className={cn(
-                    'font-bold w-fit text-xl  pb-1',
-                    feed === 'following' && 'border-b-2 border-primary',
-                  )}
-                >
-                  {t('homepage.feed.following')}
-                </h2>
-              </div>
-            </TabsTrigger>
-            <TabsTrigger value="for-you">
-              <div>
-                <h2
-                  className={cn(
-                    'font-bold w-fit text-xl  pb-1',
-                    feed === 'for-you' && 'border-b-2 border-primary',
-                  )}
-                >
-                  {t('homepage.feed.for-you')}
-                </h2>
-              </div>
-            </TabsTrigger>
-          </TabsList>
-        </div>
-        <TabsContent value="following">
-          <FollowingFeed />
-        </TabsContent>
-        <TabsContent value="for-you">
-          <ForYouFeed />
-        </TabsContent>
-      </Tabs>
-    </div>
-  );
-}
-
-const ForYouFeed = () => {
-  const t = useTranslations();
-  const { ref, inView } = useInView();
-
-  const { data, fetchNextPage, hasNextPage } = useInfiniteQuery<(Ad | Tip)[]>({
+  const forYouFeed = useInfiniteQuery<(Ad | Tip)[]>({
     queryKey: ['for-you-feed'],
     queryFn: async ({ pageParam }) =>
       await axios
@@ -86,47 +28,10 @@ const ForYouFeed = () => {
         .then((response) => spliceAdOnFeed(response.data)),
     initialPageParam: 1,
     getNextPageParam: (page, allPages) => (page.length > 3 ? allPages.length + 1 : null),
+    enabled: feed === 'for-you',
   });
 
-  useEffect(() => {
-    if (inView && hasNextPage) {
-      fetchNextPage();
-    }
-  }, [inView, fetchNextPage, hasNextPage]);
-
-  if (data && data.pages[0].length === 0) {
-    return (
-      <div className="flex flex-col items-center">
-        <h2 className="text-xl font-bold">{t('homepage.empty-feed.title')}</h2>
-        <span>{t('homepage.empty-feed.description')}</span>
-      </div>
-    );
-  }
-
-  return (
-    data &&
-    data.pages.map((page, pageIndex) =>
-      page.map((element, index) => (
-        <div
-          ref={page.length - 1 === index ? ref : undefined}
-          key={`${pageIndex}-${index}`}
-        >
-          {determineIfIsTipOrAd(element) ? (
-            <Tip tip={element} key={element.id} />
-          ) : (
-            <Ad key={element.url} ad={element} />
-          )}
-        </div>
-      )),
-    )
-  );
-};
-
-const FollowingFeed = () => {
-  const { ref, inView } = useInView();
-  const t = useTranslations();
-
-  const { data, fetchNextPage, hasNextPage } = useInfiniteQuery<(Tip | Ad)[]>({
+  const followingFeed = useInfiniteQuery<(Tip | Ad)[]>({
     queryKey: ['following-feed'],
     queryFn: async ({ pageParam }) =>
       await axios
@@ -141,39 +46,70 @@ const FollowingFeed = () => {
         .then((response) => spliceAdOnFeed(response.data)),
     initialPageParam: 1,
     getNextPageParam: (page, allPages) => (page.length > 1 ? allPages.length + 1 : null),
+    enabled: feed === 'following',
   });
 
-  useEffect(() => {
-    if (inView && hasNextPage) {
-      fetchNextPage();
-    }
-  }, [inView, fetchNextPage, hasNextPage]);
-
-  if (data && data.pages[0].length === 0) {
-    return (
-      <div className="flex flex-col items-center">
-        <h2 className="text-xl font-bold">{t('homepage.empty-feed.title')}</h2>
-        <span>{t('homepage.empty-feed.description')}</span>
+  return (
+    <div data-test="homepage-feed" className="p-4 container">
+      <div className="mb-2">
+        <h2 className="font-bold w-fit text-xl sm:text-2xl border-b-2 border-primary pb-1">
+          {t('homepage.title')}
+        </h2>
       </div>
-    );
-  }
+      <Tabs
+        value={feed}
+        defaultValue="for-you"
+        onValueChange={(value) => setFeed(value as Feed)}
+      >
+        <div className="flex justify-center">
+          <TabsList className="p-0 w-full bg-transparent">
+            <TabsTrigger
+              className="flex-1 sm:flex-none border-b sm:border-b-0"
+              value="following"
+            >
+              <h2
+                className={cn(
+                  'font-bold w-fit text-base sm:text-xl pb-1',
+                  feed === 'following' && 'border-b-2 border-primary',
+                )}
+              >
+                {t('homepage.feed.following')}
+              </h2>
+            </TabsTrigger>
+            <TabsTrigger
+              className="flex-1 sm:flex-none border-b sm:border-b-0"
+              value="for-you"
+            >
+              <h2
+                className={cn(
+                  'font-bold w-fit text-base sm:text-xl pb-1',
+                  feed === 'for-you' && 'border-b-2 border-primary',
+                )}
+              >
+                {t('homepage.feed.for-you')}
+              </h2>
+            </TabsTrigger>
+          </TabsList>
+        </div>
+        <TabsContent value="following">
+          <Feed feed={followingFeed} emptyFeedComponent={<EmptyHomepageFeed />} />
+        </TabsContent>
+        <TabsContent value="for-you">
+          <Feed feed={forYouFeed} emptyFeedComponent={<EmptyHomepageFeed />} />
+        </TabsContent>
+      </Tabs>
+    </div>
+  );
+}
+
+const EmptyHomepageFeed = () => {
+  const t = useTranslations();
 
   return (
-    data &&
-    data.pages.map((page, pageIndex) =>
-      page.map((element, index) => (
-        <div
-          ref={page.length - 1 === index ? ref : undefined}
-          key={`${pageIndex}-${index}`}
-        >
-          {determineIfIsTipOrAd(element) ? (
-            <Tip tip={element} key={element.id} />
-          ) : (
-            <Ad key={element.url} ad={element} />
-          )}
-        </div>
-      )),
-    )
+    <div className="flex flex-col items-center">
+      <h2 className="text-xl font-bold">{t('homepage.empty-feed.title')}</h2>
+      <span>{t('homepage.empty-feed.description')}</span>
+    </div>
   );
 };
 
@@ -186,21 +122,4 @@ const spliceAdOnFeed = (elements: (Ad | Tip)[]) => {
         ads[Math.floor(Math.random() * ads.length)],
       );
   });
-};
-
-const determineIfIsTipOrAd = (toBeDetermined: Ad | Tip): toBeDetermined is Tip => {
-  if ((toBeDetermined as Tip).tipMedias) {
-    return true;
-  }
-  return false;
-};
-
-const Ad = ({ ad }: { ad: Ad }) => {
-  return (
-    <div key={ad.url} className="pl-14 py-4 border-b">
-      <Link href={ad.url} target="_blank">
-        <Image className="rounded-lg w-full object-contain" alt="" src={ad.adImg} />
-      </Link>
-    </div>
-  );
 };
