@@ -152,7 +152,7 @@ export const TipComment = ({ comment, tipId }: TipCommentProps) => {
             </div>
           </div>
         </div>
-        <span className="text-sm sm:text-base">{comment.message}</span>
+        <span>{comment.message}</span>
       </div>
     </div>
   );

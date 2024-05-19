@@ -95,7 +95,7 @@ export default function Profile({
                 <span data-test="fullName" className="text-lg sm:text-2xl font-semibold">
                   {user.data.fullName}
                 </span>
-                <span className="text-xs sm:text-base text-muted-foreground ">
+                <span className="text-xs text-muted-foreground ">
                   @{user.data.username}
                 </span>
                 {user.data.friendshipStatus.followedBy && (

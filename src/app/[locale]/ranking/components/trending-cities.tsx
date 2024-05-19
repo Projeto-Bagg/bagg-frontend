@@ -34,7 +34,7 @@ export const TrendingCities = () => {
   return (
     <div>
       <div className="mb-2">
-        <h2 className="font-bold w-full text-xl border-b-2 border-primary pb-1">
+        <h2 className="font-bold w-full text-base sm:text-xl border-b-2 border-primary pb-1">
           {t('ranking.trending.title')}
         </h2>
       </div>

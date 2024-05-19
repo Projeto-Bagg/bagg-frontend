@@ -53,7 +53,7 @@ export const MobileNav = () => {
           <AvatarImage src={auth.user?.image} />
         </Avatar>
       </SheetTrigger>
-      <SheetContent>
+      <SheetContent className="text-base">
         <SheetHeader className="text-left mb-4">
           <SheetTitle>
             <MobileLink onOpenChange={setOpen} href={'/'}>
@@ -75,11 +75,9 @@ export const MobileNav = () => {
                   </div>
                 </div>
               </MobileLink>
-              <div>
-                <button onClick={auth.logout} className="text-sm">
-                  {t('menu.signout')}
-                </button>
-              </div>
+              <button onClick={auth.logout} className="text-sm">
+                {t('menu.signout')}
+              </button>
             </div>
             <div className="space-y-3 flex flex-col mt-4">
               <MobileLink onOpenChange={setOpen} href={'/' + auth.user?.username}>

@@ -22,7 +22,10 @@ export const RankingTitle = forwardRef<HTMLDivElement, HTMLProps<HTMLDivElement>
   ({ className, ...props }, forwardRef) => (
     <h2
       ref={forwardRef}
-      className={cn('font-bold text-xl border-b-2 border-primary pb-1', className)}
+      className={cn(
+        'font-bold text-base sm:text-xl border-b-2 border-primary pb-1',
+        className,
+      )}
       {...props}
     />
   ),
@@ -35,7 +38,7 @@ export const RankingContent = forwardRef<HTMLUListElement, HTMLProps<HTMLUListEl
     <ul
       ref={forwardRef}
       className={cn(
-        'divide-y-2 text-sm sm:text-base [&>*:nth-child(1)_h3]:text-yellow-500 [&>*:nth-child(2)_h3]:text-gray-400 [&>*:nth-child(3)_h3]:text-orange-400',
+        'divide-y-2 [&>*:nth-child(1)_h3]:text-yellow-500 [&>*:nth-child(2)_h3]:text-gray-400 [&>*:nth-child(3)_h3]:text-orange-400',
         className,
       )}
       {...props}
