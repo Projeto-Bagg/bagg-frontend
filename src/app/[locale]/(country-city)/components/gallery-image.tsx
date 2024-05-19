@@ -46,7 +46,7 @@ export const GalleryImage = ({ image, className, ...props }: GalleryImage) => {
               <div className="flex flex-col">
                 <UserHoverCard username={image.user.username}>
                   <Link
-                    className="hover:underline"
+                    className="hover:underline font-semibold"
                     href={{
                       params: { slug: image.user.username },
                       pathname: '/[slug]',
@@ -68,11 +68,11 @@ export const GalleryImage = ({ image, className, ...props }: GalleryImage) => {
                 </UserHoverCard>
               </div>
             </div>
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-1 dark:text-muted-foreground text-muted">
               {image.city && (
                 <>
                   <Link
-                    className="hover:underline"
+                    className="hover:underline text-primary"
                     href={{
                       params: { slug: image.city.id },
                       pathname: '/city/[slug]',
@@ -83,7 +83,7 @@ export const GalleryImage = ({ image, className, ...props }: GalleryImage) => {
                   {'•'}
                 </>
               )}
-              <span className="dark:text-muted-foreground text-muted">
+              <span>
                 {intlFormatDistance(image.createdAt, new Date(), {
                   numeric: 'always',
                   style: 'narrow',

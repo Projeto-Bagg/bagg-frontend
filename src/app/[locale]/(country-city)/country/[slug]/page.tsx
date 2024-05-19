@@ -55,7 +55,7 @@ export default function Page({ params }: { params: { slug: string } }) {
     <div className="grid gap-x-4 gap-y-6 grid-cols-1 sm:grid-cols-2">
       <div>
         <div className="mb-2">
-          <h2 className="font-bold text-xl border-b-2 border-primary pb-1">
+          <h2 className="font-bold text-base sm:text-xl border-b-2 border-primary pb-1">
             {t('country-city-page.gallery')}
           </h2>
         </div>
@@ -91,7 +91,7 @@ export default function Page({ params }: { params: { slug: string } }) {
       </div>
       <div>
         <div className="mb-2">
-          <h2 className="font-bold text-xl border-b-2 border-primary pb-1">
+          <h2 className="font-bold text-base sm:text-xl border-b-2 border-primary pb-1">
             {t('country-city-page.location')}
           </h2>
         </div>
@@ -102,13 +102,13 @@ export default function Page({ params }: { params: { slug: string } }) {
       <div className="sm:col-span-2">
         <div>
           <div className="mb-2">
-            <h2 className="font-bold text-xl border-b-2 border-primary pb-1">
+            <h2 className="font-bold text-base sm:text-xl border-b-2 border-primary pb-1">
               {t('country-city-page.reviews')}
             </h2>
           </div>
           <div>
             {visits.pages[0].length === 0 && (
-              <div className="py-4 text-sm text-center">
+              <div className="py-4 text-sm text-center text-muted-foreground">
                 <span>{t('country-city-page.tabs.reviews.no-reviews')}</span>
               </div>
             )}

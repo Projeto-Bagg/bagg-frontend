@@ -42,7 +42,7 @@ export default function Residents({ params }: { params: { slug: string } }) {
       </div>
       <div>
         {data?.pages[0].length === 0 && (
-          <div className="py-4 text-sm text-center">
+          <div className="py-4 text-sm text-center text-muted-foreground">
             <span>{t('country-city-page.tabs.residents.no-residents')}</span>
           </div>
         )}

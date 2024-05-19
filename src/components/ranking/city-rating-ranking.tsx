@@ -147,7 +147,7 @@ export const CityRatingRanking = ({
             )),
           )}
         {ranking && ranking.pages[0].length === 0 && (
-          <div className="py-4 text-sm text-center">
+          <div className="py-4 text-sm text-center text-muted-foreground">
             <span>{t('ranking.empty')}</span>
           </div>
         )}
