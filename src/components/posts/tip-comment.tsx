@@ -51,21 +51,18 @@ export const TipComment = ({ comment, tipId }: TipCommentProps) => {
             }}
           >
             <Avatar>
-              <AvatarImage
-                className="h-[44px] w-[44px] rounded-full"
-                src={comment.user.image}
-              />
+              <AvatarImage className="w-[44px] rounded-full" src={comment.user.image} />
             </Avatar>
           </Link>
         </UserHoverCard>
       </div>
-      <div className="w-full">
-        <div className="flex items-center gap-3 w-full">
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center gap-3">
           <div className="flex gap-2 items-center justify-between w-full">
-            <div className="flex gap-1 text-ellipsis overflow-hidden whitespace-nowrap">
+            <div className="flex gap-1 overflow-hidden">
               <UserHoverCard username={comment.user.username}>
                 <Link
-                  className="font-bold hover:underline"
+                  className="font-semibold hover:underline truncate"
                   href={{
                     params: { slug: comment.user.username },
                     pathname: '/[slug]',
@@ -98,7 +95,7 @@ export const TipComment = ({ comment, tipId }: TipCommentProps) => {
                 <DropdownMenu modal={false}>
                   <DropdownMenuTrigger asChild>
                     <button data-test="comment-options">
-                      <Settings className="w-[20px] h-[20px]" />
+                      <Settings className="w-[18px] h-[18px]" />
                     </button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent>
@@ -155,7 +152,7 @@ export const TipComment = ({ comment, tipId }: TipCommentProps) => {
             </div>
           </div>
         </div>
-        <span>{comment.message}</span>
+        <span className="text-sm sm:text-base">{comment.message}</span>
       </div>
     </div>
   );

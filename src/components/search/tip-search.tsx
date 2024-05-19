@@ -15,32 +15,40 @@ export const TipSearch = ({ tip, boldMessage, setOpen }: TipSearchProps) => {
     <div className="border rounded-sm p-2">
       <div className="flex items-center mb-1 gap-2">
         <UserHoverCard username={tip.user.username}>
-          <Link href={{ params: { slug: tip.user.username }, pathname: '/[slug]' }}>
+          <Link
+            onClick={() => setOpen(false)}
+            href={{ params: { slug: tip.user.username }, pathname: '/[slug]' }}
+          >
             <Avatar>
               <AvatarImage src={tip.user.image} />
             </Avatar>
           </Link>
         </UserHoverCard>
-        <UserHoverCard username={tip.user.username}>
-          <div className="flex flex-col">
+        <div className="flex flex-col min-w-0">
+          <UserHoverCard username={tip.user.username}>
             <Link
-              className="hover:underline"
+              className="hover:underline font-semibold truncate"
+              onClick={() => setOpen(false)}
               href={{ params: { slug: tip.user.username }, pathname: '/[slug]' }}
             >
-              <span>{tip.user.fullName}</span>
+              {tip.user.fullName}
             </Link>
+          </UserHoverCard>
+          <UserHoverCard username={tip.user.username}>
             <Link
               className="hover:underline text-muted-foreground"
+              onClick={() => setOpen(false)}
               href={{ params: { slug: tip.user.username }, pathname: '/[slug]' }}
             >
-              <span>@{tip.user.username}</span>
+              @{tip.user.username}
             </Link>
-          </div>
-        </UserHoverCard>
+          </UserHoverCard>
+        </div>
       </div>
       <div className="flex gap-1">
         <Link
           href={{ params: { slug: tip.city.id }, pathname: '/city/[slug]' }}
+          onClick={() => setOpen(false)}
           className="hover:underline text-muted-foreground text-ellipsis min-w-0 whitespace-nowrap overflow-hidden"
         >
           {tip.city.name}, {tip.city.region.name}, {tip.city.region.country.name}

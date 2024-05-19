@@ -85,14 +85,14 @@ export default function Profile({
                     <AvatarImage src={user.data.image} />
                   </Avatar>
                 </DialogTrigger>
-                <DialogContent className="w-[90%] h-auto aspect-square sm:w-[440px] sm:h-[440px] p-0 sm:rounded-full rounded-full border-none">
+                <DialogContent className="w-[90%] h-auto aspect-square sm:w-[440px] sm:h-[440px] p-0 sm:p-0 sm:rounded-full rounded-full border-none">
                   <Avatar className="w-full h-full">
                     <AvatarImage src={user.data.image} />
                   </Avatar>
                 </DialogContent>
               </Dialog>
               <div className="flex flex-col">
-                <span data-test="fullName" className="text-lg sm:text-2xl">
+                <span data-test="fullName" className="text-lg sm:text-2xl font-semibold">
                   {user.data.fullName}
                 </span>
                 <span className="text-xs sm:text-base text-muted-foreground ">
@@ -142,20 +142,22 @@ export default function Profile({
                 {t('profile.birthdate', { joinDate: user.data.birthdate })}
               </p>
               {user.data.city && (
-                <div className="text-muted-foreground flex gap-1">
-                  <p>{t('profile.city')}</p>
+                <div className="text-muted-foreground flex gap-1 min-w-0 items-center">
+                  <p className="shrink-0">{t('profile.city')}</p>
                   <Link
                     data-test="city"
                     href={{
                       params: { slug: user.data.city.id },
                       pathname: '/city/[slug]',
                     }}
-                    className="text-foreground flex hover:underline"
+                    className="text-foreground flex hover:underline min-w-0 items-center"
                   >
-                    {user.data.city.name}, {user.data.city.region.name},{' '}
-                    {user.data.city.region.country.name}
+                    <span className="truncate">
+                      {user.data.city.name}, {user.data.city.region.name},{' '}
+                      {user.data.city.region.country.name}
+                    </span>
                     <CountryFlag
-                      className="ml-1"
+                      className="ml-1 shrink-0"
                       iso2={user.data.city.region.country.iso2}
                     />
                   </Link>

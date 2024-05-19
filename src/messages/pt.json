@@ -277,12 +277,13 @@
     "Antarctica": "Antártica"
   },
   "diary-post": {
+    "diary-post": "Postagem no diário",
     "copy-link": "Copiar link",
     "delete": "Excluir",
     "badge": "Diário",
     "liked-by": "Curtido por",
     "delete-modal": {
-      "title": "Excluir postagem de diário",
+      "title": "Excluir postagem no diário",
       "description": "Tem certeza que deseja excluir a postagem? Essa ação é irreversível.",
       "cancel": "Cancelar",
       "action": "Excluir"

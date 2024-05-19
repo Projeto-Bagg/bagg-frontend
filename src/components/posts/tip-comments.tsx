@@ -48,13 +48,10 @@ export const TipComments = ({ tip }: TipCommentProps) => {
           <Link
             href={{ params: { slug: auth.user.username }, pathname: '/[slug]' }}
             prefetch={false}
-            className="shrink-0"
+            className="shrink-0 flex"
           >
             <Avatar>
-              <AvatarImage
-                className="h-[44px] w-[44px] rounded-full"
-                src={auth.user.image}
-              />
+              <AvatarImage className="w-[44px] rounded-full" src={auth.user.image} />
             </Avatar>
           </Link>
           <Input className="h-[unset]" placeholder="Faça um comentário" />

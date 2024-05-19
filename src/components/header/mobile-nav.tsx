@@ -61,18 +61,20 @@ export const MobileNav = () => {
             </MobileLink>
           </SheetTitle>
         </SheetHeader>
-        {auth.isAuthenticated ? (
+        {auth.user ? (
           <div>
             <div className="flex gap-2 justify-between items-center">
-              <div className="flex gap-2 items-center">
-                <Avatar className="h-[64px] w-[64px]">
-                  <AvatarImage src={auth.user?.image} />
-                </Avatar>
-                <div>
-                  <span className="text-sm">@{auth.user?.username}</span>
-                  <p className="text-xs text-muted-foreground">{auth.user?.fullName}</p>
+              <MobileLink onOpenChange={setOpen} href={'/' + auth.user.username}>
+                <div className="flex gap-2 items-center">
+                  <Avatar className="h-[64px] w-[64px]">
+                    <AvatarImage src={auth.user.image} />
+                  </Avatar>
+                  <div>
+                    <span className="text-sm font-semibold">{auth.user.fullName}</span>
+                    <p className="text-xs text-muted-foreground">@{auth.user.username}</p>
+                  </div>
                 </div>
-              </div>
+              </MobileLink>
               <div>
                 <button onClick={auth.logout} className="text-sm">
                   {t('menu.signout')}
@@ -180,15 +182,17 @@ export const MobileNav = () => {
             </CollapsibleTrigger>
             <CollapsibleContent>
               {themes.map((theme) => (
-                <div key={theme} className="ml-3 mt-2 flex justify-between">
+                <div key={theme} className="ml-3 mt-2">
                   <button
                     onClick={() => setTheme(theme)}
-                    className="text-muted-foreground"
+                    className="text-muted-foreground w-full flex justify-between"
                     data-test={theme}
                   >
                     {t(`themes.${theme as 'dark' | 'light' | 'system'}`)}
+                    {activeTheme === theme && (
+                      <Check size={20} className="text-primary" />
+                    )}
                   </button>
-                  {activeTheme === theme && <Check size={20} className="text-primary" />}
                 </div>
               ))}
             </CollapsibleContent>

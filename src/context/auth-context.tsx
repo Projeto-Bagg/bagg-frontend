@@ -138,7 +138,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             <img
               src={'/spinner.svg'}
               alt=""
-              className="[&>circle]:stroke-foreground"
+              className="dark:invert-0 invert"
               width="40"
               height="40"
             />

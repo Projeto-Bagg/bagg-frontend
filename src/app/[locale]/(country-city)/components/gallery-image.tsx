@@ -43,20 +43,30 @@ export const GalleryImage = ({ image, className, ...props }: GalleryImage) => {
                   </Avatar>
                 </Link>
               </UserHoverCard>
-              <UserHoverCard username={image.user.username}>
-                <Link
-                  className="hover:underline"
-                  href={{
-                    params: { slug: image.user.username },
-                    pathname: '/[slug]',
-                  }}
-                >
-                  <div className="flex flex-col">
-                    <span>{image.user.fullName}</span>
-                    <span>@{image.user.username}</span>
-                  </div>
-                </Link>
-              </UserHoverCard>
+              <div className="flex flex-col">
+                <UserHoverCard username={image.user.username}>
+                  <Link
+                    className="hover:underline"
+                    href={{
+                      params: { slug: image.user.username },
+                      pathname: '/[slug]',
+                    }}
+                  >
+                    {image.user.fullName}
+                  </Link>
+                </UserHoverCard>
+                <UserHoverCard username={image.user.username}>
+                  <Link
+                    className="hover:underline dark:text-muted-foreground text-muted"
+                    href={{
+                      params: { slug: image.user.username },
+                      pathname: '/[slug]',
+                    }}
+                  >
+                    @{image.user.username}
+                  </Link>
+                </UserHoverCard>
+              </div>
             </div>
             <div className="flex items-center gap-1">
               {image.city && (
@@ -73,7 +83,7 @@ export const GalleryImage = ({ image, className, ...props }: GalleryImage) => {
                   {'•'}
                 </>
               )}
-              <span>
+              <span className="dark:text-muted-foreground text-muted">
                 {intlFormatDistance(image.createdAt, new Date(), {
                   numeric: 'always',
                   style: 'narrow',
