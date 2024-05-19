@@ -93,7 +93,7 @@ export default function Page({ params }: { params: { slug: string } }) {
     <div className="grid gap-x-4 gap-y-6 grid-cols-1 sm:grid-cols-2">
       <div>
         <div className="mb-2">
-          <h2 className="font-bold text-xl border-b-2 border-primary pb-1">
+          <h2 className="font-bold text-base sm:text-xl border-b-2 border-primary pb-1">
             {t('country-city-page.gallery')}
           </h2>
         </div>
@@ -128,7 +128,7 @@ export default function Page({ params }: { params: { slug: string } }) {
       </div>
       <div>
         <div className="mb-2">
-          <h2 className="font-bold text-xl border-b-2 border-primary pb-1">
+          <h2 className="font-bold text-base sm:text-xl border-b-2 border-primary pb-1">
             {t('country-city-page.location')}
           </h2>
         </div>
@@ -145,7 +145,7 @@ export default function Page({ params }: { params: { slug: string } }) {
               page.map((city) =>
                 city.places.map((city, index) => (
                   <RankingItem key={city.id}>
-                    <div className="flex gap-2 items-center w-full">
+                    <div className="flex gap-1 sm:gap-2 items-center w-full">
                       <h3 className="w-[24px] font-bold shrink-0">
                         {pageIndex * 10 + (index + 1)}º
                       </h3>
@@ -162,7 +162,7 @@ export default function Page({ params }: { params: { slug: string } }) {
                         />
                       </Link>
                       <div className="flex justify-between min-w-0 w-full">
-                        <div className="flex-1 whitespace-nowrap overflow-hidden text-ellipsis">
+                        <div className="flex-1 truncate">
                           <Link
                             className="hover:underline mr-1"
                             href={{ params: { slug: city.id }, pathname: '/city/[slug]' }}
@@ -187,12 +187,12 @@ export default function Page({ params }: { params: { slug: string } }) {
       </div>
       <div>
         <div className="mb-2 pb-1 border-b-2 border-primary">
-          <h3 className="font-bold text-xl">
+          <h3 className="font-bold text-base sm:text-xl">
             {t('country-city-page.tabs.residents.label')}
           </h3>
         </div>
         {residents?.pages[0].length === 0 && (
-          <div className="py-4 text-sm text-center">
+          <div className="py-4 text-sm text-center text-muted-foreground">
             <span>{t('country-city-page.tabs.residents.no-residents')}</span>
           </div>
         )}
@@ -208,13 +208,13 @@ export default function Page({ params }: { params: { slug: string } }) {
       <div className="sm:col-span-2">
         <div>
           <div className="mb-2">
-            <h2 className="font-bold text-xl border-b-2 border-primary pb-1">
+            <h2 className="font-bold text-base sm:text-xl border-b-2 border-primary pb-1">
               {t('country-city-page.reviews')}
             </h2>
           </div>
           <div data-test="city-visits">
             {visits?.pages[0].length === 0 && (
-              <div className="py-4 text-sm text-center">
+              <div className="py-4 text-sm text-center text-muted-foreground">
                 <span>{t('country-city-page.tabs.reviews.no-reviews')}</span>
               </div>
             )}

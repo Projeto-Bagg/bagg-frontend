@@ -221,7 +221,6 @@ export const Tip = forwardRef<
                     ? replaceByBold(tip.message, boldMessage.split(' '))
                     : tip.message,
                 }}
-                className="text-sm sm:text-base"
               />
             </Link>
           </div>

@@ -55,7 +55,7 @@ export const GalleryCarousel = ({
   return (
     <div className="w-full h-full rounded-lg overflow-hidden border-2">
       {count === 0 && (
-        <div className="justify-center text-sm flex h-full w-full items-center">
+        <div className="justify-center text-muted-foreground text-sm flex h-full w-full items-center">
           <span>{t('country-city-page.no-images')}</span>
         </div>
       )}

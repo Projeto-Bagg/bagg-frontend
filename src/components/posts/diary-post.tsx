@@ -198,7 +198,7 @@ export const DiaryPost = forwardRef<
         </div>
         <div>
           <Link href={{ params: { slug: post.id }, pathname: '/diary/post/[slug]' }}>
-            <p className="text-sm sm:text-base">{post.message}</p>
+            <p>{post.message}</p>
           </Link>
         </div>
         <Medias medias={post.diaryPostMedias} />
