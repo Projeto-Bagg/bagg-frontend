@@ -53,7 +53,7 @@ export default function Page() {
   }
 
   return (
-    <div data-test="cities" className="gap-y-0.5 gap-x-2 grid sm:grid-cols-2">
+    <div data-test="cities" className="space-y-0.5 sm:gap-x-2 sm:grid sm:grid-cols-2">
       {data &&
         data.pages.map((page) =>
           page.map((city, index) => (

@@ -104,7 +104,7 @@ export const ProfilePicDialog = ({ children, onSubmit }: IProfilePicDialog) => {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogTrigger>{children}</DialogTrigger>
-      <DialogContent ref={modalRef} className="gap-0 p-0 pt-6">
+      <DialogContent ref={modalRef} className="gap-0 p-0 sm:p-0 pt-6 sm:pt-6">
         <DialogHeader className="mb-6">
           <DialogTitle className="text-center">
             {t('profile-pic-modal.title')}

@@ -97,7 +97,7 @@ export const CityRatingRanking = ({
                 key={city.id}
                 ref={page.length - 1 === index ? ref : undefined}
               >
-                <div className="flex gap-2 items-center w-full">
+                <div className="flex gap-1 sm:gap-2 items-center w-full">
                   <h3 className="w-[24px] font-bold shrink-0">
                     {pageIndex * count + (index + 1)}º
                   </h3>

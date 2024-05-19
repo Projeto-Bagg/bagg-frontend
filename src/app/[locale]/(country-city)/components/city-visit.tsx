@@ -75,7 +75,7 @@ export const CityVisit = forwardRef<
           </div>
         </div>
         <div className="mt-1">
-          <span>{visit.message}</span>
+          <span className="text-sm sm:text-base">{visit.message}</span>
         </div>
       </div>
     </div>

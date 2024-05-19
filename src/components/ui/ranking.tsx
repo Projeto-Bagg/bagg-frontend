@@ -22,7 +22,7 @@ export const RankingTitle = forwardRef<HTMLDivElement, HTMLProps<HTMLDivElement>
   ({ className, ...props }, forwardRef) => (
     <h2
       ref={forwardRef}
-      className={cn('font-bold sm:text-xl border-b-2 border-primary pb-1', className)}
+      className={cn('font-bold text-xl border-b-2 border-primary pb-1', className)}
       {...props}
     />
   ),

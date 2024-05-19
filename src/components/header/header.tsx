@@ -28,7 +28,7 @@ export const Header = () => {
   const pathname = usePathname();
 
   return (
-    <header className="text-sm m-auto border-b fixed top-0 left-0 right-0 w-full px-4 sm:px-0 z-50 bg-background/70">
+    <header className="text-sm m-auto border-b fixed top-0 left-0 right-0 w-full px-4 z-50 bg-background/70">
       <div className="flex m-auto gap-2 sm:gap-4 justify-between items-center max-w-[900px] min-h-[3.75rem] backdrop-blur-xl">
         <nav>
           <ul className="flex gap-6 font-semibold items-center">
@@ -104,7 +104,7 @@ export const Header = () => {
                           <Avatar className="my-1 h-[48px] w-[48px]">
                             <AvatarImage src={auth.user?.image} />
                           </Avatar>
-                          <span data-test="header-username" className="font-medium">
+                          <span data-test="header-username" className="font-semibold">
                             {auth.user?.username}
                           </span>
                         </div>

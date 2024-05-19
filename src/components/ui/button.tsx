@@ -51,7 +51,11 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         {...props}
       >
-        {loading ? <img src={'/spinner.svg'} alt="" className="h-full" /> : children}
+        {loading ? (
+          <img src={'/spinner.svg'} alt="" className="h-full dark:invert-0 invert" />
+        ) : (
+          children
+        )}
       </Comp>
     );
   },

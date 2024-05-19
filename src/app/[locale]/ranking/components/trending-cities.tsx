@@ -69,7 +69,7 @@ export const TrendingCities = () => {
                             className="hover:underline"
                             href={{ params: { slug: city.id }, pathname: '/city/[slug]' }}
                           >
-                            <span>{city.name}</span>
+                            {city.name}
                           </Link>
                         </div>
                         <span>{city.percentFromTotal}%</span>
@@ -117,7 +117,7 @@ const TrendingCitiesSkeleton = () => {
           key={index}
         >
           <div className="w-full h-full border aspect-[12/9]">
-            <Skeleton className="w-full h-full" />
+            <Skeleton className="w-full h-full gradient-mask-b-[rgba(0,0,0,1.0)_4px]" />
           </div>
         </div>
       ))}

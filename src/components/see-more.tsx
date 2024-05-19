@@ -16,7 +16,7 @@ export const SeeMore = <Pathname extends keyof typeof pathnames>({
     <Link
       {...props}
       className={cn(
-        'text-right hover:underline text-sm font-bold w-full uppercase text-primary',
+        'text-right hover:underline text-xs sm:text-sm font-bold w-full uppercase text-primary',
         className,
       )}
     >

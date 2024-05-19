@@ -68,8 +68,7 @@ export const TripDiary = ({ tripDiary, seePostsAnchor }: TripDiaryProps) => {
           >
             {tripDiary.title}
           </Link>
-
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-2">
             <span className="text-muted-foreground text-sm">
               {formatter.relativeTime(tripDiary.createdAt, new Date())}
             </span>
@@ -119,7 +118,7 @@ export const TripDiary = ({ tripDiary, seePostsAnchor }: TripDiaryProps) => {
             </DropdownMenu>
           </div>
         </div>
-        <div className="flex gap-1 text-sm text-muted-foreground">
+        <div className="flex gap-2 text-sm text-muted-foreground">
           <Link
             href={{ params: { slug: tripDiary.city.id }, pathname: '/city/[slug]' }}
             className="hover:underline"

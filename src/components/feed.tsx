@@ -37,7 +37,7 @@ interface FeedProps {
 }
 
 export const Feed = ({
-  feed: { data, fetchNextPage, hasNextPage, isFetchingNextPage, isPending },
+  feed: { data, fetchNextPage, hasNextPage, isFetchingNextPage, isFetching },
   emptyFeedComponent,
 }: FeedProps) => {
   const { ref, inView } = useInView();
@@ -57,7 +57,7 @@ export const Feed = ({
       {data &&
         data.pages.map((page, pageIndex) =>
           page.map((element, index) => (
-            <div
+            <article
               ref={page.length - 1 === index ? ref : undefined}
               key={`${pageIndex}-${index}`}
             >
@@ -68,12 +68,12 @@ export const Feed = ({
               ) : (
                 <DiaryPost post={element} />
               )}
-            </div>
+            </article>
           )),
         )}
-      {(isFetchingNextPage || isPending) && (
+      {(isFetchingNextPage || isFetching) && (
         <div className="pt-4 flex justify-center">
-          <img src={'/spinner.svg'} alt="" className="w-11 h-full" />
+          <img src={'/spinner.svg'} alt="" className="w-11 h-full dark:invert-0 invert" />
         </div>
       )}
     </>

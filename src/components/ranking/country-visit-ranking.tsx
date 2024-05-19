@@ -99,7 +99,7 @@ export const CountryVisitRanking = ({
                 key={country.iso2}
                 ref={page.length - 1 === index ? ref : undefined}
               >
-                <div className="flex gap-2 items-center">
+                <div className="flex gap-1 sm:gap-2 items-center">
                   <h3 className="w-[24px] font-bold shrink-0">
                     {pageIndex * count + (index + 1)}º
                   </h3>

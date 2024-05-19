@@ -87,38 +87,38 @@ export const Tip = forwardRef<
   };
 
   return (
-    <div {...props} ref={forwardRef} className="py-4 space-y-3 border-b">
+    <div {...props} ref={forwardRef} className="py-4 border-b">
       <div className="flex">
-        <div className="basis-[40px] mr-3">
+        <div className="shrink-0 mr-3">
           <UserHoverCard username={tip.user.username}>
             <Link
               href={{ params: { slug: tip.user.username }, pathname: '/[slug]' }}
               className="h-fit"
             >
-              <Avatar className="h-[44px] w-[44px] shrink-0">
+              <Avatar className="h-[44px] w-[44px]">
                 <AvatarImage src={tip.user.image} />
               </Avatar>
             </Link>
           </UserHoverCard>
         </div>
-        <div className="grow basis-0">
+        <div className="flex-1 min-w-0">
           <div className="flex gap-2 items-start justify-between">
-            <div className="inline-block overflow-hidden text-ellipsis whitespace-nowrap ">
+            <div className="flex flex-col min-w-0">
               <UserHoverCard username={tip.user.username}>
-                <div className="flex flex-col">
-                  <Link
-                    className="hover:underline"
-                    href={{ params: { slug: tip.user.username }, pathname: '/[slug]' }}
-                  >
-                    <span>{tip.user.fullName}</span>
-                  </Link>
-                  <Link
-                    href={{ params: { slug: tip.user.username }, pathname: '/[slug]' }}
-                    className="text-muted-foreground hover:underline"
-                  >
-                    <span className="text-sm">@{tip.user.username}</span>
-                  </Link>
-                </div>
+                <Link
+                  className="hover:underline font-semibold truncate"
+                  href={{ params: { slug: tip.user.username }, pathname: '/[slug]' }}
+                >
+                  {tip.user.fullName}
+                </Link>
+              </UserHoverCard>
+              <UserHoverCard username={tip.user.username}>
+                <Link
+                  href={{ params: { slug: tip.user.username }, pathname: '/[slug]' }}
+                  className="text-muted-foreground hover:underline text-sm"
+                >
+                  @{tip.user.username}
+                </Link>
               </UserHoverCard>
             </div>
             <div className="flex shrink-0 items-center gap-2 text-muted-foreground">
@@ -130,7 +130,7 @@ export const Tip = forwardRef<
                 onClick={handleLikeClick}
                 data-liked={tip.isLiked}
                 size={20}
-                className="data-[liked=true]:fill-red-600 data-[liked=true]:text-red-600 cursor-pointer text-foreground"
+                className="data-[liked=true]:fill-red-600 data-[liked=true]:text-red-600 transition-all hover:text-red-600 cursor-pointer"
               />
               <span className="text-sm">
                 {intlFormatDistance(tip.createdAt, new Date(), {
@@ -214,14 +214,16 @@ export const Tip = forwardRef<
             </Link>
           </div>
           <div>
-            <p
-              dangerouslySetInnerHTML={{
-                __html: boldMessage
-                  ? replaceByBold(tip.message, boldMessage.split(' '))
-                  : tip.message,
-              }}
-              className="text-sm sm:text-base"
-            />
+            <Link href={{ params: { slug: tip.id }, pathname: '/tip/[slug]' }}>
+              <p
+                dangerouslySetInnerHTML={{
+                  __html: boldMessage
+                    ? replaceByBold(tip.message, boldMessage.split(' '))
+                    : tip.message,
+                }}
+                className="text-sm sm:text-base"
+              />
+            </Link>
           </div>
           <Medias medias={tip.tipMedias} />
           {!withComments && (
