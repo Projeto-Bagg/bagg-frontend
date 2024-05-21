@@ -141,7 +141,7 @@ export const CityVisitRanking = ({
         <RankingFooter>
           <SeeMore
             href={{
-              pathname: '/city/ranking/visits',
+              pathname: '/ranking/city/visits',
               query: {
                 ...(iso2 && {
                   countryIso2: iso2,

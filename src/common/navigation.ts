@@ -8,6 +8,10 @@ export const pathnames = {
   '/login': '/login',
   '/signup': '/signup',
   '/ranking': '/ranking',
+  '/ranking/country/visits': '/ranking/country/visits',
+  '/ranking/country/rating': '/ranking/country/rating',
+  '/ranking/city/visits': '/ranking/city/visits',
+  '/ranking/city/rating': '/ranking/city/rating',
   '/admin': '/admin',
   '/terms-of-use': '/terms-of-use',
   '/search': '/search',
@@ -20,14 +24,10 @@ export const pathnames = {
   '/settings/reset-password': '/settings/reset-password',
   '/settings/reset-password/done': '/settings/reset-password/done',
   '/settings/reset-password/reset': '/settings/reset-password/reset',
-  '/city/ranking/rating': '/city/ranking/rating',
-  '/city/ranking/visits': '/city/ranking/visits',
   '/city/[slug]': '/city/[slug]',
   '/city/[slug]/visits': '/city/[slug]/visits',
   '/city/[slug]/residents': '/city/[slug]/residents',
   '/city/[slug]/gallery': '/city/[slug]/gallery',
-  '/country/ranking/rating': '/country/ranking/rating',
-  '/country/ranking/visits': '/country/ranking/visits',
   '/country/[slug]/visits': '/country/[slug]/visits',
   '/country/[slug]/residents': '/country/[slug]/residents',
   '/country/[slug]/gallery': '/country/[slug]/gallery',
@@ -39,7 +39,6 @@ export const pathnames = {
   '/[slug]/diary-posts': '/[slug]/diary-posts',
   '/[slug]/diaries': '/[slug]/diaries',
   '/[slug]/visits': '/[slug]/visits',
-  '/[slug]/settings/profile': '/[slug]/settings/profile',
 } satisfies Pathnames<typeof locales>;
 
 export const { Link, redirect, usePathname, useRouter } =

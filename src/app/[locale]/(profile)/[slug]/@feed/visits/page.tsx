@@ -20,7 +20,7 @@ export default function Visits({ params }: { params: { slug: string } }) {
   });
 
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full mt-4">
+    <div className="grid grid-cols-2 sm:grid-cols-4 gap-y-4 gap-x-2 w-full mt-4">
       {visits.data?.map((visit) => (
         <div
           key={visit.id}

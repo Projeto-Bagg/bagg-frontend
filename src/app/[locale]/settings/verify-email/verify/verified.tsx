@@ -16,31 +16,33 @@ export const Verified = () => {
 
   useEffect(() => {
     const refreshToken = async () => {
-      const tempRefreshToken = getCookie('bagg.tempRefreshToken');
+      try {
+        if (confirmed) return;
 
-      if (confirmed) {
-        return;
+        const tempRefreshToken = getCookie('bagg.tempRefreshToken');
+
+        if (!tempRefreshToken) {
+          return router.replace('/login');
+        }
+
+        const { data } = await axios.post('/auth/refresh', {
+          refreshToken: tempRefreshToken,
+        });
+
+        setCookie('bagg.sessionToken', data.accessToken);
+        setCookie('bagg.refreshToken', data.refreshToken);
+
+        deleteCookie('bagg.tempSessionToken');
+        deleteCookie('bagg.tempRefreshToken');
+
+        await auth.refetch();
+        router.replace('/home');
+      } catch (error) {
+        router.replace('/login');
+      } finally {
+        setConfirmed(true);
+        toast({ variant: 'success', title: t('settings.verify-email.success') });
       }
-
-      if (!tempRefreshToken) {
-        return router.replace('/login');
-      }
-
-      const { data } = await axios.post('/auth/refresh', {
-        refreshToken: tempRefreshToken,
-      });
-
-      setCookie('bagg.sessionToken', data.accessToken);
-      setCookie('bagg.refreshToken', data.refreshToken);
-
-      deleteCookie('bagg.tempSessionToken');
-      deleteCookie('bagg.tempRefreshToken');
-
-      toast({ variant: 'success', title: t('settings.verify-email.success') });
-
-      await auth.refetch();
-      setConfirmed(true);
-      router.replace('/home');
     };
     refreshToken();
   }, [auth, router, t, confirmed]);
