@@ -15,6 +15,17 @@ const cspHeader = `
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  async redirects() {
+    return [
+      { source: '/ranking/city', destination: '/ranking/city/rating', permanent: false },
+      {
+        source: '/ranking/country',
+        destination: '/ranking/country/rating',
+        permanent: false,
+      },
+    ];
+  },
+
   async headers() {
     return [
       {

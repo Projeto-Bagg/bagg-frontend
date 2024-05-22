@@ -77,11 +77,11 @@ export default function Profile({
       {user.isLoading && <ProfileSkeleton />}
       {user.data && (
         <div>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2 sm:gap-4">
+          <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2 sm:gap-4 min-w-0">
               <Dialog>
                 <DialogTrigger>
-                  <Avatar className="w-[100px] h-[100px] sm:w-[144px] sm:h-[144px]">
+                  <Avatar className="w-[88px] h-[88px] sm:w-[144px] sm:h-[144px]">
                     <AvatarImage src={user.data.image} />
                   </Avatar>
                 </DialogTrigger>
@@ -91,18 +91,23 @@ export default function Profile({
                   </Avatar>
                 </DialogContent>
               </Dialog>
-              <div className="flex flex-col">
-                <span data-test="fullName" className="text-lg sm:text-2xl font-semibold">
+              <div className="flex flex-col min-w-0">
+                <span
+                  data-test="fullName"
+                  className="text-lg sm:text-2xl font-semibold truncate"
+                >
                   {user.data.fullName}
                 </span>
-                <span className="text-xs text-muted-foreground ">
-                  @{user.data.username}
-                </span>
-                {user.data.friendshipStatus.followedBy && (
-                  <span className="text-xs sm:text-sm text-muted-foreground">
-                    {t('follow.follow-you')}
+                <div className="flex flex-col sm:flex-row gap-1 sm:items-center">
+                  <span className="text-muted-foreground truncate">
+                    @{user.data.username}
                   </span>
-                )}
+                  {user.data.friendshipStatus.followedBy && (
+                    <span className="shrink-0 text-xs py-0.5 px-1 rounded-sm text-muted-foreground bg-muted w-fit">
+                      {t('follow.follow-you')}
+                    </span>
+                  )}
+                </div>
               </div>
             </div>
             {auth.user?.id !== user.data.id ? (

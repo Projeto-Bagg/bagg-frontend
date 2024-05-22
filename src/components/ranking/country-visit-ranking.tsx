@@ -145,7 +145,7 @@ export const CountryVisitRanking = ({
       </RankingContent>
       {seeMore && ranking?.pages[0].length !== 0 && (
         <RankingFooter>
-          <SeeMore href={'/country/ranking/visits'} />
+          <SeeMore href={'/ranking/country/visits'} />
         </RankingFooter>
       )}
     </Ranking>

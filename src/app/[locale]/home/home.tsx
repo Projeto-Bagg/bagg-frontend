@@ -13,7 +13,7 @@ import { Feed } from '@/components/feed';
 type Feed = 'for-you' | 'following';
 
 export default function Home() {
-  const [feed, setFeed] = useState<Feed>('following');
+  const [feed, setFeed] = useState<Feed>('for-you');
   const t = useTranslations();
 
   const forYouFeed = useInfiniteQuery<(Ad | Tip)[]>({
@@ -65,19 +65,6 @@ export default function Home() {
           <TabsList className="p-0 w-full bg-transparent">
             <TabsTrigger
               className="flex-1 sm:flex-none border-b sm:border-b-0"
-              value="following"
-            >
-              <h2
-                className={cn(
-                  'font-bold w-fit text-base sm:text-xl pb-1',
-                  feed === 'following' && 'border-b-2 border-primary',
-                )}
-              >
-                {t('homepage.feed.following')}
-              </h2>
-            </TabsTrigger>
-            <TabsTrigger
-              className="flex-1 sm:flex-none border-b sm:border-b-0"
               value="for-you"
             >
               <h2
@@ -87,6 +74,19 @@ export default function Home() {
                 )}
               >
                 {t('homepage.feed.for-you')}
+              </h2>
+            </TabsTrigger>
+            <TabsTrigger
+              className="flex-1 sm:flex-none border-b sm:border-b-0"
+              value="following"
+            >
+              <h2
+                className={cn(
+                  'font-bold w-fit text-base sm:text-xl pb-1',
+                  feed === 'following' && 'border-b-2 border-primary',
+                )}
+              >
+                {t('homepage.feed.following')}
               </h2>
             </TabsTrigger>
           </TabsList>
