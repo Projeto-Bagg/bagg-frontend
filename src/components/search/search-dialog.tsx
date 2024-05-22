@@ -33,7 +33,7 @@ import { CitySearch } from '@/components/search/city-search';
 export const Search = () => {
   const [open, setOpen] = useState<boolean>();
   const [query, setQuery] = useState<string>();
-  const [debouncedQuery] = useDebounce(query, 1000);
+  const [debouncedQuery] = useDebounce(query, 500);
   const [isFirstFetchSucess, setIsFirstFetchSucess] = useState<boolean>();
   const t = useTranslations('header');
 
@@ -89,12 +89,8 @@ export const Search = () => {
     }
   }, [isFirstFetchSucess, search.data]);
 
-  const onOpenChange = (open: boolean) => {
-    setOpen(open);
-  };
-
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={open} onOpenChange={setOpen}>
       <Tooltip>
         <TooltipTrigger asChild>
           <DialogTrigger asChild>
@@ -113,7 +109,7 @@ export const Search = () => {
                 alt=""
                 src={'/spinner.svg'}
                 className={
-                  'absolute left-0 top-4 h-[24px] w-[24px] [&>circle]:stroke-foreground'
+                  'absolute left-0 top-4 h-[24px] w-[24px] [&>circle]:stroke-foreground invert dark:invert-0'
                 }
               />
             ) : (
