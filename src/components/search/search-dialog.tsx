@@ -196,7 +196,7 @@ export const Search = () => {
                             setOpen(false);
                           }}
                           href={{
-                            pathname: '/search',
+                            pathname: '/search/city',
                             query: {
                               q: debouncedQuery,
                             },
