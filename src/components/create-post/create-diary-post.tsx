@@ -51,9 +51,7 @@ export type CreateDiaryPostType = z.infer<typeof createDiaryPostSchema>;
 
 export const CreateDiaryPost = ({ children }: { children: ReactNode }) => {
   const [open, setOpen] = useState<boolean>();
-  const [selectTripDiaryOpen, setSelectTripDiaryOpen] = useState<boolean>();
   const [isCreatingTripDiary, setIsCreatingTripDiary] = useState<boolean>(false);
-  const auth = useAuth();
   const router = useRouter();
   const t = useTranslations();
   const createDiaryPost = useCreateDiaryPost();
@@ -68,17 +66,11 @@ export const CreateDiaryPost = ({ children }: { children: ReactNode }) => {
     formState: { errors, dirtyFields },
   } = useForm<CreateDiaryPostType>({
     resolver: zodResolver(createDiaryPostSchema),
+    mode: 'onChange',
     defaultValues: {
       message: '',
       medias: [],
     },
-  });
-
-  const tripDiaries = useQuery<TripDiary[]>({
-    queryFn: async () =>
-      (await axios.get<TripDiary[]>('/trip-diaries/user/' + auth.user?.username)).data,
-    queryKey: ['trip-diaries', auth.user?.username],
-    enabled: !!open,
   });
 
   const handleCreateDiaryPost = async (data: CreateDiaryPostType) => {
@@ -143,75 +135,14 @@ export const CreateDiaryPost = ({ children }: { children: ReactNode }) => {
                   {t('create-post.create-trip-diary')}
                 </button>
               </div>
-              <Popover open={selectTripDiaryOpen} onOpenChange={setSelectTripDiaryOpen}>
-                <PopoverTrigger asChild>
-                  <Button
-                    data-test="select-trip-diary"
-                    variant="outline-ring"
-                    role="combobox"
-                    className={cn(
-                      'w-full justify-between',
-                      !watch('tripDiaryId') && 'text-muted-foreground',
-                    )}
-                  >
-                    {watch('tripDiaryId')
-                      ? tripDiaries.data?.find(
-                          (tripDiary) => tripDiary.id === watch('tripDiaryId'),
-                        )?.title
-                      : t('create-post.select-trip-diary')}
-                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="p-0">
-                  <Command shouldFilter={false}>
-                    <CommandInput placeholder="Procurar..." />
-                    <CommandGroup>
-                      {tripDiaries.data && tripDiaries.data.length > 0 ? (
-                        tripDiaries.data.map((tripDiary) => (
-                          <CommandItem
-                            value={tripDiary.title}
-                            key={tripDiary.id}
-                            onSelect={() => {
-                              setValue('tripDiaryId', tripDiary.id, {
-                                shouldDirty: true,
-                              });
-                              setSelectTripDiaryOpen(false);
-                            }}
-                            className="gap-1"
-                          >
-                            <span
-                              className={cn(
-                                'mr-1 flex h-[18px] shrink-0 w-[18px] items-center justify-center',
-                                watch('tripDiaryId') === tripDiary.id
-                                  ? 'opacity-100'
-                                  : 'opacity-0',
-                              )}
-                            >
-                              <span className="w-[3px] h-full rounded-xl bg-primary" />
-                            </span>
-                            <CountryFlag
-                              className="shrink-0"
-                              iso2={tripDiary.city.region.country.iso2}
-                            />
-                            <div className="flex max-w-[216px]">
-                              <div className="whitespace-nowrap">
-                                <span className="mr-1">{tripDiary.title}</span>
-                              </div>
-                              <span className="text-muted-foreground text-ellipsis whitespace-nowrap overflow-hidden">
-                                {tripDiary.city.name}
-                              </span>
-                            </div>
-                          </CommandItem>
-                        ))
-                      ) : (
-                        <CommandItem>
-                          {t('create-post.no-trip-diaries-found')}
-                        </CommandItem>
-                      )}
-                    </CommandGroup>
-                  </Command>
-                </PopoverContent>
-              </Popover>
+              <SelectTripDiary
+                onSelect={(tripDiary) => {
+                  setValue('tripDiaryId', tripDiary.id, {
+                    shouldDirty: true,
+                  });
+                }}
+                value={watch('tripDiaryId')}
+              />
               {errors.tripDiaryId && (
                 <span className="text-sm text-red-600 font-semibold">
                   {t('create-post.trip-diary-error')}
@@ -265,5 +196,105 @@ export const CreateDiaryPost = ({ children }: { children: ReactNode }) => {
         )}
       </DialogContent>
     </Dialog>
+  );
+};
+
+interface SelectTripDiaryProps {
+  onSelect: (tripDiary: TripDiary) => void;
+  value: number;
+}
+
+const SelectTripDiary = ({ onSelect, value }: SelectTripDiaryProps) => {
+  const auth = useAuth();
+  const t = useTranslations();
+  const [open, setOpen] = useState<boolean>();
+
+  const tripDiaries = useQuery<TripDiary[]>({
+    queryFn: async () =>
+      (await axios.get<TripDiary[]>('/trip-diaries/user/' + auth.user?.username)).data,
+    queryKey: ['trip-diaries', auth.user?.username],
+  });
+
+  const selectedTripDiary = tripDiaries.data?.find((tripDiary) => tripDiary.id === value);
+
+  return (
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <Button
+          data-test="select-trip-diary"
+          variant="outline-ring"
+          role="combobox"
+          className={cn(
+            'w-full justify-between',
+            !selectedTripDiary && 'text-muted-foreground',
+          )}
+        >
+          {selectedTripDiary ? (
+            <div className="flex gap-1">
+              <CountryFlag
+                className="shrink-0"
+                iso2={selectedTripDiary.city.region.country.iso2}
+              />
+              <div className="flex max-w-[216px]">
+                <div className="whitespace-nowrap">
+                  <span className="mr-1">{selectedTripDiary.title}</span>
+                </div>
+                <span className="text-muted-foreground text-ellipsis whitespace-nowrap overflow-hidden">
+                  {selectedTripDiary.city.name}
+                </span>
+              </div>
+            </div>
+          ) : (
+            t('create-post.select-trip-diary')
+          )}
+          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="p-0">
+        <Command shouldFilter={false}>
+          <CommandInput placeholder="Procurar..." />
+          <CommandGroup>
+            {tripDiaries.data && tripDiaries.data.length > 0 ? (
+              tripDiaries.data.map((tripDiary) => (
+                <CommandItem
+                  value={tripDiary.title}
+                  key={tripDiary.id}
+                  onSelect={() => {
+                    onSelect(tripDiary);
+                    setOpen(false);
+                  }}
+                  className="gap-1"
+                >
+                  <span
+                    className={cn(
+                      'mr-1 flex h-[18px] shrink-0 w-[18px] items-center justify-center',
+                      selectedTripDiary?.id === tripDiary.id
+                        ? 'opacity-100'
+                        : 'opacity-0',
+                    )}
+                  >
+                    <span className="w-[3px] h-full rounded-xl bg-primary" />
+                  </span>
+                  <CountryFlag
+                    className="shrink-0"
+                    iso2={tripDiary.city.region.country.iso2}
+                  />
+                  <div className="flex max-w-[216px]">
+                    <div className="whitespace-nowrap">
+                      <span className="mr-1">{tripDiary.title}</span>
+                    </div>
+                    <span className="text-muted-foreground text-ellipsis whitespace-nowrap overflow-hidden">
+                      {tripDiary.city.name}
+                    </span>
+                  </div>
+                </CommandItem>
+              ))
+            ) : (
+              <CommandItem>{t('create-post.no-trip-diaries-found')}</CommandItem>
+            )}
+          </CommandGroup>
+        </Command>
+      </PopoverContent>
+    </Popover>
   );
 };

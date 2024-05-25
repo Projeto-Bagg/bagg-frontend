@@ -43,6 +43,7 @@ export const CreateTripDiary = ({ setIsCreatingTripDiary, onCreate }: Props) => 
     formState: { errors, dirtyFields },
   } = useForm<CreateTripDiaryType>({
     resolver: zodResolver(createTripDiarySchema),
+    mode: 'onChange',
   });
 
   const handleCreateTripDiary = async (data: CreateTripDiaryType) => {
