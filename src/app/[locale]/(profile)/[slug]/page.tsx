@@ -85,7 +85,7 @@ export default function Profile({
                     <AvatarImage src={user.data.image} />
                   </Avatar>
                 </DialogTrigger>
-                <DialogContent className="w-[90%] h-auto aspect-square sm:w-[440px] sm:h-[440px] p-0 sm:p-0 sm:rounded-full rounded-full border-none">
+                <DialogContent className="w-[90%] top-[50%] translate-y-[-50%] data-[state=open]:slide-in-from-top-[48%] data-[state=closed]:slide-out-to-top-[48%] aspect-square sm:w-[440px] sm:h-[440px] p-0 sm:p-0 sm:rounded-full rounded-full border-none">
                   <Avatar className="w-full h-full">
                     <AvatarImage src={user.data.image} />
                   </Avatar>

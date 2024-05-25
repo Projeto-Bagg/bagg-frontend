@@ -9,13 +9,11 @@ export function middleware(request: NextRequest) {
     localePrefix: 'never',
   });
 
-  const sessionToken = request.cookies.get('bagg.sessionToken');
+  const accessToken = request.cookies.get('bagg.access-token');
 
-  const isAuthenticated = !!sessionToken;
+  const isAuthenticated = !!accessToken;
 
-  const sessionJwt = sessionToken
-    ? decodeJwt<UserFromJwt>(sessionToken.value)
-    : undefined;
+  const sessionJwt = accessToken ? decodeJwt<UserFromJwt>(accessToken.value) : undefined;
 
   if (!request.nextUrl.pathname.endsWith('admin') && sessionJwt?.role === 'ADMIN') {
     return NextResponse.redirect(new URL('/admin', request.nextUrl.origin));
