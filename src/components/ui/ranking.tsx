@@ -71,7 +71,7 @@ RankingFooter.displayName = 'RankingFooter';
 export const RankingSkeleton = ({ count = 10 }) => {
   return Array.from(Array(count), (_, i) => i + 1).map((_, i) => (
     <li key={i} className="flex items-center h-[44px] p-3 justify-between">
-      <div className="flex gap-1 sm:gap-2 items-center">
+      <div className="flex gap-1.5 items-center">
         <Skeleton className="h-4 w-[24px]" />
         <Skeleton className="w-[36px] h-[27px]" />
         <Skeleton className="w-[144px] h-4" />
