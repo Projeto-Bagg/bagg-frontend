@@ -382,6 +382,10 @@
       }
     }
   },
+  "city-visit": {
+    "badge": "Review",
+    "visited-by": "Visited by"
+  },
   "ranking": {
     "top-rated-countries": "Top rated countries",
     "most-visited-countries": "Most visited countries",
