@@ -19,6 +19,8 @@ export const Verified = () => {
       try {
         if (confirmed) return;
 
+        toast({ variant: 'success', title: t('settings.verify-email.success') });
+
         const tempRefreshToken = getCookie('bagg.temp-refresh-token');
 
         if (!tempRefreshToken) {
@@ -41,7 +43,6 @@ export const Verified = () => {
         router.replace('/login');
       } finally {
         setConfirmed(true);
-        toast({ variant: 'success', title: t('settings.verify-email.success') });
       }
     };
     refreshToken();

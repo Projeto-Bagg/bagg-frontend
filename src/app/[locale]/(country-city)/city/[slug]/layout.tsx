@@ -101,7 +101,54 @@ export default function Layout({
       />
       <div className="flex flex-col gap-6 sm:flex-row pt-[160px] sm:pt-[400px] justify-between pb-[24px]">
         <div>
-          <h2 className="font-bold text-3xl sm:text-5xl">{city.data.name}</h2>
+          <div className="flex gap-2 items-baseline">
+            <h2 className="font-bold text-3xl sm:text-5xl">{city.data.name}</h2>
+            <div className="flex gap-1 shrink-0 items-baseline">
+              {city.data.positionInRatingRanking && (
+                <Tooltip>
+                  <TooltipTrigger>
+                    <Link
+                      className="hover:underline"
+                      href={{ pathname: '/ranking/city/rating' }}
+                    >
+                      <div className="flex gap-0.5 items-end">
+                        <Rating value={1} items={1} className="h-5 w-5 sm:w-6 sm:h-6" />
+                        <span>#{city.data.positionInRatingRanking}</span>
+                      </div>
+                    </Link>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    {t(
+                      'country-city-page.ranking.city.position-in-rating-ranking-tooltip',
+                    )}
+                  </TooltipContent>
+                </Tooltip>
+              )}
+              {city.data.positionInVisitRanking && (
+                <Tooltip>
+                  <TooltipTrigger>
+                    <Link
+                      className="hover:underline"
+                      href={{ pathname: '/ranking/city/visits' }}
+                    >
+                      <div className="flex gap-0.5 items-end">
+                        <MapPin
+                          strokeWidth={2.5}
+                          className={cn('h-5 w-5 sm:w-6 sm:h-6 text-blue-400')}
+                        />
+                        <span>#{city.data.positionInVisitRanking}</span>
+                      </div>
+                    </Link>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    {t(
+                      'country-city-page.ranking.city.position-in-visit-ranking-tooltip',
+                    )}
+                  </TooltipContent>
+                </Tooltip>
+              )}
+            </div>
+          </div>
           <div className="font-bold text-lg sm:text-2xl text-muted-foreground">
             <span>
               {city.data.region.name}
@@ -132,7 +179,7 @@ export default function Layout({
                       readOnly
                       className="max-w-[120px] sm:max-w-[144px]"
                     />
-                    <span className="h-[22px]">{city.data.averageRating || 0}</span>
+                    <span>{city.data.averageRating || 0}</span>
                   </div>
                 </Link>
               </TooltipTrigger>
@@ -147,7 +194,7 @@ export default function Layout({
               <Tooltip>
                 <TooltipTrigger>
                   <div className="flex items-center gap-0.5">
-                    <MapPin className="w-[18px] text-blue-400" />
+                    <MapPin className="w-[18px] h-[18px] text-blue-400" />
                     <span>{city.data.visitsCount}</span>
                   </div>
                 </TooltipTrigger>
@@ -160,7 +207,7 @@ export default function Layout({
               <Tooltip>
                 <TooltipTrigger>
                   <div className="flex items-center gap-0.5">
-                    <CheckCircle className="w-[18px] text-green-400" />
+                    <CheckCircle className="w-[18px] h-[18px] text-green-400" />
                     <span>{city.data.interestsCount}</span>
                   </div>
                 </TooltipTrigger>
@@ -179,7 +226,7 @@ export default function Layout({
                     }}
                   >
                     <div className="flex items-center gap-0.5">
-                      <Home className="w-[18px] text-orange-400" />
+                      <Home className="w-[18px] h-[18px] text-orange-400" />
                       <span>{city.data.residentsCount}</span>
                     </div>
                   </Link>
