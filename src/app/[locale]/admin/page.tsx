@@ -12,7 +12,7 @@ import { Dashboard } from '@/app/[locale]/admin/components/dashboard';
 import { SelectTheme } from '@/components/select-theme';
 
 export default async function Page() {
-  const accessToken = getCookie('bagg.sessionToken', { cookies });
+  const accessToken = getCookie('bagg.access-token', { cookies });
 
   if (!accessToken) {
     return redirect('/');

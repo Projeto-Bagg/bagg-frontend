@@ -49,7 +49,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const refetch = useCallback(
     (options?: RefetchOptions | undefined) => {
-      const accessToken = getCookie('bagg.sessionToken');
+      const accessToken = getCookie('bagg.access-token');
 
       const jwt = accessToken ? decodeJwt<UserFromJwt>(accessToken) : undefined;
 
@@ -64,7 +64,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const token = getCookie('bagg.sessionToken');
+      const token = getCookie('bagg.access-token');
 
       if (token) {
         await refetch();
@@ -84,15 +84,17 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     if (decodedJwt.role === 'USER') {
       if (!decodedJwt.hasEmailBeenVerified) {
-        setCookie('bagg.tempSessionToken', data.accessToken);
-        setCookie('bagg.tempRefreshToken', data.refreshToken);
+        setCookie('bagg.temp-session-token', data.accessToken);
+        setCookie('bagg.temp-refresh-token', data.refreshToken);
         await new Promise((resolve) => setTimeout(resolve, 200));
         return router.push('/settings/verify-email');
       }
     }
 
-    setCookie('bagg.sessionToken', data.accessToken);
-    setCookie('bagg.refreshToken', data.refreshToken);
+    setCookie('bagg.access-token', data.accessToken);
+    setCookie('bagg.refresh-token', data.refreshToken);
+    deleteCookie('bagg.temp-session-token');
+    deleteCookie('bagg.temp-refresh-token');
 
     queryClient.invalidateQueries();
     await refetch();
@@ -109,7 +111,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const signUp = async (user: UserSignUp) => {
-    if (hasCookie('bagg.sessionToken')) {
+    if (hasCookie('bagg.access-token')) {
       await refetch();
       router.back();
     }
@@ -118,8 +120,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const logout = () => {
-    deleteCookie('bagg.sessionToken');
-    deleteCookie('bagg.refreshToken');
+    deleteCookie('bagg.access-token');
+    deleteCookie('bagg.refresh-token');
     queryClient.setQueryData(['session'], null);
 
     router.refresh();

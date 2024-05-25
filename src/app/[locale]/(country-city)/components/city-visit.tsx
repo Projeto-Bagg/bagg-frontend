@@ -3,7 +3,7 @@ import { UserHoverCard } from '@/components/user-hovercard';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Rating } from '@smastrom/react-rating';
 import { intlFormatDistance } from 'date-fns';
-import { useLocale } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { Link } from '@/common/navigation';
 
 export const CityVisit = forwardRef<
@@ -14,6 +14,7 @@ export const CityVisit = forwardRef<
   }
 >(({ visit, city }, forwardRef) => {
   const locale = useLocale();
+  const t = useTranslations();
 
   return (
     <div ref={forwardRef} className="flex border-b py-3">
@@ -33,7 +34,7 @@ export const CityVisit = forwardRef<
         <div className="text-muted-foreground text-sm">
           <div className="flex gap-1">
             <div>
-              Visited by{' '}
+              {t('city-visit.visited-by')}{' '}
               <UserHoverCard username={visit.user.username}>
                 <Link
                   href={{

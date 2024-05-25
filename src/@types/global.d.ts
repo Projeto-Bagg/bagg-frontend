@@ -151,6 +151,8 @@ interface CountryPage extends Country {
   averageRating: number | null;
   residentsCount: number;
   reviewsCount: number;
+  positionInRatingRanking: number | null;
+  positionInVisitRanking: number | null;
 }
 
 interface Region {
@@ -217,12 +219,17 @@ interface CityPage extends City {
   visitsCount: number;
   residentsCount: number;
   reviewsCount: number;
+  positionInRatingRanking: number | null;
+  positionInVisitRanking: number | null;
 }
 
 interface CountryCityImage extends Media {
   userId: number;
   user: User;
   city?: City;
+  message: string;
+  postId: number;
+  type: 'tip' | 'diary-post';
 }
 
 interface CityFromSearch {

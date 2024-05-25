@@ -145,7 +145,7 @@ export default function Page({ params }: { params: { slug: string } }) {
               page.map((city) =>
                 city.places.map((city, index) => (
                   <RankingItem key={city.id}>
-                    <div className="flex gap-1 sm:gap-2 items-center w-full">
+                    <div className="flex gap-1.5 items-center w-full">
                       <h3 className="w-[24px] font-bold shrink-0">
                         {pageIndex * 10 + (index + 1)}º
                       </h3>

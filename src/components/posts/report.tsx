@@ -41,6 +41,7 @@ export const Report = ({ children, id, reportType }: ReportProps) => {
     reset,
   } = useForm<ReportType>({
     resolver: zodResolver(reportSchema),
+    mode: 'onChange',
   });
 
   const onReport = async (data: ReportType) => {

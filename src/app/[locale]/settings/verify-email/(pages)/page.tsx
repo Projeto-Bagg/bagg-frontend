@@ -15,7 +15,7 @@ export default function Page() {
   const onSubmit = async () => {
     setLoading(true);
 
-    const tempJwt = getCookie('bagg.tempSessionToken');
+    const tempJwt = getCookie('bagg.temp-session-token');
 
     await axios.get('/users/send-email-confirmation', {
       headers: {

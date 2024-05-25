@@ -81,11 +81,11 @@ export default function Profile({
             <div className="flex items-center gap-2 sm:gap-4 min-w-0">
               <Dialog>
                 <DialogTrigger>
-                  <Avatar className="w-[88px] h-[88px] sm:w-[144px] sm:h-[144px]">
+                  <Avatar className="w-[94px] h-[94px] sm:w-[144px] sm:h-[144px]">
                     <AvatarImage src={user.data.image} />
                   </Avatar>
                 </DialogTrigger>
-                <DialogContent className="w-[90%] h-auto aspect-square sm:w-[440px] sm:h-[440px] p-0 sm:p-0 sm:rounded-full rounded-full border-none">
+                <DialogContent className="w-[90%] top-[50%] translate-y-[-50%] data-[state=open]:slide-in-from-top-[48%] data-[state=closed]:slide-out-to-top-[48%] aspect-square sm:w-[440px] sm:h-[440px] p-0 sm:p-0 sm:rounded-full rounded-full border-none">
                   <Avatar className="w-full h-full">
                     <AvatarImage src={user.data.image} />
                   </Avatar>
@@ -246,7 +246,7 @@ const ProfileSkeleton = () => {
     <div>
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2 sm:gap-4">
-          <Skeleton className="w-[100px] h-[100px] sm:w-[144px] sm:h-[144px] rounded-full" />
+          <Skeleton className="w-[94px] h-[94px] sm:w-[144px] sm:h-[144px] rounded-full" />
           <div className="flex flex-col gap-3">
             <Skeleton className="w-[110px] sm:w-[172px] h-5" />
             <Skeleton className="w-[80px] sm:w-[110px] h-4" />

@@ -70,7 +70,7 @@ export default function SignupForm() {
   const isUsernameAvailable = useQuery({
     queryFn: () => axios.get(`users/username-availability/${debouncedUsername}`),
     queryKey: ['username-availability', debouncedUsername],
-    enabled: !!debouncedUsername && username.length >= 3,
+    enabled: !!debouncedUsername && usernameRegex.test(debouncedUsername),
   });
 
   const email = watch().email;

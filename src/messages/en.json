@@ -325,6 +325,16 @@
     "visited": "Visited",
     "interested": "Interested",
     "interest": "Interest",
+    "ranking": {
+      "city": {
+        "position-in-rating-ranking-tooltip": "Position in the ranking of cities by rating",
+        "position-in-visit-ranking-tooltip": "Position in the ranking of cities by number of visits"
+      },
+      "country": {
+        "position-in-rating-ranking-tooltip": "Position in the ranking of countries by rating",
+        "position-in-visit-ranking-tooltip": "Position in the ranking of countries by number of visits"
+      }
+    },
     "uncheck-visit-with-review-toast": {
       "title": "Delete the review before unchecking",
       "description": "You cannot cancel the visit as you previously created a review in that city."
@@ -381,6 +391,10 @@
         "action": "Delete"
       }
     }
+  },
+  "city-visit": {
+    "badge": "Review",
+    "visited-by": "Visited by"
   },
   "ranking": {
     "top-rated-countries": "Top rated countries",

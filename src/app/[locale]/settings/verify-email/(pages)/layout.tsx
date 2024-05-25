@@ -5,7 +5,7 @@ import { cookies } from 'next/headers';
 import { redirect } from '@/common/navigation';
 
 export default function Layout({ children }: { children: ReactNode }) {
-  const tempAcessToken = getCookie('bagg.tempSessionToken', { cookies });
+  const tempAcessToken = getCookie('bagg.temp-session-token', { cookies });
 
   if (!tempAcessToken) {
     return redirect('/');

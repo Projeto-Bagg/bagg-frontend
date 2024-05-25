@@ -19,7 +19,9 @@ export const Verified = () => {
       try {
         if (confirmed) return;
 
-        const tempRefreshToken = getCookie('bagg.tempRefreshToken');
+        toast({ variant: 'success', title: t('settings.verify-email.success') });
+
+        const tempRefreshToken = getCookie('bagg.temp-refresh-token');
 
         if (!tempRefreshToken) {
           return router.replace('/login');
@@ -29,11 +31,11 @@ export const Verified = () => {
           refreshToken: tempRefreshToken,
         });
 
-        setCookie('bagg.sessionToken', data.accessToken);
-        setCookie('bagg.refreshToken', data.refreshToken);
+        setCookie('bagg.access-token', data.accessToken);
+        setCookie('bagg.refresh-token', data.refreshToken);
 
-        deleteCookie('bagg.tempSessionToken');
-        deleteCookie('bagg.tempRefreshToken');
+        deleteCookie('bagg.temp-session-token');
+        deleteCookie('bagg.temp-refresh-token');
 
         await auth.refetch();
         router.replace('/home');
@@ -41,7 +43,6 @@ export const Verified = () => {
         router.replace('/login');
       } finally {
         setConfirmed(true);
-        toast({ variant: 'success', title: t('settings.verify-email.success') });
       }
     };
     refreshToken();

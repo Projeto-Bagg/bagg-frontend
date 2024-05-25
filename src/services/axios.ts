@@ -31,7 +31,7 @@ const axios = instance.create({
 });
 
 axios.interceptors.request.use((config) => {
-  const token = getCookie('bagg.sessionToken');
+  const token = getCookie('bagg.access-token');
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
@@ -44,14 +44,14 @@ axios.interceptors.response.use(
     return originalResponse;
   },
   async (error) => {
-    const accessToken = getCookie('bagg.sessionToken');
+    const accessToken = getCookie('bagg.access-token');
 
     if (error.response.status === 401 && accessToken) {
       if (!isTokenExpired(accessToken)) {
         return;
       }
 
-      const refreshToken = getCookie('bagg.refreshToken');
+      const refreshToken = getCookie('bagg.refresh-token');
 
       await instance
         .post(
@@ -63,12 +63,12 @@ axios.interceptors.response.use(
           },
         )
         .then((response) => {
-          setCookie('bagg.sessionToken', response.data.accessToken);
-          setCookie('bagg.refreshToken', response.data.refreshToken);
+          setCookie('bagg.access-token', response.data.accessToken);
+          setCookie('bagg.refresh-token', response.data.refreshToken);
         })
         .catch(() => {
-          deleteCookie('bagg.sessionToken');
-          deleteCookie('bagg.refreshToken');
+          deleteCookie('bagg.access-token');
+          deleteCookie('bagg.refresh-token');
         });
 
       return axios(error.config);

@@ -164,8 +164,8 @@ describe('Excluir conta', () => {
 
     cy.url().should('eq', Cypress.config().baseUrl);
 
-    cy.getCookie('bagg.sessionToken').should('not.exist');
-    cy.getCookie('bagg.refreshToken').should('not.exist');
+    cy.getCookie('bagg.access-token').should('not.exist');
+    cy.getCookie('bagg.refresh-token').should('not.exist');
   });
 });
 
@@ -273,7 +273,7 @@ describe('Confirmar email', () => {
 
   it('Exibir página de confirmação de email', () => {
     cy.setCookie(
-      'bagg.tempSessionToken',
+      'bagg.temp-session-token',
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEzLCJ1c2VybmFtZSI6ImZlZmV6b2thIiwiaWF0IjoxNzE0NDI4NDY1LCJleHAiOjE3MTQ0MzIwNjV9.NPH7-TXOrG-_ZbREthgNFVqEUoUbvbaVFqkjTlHXHhw',
     );
 
@@ -283,11 +283,11 @@ describe('Confirmar email', () => {
 
   it('Redirecionar para página "done"', () => {
     cy.setCookie(
-      'bagg.tempSessionToken',
+      'bagg.temp-session-token',
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEzLCJ1c2VybmFtZSI6ImZlZmV6b2thIiwiaWF0IjoxNzE0NDI4NDY1LCJleHAiOjE3MTQ0MzIwNjV9.NPH7-TXOrG-_ZbREthgNFVqEUoUbvbaVFqkjTlHXHhw',
     );
     cy.setCookie(
-      'bagg.tempRefreshToken',
+      'bagg.temp-refresh-token',
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEzLCJ1c2VybmFtZSI6ImZlZmV6b2thIiwiaWF0IjoxNzE0NDI4NDY1LCJleHAiOjE3MTUwMzMyNjV9.9Qo1OqO8pfSinaReF39_Z16kct9-60LPfnhAjSTwrUQ',
     );
 
@@ -305,11 +305,11 @@ describe('Confirmar email', () => {
 
   it('Abrir link de confirmação de email', () => {
     cy.setCookie(
-      'bagg.tempSessionToken',
+      'bagg.temp-session-token',
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEzLCJ1c2VybmFtZSI6ImZlZmV6b2thIiwiaWF0IjoxNzE0NDI4NDY1LCJleHAiOjE3MTQ0MzIwNjV9.NPH7-TXOrG-_ZbREthgNFVqEUoUbvbaVFqkjTlHXHhw',
     );
     cy.setCookie(
-      'bagg.tempRefreshToken',
+      'bagg.temp-refresh-token',
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEzLCJ1c2VybmFtZSI6ImZlZmV6b2thIiwiaWF0IjoxNzE0NDI4NDY1LCJleHAiOjE3MTUwMzMyNjV9.9Qo1OqO8pfSinaReF39_Z16kct9-60LPfnhAjSTwrUQ',
     );
 

@@ -54,6 +54,7 @@ export const CreateTip = ({ children }: { children: ReactNode }) => {
     formState: { errors, dirtyFields },
   } = useForm<CreateTipType>({
     resolver: zodResolver(createTipSchema),
+    mode: 'onChange',
     defaultValues: {
       message: '',
       medias: [],

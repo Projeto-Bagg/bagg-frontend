@@ -61,6 +61,7 @@ export const CreateCityVisit = ({ children, city }: CreateCityVisitProps) => {
     watch,
   } = useForm<CreateCityVisitType>({
     resolver: zodResolver(createCityVisitSchema),
+    mode: 'onChange',
     defaultValues: {
       message: city.userVisit?.message || '',
       rating: city.userVisit?.rating || 0,

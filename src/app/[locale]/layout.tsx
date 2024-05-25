@@ -39,7 +39,7 @@ export const metadata: Metadata = {
 export default async function LocaleLayout({ children, params: { locale } }: Props) {
   const messages = await getMessages();
 
-  const accessToken = getCookie('bagg.sessionToken', { cookies });
+  const accessToken = getCookie('bagg.access-token', { cookies });
   const jwt = accessToken ? decodeJwt<UserFromJwt>(accessToken) : undefined;
 
   return (

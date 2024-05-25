@@ -16,9 +16,9 @@ export default function Page() {
   const [loading, setLoading] = useState<boolean>();
 
   const alreadyConfirmed = async () => {
-    const tempAccessToken = getCookie('bagg.tempSessionToken');
-    const tempRefreshToken = getCookie('bagg.tempRefreshToken');
-    const accessToken = getCookie('bagg.sessionToken');
+    const tempAccessToken = getCookie('bagg.temp-session-token');
+    const tempRefreshToken = getCookie('bagg.temp-refresh-token');
+    const accessToken = getCookie('bagg.access-token');
 
     if (!tempRefreshToken && !accessToken) {
       return router.replace('/login');
@@ -48,11 +48,11 @@ export default function Page() {
       refreshToken: tempRefreshToken,
     });
 
-    setCookie('bagg.sessionToken', data.accessToken);
-    setCookie('bagg.refreshToken', data.refreshToken);
+    setCookie('bagg.access-token', data.accessToken);
+    setCookie('bagg.refresh-token', data.refreshToken);
 
-    deleteCookie('bagg.tempSessionToken');
-    deleteCookie('bagg.tempRefreshToken');
+    deleteCookie('bagg.temp-session-token');
+    deleteCookie('bagg.temp-refresh-token');
 
     toast({ variant: 'success', title: t('settings.verify-email.success') });
 

@@ -12,7 +12,7 @@ interface PageProps {
 }
 
 export default function Page({ searchParams: { token } }: PageProps) {
-  const isUserLogged = hasCookie('bagg.sessionToken', { cookies });
+  const isUserLogged = hasCookie('bagg.access-token', { cookies });
 
   if (isUserLogged || !token || isTokenExpired(token)) redirect('/');
 
