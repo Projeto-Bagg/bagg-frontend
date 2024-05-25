@@ -81,7 +81,10 @@ export const Search = () => {
       };
     },
     enabled: !!debouncedQuery,
+    placeholderData: (data) => data,
   });
+
+  console.log(search.data);
 
   useEffect(() => {
     if (isFirstFetchSucess === undefined) {
@@ -108,9 +111,7 @@ export const Search = () => {
               <img
                 alt=""
                 src={'/spinner.svg'}
-                className={
-                  'absolute left-0 top-4 h-[24px] w-[24px] [&>circle]:stroke-foreground invert dark:invert-0'
-                }
+                className={'absolute left-0 top-4 h-[24px] w-[24px] invert dark:invert-0'}
               />
             ) : (
               <SearchIcon strokeWidth={3.5} className="absolute left-0 top-4" />
@@ -124,7 +125,7 @@ export const Search = () => {
         </DialogHeader>
         {isFirstFetchSucess && debouncedQuery && (
           <ScrollArea>
-            <ScrollAreaViewport className="max-h-[700px] px-4 sm:px-10 py-4 pt-0">
+            <ScrollAreaViewport className="max-h-[calc(100vh-30%)] sm:max-h-[700px] px-4 sm:px-10 py-4 pt-0">
               <div className="space-y-2">
                 <div>
                   <h3 className="font-semibold border-b-2 border-primary pb-1 w-fit">

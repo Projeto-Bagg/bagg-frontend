@@ -223,6 +223,9 @@ interface CountryCityImage extends Media {
   userId: number;
   user: User;
   city?: City;
+  message: string;
+  postId: number;
+  type: 'tip' | 'diary-post';
 }
 
 interface CityFromSearch {

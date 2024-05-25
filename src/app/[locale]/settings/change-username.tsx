@@ -44,7 +44,7 @@ export const ChangeUsername = () => {
   const isUsernameAvailable = useQuery({
     queryFn: () => axios.get(`users/username-availability/${debouncedQuery}`),
     queryKey: ['username-availability', debouncedQuery],
-    enabled: !!debouncedQuery && !errors.username,
+    enabled: !!debouncedQuery && usernameRegex.test(debouncedQuery),
   });
 
   const onSubmit = async (data: ChangeUsernameType) => {
