@@ -11,5 +11,10 @@ export default function Page() {
     return redirect('/');
   }
 
-  return <Home />;
+  const defaultFeed = getCookie('bagg.default-feed', { cookies }) as
+    | 'for-you'
+    | 'following'
+    | undefined;
+
+  return <Home defaultFeed={defaultFeed} />;
 }

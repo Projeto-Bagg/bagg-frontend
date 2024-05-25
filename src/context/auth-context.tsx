@@ -93,6 +93,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     setCookie('bagg.sessionToken', data.accessToken);
     setCookie('bagg.refreshToken', data.refreshToken);
+    deleteCookie('bagg.tempSessionToken');
+    deleteCookie('bagg.tempRefreshToken');
 
     queryClient.invalidateQueries();
     await refetch();

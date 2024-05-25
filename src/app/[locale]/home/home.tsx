@@ -9,11 +9,16 @@ import React, { useState } from 'react';
 import { ads } from '@/common/ads';
 import { produce } from 'immer';
 import { Feed } from '@/components/feed';
+import { setCookie } from 'cookies-next';
 
 type Feed = 'for-you' | 'following';
 
-export default function Home() {
-  const [feed, setFeed] = useState<Feed>('for-you');
+interface HomeProps {
+  defaultFeed: Feed | undefined;
+}
+
+export default function Home({ defaultFeed }: HomeProps) {
+  const [feed, setFeed] = useState<Feed>(defaultFeed || 'for-you');
   const t = useTranslations();
 
   const forYouFeed = useInfiniteQuery<(Ad | Tip)[]>({
@@ -49,6 +54,11 @@ export default function Home() {
     enabled: feed === 'following',
   });
 
+  const onFeedChange = (value: Feed) => {
+    setFeed(value);
+    setCookie('bagg.default-feed', value);
+  };
+
   return (
     <div data-test="homepage-feed" className="p-4 container">
       <div className="mb-2">
@@ -59,7 +69,7 @@ export default function Home() {
       <Tabs
         value={feed}
         defaultValue="for-you"
-        onValueChange={(value) => setFeed(value as Feed)}
+        onValueChange={(value) => onFeedChange(value as Feed)}
       >
         <div className="flex justify-center">
           <TabsList className="p-0 w-full bg-transparent">
