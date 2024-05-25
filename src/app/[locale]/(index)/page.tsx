@@ -6,7 +6,7 @@ import { cookies } from 'next/headers';
 import { Ranking } from '@/app/[locale]/(index)/components/ranking';
 
 export default async function Page() {
-  const accessToken = getCookie('bagg.sessionToken', { cookies });
+  const accessToken = getCookie('bagg.access-token', { cookies });
 
   if (accessToken) {
     return redirect('/home');

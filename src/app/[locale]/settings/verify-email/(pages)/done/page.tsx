@@ -16,11 +16,11 @@ export default function Page() {
   const [loading, setLoading] = useState<boolean>();
 
   const alreadyConfirmed = async () => {
-    const tempAccessToken = getCookie('bagg.tempSessionToken');
-    const tempRefreshToken = getCookie('bagg.tempRefreshToken');
-    const accessToken = getCookie('bagg.sessionToken');
+    const tempAccessToken = getCookie('bagg.temp-session-token');
+    const temp-refresh-token = getCookie('bagg.temp-refresh-token');
+    const accessToken = getCookie('bagg.access-token');
 
-    if (!tempRefreshToken && !accessToken) {
+    if (!temp-refresh-token && !accessToken) {
       return router.replace('/login');
     }
 
@@ -45,14 +45,14 @@ export default function Page() {
     }
 
     const { data } = await axios.post('/auth/refresh', {
-      refreshToken: tempRefreshToken,
+      refreshToken: temp-refresh-token,
     });
 
-    setCookie('bagg.sessionToken', data.accessToken);
-    setCookie('bagg.refreshToken', data.refreshToken);
+    setCookie('bagg.access-token', data.accessToken);
+    setCookie('bagg.refresh-token', data.refreshToken);
 
-    deleteCookie('bagg.tempSessionToken');
-    deleteCookie('bagg.tempRefreshToken');
+    deleteCookie('bagg.temp-session-token');
+    deleteCookie('bagg.temp-refresh-token');
 
     toast({ variant: 'success', title: t('settings.verify-email.success') });
 

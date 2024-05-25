@@ -47,8 +47,8 @@ export const useDeleteAccount = () => {
         currentPassword,
       }),
     onSuccess: () => {
-      deleteCookie('bagg.sessionToken');
-      deleteCookie('bagg.refreshToken');
+      deleteCookie('bagg.access-token');
+      deleteCookie('bagg.refresh-token');
       queryClient.setQueryData(['session'], null);
 
       queryClient.invalidateQueries();

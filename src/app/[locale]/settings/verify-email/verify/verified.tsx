@@ -19,21 +19,21 @@ export const Verified = () => {
       try {
         if (confirmed) return;
 
-        const tempRefreshToken = getCookie('bagg.tempRefreshToken');
+        const temp-refresh-token = getCookie('bagg.temp-refresh-token');
 
-        if (!tempRefreshToken) {
+        if (!temp-refresh-token) {
           return router.replace('/login');
         }
 
         const { data } = await axios.post('/auth/refresh', {
-          refreshToken: tempRefreshToken,
+          refreshToken: temp-refresh-token,
         });
 
-        setCookie('bagg.sessionToken', data.accessToken);
-        setCookie('bagg.refreshToken', data.refreshToken);
+        setCookie('bagg.access-token', data.accessToken);
+        setCookie('bagg.refresh-token', data.refreshToken);
 
-        deleteCookie('bagg.tempSessionToken');
-        deleteCookie('bagg.tempRefreshToken');
+        deleteCookie('bagg.temp-session-token');
+        deleteCookie('bagg.temp-refresh-token');
 
         await auth.refetch();
         router.replace('/home');
