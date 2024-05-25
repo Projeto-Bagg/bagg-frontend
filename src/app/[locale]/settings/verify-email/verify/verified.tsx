@@ -19,14 +19,14 @@ export const Verified = () => {
       try {
         if (confirmed) return;
 
-        const temp-refresh-token = getCookie('bagg.temp-refresh-token');
+        const tempRefreshToken = getCookie('bagg.temp-refresh-token');
 
-        if (!temp-refresh-token) {
+        if (!tempRefreshToken) {
           return router.replace('/login');
         }
 
         const { data } = await axios.post('/auth/refresh', {
-          refreshToken: temp-refresh-token,
+          refreshToken: tempRefreshToken,
         });
 
         setCookie('bagg.access-token', data.accessToken);

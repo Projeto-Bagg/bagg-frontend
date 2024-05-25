@@ -17,10 +17,10 @@ export default function Page() {
 
   const alreadyConfirmed = async () => {
     const tempAccessToken = getCookie('bagg.temp-session-token');
-    const temp-refresh-token = getCookie('bagg.temp-refresh-token');
+    const tempRefreshToken = getCookie('bagg.temp-refresh-token');
     const accessToken = getCookie('bagg.access-token');
 
-    if (!temp-refresh-token && !accessToken) {
+    if (!tempRefreshToken && !accessToken) {
       return router.replace('/login');
     }
 
@@ -45,7 +45,7 @@ export default function Page() {
     }
 
     const { data } = await axios.post('/auth/refresh', {
-      refreshToken: temp-refresh-token,
+      refreshToken: tempRefreshToken,
     });
 
     setCookie('bagg.access-token', data.accessToken);
