@@ -81,6 +81,7 @@ export default function Layout({ children }: { children: ReactNode }) {
         <div className="flex text-sm flex-col gap-4 sm:mb-4 sm:flex-row justify-between sm:items-end">
           <div className="flex gap-4 text-muted-foreground font-bold">
             <Link
+              replace
               data-test="rating"
               className={cn(
                 pathname.endsWith('rating')

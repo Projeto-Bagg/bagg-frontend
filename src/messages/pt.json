@@ -327,7 +327,7 @@
     "interest": "Interesse",
     "ranking": {
       "position-in-rating-ranking-tooltip": "Posição no ranking por avaliação",
-      "position-in-visit-ranking-tooltip": "Posição no ranking quantidade de visitas"
+      "position-in-visit-ranking-tooltip": "Posição no ranking por quantidade de visitas"
     },
     "uncheck-visit-with-review-toast": {
       "title": "Exclua a avaliação antes de desmarcar",
