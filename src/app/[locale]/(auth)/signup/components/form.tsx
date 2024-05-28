@@ -103,7 +103,7 @@ export default function SignupForm() {
       .signUp({
         ...signUpData,
         birthdate,
-        fullName: data.fullName.toLowerCase().replace(/\b\w/g, (c) => c.toUpperCase()),
+        fullName: data.fullName.trim(),
       })
       .then(async () => {
         await new Promise((resolve) => setTimeout(resolve, 700));

@@ -90,7 +90,7 @@ export const EditProfile = ({ children }: { children: ReactNode }) => {
 
       const formData = new FormData();
       data.profilePic && formData.append('profilePic', data.profilePic.file);
-      formData.append('fullName', data.fullName);
+      formData.append('fullName', data.fullName.trim());
       data.bio && formData.append('bio', data.bio);
       data.cityId && formData.append('cityId', data.cityId.toString());
 
