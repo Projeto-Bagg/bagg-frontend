@@ -126,9 +126,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     deleteCookie('bagg.refresh-token');
     deleteCookie('bagg.temp-session-token');
     deleteCookie('bagg.temp-refresh-token');
-    queryClient.setQueryData(['session'], null);
-
-    pathname !== '/home' && queryClient.invalidateQueries();
+    queryClient.clear();
   };
 
   return (
