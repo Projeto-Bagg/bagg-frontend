@@ -78,6 +78,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, [queryClient, refetch]);
 
   const login = async (user: UserSignIn) => {
+    router.refresh();
     const { data } = await axios.post('/auth/login', user);
 
     const decodedJwt = decodeJwt<UserFromJwt>(data.accessToken);
@@ -103,13 +104,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     if (decodedJwt.role === 'ADMIN') {
       router.push('/admin');
-      router.refresh();
       return;
     }
 
     window.history.length > 1 ? router.back() : router.push('/home');
-    await new Promise((resolve) => setTimeout(resolve, 200));
-    router.refresh();
   };
 
   const signUp = async (user: UserSignUp) => {
@@ -122,15 +120,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const logout = () => {
+    router.refresh();
+
     deleteCookie('bagg.access-token');
     deleteCookie('bagg.refresh-token');
     deleteCookie('bagg.temp-session-token');
     deleteCookie('bagg.temp-refresh-token');
-    queryClient.setQueryData(['session'], null);
-
-    router.refresh();
-
-    pathname !== '/home' && queryClient.invalidateQueries();
+    queryClient.clear();
   };
 
   return (
