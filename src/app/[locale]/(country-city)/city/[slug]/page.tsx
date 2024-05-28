@@ -110,7 +110,7 @@ export default function Page({ params }: { params: { slug: string } }) {
             >
               {images.pages.map((page) =>
                 page.map((image) => (
-                  <CarouselItem key={image.id}>
+                  <CarouselItem key={`${image.type}-${image.id}`}>
                     <GalleryImage className="object-cover" image={image} />
                   </CarouselItem>
                 )),
