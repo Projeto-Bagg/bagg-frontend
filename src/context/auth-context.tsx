@@ -126,7 +126,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     deleteCookie('bagg.refresh-token');
     deleteCookie('bagg.temp-session-token');
     deleteCookie('bagg.temp-refresh-token');
-    queryClient.clear();
+
+    queryClient.invalidateQueries();
+    ['for-you-feed', 'following-feed', 'session'].forEach((query) =>
+      queryClient.setQueryData<null>([query], null),
+    );
   };
 
   return (
