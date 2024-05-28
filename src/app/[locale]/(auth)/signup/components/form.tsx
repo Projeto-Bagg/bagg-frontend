@@ -250,7 +250,7 @@ export default function SignupForm() {
         dangerouslySetInnerHTML={{
           __html: t.markup('signup-edit.confirm', {
             link: (text) =>
-              `<a class="text-primary hover:underline" href="/terms-of-use">${text}</a>`,
+              `<a target="_blank" class="text-primary hover:underline" href="/terms-of-use">${text}</a>`,
           }),
         }}
       />
