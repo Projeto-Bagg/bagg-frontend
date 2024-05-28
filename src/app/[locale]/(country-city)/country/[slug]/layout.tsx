@@ -39,52 +39,55 @@ export default function Layout({
         <div className="h-[calc(((100vw*3)/4)-32px)] sm:h-[calc(((820px*3)/4)-32px)] flex flex-col justify-end">
           <div className="flex gap-2 items-baseline">
             <h2 className="font-bold text-3xl sm:text-5xl">{country.data.name}</h2>
-            <div className="hidden sm:flex gap-1 shrink-0 items-baseline">
-              {country.data.positionInRatingRanking && (
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Link
-                      className="hover:underline"
-                      href={{ pathname: '/ranking/country/rating' }}
-                    >
-                      <div className="flex gap-0.5 items-end">
-                        <Rating
-                          readOnly
-                          value={1}
-                          items={1}
-                          className="max-h-5 max-w-5 sm:max-w-6 sm:max-h-6"
-                        />
-                        <span>#{country.data.positionInRatingRanking}</span>
-                      </div>
-                    </Link>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    {t('country-city-page.ranking.position-in-rating-ranking-tooltip')}
-                  </TooltipContent>
-                </Tooltip>
-              )}
-              {country.data.positionInVisitRanking && (
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Link
-                      className="hover:underline"
-                      href={{ pathname: '/ranking/country/visits' }}
-                    >
-                      <div className="flex gap-0.5 items-end">
-                        <MapPin
-                          strokeWidth={2.5}
-                          className={cn('h-5 w-5 sm:w-6 sm:h-6 text-blue-400')}
-                        />
-                        <span>#{country.data.positionInVisitRanking}</span>
-                      </div>
-                    </Link>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    {t('country-city-page.ranking.position-in-visit-ranking-tooltip')}
-                  </TooltipContent>
-                </Tooltip>
-              )}
-            </div>
+            {(country.data.positionInRatingRanking ||
+              country.data.positionInVisitRanking) && (
+              <div className="hidden sm:flex gap-1 shrink-0 items-baseline">
+                {country.data.positionInRatingRanking && (
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Link
+                        className="hover:underline"
+                        href={{ pathname: '/ranking/country/rating' }}
+                      >
+                        <div className="flex gap-0.5 items-end">
+                          <Rating
+                            readOnly
+                            value={1}
+                            items={1}
+                            className="max-h-5 max-w-5 sm:max-w-6 sm:max-h-6"
+                          />
+                          <span>#{country.data.positionInRatingRanking}</span>
+                        </div>
+                      </Link>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      {t('country-city-page.ranking.position-in-rating-ranking-tooltip')}
+                    </TooltipContent>
+                  </Tooltip>
+                )}
+                {country.data.positionInVisitRanking && (
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Link
+                        className="hover:underline"
+                        href={{ pathname: '/ranking/country/visits' }}
+                      >
+                        <div className="flex gap-0.5 items-end">
+                          <MapPin
+                            strokeWidth={2.5}
+                            className={cn('h-5 w-5 sm:w-6 sm:h-6 text-blue-400')}
+                          />
+                          <span>#{country.data.positionInVisitRanking}</span>
+                        </div>
+                      </Link>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      {t('country-city-page.ranking.position-in-visit-ranking-tooltip')}
+                    </TooltipContent>
+                  </Tooltip>
+                )}
+              </div>
+            )}
           </div>
           <div className="flex text-sm items-end gap-2 text-muted-foreground font-bold">
             <Tooltip>
@@ -162,36 +165,43 @@ export default function Layout({
               </Tooltip>
             </div>
           </div>
-          <div className="block sm:hidden text-muted-foreground font-semibold mt-1">
-            <Link href={'/ranking/country/rating'}>
-              <div className="flex justify-between">
-                <span>
-                  <span className="text-primary">
-                    #{country.data.positionInRatingRanking}
-                  </span>{' '}
-                  {t('country-city-page.ranking.position-in-rating-ranking-tooltip')
-                    .split(' ')
-                    .filter((_, index) => index !== 0)
-                    .join(' ')}
-                </span>
-                <ChevronRight strokeWidth={2.5} className="h-5" />
-              </div>
-            </Link>
-            <Link href={'/ranking/country/visits'}>
-              <div className="flex justify-between">
-                <span>
-                  <span className="text-primary">
-                    #{country.data.positionInVisitRanking}
-                  </span>{' '}
-                  {t('country-city-page.ranking.position-in-visit-ranking-tooltip')
-                    .split(' ')
-                    .filter((_, index) => index !== 0)
-                    .join(' ')}
-                </span>
-                <ChevronRight strokeWidth={2.5} className="h-5" />
-              </div>
-            </Link>
-          </div>
+          {(country.data.positionInRatingRanking ||
+            country.data.positionInVisitRanking) && (
+            <div className="block sm:hidden text-muted-foreground font-semibold mt-1">
+              {country.data.positionInRatingRanking && (
+                <Link href={'/ranking/country/rating'}>
+                  <div className="flex justify-between">
+                    <span>
+                      <span className="text-primary">
+                        #{country.data.positionInRatingRanking}
+                      </span>{' '}
+                      {t('country-city-page.ranking.position-in-rating-ranking-tooltip')
+                        .split(' ')
+                        .filter((_, index) => index !== 0)
+                        .join(' ')}
+                    </span>
+                    <ChevronRight strokeWidth={2.5} className="h-5" />
+                  </div>
+                </Link>
+              )}
+              {country.data.positionInVisitRanking && (
+                <Link href={'/ranking/country/visits'}>
+                  <div className="flex justify-between">
+                    <span>
+                      <span className="text-primary">
+                        #{country.data.positionInVisitRanking}
+                      </span>{' '}
+                      {t('country-city-page.ranking.position-in-visit-ranking-tooltip')
+                        .split(' ')
+                        .filter((_, index) => index !== 0)
+                        .join(' ')}
+                    </span>
+                    <ChevronRight strokeWidth={2.5} className="h-5" />
+                  </div>
+                </Link>
+              )}
+            </div>
+          )}
           <div className="flex sm:mt-2 gap-4 font-bold text-sm text-muted-foreground">
             <Link
               className={cn(
