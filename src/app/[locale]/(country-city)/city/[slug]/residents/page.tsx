@@ -18,13 +18,13 @@ export default function Residents({ params }: { params: { slug: string } }) {
         await axios.get<User[]>(`/cities/${params.slug}/residents`, {
           params: {
             page: pageParam,
-            count: 15,
+            count: 5,
           },
         })
       ).data,
     initialPageParam: 1,
     getNextPageParam: (page, allPages) =>
-      page.length === 10 ? allPages.length + 1 : null,
+      page.length === 5 ? allPages.length + 1 : null,
   });
 
   useEffect(() => {
