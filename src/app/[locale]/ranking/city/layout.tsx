@@ -80,6 +80,7 @@ export default function Layout({ children }: { children: ReactNode }) {
         <div className="flex text-sm flex-col gap-4 sm:mb-4 sm:flex-row justify-between sm:items-end">
           <div className="flex gap-4 font-bold text-muted-foreground">
             <Link
+              replace
               className={cn(
                 pathname.endsWith('rating')
                   ? 'border-b-2 border-blue-600 text-primary'

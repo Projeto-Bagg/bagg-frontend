@@ -123,7 +123,7 @@ export const Search = () => {
         </DialogHeader>
         {isFirstFetchSucess && debouncedQuery && (
           <ScrollArea>
-            <ScrollAreaViewport className="max-h-[calc(100vh-30%)] sm:max-h-[700px] px-4 sm:px-10 py-4 pt-0">
+            <ScrollAreaViewport className="max-h-[calc(80vh-120px)] sm:max-h-[700px] px-4 sm:px-10 py-4 pt-0">
               <div className="space-y-2">
                 <div>
                   <h3 className="font-semibold border-b-2 border-primary pb-1 w-fit">
