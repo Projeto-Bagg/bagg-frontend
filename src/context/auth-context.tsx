@@ -89,7 +89,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setCookie('bagg.temp-session-token', data.accessToken);
         setCookie('bagg.temp-refresh-token', data.refreshToken);
         await new Promise((resolve) => setTimeout(resolve, 200));
-        return router.push('/settings/verify-email');
+        return router.replace('/settings/verify-email');
       }
     }
 

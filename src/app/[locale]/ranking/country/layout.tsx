@@ -26,7 +26,7 @@ export default function Layout({ children }: { children: ReactNode }) {
 
   const handleChangeDatePreset = (value: string) => {
     // @ts-expect-error
-    router.push({
+    router.replace({
       pathname: pathname,
       params: {
         slug: '',
@@ -45,7 +45,7 @@ export default function Layout({ children }: { children: ReactNode }) {
   const handleChangeContinent = (value: Continent | undefined) => {
     if (!value) {
       // @ts-expect-error
-      return router.push({
+      return router.replace({
         pathname: pathname,
         params: { slug: '' },
         query: {
@@ -57,7 +57,7 @@ export default function Layout({ children }: { children: ReactNode }) {
     }
 
     // @ts-expect-error
-    router.push({
+    router.replace({
       pathname: pathname,
       params: {
         slug: '',

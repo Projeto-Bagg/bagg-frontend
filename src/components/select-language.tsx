@@ -28,7 +28,7 @@ export const SelectLanguage = () => {
     <Select
       defaultValue={locale}
       onValueChange={(lang) => {
-        router.push(
+        router.replace(
           // @ts-expect-error
           {
             params: { slug: params.slug as string },

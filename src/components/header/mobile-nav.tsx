@@ -144,7 +144,7 @@ export const MobileNav = () => {
                     data-test={lang.locale}
                     className="flex justify-between w-full"
                     onClick={() => {
-                      router.push(
+                      router.replace(
                         // @ts-expect-error
                         {
                           params: { slug: params.slug as string },
