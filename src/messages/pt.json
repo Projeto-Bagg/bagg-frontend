@@ -326,14 +326,8 @@
     "interested": "Interessado",
     "interest": "Interesse",
     "ranking": {
-      "city": {
-        "position-in-rating-ranking-tooltip": "Posição no ranking de cidades por avaliação",
-        "position-in-visit-ranking-tooltip": "Posição no ranking de cidades por quantidade de visitas"
-      },
-      "country": {
-        "position-in-rating-ranking-tooltip": "Posição no ranking de países por avaliação",
-        "position-in-visit-ranking-tooltip": "Posição no ranking de países por quantidade de visitas"
-      }
+      "position-in-rating-ranking-tooltip": "Posição no ranking por avaliação",
+      "position-in-visit-ranking-tooltip": "Posição no ranking quantidade de visitas"
     },
     "uncheck-visit-with-review-toast": {
       "title": "Exclua a avaliação antes de desmarcar",

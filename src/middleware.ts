@@ -19,14 +19,6 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/admin', request.nextUrl.origin));
   }
 
-  if (request.nextUrl.pathname.endsWith('/login') && isAuthenticated) {
-    return NextResponse.redirect(new URL('/', request.nextUrl.origin));
-  }
-
-  if (request.nextUrl.pathname.endsWith('/signup') && isAuthenticated) {
-    return NextResponse.redirect(new URL('/', request.nextUrl.origin));
-  }
-
   if (request.nextUrl.pathname.endsWith('/settings') && !isAuthenticated) {
     return NextResponse.redirect(new URL('/', request.nextUrl.origin));
   }

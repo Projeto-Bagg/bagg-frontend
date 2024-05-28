@@ -84,6 +84,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     if (decodedJwt.role === 'USER') {
       if (!decodedJwt.hasEmailBeenVerified) {
+        deleteCookie('bagg.access-token');
+        deleteCookie('bagg.refresh-token');
         setCookie('bagg.temp-session-token', data.accessToken);
         setCookie('bagg.temp-refresh-token', data.refreshToken);
         await new Promise((resolve) => setTimeout(resolve, 200));
@@ -122,6 +124,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const logout = () => {
     deleteCookie('bagg.access-token');
     deleteCookie('bagg.refresh-token');
+    deleteCookie('bagg.temp-session-token');
+    deleteCookie('bagg.temp-refresh-token');
     queryClient.setQueryData(['session'], null);
 
     router.refresh();
