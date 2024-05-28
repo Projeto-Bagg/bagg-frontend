@@ -78,7 +78,7 @@
     "title": "Sign up",
     "description": "Fill out the form to register to Bagg",
     "name": {
-      "label": "Name",
+      "label": "Display name",
       "too-small": "Enter your display name",
       "max-length-error": "The maximum length is 64 characters"
     },

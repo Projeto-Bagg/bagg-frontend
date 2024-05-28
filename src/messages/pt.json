@@ -78,7 +78,7 @@
     "title": "Cadastrar-se",
     "description": "Preencha o formulário para se cadastrar no Bagg!",
     "name": {
-      "label": "Nome",
+      "label": "Nome de exibição",
       "too-small": "Digite o nome de exibição",
       "max-length-error": "O tamanho máximo é de 64 caracteres"
     },
