@@ -478,17 +478,12 @@
     },
     "verify-email": {
       "title": "Confirme seu email",
-      "description": "Obrigado por se cadastrar no Bagg! Para continuar, confirme seu email clicando no botão abaixo.",
-      "submit": "Confirmar email",
       "success": "Email confirmado com sucesso!",
       "fail": "Email não confirmado.",
-      "done": {
-        "done": "Pronto!",
-        "description": "Um link para a ativação da conta foi enviado ao email vinculado à conta.",
-        "already-verified": {
-          "label": "Caso você já tenha confirmado o email, clique no botão abaixo.",
-          "button": "Já confirmei"
-        }
+      "description": "Um link para a ativação da conta foi enviado ao email vinculado à conta.",
+      "already-verified": {
+        "label": "Caso você já tenha confirmado o email, clique no botão abaixo.",
+        "button": "Já confirmei"
       }
     }
   },

@@ -6,10 +6,11 @@ import { toast } from '@/components/ui/use-toast';
 import { useAuth } from '@/context/auth-context';
 import axios from '@/services/axios';
 import { deleteCookie, getCookie, setCookie } from 'cookies-next';
+import { Mail } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import React, { useState } from 'react';
 
-export default function Page() {
+export const VerifyEmail = () => {
   const t = useTranslations();
   const router = useRouter();
   const auth = useAuth();
@@ -62,21 +63,26 @@ export default function Page() {
   };
 
   return (
-    <>
-      <h1 className="font-semibold tracking-tight text-2xl">
-        {t('settings.verify-email.done.done')}
-      </h1>
-      <div>
-        <p className="text-sm text-muted-foreground">
-          {t('settings.verify-email.done.description')}
-        </p>
-        <p className="text-sm text-muted-foreground">
-          {t('settings.verify-email.done.already-verified.label')}
-        </p>
+    <div className="p-4 container max-w-xl m-auto my-8">
+      <div className="flex flex-col items-center space-y-4 text-center">
+        <div className="rounded-full bg-primary p-4">
+          <Mail className="w-[40px] h-[40px]" />
+        </div>
+        <h1 className="font-semibold tracking-tight text-2xl">
+          {t('settings.verify-email.title')}
+        </h1>
+        <div>
+          <p className="text-sm text-muted-foreground">
+            {t('settings.verify-email.description')}
+          </p>
+          <p className="text-sm text-muted-foreground">
+            {t('settings.verify-email.already-verified.label')}
+          </p>
+        </div>
+        <Button loading={loading} onClick={alreadyConfirmed} className="w-full">
+          {t('settings.verify-email.already-verified.button')}
+        </Button>
       </div>
-      <Button loading={loading} onClick={alreadyConfirmed} className="w-full">
-        {t('settings.verify-email.done.already-verified.button')}
-      </Button>
-    </>
+    </div>
   );
-}
+};
