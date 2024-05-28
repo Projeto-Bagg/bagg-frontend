@@ -99,14 +99,16 @@ export const TipComment = ({ comment, tipId }: TipCommentProps) => {
                     </button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent>
-                    <Report id={comment.id} reportType="tip-comment">
-                      <DropdownMenuItem
-                        data-test="report"
-                        onSelect={(e) => e.preventDefault()}
-                      >
-                        {t('reports.title')}
-                      </DropdownMenuItem>
-                    </Report>
+                    {auth.user.id !== comment.user.id && (
+                      <Report id={comment.id} reportType="tip-comment">
+                        <DropdownMenuItem
+                          data-test="report"
+                          onSelect={(e) => e.preventDefault()}
+                        >
+                          {t('reports.title')}
+                        </DropdownMenuItem>
+                      </Report>
+                    )}
                     {auth.user.id === comment.user.id && (
                       <AlertDialog>
                         <AlertDialogTrigger asChild>
