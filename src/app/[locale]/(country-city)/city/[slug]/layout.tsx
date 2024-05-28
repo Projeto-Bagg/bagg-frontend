@@ -11,7 +11,7 @@ import { cn } from '@/lib/utils';
 import axios from '@/services/axios';
 import { Rating } from '@smastrom/react-rating';
 import { useQuery } from '@tanstack/react-query';
-import { MapPin, CheckCircle, Home } from 'lucide-react';
+import { MapPin, CheckCircle, Home, ArrowRight, ChevronRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useCreateCityInterest, useDeleteCityInterest } from '@/hooks/city-interest';
 import {
@@ -96,37 +96,40 @@ export default function Layout({
   return (
     <div className="px-4 container pb-4 relative">
       <CountryFlag
-        className="w-full left-0 right-0 m-auto absolute -z-10 gradient-mask-b-[rgba(0,0,0,1.0)_4px] rounded-none"
+        className="w-full left-0 right-0 m-auto absolute -z-10 gradient-mask-b-[rgba(0,0,0,1.0)_-32px] rounded-none"
         iso2={city.data.region.country.iso2}
       />
-      <div className="flex flex-col gap-6 sm:flex-row pt-[160px] sm:pt-[400px] justify-between pb-[24px]">
-        <div>
-          <div className="flex gap-2 items-baseline">
+      <div className="flex flex-col gap-6 sm:flex-row sm:items-end justify-end sm:justify-between pb-[24px]">
+        <div className="h-[calc(((100vw*3)/4)-32px)] sm:h-[calc(((820px*3)/4)-32px)] flex flex-col justify-end">
+          <div className="flex gap-2  items-baseline">
             <h2 className="font-bold text-3xl sm:text-5xl">{city.data.name}</h2>
-            <div className="flex gap-1 shrink-0 items-baseline">
+            <div className="hidden sm:flex gap-1 shrink-0 items-baseline">
               {city.data.positionInRatingRanking && (
                 <Tooltip>
-                  <TooltipTrigger>
+                  <TooltipTrigger asChild>
                     <Link
                       className="hover:underline"
                       href={{ pathname: '/ranking/city/rating' }}
                     >
                       <div className="flex gap-0.5 items-end">
-                        <Rating value={1} items={1} className="h-5 w-5 sm:w-6 sm:h-6" />
+                        <Rating
+                          readOnly
+                          value={1}
+                          items={1}
+                          className="max-h-5 max-w-5 sm:max-w-6 sm:max-h-6"
+                        />
                         <span>#{city.data.positionInRatingRanking}</span>
                       </div>
                     </Link>
                   </TooltipTrigger>
                   <TooltipContent>
-                    {t(
-                      'country-city-page.ranking.city.position-in-rating-ranking-tooltip',
-                    )}
+                    {t('country-city-page.ranking.position-in-rating-ranking-tooltip')}
                   </TooltipContent>
                 </Tooltip>
               )}
               {city.data.positionInVisitRanking && (
                 <Tooltip>
-                  <TooltipTrigger>
+                  <TooltipTrigger asChild>
                     <Link
                       className="hover:underline"
                       href={{ pathname: '/ranking/city/visits' }}
@@ -141,9 +144,7 @@ export default function Layout({
                     </Link>
                   </TooltipTrigger>
                   <TooltipContent>
-                    {t(
-                      'country-city-page.ranking.city.position-in-visit-ranking-tooltip',
-                    )}
+                    {t('country-city-page.ranking.position-in-visit-ranking-tooltip')}
                   </TooltipContent>
                 </Tooltip>
               )}
@@ -164,9 +165,9 @@ export default function Layout({
               {city.data.region.country.name}
             </Link>
           </div>
-          <div className="flex text-sm items-end gap-2 text-muted-foreground">
+          <div className="flex text-sm items-end gap-2 text-muted-foreground font-bold">
             <Tooltip>
-              <TooltipTrigger>
+              <TooltipTrigger asChild>
                 <Link
                   href={{
                     params: { slug: params.slug },
@@ -218,7 +219,7 @@ export default function Layout({
                 </TooltipContent>
               </Tooltip>
               <Tooltip>
-                <TooltipTrigger>
+                <TooltipTrigger asChild>
                   <Link
                     href={{
                       params: { slug: params.slug },
@@ -238,6 +239,36 @@ export default function Layout({
                 </TooltipContent>
               </Tooltip>
             </div>
+          </div>
+          <div className="block sm:hidden text-muted-foreground font-semibold mt-1">
+            <Link href={'/ranking/city/rating'}>
+              <div className="flex justify-between">
+                <span>
+                  <span className="text-primary">
+                    #{city.data.positionInRatingRanking}
+                  </span>{' '}
+                  {t('country-city-page.ranking.position-in-rating-ranking-tooltip')
+                    .split(' ')
+                    .filter((_, index) => index !== 0)
+                    .join(' ')}
+                </span>
+                <ChevronRight strokeWidth={2.5} className="h-5" />
+              </div>
+            </Link>
+            <Link href={'/ranking/city/visits'}>
+              <div className="flex justify-between">
+                <span>
+                  <span className="text-primary">
+                    #{city.data.positionInVisitRanking}
+                  </span>{' '}
+                  {t('country-city-page.ranking.position-in-visit-ranking-tooltip')
+                    .split(' ')
+                    .filter((_, index) => index !== 0)
+                    .join(' ')}
+                </span>
+                <ChevronRight strokeWidth={2.5} className="h-5" />
+              </div>
+            </Link>
           </div>
           <div className="flex sm:mt-2 gap-4 text-sm text-muted-foreground font-bold">
             <Link

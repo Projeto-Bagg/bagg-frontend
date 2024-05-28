@@ -18,14 +18,16 @@ export default function Visits({ params }: { params: { slug: string } }) {
         await axios.get<CityVisit[]>(`/city-visits/${params.slug}`, {
           params: {
             page: pageParam,
-            count: 15,
+            count: 5,
           },
         })
       ).data,
     initialPageParam: 1,
     getNextPageParam: (page, allPages) =>
-      page.length === 10 ? allPages.length + 1 : null,
+      page.length === 5 ? allPages.length + 1 : null,
   });
+
+  console.log(hasNextPage);
 
   useEffect(() => {
     if (inView && hasNextPage) {
@@ -44,8 +46,8 @@ export default function Visits({ params }: { params: { slug: string } }) {
             <span>{t('country-city-page.tabs.reviews.no-reviews')}</span>
           </div>
         )}
-        {data?.pages.map((page, index) =>
-          page.map((visit) => (
+        {data?.pages.map((page) =>
+          page.map((visit, index) => (
             <CityVisit
               ref={page.length - 1 === index ? ref : undefined}
               key={visit.id}

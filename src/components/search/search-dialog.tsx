@@ -84,8 +84,6 @@ export const Search = () => {
     placeholderData: (data) => data,
   });
 
-  console.log(search.data);
-
   useEffect(() => {
     if (isFirstFetchSucess === undefined) {
       setIsFirstFetchSucess(true);

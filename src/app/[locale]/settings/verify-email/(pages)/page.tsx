@@ -23,7 +23,7 @@ export default function Page() {
       },
     });
 
-    router.push('/settings/verify-email/done');
+    router.replace('/settings/verify-email/done');
   };
 
   return (

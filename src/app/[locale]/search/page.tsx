@@ -60,8 +60,6 @@ export default function Page() {
     enabled: !!q || tagsArray.length !== 0 || !!city,
   });
 
-  console.log(tips);
-
   return (
     <div>
       <div className="grid grid-cols-1 sm:grid-cols-2 items-end gap-x-4 gap-y-1">

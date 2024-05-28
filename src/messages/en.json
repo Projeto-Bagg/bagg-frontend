@@ -326,14 +326,8 @@
     "interested": "Interested",
     "interest": "Interest",
     "ranking": {
-      "city": {
-        "position-in-rating-ranking-tooltip": "Position in the ranking of cities by rating",
-        "position-in-visit-ranking-tooltip": "Position in the ranking of cities by number of visits"
-      },
-      "country": {
-        "position-in-rating-ranking-tooltip": "Position in the ranking of countries by rating",
-        "position-in-visit-ranking-tooltip": "Position in the ranking of countries by number of visits"
-      }
+      "position-in-rating-ranking-tooltip": "Position in the ranking by rating",
+      "position-in-visit-ranking-tooltip": "Position in the ranking by number of visits"
     },
     "uncheck-visit-with-review-toast": {
       "title": "Delete the review before unchecking",

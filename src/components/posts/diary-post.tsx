@@ -139,7 +139,7 @@ export const DiaryPost = forwardRef<
                 >
                   {t('diary-post.copy-link')}
                 </DropdownMenuItem>
-                {auth.user && (
+                {auth.user?.id !== post.user.id && (
                   <Report id={post.id} reportType="diary-post">
                     <DropdownMenuItem
                       data-test="report"
