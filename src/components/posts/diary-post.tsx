@@ -34,7 +34,7 @@ import { intlFormatDistance } from 'date-fns';
 import { UserHoverCard } from '@/components/user-hovercard';
 import { Medias } from '@/components/posts/medias';
 import { Report } from '@/components/posts/report';
-import { Link, useRouter } from '@/common/navigation';
+import { Link, usePathname, useRouter } from '@/common/navigation';
 
 export const DiaryPost = forwardRef<
   HTMLDivElement,
@@ -50,6 +50,7 @@ export const DiaryPost = forwardRef<
   const deletePost = useDeleteDiaryPost();
   const router = useRouter();
   const t = useTranslations();
+  const pathname = usePathname();
 
   const handleLikeClick = async () => {
     if (!auth.user) {
@@ -71,7 +72,9 @@ export const DiaryPost = forwardRef<
   const handleDeleteClick = async () => {
     await deletePost.mutateAsync(post.id);
 
-    router.push('/home');
+    if (pathname === '/diary/post/[slug]') {
+      router.push({ pathname: '/home' });
+    }
   };
 
   return (

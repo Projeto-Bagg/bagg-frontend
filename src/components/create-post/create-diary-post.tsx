@@ -27,12 +27,12 @@ import { ChevronsUpDown, Trash2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { useRouter } from 'next/navigation';
 import { CreateTripDiary } from '@/components/create-post/create-trip-diary';
 import { CountryFlag } from '@/components/ui/country-flag';
 import { useAuth } from '@/context/auth-context';
 import { CreatePostMedias } from '@/components/create-post/create-post-medias';
 import { MediaInput } from '@/components/create-post/media-input';
+import { useRouter } from '@/common/navigation';
 
 const createDiaryPostSchema = z.object({
   tripDiaryId: z.number(),
@@ -84,7 +84,7 @@ export const CreateDiaryPost = ({ children }: { children: ReactNode }) => {
     const post = await createDiaryPost.mutateAsync(formData);
 
     setOpen(false);
-    router.push('/diary/' + post.tripDiary.id);
+    router.push({ params: { slug: post.tripDiary.id }, pathname: '/diary/[slug]' });
     reset(undefined, { keepDefaultValues: true });
   };
 

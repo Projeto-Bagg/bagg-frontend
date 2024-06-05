@@ -33,7 +33,7 @@ export const useDeleteTip = () => {
   return useMutation({
     mutationFn: async (id: number) => axios.delete('/tips/' + id),
     onSuccess: (_, id) => {
-      queryClient.setQueryData<Tip>(['tip', id], undefined);
+      queryClient.setQueryData(['tip', id], null);
 
       [['following-feed'], ['for-you-feed'], ['tips', auth.user?.username]].forEach(
         (key) => {

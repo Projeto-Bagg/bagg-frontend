@@ -5,21 +5,22 @@ import { cn } from '@/lib/utils';
 import axios from '@/services/axios';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ads } from '@/common/ads';
 import { produce } from 'immer';
 import { Feed } from '@/components/feed';
-import { setCookie } from 'cookies-next';
+import { getCookie, setCookie } from 'cookies-next';
 
 type Feed = 'for-you' | 'following';
 
-interface HomeProps {
-  defaultFeed: Feed | undefined;
-}
-
-export default function Home({ defaultFeed }: HomeProps) {
-  const [feed, setFeed] = useState<Feed>(defaultFeed || 'for-you');
+export default function HomepageFeed() {
+  const [feed, setFeed] = useState<Feed>();
   const t = useTranslations();
+
+  useEffect(() => {
+    const feed = getCookie('bagg.default-feed') as Feed | undefined;
+    setFeed(feed || 'for-you');
+  }, []);
 
   const forYouFeed = useInfiniteQuery<(Ad | Tip)[]>({
     queryKey: ['for-you-feed'],
@@ -60,55 +61,48 @@ export default function Home({ defaultFeed }: HomeProps) {
   };
 
   return (
-    <div data-test="homepage-feed" className="p-4 container">
-      <div className="mb-2">
-        <h2 className="font-bold w-fit text-xl sm:text-2xl border-b-2 border-primary pb-1">
-          {t('homepage.title')}
-        </h2>
+    <Tabs
+      value={feed}
+      defaultValue="for-you"
+      onValueChange={(value) => onFeedChange(value as Feed)}
+    >
+      <div className="flex justify-center">
+        <TabsList className="p-0 w-full bg-transparent">
+          <TabsTrigger
+            className="flex-1 sm:flex-none border-b sm:border-b-0"
+            value="for-you"
+          >
+            <h2
+              className={cn(
+                'font-bold w-fit text-base sm:text-xl pb-1',
+                feed === 'for-you' && 'border-b-2 border-primary',
+              )}
+            >
+              {t('homepage.feed.for-you')}
+            </h2>
+          </TabsTrigger>
+          <TabsTrigger
+            className="flex-1 sm:flex-none border-b sm:border-b-0"
+            value="following"
+          >
+            <h2
+              className={cn(
+                'font-bold w-fit text-base sm:text-xl pb-1',
+                feed === 'following' && 'border-b-2 border-primary',
+              )}
+            >
+              {t('homepage.feed.following')}
+            </h2>
+          </TabsTrigger>
+        </TabsList>
       </div>
-      <Tabs
-        value={feed}
-        defaultValue="for-you"
-        onValueChange={(value) => onFeedChange(value as Feed)}
-      >
-        <div className="flex justify-center">
-          <TabsList className="p-0 w-full bg-transparent">
-            <TabsTrigger
-              className="flex-1 sm:flex-none border-b sm:border-b-0"
-              value="for-you"
-            >
-              <h2
-                className={cn(
-                  'font-bold w-fit text-base sm:text-xl pb-1',
-                  feed === 'for-you' && 'border-b-2 border-primary',
-                )}
-              >
-                {t('homepage.feed.for-you')}
-              </h2>
-            </TabsTrigger>
-            <TabsTrigger
-              className="flex-1 sm:flex-none border-b sm:border-b-0"
-              value="following"
-            >
-              <h2
-                className={cn(
-                  'font-bold w-fit text-base sm:text-xl pb-1',
-                  feed === 'following' && 'border-b-2 border-primary',
-                )}
-              >
-                {t('homepage.feed.following')}
-              </h2>
-            </TabsTrigger>
-          </TabsList>
-        </div>
-        <TabsContent value="following">
-          <Feed feed={followingFeed} emptyFeedComponent={<EmptyHomepageFeed />} />
-        </TabsContent>
-        <TabsContent value="for-you">
-          <Feed feed={forYouFeed} emptyFeedComponent={<EmptyHomepageFeed />} />
-        </TabsContent>
-      </Tabs>
-    </div>
+      <TabsContent value="following">
+        <Feed feed={followingFeed} emptyFeedComponent={<EmptyHomepageFeed />} />
+      </TabsContent>
+      <TabsContent value="for-you">
+        <Feed feed={forYouFeed} emptyFeedComponent={<EmptyHomepageFeed />} />
+      </TabsContent>
+    </Tabs>
   );
 }
 
