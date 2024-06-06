@@ -1,7 +1,7 @@
 {
   "id": 1,
   "message": "teste",
-  "userId": 0,
+  "userId": 1,
   "user": {
     "id": 1,
     "fullName": "teste",

@@ -79,7 +79,12 @@ export const VerifyEmail = () => {
             {t('settings.verify-email.already-verified.label')}
           </p>
         </div>
-        <Button loading={loading} onClick={alreadyConfirmed} className="w-full">
+        <Button
+          data-test="already-verified-button"
+          loading={loading}
+          onClick={alreadyConfirmed}
+          className="w-full"
+        >
           {t('settings.verify-email.already-verified.button')}
         </Button>
       </div>

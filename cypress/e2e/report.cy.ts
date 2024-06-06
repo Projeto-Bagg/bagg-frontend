@@ -4,13 +4,9 @@ describe('Denunciar', () => {
       cy.login();
       cy.visit('/home');
       cy.fixture<Tip>('tip.json').then((tip) => {
-        cy.intercept(
-          'GET',
-          'tips/feed?page=1&relevancy=true&follows=true&cityInterest=true',
-          {
-            body: [tip],
-          },
-        );
+        cy.intercept('GET', 'tips/recommend/feed?page=1', {
+          body: [{ ...tip, user: { id: 2 } }],
+        });
       });
     });
 
@@ -27,7 +23,7 @@ describe('Denunciar', () => {
     beforeEach(() => {
       cy.fixture<Tip>('tip.json').then((tip) => {
         cy.intercept('GET', 'tips/1', {
-          body: tip,
+          body: { ...tip, user: { id: 2 } },
         });
       });
     });
@@ -59,12 +55,12 @@ describe('Denunciar', () => {
     beforeEach(() => {
       cy.fixture<Tip>('tip.json').then((tip) => {
         cy.intercept('GET', 'tips/2', {
-          body: tip,
+          body: { ...tip, user: { id: 2 } },
         });
       });
       cy.fixture<TipComment>('tip-comment.json').then((comment) => {
         cy.intercept('GET', 'tip-comments/1', {
-          body: [comment],
+          body: [{ ...comment, user: { id: 2 } }],
         });
       });
     });
@@ -94,9 +90,9 @@ describe('Denunciar', () => {
 
   describe('Diário de viagem', () => {
     beforeEach(() => {
-      cy.fixture<DiaryPost>('diary-post.json').then((tip) => {
+      cy.fixture<DiaryPost>('diary-post.json').then((diaryPost) => {
         cy.intercept('GET', 'diary-posts/1', {
-          body: tip,
+          body: { ...diaryPost, user: { id: 2 } },
         });
       });
     });

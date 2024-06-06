@@ -1,7 +1,7 @@
 describe('Ranking', () => {
   describe('Países', () => {
     it('Mudar ranking para visitas', () => {
-      cy.visit('/country/ranking/rating');
+      cy.visit('/ranking/country/rating');
 
       cy.get('[data-test="visits"]').click();
 
@@ -9,7 +9,7 @@ describe('Ranking', () => {
     });
 
     it('Mudar filtro de data', () => {
-      cy.visit('/country/ranking/rating');
+      cy.visit('/ranking/country/rating');
 
       cy.get('[data-test="change-data-preset"]').click();
 
@@ -19,7 +19,7 @@ describe('Ranking', () => {
     });
 
     it('Persistir filtro de data ao mudar para visitas', () => {
-      cy.visit('/country/ranking/rating');
+      cy.visit('/ranking/country/rating');
 
       cy.get('[data-test="change-data-preset"]').click();
       cy.get('[role="option"]').eq(0).click();
@@ -32,7 +32,7 @@ describe('Ranking', () => {
 
   describe('Cidades', () => {
     it('Mudar ranking para visitas', () => {
-      cy.visit('/city/ranking/rating');
+      cy.visit('/ranking/city/rating');
 
       cy.get('[data-test="visits"]').click();
 
@@ -40,7 +40,7 @@ describe('Ranking', () => {
     });
 
     it('Mudar filtro de data', () => {
-      cy.visit('/city/ranking/rating');
+      cy.visit('/ranking/city/rating');
 
       cy.get('[data-test="change-data-preset"]').click();
 
@@ -50,7 +50,7 @@ describe('Ranking', () => {
     });
 
     it('Mudar país', () => {
-      cy.visit('/city/ranking/rating');
+      cy.visit('/ranking/city/rating');
 
       cy.fixture('countries.json').then((countries) => {
         cy.intercept('GET', '/countries', {
@@ -65,7 +65,7 @@ describe('Ranking', () => {
     });
 
     it('Persistir filtros ao mudar para visitas', () => {
-      cy.visit('/city/ranking/rating');
+      cy.visit('/ranking/city/rating');
 
       cy.fixture('countries.json').then((countries) => {
         cy.intercept('GET', '/countries', {

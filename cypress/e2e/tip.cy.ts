@@ -69,9 +69,9 @@ describe('Criar tip', () => {
 
     cy.get('[data-test="create-tip-form"]').submit();
 
-    cy.get('[data-test="homepage-feed"]').should('contain.text', 'test');
-
     cy.wait('@create-tip');
+
+    cy.url().should('contain', 'tip');
   });
 
   it('Adicionando mídias', () => {
