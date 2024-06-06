@@ -1,7 +1,7 @@
 import React from 'react';
-import { DeleteAccount } from '@/app/[locale]/settings/delete-account';
-import { ChangePassword } from '@/app/[locale]/settings/change-password';
-import { ChangeUsername } from '@/app/[locale]/settings/change-username';
+import { DeleteAccount } from '@/app/[locale]/settings/(index)/components/delete-account';
+import { ChangePassword } from '@/app/[locale]/settings/(index)/components/change-password';
+import { ChangeUsername } from '@/app/[locale]/settings/(index)/components/change-username';
 import { getTranslations } from 'next-intl/server';
 
 export default async function Page() {

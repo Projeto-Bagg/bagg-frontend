@@ -2,7 +2,7 @@ import { getCookie } from 'cookies-next';
 import axios from '@/services/axios';
 import { redirect } from '@/common/navigation';
 import { cookies } from 'next/headers';
-import { VerifyEmail } from '@/app/[locale]/settings/verify-email/(pages)/verify-email';
+import { VerifyEmail } from '@/app/[locale]/settings/verify-email/(index)/components/verify-email';
 
 export default async function Page() {
   const tempAccessToken = getCookie('bagg.temp-session-token', { cookies });

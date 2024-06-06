@@ -1,4 +1,4 @@
-import { Verified } from '@/app/[locale]/settings/verify-email/verify/verified';
+import { Verified } from '@/app/[locale]/settings/verify-email/verify/components/verified';
 import { redirect } from '@/common/navigation';
 import axios from '@/services/axios';
 import { isTokenExpired } from '@/utils/is-token-expired';
