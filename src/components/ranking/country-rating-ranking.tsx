@@ -101,7 +101,7 @@ export const CountryRatingRanking = ({
                 ref={page.length - 1 === index ? ref : undefined}
                 className=""
               >
-                <div className="flex gap-2 items-center">
+                <div className="flex gap-1.5 items-center">
                   <h3 className="w-[24px] font-bold shrink-0">
                     {pageIndex * count + (index + 1)}º
                   </h3>
@@ -148,14 +148,14 @@ export const CountryRatingRanking = ({
             )),
           )}
         {ranking && ranking.pages[0].length === 0 && (
-          <div className="py-4 text-sm text-center">
+          <div className="py-4 text-sm text-center text-muted-foreground">
             <span>{t('ranking.empty')}</span>
           </div>
         )}
       </RankingContent>
       {seeMore && ranking?.pages[0].length !== 0 && (
         <RankingFooter>
-          <SeeMore href={'/country/ranking/rating'} />
+          <SeeMore href={'/ranking/country/rating'} />
         </RankingFooter>
       )}
     </Ranking>

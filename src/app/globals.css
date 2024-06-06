@@ -54,12 +54,17 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground text-sm sm:text-base;
   }
 }
 
 .cropper-face {
   opacity: 0 !important;
+}
+
+input::-ms-reveal,
+input::-ms-clear {
+  display: none;
 }
 
 .cropper-view-box {

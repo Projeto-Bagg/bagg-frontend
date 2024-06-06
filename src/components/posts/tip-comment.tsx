@@ -22,7 +22,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { UserHoverCard } from '@/components/user-hovercard';
 import { useAuth } from '@/context/auth-context';
-import { useDeleteTipComment } from '@/hooks/useDeleteTipComment';
+import { useDeleteTipComment } from '@/hooks/tip';
 import { intlFormatDistance } from 'date-fns';
 import { Settings } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
@@ -51,21 +51,18 @@ export const TipComment = ({ comment, tipId }: TipCommentProps) => {
             }}
           >
             <Avatar>
-              <AvatarImage
-                className="h-[44px] w-[44px] rounded-full"
-                src={comment.user.image}
-              />
+              <AvatarImage className="w-[44px] rounded-full" src={comment.user.image} />
             </Avatar>
           </Link>
         </UserHoverCard>
       </div>
-      <div className="w-full">
-        <div className="flex items-center gap-3 w-full">
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center gap-3">
           <div className="flex gap-2 items-center justify-between w-full">
-            <div className="flex gap-1 text-ellipsis overflow-hidden whitespace-nowrap">
+            <div className="flex gap-1 overflow-hidden">
               <UserHoverCard username={comment.user.username}>
                 <Link
-                  className="font-bold hover:underline"
+                  className="font-semibold hover:underline truncate"
                   href={{
                     params: { slug: comment.user.username },
                     pathname: '/[slug]',
@@ -76,7 +73,7 @@ export const TipComment = ({ comment, tipId }: TipCommentProps) => {
               </UserHoverCard>
               <UserHoverCard username={comment.user.username}>
                 <Link
-                  className="text-muted-foreground"
+                  className="text-muted-foreground hover:underline"
                   href={{
                     params: { slug: comment.user.username },
                     pathname: '/[slug]',
@@ -98,18 +95,20 @@ export const TipComment = ({ comment, tipId }: TipCommentProps) => {
                 <DropdownMenu modal={false}>
                   <DropdownMenuTrigger asChild>
                     <button data-test="comment-options">
-                      <Settings className="w-[20px] h-[20px]" />
+                      <Settings className="w-[18px] h-[18px]" />
                     </button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent>
-                    <Report id={comment.id} reportType="tip-comment">
-                      <DropdownMenuItem
-                        data-test="diary-post-delete"
-                        onSelect={(e) => e.preventDefault()}
-                      >
-                        {t('reports.title')}
-                      </DropdownMenuItem>
-                    </Report>
+                    {auth.user.id !== comment.user.id && (
+                      <Report id={comment.id} reportType="tip-comment">
+                        <DropdownMenuItem
+                          data-test="report"
+                          onSelect={(e) => e.preventDefault()}
+                        >
+                          {t('reports.title')}
+                        </DropdownMenuItem>
+                      </Report>
+                    )}
                     {auth.user.id === comment.user.id && (
                       <AlertDialog>
                         <AlertDialogTrigger asChild>

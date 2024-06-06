@@ -2,12 +2,11 @@
 
 import axios from '@/services/axios';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
-import React from 'react';
-import { LazyMap, LazyMarker, LazyTileLayer } from '@/components/leaflet-map';
-import { CityVisit } from '@/components/city-visit';
+import React, { useMemo } from 'react';
+import { CityVisit } from '@/app/[locale]/(country-city)/components/city-visit';
 import { useTranslations } from 'next-intl';
-import { GalleryImage } from '@/app/[locale]/(country-city)/gallery-image';
-import { GalleryCarousel } from '@/app/[locale]/(country-city)/gallery-carousel';
+import { GalleryImage } from '@/app/[locale]/(country-city)/components/gallery-image';
+import { GalleryCarousel } from '@/app/[locale]/(country-city)/components/gallery-carousel';
 import Autoplay from 'embla-carousel-autoplay';
 import { CarouselItem } from '@/components/ui/carousel';
 import { SeeMore } from '@/components/see-more';
@@ -20,8 +19,9 @@ import {
   RankingTitle,
 } from '@/components/ui/ranking';
 import { Link } from '@/common/navigation';
-import { Resident } from '@/app/[locale]/(country-city)/resident';
+import { Resident } from '@/app/[locale]/(country-city)/components/resident';
 import { CountryFlag } from '@/components/ui/country-flag';
+import dynamic from 'next/dynamic';
 
 export default function Page({ params }: { params: { slug: string } }) {
   const t = useTranslations();
@@ -81,11 +81,19 @@ export default function Page({ params }: { params: { slug: string } }) {
     getNextPageParam: () => null,
   });
 
+  const LazyMap = useMemo(
+    () =>
+      dynamic(async () => (await import('@/components/map')).Map, {
+        ssr: false,
+      }),
+    [],
+  );
+
   return (
     <div className="grid gap-x-4 gap-y-6 grid-cols-1 sm:grid-cols-2">
       <div>
         <div className="mb-2">
-          <h2 className="font-bold text-xl border-b-2 border-primary pb-1">
+          <h2 className="font-bold text-base sm:text-xl border-b-2 border-primary pb-1">
             {t('country-city-page.gallery')}
           </h2>
         </div>
@@ -102,7 +110,7 @@ export default function Page({ params }: { params: { slug: string } }) {
             >
               {images.pages.map((page) =>
                 page.map((image) => (
-                  <CarouselItem key={image.id}>
+                  <CarouselItem key={`${image.type}-${image.id}`}>
                     <GalleryImage className="object-cover" image={image} />
                   </CarouselItem>
                 )),
@@ -120,25 +128,11 @@ export default function Page({ params }: { params: { slug: string } }) {
       </div>
       <div>
         <div className="mb-2">
-          <h2 className="font-bold text-xl border-b-2 border-primary pb-1">
+          <h2 className="font-bold text-base sm:text-xl border-b-2 border-primary pb-1">
             {t('country-city-page.location')}
           </h2>
         </div>
-        {city.data && (
-          <LazyMap
-            center={[city.data.latitude, city.data.longitude]}
-            zoom={8}
-            className="w-full aspect-square rounded-lg border-2"
-            scrollWheelZoom={false}
-            dragging={false}
-          >
-            <LazyTileLayer
-              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-              url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
-            />
-            <LazyMarker position={[city.data.latitude, city.data.longitude]} />
-          </LazyMap>
-        )}
+        {city.data && <LazyMap LatLng={[city.data.latitude, city.data.longitude]} />}
       </div>
       <div>
         <Ranking>
@@ -151,7 +145,7 @@ export default function Page({ params }: { params: { slug: string } }) {
               page.map((city) =>
                 city.places.map((city, index) => (
                   <RankingItem key={city.id}>
-                    <div className="flex gap-2 items-center w-full">
+                    <div className="flex gap-1.5 items-center w-full">
                       <h3 className="w-[24px] font-bold shrink-0">
                         {pageIndex * 10 + (index + 1)}º
                       </h3>
@@ -168,7 +162,7 @@ export default function Page({ params }: { params: { slug: string } }) {
                         />
                       </Link>
                       <div className="flex justify-between min-w-0 w-full">
-                        <div className="flex-1 whitespace-nowrap overflow-hidden text-ellipsis">
+                        <div className="flex-1 truncate">
                           <Link
                             className="hover:underline mr-1"
                             href={{ params: { slug: city.id }, pathname: '/city/[slug]' }}
@@ -193,12 +187,12 @@ export default function Page({ params }: { params: { slug: string } }) {
       </div>
       <div>
         <div className="mb-2 pb-1 border-b-2 border-primary">
-          <h3 className="font-bold text-xl">
+          <h3 className="font-bold text-base sm:text-xl">
             {t('country-city-page.tabs.residents.label')}
           </h3>
         </div>
         {residents?.pages[0].length === 0 && (
-          <div className="py-4 text-sm text-center">
+          <div className="py-4 text-sm text-center text-muted-foreground">
             <span>{t('country-city-page.tabs.residents.no-residents')}</span>
           </div>
         )}
@@ -214,13 +208,13 @@ export default function Page({ params }: { params: { slug: string } }) {
       <div className="sm:col-span-2">
         <div>
           <div className="mb-2">
-            <h2 className="font-bold text-xl border-b-2 border-primary pb-1">
+            <h2 className="font-bold text-base sm:text-xl border-b-2 border-primary pb-1">
               {t('country-city-page.reviews')}
             </h2>
           </div>
           <div data-test="city-visits">
             {visits?.pages[0].length === 0 && (
-              <div className="py-4 text-sm text-center">
+              <div className="py-4 text-sm text-center text-muted-foreground">
                 <span>{t('country-city-page.tabs.reviews.no-reviews')}</span>
               </div>
             )}

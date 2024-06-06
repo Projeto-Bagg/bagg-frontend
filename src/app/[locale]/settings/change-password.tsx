@@ -1,11 +1,11 @@
 'use client';
 
 import { passwordRegex } from '@/common/regex';
+import { PasswordInput } from '@/components/form/password-input';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { toast } from '@/components/ui/use-toast';
-import { useChangePassword } from '@/hooks/useChangePassword';
+import { useChangePassword } from '@/hooks/settings';
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
 import { useTranslations } from 'next-intl';
@@ -42,6 +42,11 @@ export const ChangePassword = () => {
     watch,
     reset,
   } = useForm<ChangePasswordType>({
+    defaultValues: {
+      confirmPassword: '',
+      currentPassword: '',
+      newPassword: '',
+    },
     resolver: zodResolver(changePasswordSchema),
     mode: 'onChange',
   });
@@ -52,7 +57,8 @@ export const ChangePassword = () => {
       reset();
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        error.response?.status === 409 && toast({ title: 'Senha incorreta' });
+        error.response?.status === 409 &&
+          toast({ title: 'Senha incorreta', variant: 'destructive' });
       }
     }
   };
@@ -65,80 +71,42 @@ export const ChangePassword = () => {
     >
       <div>
         <Label>{t('settings.change-password.currentPassword.label')}</Label>
-        <Input
+        <PasswordInput
+          errors={errors.currentPassword}
+          value={watch('currentPassword')}
           data-test="change-password-current-password"
           {...register('currentPassword')}
-          type="password"
         />
-        {errors.currentPassword && (
-          <span className="text-sm text-red-600 font-semibold">
-            {errors.currentPassword.type === 'too_small' &&
-              t('settings.change-password.currentPassword.too-small')}
-          </span>
-        )}
       </div>
       <div>
         <Label>{t('settings.change-password.newPassword.label')}</Label>
-        <Input {...register('newPassword')} type="password" />
-        {errors.newPassword && (
-          <span className="text-sm text-red-600 font-semibold">
-            {errors.newPassword.type === 'too_small' &&
-              t('signup-edit.password.too-small')}
-            {errors.newPassword.type === 'invalid_string' && (
-              <span data-test="weak-password-error">
-                <span>{t('signup-edit.password.valid-conditions.title')}</span>
-                <ul className="list-disc ml-[18px]">
-                  <li
-                    data-valid={/.{8,}/.test(watch('newPassword'))}
-                    className="data-[valid=true]:text-green-500"
-                  >
-                    {t('signup-edit.password.valid-conditions.condition1')}
-                  </li>
-                  <li
-                    data-valid={/(?=(.*[0-9]){1,})/.test(watch('newPassword'))}
-                    className="data-[valid=true]:text-green-500"
-                  >
-                    {t('signup-edit.password.valid-conditions.condition2')}
-                  </li>
-                  <li
-                    data-valid={/(?=(.*[a-z]){1,})(?=(.*[A-Z]){1,})/.test(
-                      watch('newPassword'),
-                    )}
-                    className="data-[valid=true]:text-green-500"
-                  >
-                    {t('signup-edit.password.valid-conditions.condition3')}
-                  </li>
-                  <li
-                    data-valid={/(?=(.*[-!$%^&*()_+|~=`{}\[\]:\/;<>?,.@#]){1,})/.test(
-                      watch('newPassword'),
-                    )}
-                    className="data-[valid=true]:text-green-500"
-                  >
-                    {t('signup-edit.password.valid-conditions.condition4', {
-                      characters: '!@#$%&*()-_=+<>:;/|,.^`}{[]',
-                    })}
-                  </li>
-                </ul>
-              </span>
-            )}
-          </span>
-        )}
+        <PasswordInput
+          value={watch('newPassword')}
+          errors={errors.newPassword}
+          {...register('newPassword')}
+        />
       </div>
       <div>
         <Label>{t('settings.change-password.confirm-password.label')}</Label>
-        <Input {...register('confirmPassword')} type="password" />
+        <PasswordInput
+          value={watch('confirmPassword')}
+          errors={errors.confirmPassword}
+          {...register('confirmPassword')}
+        />
         {errors && (
           <span className="text-sm text-red-600 font-semibold">
-            {errors.confirmPassword?.type === 'too_small' &&
-              t('settings.change-password.confirm-password.too-small')}
-            <span data-test="unmatched-passwords-error">
-              {errors.confirmPassword?.type === 'custom' &&
-                t('settings.change-password.confirm-password.unmatched-passwords')}
-            </span>
-            <span data-test="same-password-error">
-              {errors.newPassword?.type === 'custom' &&
-                t('settings.change-password.newPassword.samePassword')}
-            </span>
+            <div>
+              <span data-test="unmatched-passwords-error">
+                {errors.confirmPassword?.type === 'custom' &&
+                  t('settings.change-password.confirm-password.unmatched-passwords')}
+              </span>
+            </div>
+            <div>
+              <span data-test="same-password-error">
+                {errors.newPassword?.type === 'custom' &&
+                  t('settings.change-password.newPassword.samePassword')}
+              </span>
+            </div>
           </span>
         )}
       </div>

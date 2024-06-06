@@ -45,7 +45,7 @@ interface TripDiary {
 interface DiaryPost {
   id: number;
   message: string;
-  likedBy: number;
+  likesAmount: number;
   isLiked: boolean;
   createdAt: Date;
   user: User;
@@ -85,7 +85,7 @@ interface TipMedia extends Media {
 interface Tip {
   id: number;
   message: string;
-  likedBy: number;
+  likesAmount: number;
   isLiked: boolean;
   createdAt: Date;
   user: User;
@@ -151,6 +151,8 @@ interface CountryPage extends Country {
   averageRating: number | null;
   residentsCount: number;
   reviewsCount: number;
+  positionInRatingRanking: number | null;
+  positionInVisitRanking: number | null;
 }
 
 interface Region {
@@ -190,7 +192,7 @@ interface UserCityVisit {
 
 interface Continent {
   id: number;
-  name: 'Africa' | 'Europe' | 'Americas' | 'Asia' | 'Polar' | 'Oceania';
+  name: 'Africa' | 'Europe' | 'Americas' | 'Asia' | 'Antarctica' | 'Oceania';
 }
 
 interface City {
@@ -217,12 +219,17 @@ interface CityPage extends City {
   visitsCount: number;
   residentsCount: number;
   reviewsCount: number;
+  positionInRatingRanking: number | null;
+  positionInVisitRanking: number | null;
 }
 
 interface CountryCityImage extends Media {
   userId: number;
   user: User;
   city?: City;
+  message: string;
+  postId: number;
+  type: 'tip' | 'diary-post';
 }
 
 interface CityFromSearch {
@@ -297,3 +304,15 @@ interface FullSearch {
 }
 
 type ReportReason = 'hate' | 'violent' | 'spam' | 'nudity' | 'false-information';
+
+interface AdminDashboard {
+  totalUsers: number;
+  totalReports: number;
+  totalPosts: number;
+}
+
+interface Ad {
+  company: string;
+  adImg: string;
+  url: string;
+}

@@ -10,8 +10,7 @@ import {
   HoverCardTrigger,
 } from '@/components/ui/hover-card';
 import { useAuth } from '@/context/auth-context';
-import { useFollow } from '@/hooks/useFollow';
-import { useUnfollow } from '@/hooks/useUnfollow';
+import { useFollow, useUnfollow } from '@/hooks/user';
 import axios from '@/services/axios';
 import { useQuery } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
@@ -77,25 +76,25 @@ export const UserHoverCard = ({ username, children }: UserHoverCardProps) => {
               )}
             </div>
             <div className="mt-2 gap-1 flex-col flex">
-              <div className="flex gap-1 items-baseline">
+              <div className="flex flex-col">
                 <Link
-                  className="hover:underline"
+                  className="hover:underline font-bold"
                   href={{ params: { slug: user.data.username }, pathname: '/[slug]' }}
                 >
-                  <span className="font-bold">{user.data.fullName}</span>
+                  {user.data.fullName}
                 </Link>
                 <Link
-                  className="hover:underline  text-muted-foreground"
+                  className="hover:underline text-sm text-muted-foreground"
                   href={{ params: { slug: user.data.username }, pathname: '/[slug]' }}
                 >
-                  <span className="text-sm">@{user.data.username}</span>
+                  @{user.data.username}
                 </Link>
+                {user.data.bio && (
+                  <span className="text-sm break-words whitespace-pre-wrap">
+                    {user.data.bio}
+                  </span>
+                )}
               </div>
-              {user.data.bio && (
-                <span className="text-sm break-words whitespace-pre-wrap">
-                  {user.data.bio}
-                </span>
-              )}
             </div>
             <div>
               {user.data.city && (

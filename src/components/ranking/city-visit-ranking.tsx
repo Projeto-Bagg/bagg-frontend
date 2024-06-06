@@ -96,7 +96,7 @@ export const CityVisitRanking = ({
                 key={city.id}
                 ref={page.length - 1 === index ? ref : undefined}
               >
-                <div className="flex gap-2 items-center">
+                <div className="flex gap-1.5 items-center">
                   <h3 className="w-[24px] font-bold shrink-0">
                     {pageIndex * count + (index + 1)}º
                   </h3>
@@ -132,7 +132,7 @@ export const CityVisitRanking = ({
             )),
           )}
         {ranking && ranking.pages[0].length === 0 && (
-          <div className="py-4 text-sm text-center">
+          <div className="py-4 text-sm text-center text-muted-foreground">
             <span>{t('ranking.empty')}</span>
           </div>
         )}
@@ -141,7 +141,7 @@ export const CityVisitRanking = ({
         <RankingFooter>
           <SeeMore
             href={{
-              pathname: '/city/ranking/visits',
+              pathname: '/ranking/city/visits',
               query: {
                 ...(iso2 && {
                   countryIso2: iso2,

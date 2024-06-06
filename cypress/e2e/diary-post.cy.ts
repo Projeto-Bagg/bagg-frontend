@@ -126,6 +126,7 @@ describe('Criar diário', () => {
 
     cy.wait('@create-diary-post');
 
+    cy.url().should('contain', '/teste/diary-posts');
     cy.get('[data-test="diary-posts-feed"]').should('contain.text', 'test');
     cy.wait('@trip-diary');
     cy.wait('@trip-diary-posts').then(() => {
@@ -178,7 +179,7 @@ describe('Funcionalidades do diário', () => {
           body: {
             ...diaryPost,
             isLiked: true,
-            likedBy: 1,
+            likesAmount: 1,
           },
           statusCode: 200,
         },
@@ -211,7 +212,7 @@ describe('Funcionalidades do diário', () => {
 
     cy.wait('@delete-diary-post');
 
-    cy.url().should('eq', Cypress.config().baseUrl);
+    cy.url().should('contain', '/home');
   });
 
   it('Copiar link da postagem', () => {

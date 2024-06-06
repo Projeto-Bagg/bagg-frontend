@@ -5,7 +5,6 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel';
-import Image from 'next/image';
 import React from 'react';
 
 interface MediasProps {
@@ -26,11 +25,10 @@ export const Medias = ({ medias }: MediasProps) => {
                 <video controls src={medias[0].url} />
               </div>
             ) : (
-              <Image
+              <img
                 src={medias[0].url}
                 alt=""
-                fill
-                className="h-full w-full rounded-lg aspect-square object-center object-cover"
+                className="shadow absolute inset-0 h-full w-full rounded-lg aspect-square object-center object-cover"
               />
             )}
           </div>
@@ -47,11 +45,10 @@ export const Medias = ({ medias }: MediasProps) => {
                 </div>
               ) : (
                 <div key={media.id} className="relative mr-1">
-                  <Image
+                  <img
                     src={media.url}
                     alt=""
-                    fill
-                    className="h-full rounded-lg object-cover"
+                    className="h-full w-full absolute inset-0 rounded-lg object-cover"
                   />
                 </div>
               ),
@@ -76,7 +73,7 @@ export const Medias = ({ medias }: MediasProps) => {
                         <video controls src={media.url} />
                       </div>
                     ) : (
-                      <Image
+                      <img
                         src={media.url}
                         alt=""
                         width={320}

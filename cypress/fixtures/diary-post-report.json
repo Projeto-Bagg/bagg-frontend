@@ -1,0 +1,41 @@
+{
+  "id": 1,
+  "message": "string",
+  "userId": 0,
+  "user": {
+    "id": 0,
+    "fullName": "string",
+    "username": "string",
+    "bio": "string",
+    "birthdate": "2024-05-15T18:26:38.939Z",
+    "image": "string",
+    "cityId": 0,
+    "accountId": 0,
+    "createdAt": "2024-05-15T18:26:38.939Z"
+  },
+  "createdAt": "2024-05-15T18:26:38.939Z",
+  "tripDiaryId": 0,
+  "tripDiary": {
+    "id": 0,
+    "title": "string",
+    "message": "string",
+    "userId": 0,
+    "createdAt": "2024-05-15T18:26:38.939Z",
+    "cityId": 0
+  },
+  "_count": {
+    "diaryPostReport": 22
+  },
+  "likedBy": ["string"],
+  "diaryPostMedias": [],
+  "likesAmount": 0,
+  "isLiked": true,
+  "reasons": [
+    {
+      "_count": {
+        "reason": 0
+      },
+      "reason": "hate"
+    }
+  ]
+}

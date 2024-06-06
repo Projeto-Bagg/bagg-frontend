@@ -11,7 +11,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { useCreateTripDiary } from '@/hooks/useCreateTripDiary';
+import { useCreateTripDiary } from '@/hooks/trip-diary';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
 import React from 'react';
@@ -43,6 +43,7 @@ export const CreateTripDiary = ({ setIsCreatingTripDiary, onCreate }: Props) => 
     formState: { errors, dirtyFields },
   } = useForm<CreateTripDiaryType>({
     resolver: zodResolver(createTripDiarySchema),
+    mode: 'onChange',
   });
 
   const handleCreateTripDiary = async (data: CreateTripDiaryType) => {
@@ -95,7 +96,9 @@ export const CreateTripDiary = ({ setIsCreatingTripDiary, onCreate }: Props) => 
           name="cityId"
           control={control}
           render={({ field }) => (
-            <SelectCity onSelect={(value) => field.onChange(value ? value : undefined)} />
+            <SelectCity
+              onSelect={(value) => field.onChange(value ? Number(value) : undefined)}
+            />
           )}
         />
         {errors.cityId && (

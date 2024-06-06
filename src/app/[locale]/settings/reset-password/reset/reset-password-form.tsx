@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { useTranslations } from 'next-intl';
@@ -83,7 +82,11 @@ export const ResetPasswordForm = () => {
         </div>
         <div>
           <Label>{t('signup-edit.confirm-password.label')}</Label>
-          <Input type={'password'} {...register('confirmPassword')} />
+          <PasswordInput
+            errors={errors.confirmPassword}
+            value={watch('confirmPassword')}
+            {...register('confirmPassword')}
+          />
           {errors.confirmPassword && (
             <span
               data-test="unmatched-passwords"

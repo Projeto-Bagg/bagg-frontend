@@ -38,7 +38,7 @@ export default function Page() {
     try {
       setLoading(true);
       await axios.get('/users/send-reset-password/' + data.email);
-      router.push('/settings/reset-password/done');
+      router.replace('/settings/reset-password/done');
     } catch (error) {
       setLoading(false);
     }

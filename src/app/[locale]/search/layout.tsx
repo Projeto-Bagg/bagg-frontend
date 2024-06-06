@@ -53,6 +53,7 @@ export default function Layout({ children }: Props) {
         <div className="relative">
           <SearchIcon strokeWidth={3} className="absolute left-4 top-4" />
           <Input
+            data-test="search-input"
             onChange={(e) => {
               setQuery(e.target.value);
               debounce(e.target.value || null);

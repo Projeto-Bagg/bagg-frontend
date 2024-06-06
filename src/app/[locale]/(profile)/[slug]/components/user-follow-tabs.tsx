@@ -43,7 +43,7 @@ export function UserFollowTabs({ username, children, defaultTab }: IUserFollowTa
       }}
     >
       <DialogTrigger>{children}</DialogTrigger>
-      <DialogContent className="p-0">
+      <DialogContent className="sm:p-0 p-0">
         <Tabs
           defaultValue={defaultTab}
           onValueChange={(value) => setTab(value as typeof defaultTab)}
@@ -60,7 +60,7 @@ export function UserFollowTabs({ username, children, defaultTab }: IUserFollowTa
               className="pt-2"
             >
               <ScrollArea>
-                <ScrollAreaViewport className="h-[540px] w-full px-6 ">
+                <ScrollAreaViewport className="h-[540px] w-full px-4 sm:px-6">
                   {!(followers.isLoading || following.isLoading) && tab && (
                     <ListUsers users={tab} showIfUserFollowYou={tabIndex === 1} />
                   )}

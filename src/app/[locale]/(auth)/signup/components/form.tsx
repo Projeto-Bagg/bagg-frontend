@@ -70,7 +70,7 @@ export default function SignupForm() {
   const isUsernameAvailable = useQuery({
     queryFn: () => axios.get(`users/username-availability/${debouncedUsername}`),
     queryKey: ['username-availability', debouncedUsername],
-    enabled: !!debouncedUsername && username.length >= 3,
+    enabled: !!debouncedUsername && usernameRegex.test(debouncedUsername),
   });
 
   const email = watch().email;
@@ -103,7 +103,7 @@ export default function SignupForm() {
       .signUp({
         ...signUpData,
         birthdate,
-        fullName: data.fullName.toLowerCase().replace(/\b\w/g, (c) => c.toUpperCase()),
+        fullName: data.fullName.trim(),
       })
       .then(async () => {
         await new Promise((resolve) => setTimeout(resolve, 700));
@@ -231,7 +231,11 @@ export default function SignupForm() {
       </div>
       <div>
         <Label>{t('signup-edit.confirm-password.label')}</Label>
-        <Input type={'password'} {...register('confirmPassword')} />
+        <PasswordInput
+          errors={errors.confirmPassword}
+          value={watch('confirmPassword')}
+          {...register('confirmPassword')}
+        />
         {errors.confirmPassword && (
           <span
             data-test="unmatched-passwords"
@@ -241,9 +245,15 @@ export default function SignupForm() {
           </span>
         )}
       </div>
-      <span className="text-center block text-sm font-medium text-muted-foreground">
-        {t('signup-edit.confirm')}
-      </span>
+      <span
+        className="text-center block text-sm font-medium text-muted-foreground"
+        dangerouslySetInnerHTML={{
+          __html: t.markup('signup-edit.confirm', {
+            link: (text) =>
+              `<a target="_blank" class="text-primary hover:underline" href="/terms-of-use">${text}</a>`,
+          }),
+        }}
+      />
       <div className="flex justify-end mb-2">
         <Button type={'submit'} loading={loading} className="w-full">
           {t('signup-edit.signup')}

@@ -3,7 +3,6 @@ import React, { ReactNode } from 'react';
 
 interface Props {
   children: ReactNode;
-  settings: ReactNode;
   feed: ReactNode;
   params: { slug: string };
 }
@@ -23,7 +22,6 @@ export default function Layout(props: Props) {
     <div className="p-4 container">
       {props.children}
       {props.feed}
-      {props.settings}
     </div>
   );
 }

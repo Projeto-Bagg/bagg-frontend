@@ -7,10 +7,12 @@ import axios from '@/services/axios';
 import { useQuery } from '@tanstack/react-query';
 import { ArrowLeft } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 
 export default function Page({ params }: { params: { slug: string } }) {
   const isWithinPage = useOriginTracker();
   const router = useRouter();
+  const t = useTranslations();
 
   const diaryPost = useQuery<DiaryPost>({
     queryKey: ['diary-post', +params.slug],
@@ -23,11 +25,11 @@ export default function Page({ params }: { params: { slug: string } }) {
       <div className="flex items-center">
         <div
           onClick={() => (isWithinPage ? router.back() : router.push('/'))}
-          className="flex mr-6 items-center justify-center rounded-full w-8 h-8 cursor-pointer"
+          className="flex mr-6 items-center justify-center rounded-full w-8 cursor-pointer"
         >
           <ArrowLeft strokeWidth={3} size={20} />
         </div>
-        <h3 className="font-bold">Diary</h3>
+        <h3 className="font-bold text-lg">{t('diary-post.diary-post')}</h3>
       </div>
       {diaryPost.data && <DiaryPost post={diaryPost.data} />}
     </div>

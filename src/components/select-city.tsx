@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/command';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
-import { ChevronsUpDown } from 'lucide-react';
+import { ChevronsUpDown, XCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useDebounce } from 'use-debounce';
 import { useQuery } from '@tanstack/react-query';
@@ -92,11 +92,23 @@ export const SelectCity = ({ onSelect, defaultValue }: SelectCityProps) => {
         <ScrollArea>
           <ScrollAreaViewport className="max-h-[440px]">
             <Command shouldFilter={false}>
-              <CommandInput
-                onValueChange={setQuery}
-                value={query}
-                placeholder={t('select-city.search')}
-              />
+              <div className="relative">
+                <CommandInput
+                  onValueChange={setQuery}
+                  value={query}
+                  placeholder={t('select-city.search')}
+                />
+                {selectedCity && (
+                  <XCircle
+                    data-test="remove-selected-city"
+                    onClick={() => {
+                      onSelect(undefined);
+                      setSelectedCity(undefined);
+                    }}
+                    className="absolute top-4 cursor-pointer right-2 w-4 h-4 text-muted-foreground"
+                  />
+                )}
+              </div>
               <CommandGroup>
                 {isLoading && (
                   <div className="p-4 text-sm">{t('select-city.searching')}</div>

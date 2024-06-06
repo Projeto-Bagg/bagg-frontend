@@ -3,7 +3,6 @@
 import axios from '@/services/axios';
 import { createContext, useCallback, useContext, useEffect, useState } from 'react';
 import { getCookie, deleteCookie, setCookie, hasCookie } from 'cookies-next';
-import { Spinner } from '@/assets';
 import {
   QueryObserverResult,
   RefetchOptions,
@@ -11,7 +10,7 @@ import {
   useQueryClient,
 } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
-import { useRouter } from '@/common/navigation';
+import { usePathname, useRouter } from '@/common/navigation';
 import { decodeJwt } from 'jose';
 
 type AuthContextType = {
@@ -31,6 +30,7 @@ export const AuthContext = createContext({} as AuthContextType);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const pathname = usePathname();
   const queryClient = useQueryClient();
   const { data: user, refetch: refetchUser } = useQuery<FullInfoUser>({
     queryKey: ['session'],
@@ -49,11 +49,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const refetch = useCallback(
     (options?: RefetchOptions | undefined) => {
-      const accessToken = getCookie('bagg.sessionToken');
+      const accessToken = getCookie('bagg.access-token');
 
       const jwt = accessToken ? decodeJwt<UserFromJwt>(accessToken) : undefined;
-
-      console.log(jwt);
 
       if (jwt?.role === 'USER') {
         return refetchUser({ ...options });
@@ -66,7 +64,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const token = getCookie('bagg.sessionToken');
+      const token = getCookie('bagg.access-token');
 
       if (token) {
         await refetch();
@@ -80,36 +78,40 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, [queryClient, refetch]);
 
   const login = async (user: UserSignIn) => {
-    if (hasCookie('bagg.sessionToken')) {
-      await refetch();
-      router.back();
-    }
-
+    router.refresh();
     const { data } = await axios.post('/auth/login', user);
 
     const decodedJwt = decodeJwt<UserFromJwt>(data.accessToken);
 
     if (decodedJwt.role === 'USER') {
       if (!decodedJwt.hasEmailBeenVerified) {
-        setCookie('bagg.tempSessionToken', data.accessToken);
-        setCookie('bagg.tempRefreshToken', data.refreshToken);
-        await new Promise((resolve) => setTimeout(resolve, 100));
-        return router.push('/settings/verify-email');
+        deleteCookie('bagg.access-token');
+        deleteCookie('bagg.refresh-token');
+        setCookie('bagg.temp-session-token', data.accessToken);
+        setCookie('bagg.temp-refresh-token', data.refreshToken);
+        await new Promise((resolve) => setTimeout(resolve, 200));
+        return router.replace('/settings/verify-email');
       }
     }
 
-    setCookie('bagg.sessionToken', data.accessToken);
-    setCookie('bagg.refreshToken', data.refreshToken);
+    setCookie('bagg.access-token', data.accessToken);
+    setCookie('bagg.refresh-token', data.refreshToken);
+    deleteCookie('bagg.temp-session-token');
+    deleteCookie('bagg.temp-refresh-token');
 
     queryClient.invalidateQueries();
     await refetch();
 
+    if (decodedJwt.role === 'ADMIN') {
+      router.push('/admin');
+      return;
+    }
+
     window.history.length > 1 ? router.back() : router.push('/home');
-    router.refresh();
   };
 
   const signUp = async (user: UserSignUp) => {
-    if (hasCookie('bagg.sessionToken')) {
+    if (hasCookie('bagg.access-token')) {
       await refetch();
       router.back();
     }
@@ -118,14 +120,17 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const logout = () => {
-    deleteCookie('bagg.sessionToken');
-    deleteCookie('bagg.refreshToken');
-    queryClient.setQueryData(['session'], null);
-
-    router.push('/');
     router.refresh();
 
+    deleteCookie('bagg.access-token');
+    deleteCookie('bagg.refresh-token');
+    deleteCookie('bagg.temp-session-token');
+    deleteCookie('bagg.temp-refresh-token');
+
     queryClient.invalidateQueries();
+    ['for-you-feed', 'following-feed', 'session'].forEach((query) =>
+      queryClient.setQueryData<null>([query], null),
+    );
   };
 
   return (
@@ -136,9 +141,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         <div className="flex flex-col h-screen gap-2 justify-center items-center">
           <h1 className="text-3xl font-bold">Bagg</h1>
           <div>
-            <Spinner
-              priority={'true'}
-              className="[&>circle]:stroke-foreground"
+            <img
+              src={'/spinner.svg'}
+              alt=""
+              className="dark:invert-0 invert"
               width="40"
               height="40"
             />

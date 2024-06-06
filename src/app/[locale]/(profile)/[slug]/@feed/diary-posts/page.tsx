@@ -1,15 +1,12 @@
 'use client';
 
-import React, { useEffect } from 'react';
-import { DiaryPost } from '@/components/posts/diary-post';
+import React from 'react';
 import axios from '@/services/axios';
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { useInView } from 'react-intersection-observer';
+import { Feed } from '@/components/feed';
 
 export default function DiaryPosts({ params }: { params: { slug: string } }) {
-  const { ref, inView } = useInView();
-
-  const { data, fetchNextPage, hasNextPage } = useInfiniteQuery<DiaryPost[]>({
+  const diaryPosts = useInfiniteQuery<DiaryPost[]>({
     queryKey: ['diary-posts', params.slug],
     queryFn: async ({ pageParam }) =>
       (
@@ -24,24 +21,9 @@ export default function DiaryPosts({ params }: { params: { slug: string } }) {
       page.length === 10 ? allPages.length + 1 : null,
   });
 
-  useEffect(() => {
-    if (inView && hasNextPage) {
-      fetchNextPage();
-    }
-  }, [inView, fetchNextPage, hasNextPage]);
-
   return (
     <div data-test="diary-posts-feed">
-      {data &&
-        data.pages.map((page) =>
-          page.map((post, index) => (
-            <DiaryPost
-              ref={page.length - 1 === index ? ref : undefined}
-              key={post.id}
-              post={post}
-            />
-          )),
-        )}
+      <Feed feed={diaryPosts} />
     </div>
   );
 }

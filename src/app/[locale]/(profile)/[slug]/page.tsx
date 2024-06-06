@@ -7,8 +7,6 @@ import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { useQuery } from '@tanstack/react-query';
 import { useAuth } from '@/context/auth-context';
 import { Button } from '@/components/ui/button';
-import { useFollow } from '@/hooks/useFollow';
-import { useUnfollow } from '@/hooks/useUnfollow';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { Separator } from '@/components/ui/separator';
 import { UserFollowTabs } from '@/app/[locale]/(profile)/[slug]/components/user-follow-tabs';
@@ -19,6 +17,7 @@ import { usePathname } from 'next/navigation';
 import { CountryFlag } from '@/components/ui/country-flag';
 import { Skeleton } from '@/components/ui/skeleton';
 import { EditProfile } from '@/app/[locale]/(profile)/[slug]/components/edit-profile';
+import { useFollow, useUnfollow } from '@/hooks/user';
 
 export default function Profile({
   params,
@@ -78,32 +77,37 @@ export default function Profile({
       {user.isLoading && <ProfileSkeleton />}
       {user.data && (
         <div>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2 sm:gap-4">
+          <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2 sm:gap-4 min-w-0">
               <Dialog>
                 <DialogTrigger>
-                  <Avatar className="w-[100px] h-[100px] sm:w-[144px] sm:h-[144px]">
+                  <Avatar className="w-[94px] h-[94px] sm:w-[144px] sm:h-[144px]">
                     <AvatarImage src={user.data.image} />
                   </Avatar>
                 </DialogTrigger>
-                <DialogContent className="w-[90%] h-auto aspect-square sm:w-[440px] sm:h-[440px] p-0 sm:rounded-full rounded-full border-none">
+                <DialogContent className="w-[90%] top-[50%] translate-y-[-50%] data-[state=open]:slide-in-from-top-[48%] data-[state=closed]:slide-out-to-top-[48%] aspect-square sm:w-[440px] sm:h-[440px] p-0 sm:p-0 sm:rounded-full rounded-full border-none">
                   <Avatar className="w-full h-full">
                     <AvatarImage src={user.data.image} />
                   </Avatar>
                 </DialogContent>
               </Dialog>
-              <div className="flex flex-col">
-                <span data-test="fullName" className="text-lg sm:text-2xl">
+              <div className="flex flex-col min-w-0">
+                <span
+                  data-test="fullName"
+                  className="text-lg sm:text-2xl font-semibold truncate"
+                >
                   {user.data.fullName}
                 </span>
-                <span className="text-xs sm:text-base text-muted-foreground ">
-                  @{user.data.username}
-                </span>
-                {user.data.friendshipStatus.followedBy && (
-                  <span className="text-xs sm:text-sm text-muted-foreground">
-                    {t('follow.follow-you')}
+                <div className="flex flex-col sm:flex-row gap-1 sm:items-center">
+                  <span className="text-muted-foreground truncate">
+                    @{user.data.username}
                   </span>
-                )}
+                  {user.data.friendshipStatus.followedBy && (
+                    <span className="shrink-0 text-xs py-0.5 px-1 rounded-sm text-muted-foreground bg-muted w-fit">
+                      {t('follow.follow-you')}
+                    </span>
+                  )}
+                </div>
               </div>
             </div>
             {auth.user?.id !== user.data.id ? (
@@ -143,20 +147,22 @@ export default function Profile({
                 {t('profile.birthdate', { joinDate: user.data.birthdate })}
               </p>
               {user.data.city && (
-                <div className="text-muted-foreground flex gap-1">
-                  <p>{t('profile.city')}</p>
+                <div className="text-muted-foreground flex gap-1 min-w-0 items-center">
+                  <p className="shrink-0">{t('profile.city')}</p>
                   <Link
                     data-test="city"
                     href={{
                       params: { slug: user.data.city.id },
                       pathname: '/city/[slug]',
                     }}
-                    className="text-foreground flex hover:underline"
+                    className="text-foreground flex hover:underline min-w-0 items-center"
                   >
-                    {user.data.city.name}, {user.data.city.region.name},{' '}
-                    {user.data.city.region.country.name}
+                    <span className="truncate">
+                      {user.data.city.name}, {user.data.city.region.name},{' '}
+                      {user.data.city.region.country.name}
+                    </span>
                     <CountryFlag
-                      className="ml-1"
+                      className="ml-1 shrink-0"
                       iso2={user.data.city.region.country.iso2}
                     />
                   </Link>
@@ -240,7 +246,7 @@ const ProfileSkeleton = () => {
     <div>
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2 sm:gap-4">
-          <Skeleton className="w-[100px] h-[100px] sm:w-[144px] sm:h-[144px] rounded-full" />
+          <Skeleton className="w-[94px] h-[94px] sm:w-[144px] sm:h-[144px] rounded-full" />
           <div className="flex flex-col gap-3">
             <Skeleton className="w-[110px] sm:w-[172px] h-5" />
             <Skeleton className="w-[80px] sm:w-[110px] h-4" />

@@ -15,29 +15,29 @@ export default async function Page() {
         </h2>
       </div>
       <div className="space-y-2">
-        <div className="flex flex-col sm:flex-row rounded-lg overflow-hidden">
-          <div className="bg-accent w-full sm:w-[280px] px-6 sm:px-10 py-6 shrink-0">
+        <div className="flex border flex-col sm:flex-row rounded-lg overflow-hidden">
+          <div className="bg-muted w-full sm:w-[280px] px-4 sm:px-10 py-6 shrink-0">
             <h2 className="font-semibold">{t('settings.username.title')}</h2>
           </div>
-          <div className="bg-accent/70 p-6 w-full">
+          <div className="bg-muted/40 dark:bg-muted/70 p-4 sm:p- w-full">
             <ChangeUsername />
           </div>
         </div>
-        <div className="flex flex-col sm:flex-row rounded-lg overflow-hidden">
-          <div className="bg-accent w-full sm:w-[280px] px-6 sm:px-10 py-6 shrink-0">
+        <div className="flex border flex-col sm:flex-row rounded-lg overflow-hidden">
+          <div className="bg-muted w-full sm:w-[280px] px-4 sm:px-10 py-6 shrink-0">
             <h2 className="font-semibold">{t('settings.change-password.title')}</h2>
           </div>
-          <div className="bg-accent/70 p-6 w-full">
+          <div className="bg-muted/40 dark:bg-muted/70 p-4 sm:p-6 w-full">
             <ChangePassword />
           </div>
         </div>
-        <div className="flex flex-col sm:flex-row rounded-lg overflow-hidden">
-          <div className="bg-accent w-full sm:w-[280px] px-6 sm:px-10 py-6 shrink-0">
+        <div className="flex border flex-col sm:flex-row rounded-lg overflow-hidden">
+          <div className="bg-muted w-full sm:w-[280px] px-4 sm:px-10 py-6 shrink-0">
             <h2 className="font-semibold text-red-600">
               {t('settings.delete-account.title')}
             </h2>
           </div>
-          <div className="bg-accent/70 p-6 w-full">
+          <div className="bg-muted/40 dark:bg-muted/70 p-4 sm:p- w-full">
             <DeleteAccount />
           </div>
         </div>

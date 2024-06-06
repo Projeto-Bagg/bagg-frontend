@@ -21,12 +21,11 @@ import { useAuth } from '@/context/auth-context';
 import { ProfilePicDialog } from '@/app/[locale]/(profile)/[slug]/components/profile-pic-dialog';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Textarea } from '@/components/ui/textarea';
-import { useUpdateProfile } from '@/hooks/useUpdateProfile';
-import { useDeleteProfilePic } from '@/hooks/useDeleteProfilePic';
 import { SelectCity } from '@/components/select-city';
 import { BirthdateDay } from '@/components/form/birthdate-day';
 import { BrithdateMonth } from '@/components/form/birthdate-month';
 import { BirthdateYear } from '@/components/form/birthdate-year';
+import { useDeleteProfilePic, useUpdateProfile } from '@/hooks/profile';
 
 const editFormSchema = z.object({
   fullName: z.string().min(3).max(64),
@@ -34,7 +33,7 @@ const editFormSchema = z.object({
   birthdateDay: z.string().min(1),
   birthdateMonth: z.string().min(1),
   birthdateYear: z.string().min(1),
-  bio: z.string().max(300),
+  bio: z.string().max(300).nullable(),
   profilePic: z
     .object({
       file: z.any(),
@@ -91,8 +90,8 @@ export const EditProfile = ({ children }: { children: ReactNode }) => {
 
       const formData = new FormData();
       data.profilePic && formData.append('profilePic', data.profilePic.file);
-      formData.append('fullName', data.fullName);
-      formData.append('bio', data.bio);
+      formData.append('fullName', data.fullName.trim());
+      data.bio && formData.append('bio', data.bio);
       data.cityId && formData.append('cityId', data.cityId.toString());
 
       const birthdate = new Date(
@@ -184,9 +183,7 @@ export const EditProfile = ({ children }: { children: ReactNode }) => {
               render={({ field }) => (
                 <SelectCity
                   defaultValue={auth.user?.city}
-                  onSelect={(value) =>
-                    value ? field.onChange(Number(value)) : undefined
-                  }
+                  onSelect={(value) => field.onChange(value ? Number(value) : null)}
                 />
               )}
             />

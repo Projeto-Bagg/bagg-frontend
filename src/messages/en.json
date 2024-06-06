@@ -9,7 +9,7 @@
       },
       "reason2": {
         "title": "Authentic connections:",
-        "description": "Conheça pessoas apaixonadas por viagens como você, troque dicas valiosas e faça amizades que durarão para sempre."
+        "description": "Meet people who are passionate about travel like you, exchange valuable tips and make friendships that will last forever."
       },
       "reason3": {
         "title": "Community support:",
@@ -22,7 +22,8 @@
     "login": "Login"
   },
   "commons": {
-    "confirm": "Confirm"
+    "confirm": "Confirm",
+    "copy-link": "Link copied to clipboard"
   },
   "header": {
     "home": "Home",
@@ -63,10 +64,9 @@
     },
     "login": {
       "label": "Username or email",
-      "too-small": "Enter your username/e-mail",
+      "too-small": "Enter your username/email",
       "invalid": "Invalid login"
     },
-    "forgot-password": "Forgot your password?",
     "submit": "Login",
     "unauthorized": "Login or password provided is incorrect",
     "signup-redirect": {
@@ -78,7 +78,7 @@
     "title": "Sign up",
     "description": "Fill out the form to register to Bagg",
     "name": {
-      "label": "Name",
+      "label": "Display name",
       "too-small": "Enter your display name",
       "max-length-error": "The maximum length is 64 characters"
     },
@@ -120,7 +120,7 @@
       "label": "Confirm password",
       "unmatched-passwords": "Password do not match"
     },
-    "confirm": "By registering, you accept our terms of use and our privacy policy",
+    "confirm": "By registering, you accept our <link>terms of use and our privacy policy</link>",
     "signup": "Sign up",
     "day": "Day",
     "month": "Month",
@@ -187,6 +187,9 @@
     "empty-feed": {
       "title": "Empty feed",
       "description": "Try following users and marking interest in more cities!"
+    },
+    "ad": {
+      "label": "Ad"
     }
   },
   "create-post": {
@@ -271,9 +274,10 @@
     "Asia": "Asia",
     "Europe": "Europe",
     "Oceania": "Oceania",
-    "Polar": "Polar"
+    "Antarctica": "Antarctica"
   },
   "diary-post": {
+    "diary-post": "Diary post",
     "copy-link": "Copy link",
     "delete": "Delete",
     "badge": "Diary",
@@ -321,6 +325,10 @@
     "visited": "Visited",
     "interested": "Interested",
     "interest": "Interest",
+    "ranking": {
+      "position-in-rating-ranking-tooltip": "Position in the ranking by rating",
+      "position-in-visit-ranking-tooltip": "Position in the ranking by number of visits"
+    },
     "uncheck-visit-with-review-toast": {
       "title": "Delete the review before unchecking",
       "description": "You cannot cancel the visit as you previously created a review in that city."
@@ -378,6 +386,10 @@
       }
     }
   },
+  "city-visit": {
+    "badge": "Review",
+    "visited-by": "Visited by"
+  },
   "ranking": {
     "top-rated-countries": "Top rated countries",
     "most-visited-countries": "Most visited countries",
@@ -386,7 +398,7 @@
     "trending": {
       "title": "Trending cities 🔥",
       "description": "Cities with the highest percentage of people interested in the current month",
-      "variation": "{count}% from last month"
+      "variation": "from last month"
     },
     "empty": "Empty ranking.",
     "date-range": {
@@ -465,18 +477,13 @@
       }
     },
     "verify-email": {
-      "title": "Verify your email",
-      "description": "Thank you for signing up with Bagg! To continue, verify your email by clicking the button below.",
-      "submit": "Verify email",
+      "title": "Verify email",
       "success": "Email verified successfully",
       "fail": "Email has not been verified.",
-      "done": {
-        "done": "Done!",
-        "description": "A link to activate the account was sent to the email linked to the account.",
-        "already-verified": {
-          "label": "If you have already verified your email, click the button below.",
-          "button": "Already verified"
-        }
+      "description": "A link to activate the account was sent to the email linked to the account.",
+      "already-verified": {
+        "label": "If you have already verified your email, click the button below.",
+        "button": "Already verified"
       }
     }
   },
@@ -490,7 +497,8 @@
       "nudity": "Nudity",
       "false-information": "False information"
     },
-    "confirm": "Report"
+    "confirm": "Report",
+    "empty-reason": "You must select a reason for the report"
   },
   "admin": {
     "reports": {
@@ -500,6 +508,11 @@
       "diary-post": "Diary post",
       "reject-report": "Reject report",
       "accept-report": "Accept report"
+    },
+    "dashboard": {
+      "total-users": { "title": "Total users", "label": "{count} users" },
+      "total-posts": { "title": "Total posts", "label": "{count} posts" },
+      "total-reports": { "title": "Total reports", "label": "{count} reports" }
     }
   }
 }

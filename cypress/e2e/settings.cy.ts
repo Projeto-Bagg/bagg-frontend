@@ -144,7 +144,7 @@ describe('Excluir conta', () => {
   });
 
   it('Senha incorreta', () => {
-    cy.intercept('DELETE', '/users?currentPassword=Teste123', {
+    cy.intercept('POST', '/users/delete', {
       statusCode: 403,
     });
     cy.get('[data-test="delete-account-current-password"]').type('Teste123');
@@ -155,7 +155,7 @@ describe('Excluir conta', () => {
   });
 
   it('Senha correta', () => {
-    cy.intercept('DELETE', '/users?currentPassword=Teste123', {
+    cy.intercept('POST', '/users/delete', {
       statusCode: 200,
     });
     cy.get('[data-test="delete-account-current-password"]').type('Teste123');
@@ -164,8 +164,8 @@ describe('Excluir conta', () => {
 
     cy.url().should('eq', Cypress.config().baseUrl);
 
-    cy.getCookie('bagg.sessionToken').should('not.exist');
-    cy.getCookie('bagg.refreshToken').should('not.exist');
+    cy.getCookie('bagg.access-token').should('not.exist');
+    cy.getCookie('bagg.refresh-token').should('not.exist');
   });
 });
 
@@ -214,7 +214,7 @@ describe('Esqueci a senha', () => {
   });
 
   it('Redirecionar para a página principal caso o usuário esteja logado', () => {
-    cy.setCookie('bagg.sessionToken', 'token');
+    cy.login();
     cy.visit(
       '/settings/reset-password/reset?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c',
     );
@@ -225,12 +225,12 @@ describe('Esqueci a senha', () => {
 
     cy.wait(500);
 
-    cy.url().should('eq', Cypress.config().baseUrl);
+    cy.url().should('eq', Cypress.config().baseUrl + 'home');
   });
 
   it('Exibir formulário de redefinição de senha', () => {
     cy.visit(
-      '/settings/reset-password/reset?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEzLCJ1c2VybmFtZSI6ImZlZmV6b2thIiwiaWF0IjoxNzE0NDI4NDY1LCJleHAiOjE3MTQ0MzIwNjV9.NPH7-TXOrG-_ZbREthgNFVqEUoUbvbaVFqkjTlHXHhw',
+      '/settings/reset-password/reset?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEzLCJ1c2VybmFtZSI6ImZlZmV6b2thIiwiaWF0IjoxNzE0NDI4NDY1LCJleHAiOjIzMTQ0MzIwNjV9.ZE9T53k8Ws6W91bFngRNpQi40x3EIlVabGlrpoYSJz8',
     );
 
     cy.get('[name="password"]');
@@ -238,7 +238,7 @@ describe('Esqueci a senha', () => {
 
   it('Redefinição da senha bem sucedida', () => {
     cy.visit(
-      '/settings/reset-password/reset?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEzLCJ1c2VybmFtZSI6ImZlZmV6b2thIiwiaWF0IjoxNzE0NDI4NDY1LCJleHAiOjE3MTQ0MzIwNjV9.NPH7-TXOrG-_ZbREthgNFVqEUoUbvbaVFqkjTlHXHhw',
+      '/settings/reset-password/reset?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEzLCJ1c2VybmFtZSI6ImZlZmV6b2thIiwiaWF0IjoxNzE0NDI4NDY1LCJleHAiOjIzMTQ0MzIwNjV9.ZE9T53k8Ws6W91bFngRNpQi40x3EIlVabGlrpoYSJz8',
     );
 
     cy.get('[name="password"]').type('Teste@123');
@@ -248,9 +248,11 @@ describe('Esqueci a senha', () => {
 
     cy.intercept(
       'POST',
-      '/users/reset-password/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEzLCJ1c2VybmFtZSI6ImZlZmV6b2thIiwiaWF0IjoxNzE0NDI4NDY1LCJleHAiOjE3MTQ0MzIwNjV9.NPH7-TXOrG-_ZbREthgNFVqEUoUbvbaVFqkjTlHXHhw',
+      '/users/reset-password/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEzLCJ1c2VybmFtZSI6ImZlZmV6b2thIiwiaWF0IjoxNzE0NDI4NDY1LCJleHAiOjIzMTQ0MzIwNjV9.ZE9T53k8Ws6W91bFngRNpQi40x3EIlVabGlrpoYSJz8',
       { statusCode: 200 },
-    );
+    ).as('req');
+
+    cy.wait('@req');
 
     cy.url().should('contain', 'login');
   });
@@ -271,7 +273,7 @@ describe('Confirmar email', () => {
 
   it('Exibir página de confirmação de email', () => {
     cy.setCookie(
-      'bagg.tempSessionToken',
+      'bagg.temp-session-token',
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEzLCJ1c2VybmFtZSI6ImZlZmV6b2thIiwiaWF0IjoxNzE0NDI4NDY1LCJleHAiOjE3MTQ0MzIwNjV9.NPH7-TXOrG-_ZbREthgNFVqEUoUbvbaVFqkjTlHXHhw',
     );
 
@@ -281,11 +283,11 @@ describe('Confirmar email', () => {
 
   it('Redirecionar para página "done"', () => {
     cy.setCookie(
-      'bagg.tempSessionToken',
+      'bagg.temp-session-token',
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEzLCJ1c2VybmFtZSI6ImZlZmV6b2thIiwiaWF0IjoxNzE0NDI4NDY1LCJleHAiOjE3MTQ0MzIwNjV9.NPH7-TXOrG-_ZbREthgNFVqEUoUbvbaVFqkjTlHXHhw',
     );
     cy.setCookie(
-      'bagg.tempRefreshToken',
+      'bagg.temp-refresh-token',
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEzLCJ1c2VybmFtZSI6ImZlZmV6b2thIiwiaWF0IjoxNzE0NDI4NDY1LCJleHAiOjE3MTUwMzMyNjV9.9Qo1OqO8pfSinaReF39_Z16kct9-60LPfnhAjSTwrUQ',
     );
 
@@ -303,11 +305,11 @@ describe('Confirmar email', () => {
 
   it('Abrir link de confirmação de email', () => {
     cy.setCookie(
-      'bagg.tempSessionToken',
+      'bagg.temp-session-token',
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEzLCJ1c2VybmFtZSI6ImZlZmV6b2thIiwiaWF0IjoxNzE0NDI4NDY1LCJleHAiOjE3MTQ0MzIwNjV9.NPH7-TXOrG-_ZbREthgNFVqEUoUbvbaVFqkjTlHXHhw',
     );
     cy.setCookie(
-      'bagg.tempRefreshToken',
+      'bagg.temp-refresh-token',
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEzLCJ1c2VybmFtZSI6ImZlZmV6b2thIiwiaWF0IjoxNzE0NDI4NDY1LCJleHAiOjE3MTUwMzMyNjV9.9Qo1OqO8pfSinaReF39_Z16kct9-60LPfnhAjSTwrUQ',
     );
 

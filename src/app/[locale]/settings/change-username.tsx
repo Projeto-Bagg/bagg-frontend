@@ -5,7 +5,7 @@ import { UsernameInput } from '@/components/form/username-input';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { useAuth } from '@/context/auth-context';
-import { useChangeUsername } from '@/hooks/useChangeUsername';
+import { useChangeUsername } from '@/hooks/settings';
 import axios from '@/services/axios';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQuery } from '@tanstack/react-query';
@@ -32,18 +32,19 @@ export const ChangeUsername = () => {
     formState: { errors },
     reset,
   } = useForm<ChangeUsernameType>({
+    defaultValues: {
+      username: '',
+    },
     resolver: zodResolver(changeUsernameSchema),
     mode: 'onChange',
   });
-
-  console.log(watch());
 
   const username = watch().username;
   const [debouncedQuery] = useDebounce(username, 1000);
   const isUsernameAvailable = useQuery({
     queryFn: () => axios.get(`users/username-availability/${debouncedQuery}`),
     queryKey: ['username-availability', debouncedQuery],
-    enabled: !!debouncedQuery && !errors.username,
+    enabled: !!debouncedQuery && usernameRegex.test(debouncedQuery),
   });
 
   const onSubmit = async (data: ChangeUsernameType) => {

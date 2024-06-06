@@ -31,6 +31,7 @@ declare global {
   namespace Cypress {
     interface Chainable {
       login(): Chainable<void>;
+      loginAdmin(): Chainable<void>;
     }
   }
 }
@@ -38,12 +39,12 @@ declare global {
 Cypress.Commands.add('login', () => {
   cy.session(['test'], () => {
     cy.setCookie(
-      'bagg.sessionToken',
+      'bagg.access-token',
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInJvbGUiOiJVU0VSIiwiaGFzRW1haWxCZWVuVmVyaWZpZWQiOnRydWUsImlhdCI6MTcxNDg0ODQwMywiZXhwIjoyNzE0ODUyMDAzfQ.59WECadq6ehgb_6HruXZm5eovzZ3TnvUb-QxQkd1wUE',
     );
 
     cy.setCookie(
-      'bagg.refreshToken',
+      'bagg.refresh-token',
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInJvbGUiOiJVU0VSIiwiaGFzRW1haWxCZWVuVmVyaWZpZWQiOnRydWUsImlhdCI6MTcxNDg0ODQwMywiZXhwIjoyNzE0ODUyMDAzfQ.59WECadq6ehgb_6HruXZm5eovzZ3TnvUb-QxQkd1wUE',
     );
   });
@@ -53,5 +54,26 @@ Cypress.Commands.add('login', () => {
       statusCode: 200,
       body: user,
     }).as('me');
+  });
+});
+
+Cypress.Commands.add('loginAdmin', () => {
+  cy.session(['admin'], () => {
+    cy.setCookie(
+      'bagg.access-token',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInJvbGUiOiJBRE1JTiIsImhhc0VtYWlsQmVlblZlcmlmaWVkIjp0cnVlLCJpYXQiOjE3MTQ4NDg0MDMsImV4cCI6MjcxNDg1MjAwM30.zyFV32xQOXK8Rm0UK4uF8gHKXAG1JAZ3VdUsk6g24z0',
+    );
+
+    cy.setCookie(
+      'bagg.refresh-token',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInJvbGUiOiJBRE1JTiIsImhhc0VtYWlsQmVlblZlcmlmaWVkIjp0cnVlLCJpYXQiOjE3MTQ4NDg0MDMsImV4cCI6MjcxNDg1MjAwM30.zyFV32xQOXK8Rm0UK4uF8gHKXAG1JAZ3VdUsk6g24z0',
+    );
+  });
+
+  cy.fixture('admin.json').then((admin) => {
+    cy.intercept('GET', '/admin/me', {
+      statusCode: 200,
+      body: admin,
+    }).as('admin');
   });
 });

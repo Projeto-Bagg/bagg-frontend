@@ -1,18 +1,18 @@
 'use client';
 
-import React from 'react';
-import { GalleryCarousel } from '@/app/[locale]/(country-city)/gallery-carousel';
-import { GalleryImage } from '@/app/[locale]/(country-city)/gallery-image';
+import React, { useMemo } from 'react';
+import { GalleryCarousel } from '@/app/[locale]/(country-city)/components/gallery-carousel';
+import { GalleryImage } from '@/app/[locale]/(country-city)/components/gallery-image';
 import { CityRatingRanking } from '@/components/ranking/city-rating-ranking';
-import { CityVisit } from '@/components/city-visit';
+import { CityVisit } from '@/app/[locale]/(country-city)/components/city-visit';
 import { CityVisitRanking } from '@/components/ranking/city-visit-ranking';
-import { LazyMap, LazyMarker, LazyTileLayer } from '@/components/leaflet-map';
 import { CarouselItem } from '@/components/ui/carousel';
 import axios from '@/services/axios';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 import Autoplay from 'embla-carousel-autoplay';
 import { SeeMore } from '@/components/see-more';
+import dynamic from 'next/dynamic';
 
 export default function Page({ params }: { params: { slug: string } }) {
   const t = useTranslations();
@@ -39,6 +39,14 @@ export default function Page({ params }: { params: { slug: string } }) {
       page.length === 10 ? allPages.length + 1 : null,
   });
 
+  const LazyMap = useMemo(
+    () =>
+      dynamic(async () => (await import('@/components/map')).Map, {
+        ssr: false,
+      }),
+    [],
+  );
+
   if (!country.data || !images || !visits) {
     return;
   }
@@ -47,7 +55,7 @@ export default function Page({ params }: { params: { slug: string } }) {
     <div className="grid gap-x-4 gap-y-6 grid-cols-1 sm:grid-cols-2">
       <div>
         <div className="mb-2">
-          <h2 className="font-bold text-xl border-b-2 border-primary pb-1">
+          <h2 className="font-bold text-base sm:text-xl border-b-2 border-primary pb-1">
             {t('country-city-page.gallery')}
           </h2>
         </div>
@@ -63,7 +71,7 @@ export default function Page({ params }: { params: { slug: string } }) {
           >
             {images.pages.map((page) =>
               page.map((image) => (
-                <CarouselItem key={image.id}>
+                <CarouselItem key={`${image.type}-${image.id}`}>
                   <GalleryImage className="object-cover" image={image} />
                 </CarouselItem>
               )),
@@ -83,36 +91,24 @@ export default function Page({ params }: { params: { slug: string } }) {
       </div>
       <div>
         <div className="mb-2">
-          <h2 className="font-bold text-xl border-b-2 border-primary pb-1">
+          <h2 className="font-bold text-base sm:text-xl border-b-2 border-primary pb-1">
             {t('country-city-page.location')}
           </h2>
         </div>
-        <LazyMap
-          center={[country.data.latitude, country.data.longitude]}
-          zoom={3}
-          className="w-full aspect-square rounded-lg border-2"
-          scrollWheelZoom={false}
-          dragging={false}
-        >
-          <LazyTileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
-          />
-          <LazyMarker position={[country.data.latitude, country.data.longitude]} />
-        </LazyMap>
+        <LazyMap zoom={5} LatLng={[country.data.latitude, country.data.longitude]} />
       </div>
       <CityRatingRanking countryIso2={country.data.iso2} seeMore />
       <CityVisitRanking countryIso2={country.data.iso2} seeMore />
       <div className="sm:col-span-2">
         <div>
           <div className="mb-2">
-            <h2 className="font-bold text-xl border-b-2 border-primary pb-1">
+            <h2 className="font-bold text-base sm:text-xl border-b-2 border-primary pb-1">
               {t('country-city-page.reviews')}
             </h2>
           </div>
           <div>
             {visits.pages[0].length === 0 && (
-              <div className="py-4 text-sm text-center">
+              <div className="py-4 text-sm text-center text-muted-foreground">
                 <span>{t('country-city-page.tabs.reviews.no-reviews')}</span>
               </div>
             )}

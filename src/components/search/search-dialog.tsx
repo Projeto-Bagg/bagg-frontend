@@ -1,6 +1,5 @@
 'use client';
 
-import { Spinner } from '@/assets';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -34,7 +33,7 @@ import { CitySearch } from '@/components/search/city-search';
 export const Search = () => {
   const [open, setOpen] = useState<boolean>();
   const [query, setQuery] = useState<string>();
-  const [debouncedQuery] = useDebounce(query, 1000);
+  const [debouncedQuery] = useDebounce(query, 500);
   const [isFirstFetchSucess, setIsFirstFetchSucess] = useState<boolean>();
   const t = useTranslations('header');
 
@@ -82,6 +81,7 @@ export const Search = () => {
       };
     },
     enabled: !!debouncedQuery,
+    placeholderData: (data) => data,
   });
 
   useEffect(() => {
@@ -90,12 +90,8 @@ export const Search = () => {
     }
   }, [isFirstFetchSucess, search.data]);
 
-  const onOpenChange = (open: boolean) => {
-    setOpen(open);
-  };
-
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={open} onOpenChange={setOpen}>
       <Tooltip>
         <TooltipTrigger asChild>
           <DialogTrigger asChild>
@@ -106,14 +102,14 @@ export const Search = () => {
         </TooltipTrigger>
         <TooltipContent>{t('search.title')}</TooltipContent>
       </Tooltip>
-      <DialogContent className="sm:max-w-[48rem] p-0 sm:0">
+      <DialogContent className="sm:max-w-[48rem] p-0 sm:p-0">
         <DialogHeader className="bg-secondary shrink-0 rounded-t-lg overflow-hidden py-6 px-4 sm:px-10">
           <div className="relative">
             {search.isFetching ? (
-              <Spinner
-                className={
-                  'absolute left-0 top-4 h-[24px] w-[24px] [&>circle]:stroke-foreground'
-                }
+              <img
+                alt=""
+                src={'/spinner.svg'}
+                className={'absolute left-0 top-4 h-[24px] w-[24px] invert dark:invert-0'}
               />
             ) : (
               <SearchIcon strokeWidth={3.5} className="absolute left-0 top-4" />
@@ -127,7 +123,7 @@ export const Search = () => {
         </DialogHeader>
         {isFirstFetchSucess && debouncedQuery && (
           <ScrollArea>
-            <ScrollAreaViewport className="max-h-[700px] px-4 sm:px-10 py-4 pt-0">
+            <ScrollAreaViewport className="max-h-[calc(80vh-120px)] sm:max-h-[700px] px-4 sm:px-10 py-4 pt-0">
               <div className="space-y-2">
                 <div>
                   <h3 className="font-semibold border-b-2 border-primary pb-1 w-fit">
@@ -140,7 +136,11 @@ export const Search = () => {
                           <CarouselContent>
                             {search.data?.tips.map((tip) => (
                               <CarouselItem className="sm:basis-1/3 text-sm" key={tip.id}>
-                                <TipSearch tip={tip} boldMessage={query} />
+                                <TipSearch
+                                  setOpen={setOpen}
+                                  tip={tip}
+                                  boldMessage={debouncedQuery}
+                                />
                               </CarouselItem>
                             ))}
                           </CarouselContent>
@@ -195,7 +195,7 @@ export const Search = () => {
                             setOpen(false);
                           }}
                           href={{
-                            pathname: '/search',
+                            pathname: '/search/city',
                             query: {
                               q: debouncedQuery,
                             },

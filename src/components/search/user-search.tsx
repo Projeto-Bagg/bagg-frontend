@@ -7,18 +7,20 @@ interface UserSearchProps {
 
 export const UserSearch = ({ user }: UserSearchProps) => {
   return (
-    <div className="flex gap-2 bg-primary-foreground hover:bg-secondary rounded-lg transition-all">
+    <div className="flex gap-2 items-center bg-primary-foreground hover:bg-secondary rounded-lg transition-all">
       <UserHoverCard username={user.username}>
-        <Avatar className="rounded-sm bg-muted">
+        <Avatar className="rounded-lg bg-muted shadow-none">
           <AvatarImage src={user.image} />
         </Avatar>
       </UserHoverCard>
-      <div className="flex items-center gap-1">
+      <div className="flex flex-1 min-w-0 items-center gap-1 pr-2">
         <UserHoverCard username={user.username}>
-          <span className="font-medium">{user.fullName}</span>
+          <span className="font-medium truncate">{user.fullName}</span>
         </UserHoverCard>
         <UserHoverCard username={user.username}>
-          <span className="text-sm text-muted-foreground">@{user.username}</span>
+          <span className="text-sm shrink-0 text-muted-foreground whitespace-nowrap">
+            @{user.username}
+          </span>
         </UserHoverCard>
       </div>
     </div>

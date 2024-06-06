@@ -22,7 +22,8 @@
     "login": "Logar"
   },
   "commons": {
-    "confirm": "Confirmar"
+    "confirm": "Confirmar",
+    "copy-link": "Link copiado para a área de transferência"
   },
   "header": {
     "home": "Página principal",
@@ -63,10 +64,9 @@
     },
     "login": {
       "label": "Nome de usuário ou email",
-      "too-small": "Digite seu nome de usuário/e-mail",
+      "too-small": "Digite seu nome de usuário/email",
       "invalid": "Login inválido"
     },
-    "forgot-password": "Esqueceu a senha?",
     "submit": "Login",
     "unauthorized": "Login ou senha incorretos",
     "signup-redirect": {
@@ -78,7 +78,7 @@
     "title": "Cadastrar-se",
     "description": "Preencha o formulário para se cadastrar no Bagg!",
     "name": {
-      "label": "Nome",
+      "label": "Nome de exibição",
       "too-small": "Digite o nome de exibição",
       "max-length-error": "O tamanho máximo é de 64 caracteres"
     },
@@ -100,8 +100,8 @@
     },
     "email": {
       "label": "Email",
-      "invalid": "Digite um e-mail válido",
-      "too-small": "Digite um e-mail",
+      "invalid": "Digite um email válido",
+      "too-small": "Digite um email",
       "available": "Email disponível",
       "not-available": "Email indisponível"
     },
@@ -120,7 +120,7 @@
       "label": "Confirmar senha",
       "unmatched-passwords": "As senhas não se coincidem"
     },
-    "confirm": "Ao se cadastrar, você aceita nossos termos de uso e a nossa política de privacidade",
+    "confirm": "Ao se cadastrar, você aceita nossos <link>termos de uso e a nossa política de privacidade</link>",
     "signup": "Cadastrar-se",
     "day": "Dia",
     "month": "Mês",
@@ -187,6 +187,9 @@
     "empty-feed": {
       "title": "Feed vazio",
       "description": "Tente seguir usuários e marcar interesse em mais cidades!"
+    },
+    "ad": {
+      "label": "Anúncio"
     }
   },
   "create-post": {
@@ -271,15 +274,16 @@
     "Asia": "Asia",
     "Europe": "Europa",
     "Oceania": "Oceania",
-    "Polar": "Polar"
+    "Antarctica": "Antártica"
   },
   "diary-post": {
+    "diary-post": "Postagem no diário",
     "copy-link": "Copiar link",
     "delete": "Excluir",
     "badge": "Diário",
     "liked-by": "Curtido por",
     "delete-modal": {
-      "title": "Excluir postagem de diário",
+      "title": "Excluir postagem no diário",
       "description": "Tem certeza que deseja excluir a postagem? Essa ação é irreversível.",
       "cancel": "Cancelar",
       "action": "Excluir"
@@ -321,6 +325,10 @@
     "visited": "Visitado",
     "interested": "Interessado",
     "interest": "Interesse",
+    "ranking": {
+      "position-in-rating-ranking-tooltip": "Posição no ranking por avaliação",
+      "position-in-visit-ranking-tooltip": "Posição no ranking por quantidade de visitas"
+    },
     "uncheck-visit-with-review-toast": {
       "title": "Exclua a avaliação antes de desmarcar",
       "description": "Não é possível desmarcar a visita pois você criou uma avaliação nessa cidade anteriormente."
@@ -378,6 +386,10 @@
       }
     }
   },
+  "city-visit": {
+    "badge": "Avaliação",
+    "visited-by": "Visitado por"
+  },
   "ranking": {
     "top-rated-countries": "Países com melhor avaliação",
     "most-visited-countries": "Países mais visitados",
@@ -386,8 +398,8 @@
     "empty": "Ranking vazio.",
     "trending": {
       "title": "Cidades em alta 🔥",
-      "description": "Cidades com o maior porcentagem de pessoas interessadas no corrente mês",
-      "variation": "{count}% do mês anterior"
+      "description": "Cidades com o maior porcentagem de pessoas interessadas nesse mês",
+      "variation": "do mês anterior"
     },
     "date-range": {
       "date": "{count, plural, =0 {Todo o período} other {Últimos # dias}}"
@@ -466,17 +478,12 @@
     },
     "verify-email": {
       "title": "Confirme seu email",
-      "description": "Obrigado por se cadastrar no Bagg! Para continuar, confirme seu email clicando no botão abaixo.",
-      "submit": "Confirmar email",
       "success": "Email confirmado com sucesso!",
       "fail": "Email não confirmado.",
-      "done": {
-        "done": "Pronto!",
-        "description": "Um link para a ativação da conta foi enviado ao email vinculado à conta.",
-        "already-verified": {
-          "label": "Caso você já tenha confirmado o email, clique no botão abaixo.",
-          "button": "Já confirmei"
-        }
+      "description": "Um link para a ativação da conta foi enviado ao email vinculado à conta.",
+      "already-verified": {
+        "label": "Caso você já tenha confirmado o email, clique no botão abaixo.",
+        "button": "Já confirmei"
       }
     }
   },
@@ -490,7 +497,8 @@
       "nudity": "Nudez",
       "false-information": "Informação falsa"
     },
-    "confirm": "Report"
+    "confirm": "Denunciar",
+    "empty-reason": "É necessário selecionar um motivo para a denúncia"
   },
   "admin": {
     "reports": {
@@ -500,6 +508,11 @@
       "diary-post": "Postagem do diário",
       "reject-report": "Rejeitar denúncia",
       "accept-report": "Aceitar denúncia"
+    },
+    "dashboard": {
+      "total-users": { "title": "Total de usuários", "label": "{count} usuários" },
+      "total-posts": { "title": "Total de postagens", "label": "{count} postagens" },
+      "total-reports": { "title": "Total de denúncias", "label": "{count} denúncias" }
     }
   }
 }
