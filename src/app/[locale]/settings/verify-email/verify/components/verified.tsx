@@ -34,7 +34,7 @@ export const Verified = () => {
         setCookie('bagg.access-token', data.accessToken);
         setCookie('bagg.refresh-token', data.refreshToken);
 
-        deleteCookie('bagg.temp-session-token');
+        deleteCookie('bagg.temp-access-token');
         deleteCookie('bagg.temp-refresh-token');
 
         await auth.refetch();

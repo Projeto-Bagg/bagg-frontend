@@ -273,7 +273,7 @@ describe('Confirmar email', () => {
 
   it('Exibir página de confirmação de email', () => {
     cy.setCookie(
-      'bagg.temp-session-token',
+      'bagg.temp-access-token',
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEzLCJ1c2VybmFtZSI6ImZlZmV6b2thIiwiaWF0IjoxNzE0NDI4NDY1LCJleHAiOjI3MTQ0MzIwNjV9.d5wXQO7zhXwk_UuCeEK50KM0Y7d0d9UC6h-a3ngRmQw',
     );
 
@@ -283,7 +283,7 @@ describe('Confirmar email', () => {
 
   it('Abrir link de confirmação de email', () => {
     cy.setCookie(
-      'bagg.temp-session-token',
+      'bagg.temp-access-token',
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEzLCJ1c2VybmFtZSI6ImZlZmV6b2thIiwiaWF0IjoxNzE0NDI4NDY1LCJleHAiOjE3MTQ0MzIwNjV9.NPH7-TXOrG-_ZbREthgNFVqEUoUbvbaVFqkjTlHXHhw',
     );
     cy.setCookie(
