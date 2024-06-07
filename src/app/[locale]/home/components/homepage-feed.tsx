@@ -13,7 +13,7 @@ import { getCookie, setCookie } from 'cookies-next';
 
 type Feed = 'for-you' | 'following';
 
-export default function HomepageFeed() {
+export const HomepageFeed = () => {
   const [feed, setFeed] = useState<Feed>();
   const t = useTranslations();
 
@@ -71,6 +71,7 @@ export default function HomepageFeed() {
           <TabsTrigger
             className="flex-1 sm:flex-none border-b sm:border-b-0"
             value="for-you"
+            data-test="for-you"
           >
             <h2
               className={cn(
@@ -84,6 +85,7 @@ export default function HomepageFeed() {
           <TabsTrigger
             className="flex-1 sm:flex-none border-b sm:border-b-0"
             value="following"
+            data-test="following"
           >
             <h2
               className={cn(
@@ -104,7 +106,7 @@ export default function HomepageFeed() {
       </TabsContent>
     </Tabs>
   );
-}
+};
 
 const EmptyHomepageFeed = () => {
   const t = useTranslations();

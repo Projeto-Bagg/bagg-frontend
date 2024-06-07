@@ -66,7 +66,7 @@ export const VerifyEmail = () => {
     <div className="p-4 container max-w-xl m-auto my-8">
       <div className="flex flex-col items-center space-y-4 text-center">
         <div className="rounded-full bg-primary p-4">
-          <Mail className="w-[40px] h-[40px]" />
+          <Mail className="w-[40px] h-[40px] text-white" />
         </div>
         <h1 className="font-semibold tracking-tight text-2xl">
           {t('settings.verify-email.title')}
@@ -79,7 +79,12 @@ export const VerifyEmail = () => {
             {t('settings.verify-email.already-verified.label')}
           </p>
         </div>
-        <Button loading={loading} onClick={alreadyConfirmed} className="w-full">
+        <Button
+          data-test="already-verified-button"
+          loading={loading}
+          onClick={alreadyConfirmed}
+          className="w-full"
+        >
           {t('settings.verify-email.already-verified.button')}
         </Button>
       </div>
