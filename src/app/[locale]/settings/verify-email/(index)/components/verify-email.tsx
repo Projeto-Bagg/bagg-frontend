@@ -17,7 +17,7 @@ export const VerifyEmail = () => {
   const [loading, setLoading] = useState<boolean>();
 
   const alreadyConfirmed = async () => {
-    const tempAccessToken = getCookie('bagg.temp-session-token');
+    const tempAccessToken = getCookie('bagg.temp-access-token');
     const tempRefreshToken = getCookie('bagg.temp-refresh-token');
     const accessToken = getCookie('bagg.access-token');
 
@@ -52,7 +52,7 @@ export const VerifyEmail = () => {
     setCookie('bagg.access-token', data.accessToken);
     setCookie('bagg.refresh-token', data.refreshToken);
 
-    deleteCookie('bagg.temp-session-token');
+    deleteCookie('bagg.temp-access-token');
     deleteCookie('bagg.temp-refresh-token');
 
     toast({ variant: 'success', title: t('settings.verify-email.success') });

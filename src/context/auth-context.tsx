@@ -10,7 +10,7 @@ import {
   useQueryClient,
 } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
-import { usePathname, useRouter } from '@/common/navigation';
+import { useRouter } from '@/common/navigation';
 import { decodeJwt } from 'jose';
 
 type AuthContextType = {
@@ -30,7 +30,6 @@ export const AuthContext = createContext({} as AuthContextType);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const pathname = usePathname();
   const queryClient = useQueryClient();
   const { data: user, refetch: refetchUser } = useQuery<FullInfoUser>({
     queryKey: ['session'],
@@ -87,7 +86,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       if (!decodedJwt.hasEmailBeenVerified) {
         deleteCookie('bagg.access-token');
         deleteCookie('bagg.refresh-token');
-        setCookie('bagg.temp-session-token', data.accessToken);
+        setCookie('bagg.temp-access-token', data.accessToken);
         setCookie('bagg.temp-refresh-token', data.refreshToken);
         await new Promise((resolve) => setTimeout(resolve, 200));
         return router.replace('/settings/verify-email');
@@ -96,7 +95,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     setCookie('bagg.access-token', data.accessToken);
     setCookie('bagg.refresh-token', data.refreshToken);
-    deleteCookie('bagg.temp-session-token');
+    deleteCookie('bagg.temp-access-token');
     deleteCookie('bagg.temp-refresh-token');
 
     queryClient.invalidateQueries();
@@ -124,7 +123,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     deleteCookie('bagg.access-token');
     deleteCookie('bagg.refresh-token');
-    deleteCookie('bagg.temp-session-token');
+    deleteCookie('bagg.temp-access-token');
     deleteCookie('bagg.temp-refresh-token');
 
     queryClient.invalidateQueries();

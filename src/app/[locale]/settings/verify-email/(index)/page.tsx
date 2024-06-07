@@ -5,7 +5,7 @@ import { cookies } from 'next/headers';
 import { VerifyEmail } from '@/app/[locale]/settings/verify-email/(index)/components/verify-email';
 
 export default async function Page() {
-  const tempAccessToken = getCookie('bagg.temp-session-token', { cookies });
+  const tempAccessToken = getCookie('bagg.temp-access-token', { cookies });
 
   if (!tempAccessToken) {
     return redirect('/');
