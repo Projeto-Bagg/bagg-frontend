@@ -2,6 +2,7 @@
 
 import { Link } from '@/common/navigation';
 import { CitySearch } from '@/components/search/city-search';
+import { useSaveQueryOnRecentSearches } from '@/hooks/recent-searches';
 import axios from '@/services/axios';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
@@ -14,6 +15,7 @@ export default function Page() {
   const { ref, inView } = useInView();
   const t = useTranslations();
   const q = searchParams.get('q');
+  const saveQueryOnRecentSearches = useSaveQueryOnRecentSearches();
 
   const { data, fetchNextPage, hasNextPage } = useInfiniteQuery<CityFromSearch[]>({
     queryKey: ['city-search', q],
@@ -57,14 +59,12 @@ export default function Page() {
       {data &&
         data.pages.map((page) =>
           page.map((city, index) => (
-            <Link
-              key={index}
-              className="block"
-              ref={page.length - 1 === index ? ref : undefined}
-              href={{ params: { slug: city.id }, pathname: '/city/[slug]' }}
-            >
-              <CitySearch city={city} />
-            </Link>
+            <div ref={page.length - 1 === index ? ref : undefined} key={index}>
+              <CitySearch
+                onClick={() => saveQueryOnRecentSearches.mutate(city)}
+                city={city}
+              />
+            </div>
           )),
         )}
     </div>

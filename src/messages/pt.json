@@ -36,7 +36,9 @@
       "tip-search-results": "Resultados de pesquisa de tip",
       "user-search-results": "Resultados de pesquisa de usuário",
       "country-search-results": "Resultados de pesquisa de país",
-      "city-search-results": "Resultados de pesquisa de cidade"
+      "city-search-results": "Resultados de pesquisa de cidade",
+      "recents": "Recentes",
+      "clear-all": "Apagar tudo"
     },
     "login": "Entrar",
     "signup": "Criar conta",

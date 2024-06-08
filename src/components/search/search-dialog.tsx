@@ -11,9 +11,8 @@ import { Input } from '@/components/ui/input';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import axios from '@/services/axios';
 import { useQuery } from '@tanstack/react-query';
-import { Search as SearchIcon } from 'lucide-react';
+import { Search as SearchIcon, X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { Link } from '@/common/navigation';
 import { useEffect, useState } from 'react';
 import { useDebounce } from 'use-debounce';
 import { SeeMore } from '@/components/see-more';
@@ -29,6 +28,12 @@ import { TipSearch } from '@/components/search/tip-search';
 import { UserSearch } from '@/components/search/user-search';
 import { CountrySearch } from '@/components/search/country-search';
 import { CitySearch } from '@/components/search/city-search';
+import { getCookie } from 'cookies-next';
+import {
+  useClearRecentSearches,
+  useDeleteQueryFromRecentSearches,
+  useSaveQueryOnRecentSearches,
+} from '@/hooks/recent-searches';
 
 export const Search = () => {
   const [open, setOpen] = useState<boolean>();
@@ -36,6 +41,15 @@ export const Search = () => {
   const [debouncedQuery] = useDebounce(query, 500);
   const [isFirstFetchSucess, setIsFirstFetchSucess] = useState<boolean>();
   const t = useTranslations('header');
+
+  const recentSearches = useQuery<RecentSearch[]>({
+    queryKey: ['recent-searches'],
+    queryFn: () =>
+      JSON.parse(getCookie('bagg.recent-searches') || '[]') as RecentSearch[],
+  });
+  const saveQueryOnRecentSearches = useSaveQueryOnRecentSearches();
+  const deleteQueryFromRecentSearches = useDeleteQueryFromRecentSearches();
+  const clearRecentSearches = useClearRecentSearches();
 
   const search = useQuery<FullSearch>({
     queryKey: ['search', debouncedQuery],
@@ -116,11 +130,69 @@ export const Search = () => {
             )}
             <Input
               placeholder={t('search.input-placeholder')}
+              value={query || ''}
               onChange={(e) => setQuery(e.target.value)}
               className="pl-9 text-xl placeholder:text-xl h-14 bg-transparent rounded-none focus-visible:ring-0 focus-visible:ring-offset-0 border-0 border-b-2 border-muted-foreground"
             />
           </div>
         </DialogHeader>
+        {!(isFirstFetchSucess && debouncedQuery) &&
+          recentSearches.data &&
+          recentSearches.data.length > 0 && (
+            <div className="px-4 sm:px-10 py-4 pt-0">
+              <div className="flex justify-between items-baseline">
+                <div className="mb-4">
+                  <h2 className="font-bold w-fit text-base border-b-2 border-primary pb-1">
+                    {t('search.recents')}
+                  </h2>
+                </div>
+                <div>
+                  <button
+                    onClick={() => clearRecentSearches.mutate()}
+                    className="text-primary hover:brightness-125 transition-all font-semibold"
+                  >
+                    {t('search.clear-all')}
+                  </button>
+                </div>
+              </div>
+              <div className="space-y-1">
+                {recentSearches.data.map((recent, index) => (
+                  <div className="text-base w-full flex justify-between" key={index}>
+                    <div className="w-full mr-4 sm:mr-8">
+                      {determineIfIsUser(recent.element) ? (
+                        <UserSearch
+                          onClick={() => {
+                            saveQueryOnRecentSearches.mutate(recent.element);
+                            setOpen(false);
+                          }}
+                          user={recent.element}
+                        />
+                      ) : determineIfIsCountry(recent.element) ? (
+                        <CountrySearch
+                          onClick={() => {
+                            saveQueryOnRecentSearches.mutate(recent.element);
+                            setOpen(false);
+                          }}
+                          country={recent.element}
+                        />
+                      ) : (
+                        <CitySearch
+                          onClick={() => {
+                            saveQueryOnRecentSearches.mutate(recent.element);
+                            setOpen(false);
+                          }}
+                          city={recent.element}
+                        />
+                      )}
+                    </div>
+                    <button onClick={() => deleteQueryFromRecentSearches.mutate(index)}>
+                      <X className="w-5 text-muted-foreground" strokeWidth={2.5} />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         {isFirstFetchSucess && debouncedQuery && (
           <ScrollArea>
             <ScrollAreaViewport className="max-h-[calc(80vh-120px)] sm:max-h-[700px] px-4 sm:px-10 py-4 pt-0">
@@ -176,17 +248,14 @@ export const Search = () => {
                       <div>
                         <div id="users" className="space-y-0.5 mb-1">
                           {search.data.users.map((user) => (
-                            <Link
-                              href={{
-                                params: { slug: user.username },
-                                pathname: '/[slug]',
+                            <UserSearch
+                              key={user.username}
+                              onClick={() => {
+                                saveQueryOnRecentSearches.mutate(user);
+                                setOpen(false);
                               }}
-                              key={user.id}
-                              onClick={() => setOpen(false)}
-                              className="block"
-                            >
-                              <UserSearch user={user} />
-                            </Link>
+                              user={user}
+                            />
                           ))}
                         </div>
                         <SeeMore
@@ -218,17 +287,14 @@ export const Search = () => {
                       <div>
                         <div id="countries" className="space-y-0.5 mb-1">
                           {search.data.countries.map((country, index) => (
-                            <Link
+                            <CountrySearch
                               key={index}
-                              onClick={() => setOpen(false)}
-                              className="block"
-                              href={{
-                                params: { slug: country.iso2 },
-                                pathname: '/country/[slug]',
+                              onClick={() => {
+                                saveQueryOnRecentSearches.mutate(country);
+                                setOpen(false);
                               }}
-                            >
-                              <CountrySearch country={country} />
-                            </Link>
+                              country={country}
+                            />
                           ))}
                         </div>
                         <SeeMore
@@ -260,17 +326,14 @@ export const Search = () => {
                       <div>
                         <div id="cities" className="space-y-0.5 mt-4 mb-1">
                           {search.data.cities.map((city, index) => (
-                            <Link
+                            <CitySearch
                               key={index}
-                              onClick={() => setOpen(false)}
-                              className="block"
-                              href={{
-                                params: { slug: city.id },
-                                pathname: '/city/[slug]',
+                              onClick={() => {
+                                saveQueryOnRecentSearches.mutate(city);
+                                setOpen(false);
                               }}
-                            >
-                              <CitySearch city={city} />
-                            </Link>
+                              city={city}
+                            />
                           ))}
                         </div>
                         <SeeMore
@@ -300,4 +363,22 @@ export const Search = () => {
       </DialogContent>
     </Dialog>
   );
+};
+
+const determineIfIsCountry = (
+  toBeDetermined: Country | CityFromSearch | User,
+): toBeDetermined is Country => {
+  if ((toBeDetermined as Country).capital) {
+    return true;
+  }
+  return false;
+};
+
+const determineIfIsUser = (
+  toBeDetermined: Country | CityFromSearch | User,
+): toBeDetermined is User => {
+  if ((toBeDetermined as User).username) {
+    return true;
+  }
+  return false;
 };

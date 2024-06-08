@@ -316,3 +316,8 @@ interface Ad {
   adImg: string;
   url: string;
 }
+
+interface RecentSearch {
+  element: CityFromSearch | User | Country;
+  date: Date;
+}

@@ -2,6 +2,7 @@
 
 import { Link } from '@/common/navigation';
 import { CountrySearch } from '@/components/search/country-search';
+import { useSaveQueryOnRecentSearches } from '@/hooks/recent-searches';
 import axios from '@/services/axios';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
@@ -14,6 +15,7 @@ export default function Page() {
   const { ref, inView } = useInView();
   const t = useTranslations();
   const q = searchParams.get('q');
+  const saveQueryOnRecentSearches = useSaveQueryOnRecentSearches();
 
   const { data, fetchNextPage, hasNextPage } = useInfiniteQuery<Country[]>({
     queryKey: ['country-search', q],
@@ -62,14 +64,13 @@ export default function Page() {
       {data &&
         data.pages.map((page) =>
           page.map((country, index) => (
-            <Link
-              className="block"
-              key={index}
-              ref={page.length - 1 === index ? ref : undefined}
-              href={{ params: { slug: country.iso2 }, pathname: '/country/[slug]' }}
-            >
-              <CountrySearch country={country} />
-            </Link>
+            <div ref={page.length - 1 === index ? ref : undefined} key={index}>
+              <CountrySearch
+                key={index}
+                onClick={() => saveQueryOnRecentSearches.mutate(country)}
+                country={country}
+              />
+            </div>
           )),
         )}
     </div>
