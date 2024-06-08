@@ -90,7 +90,7 @@ export const UserHoverCard = ({ username, children }: UserHoverCardProps) => {
                   @{user.data.username}
                 </Link>
                 {user.data.bio && (
-                  <span className="text-sm break-words whitespace-pre-wrap">
+                  <span className="text-sm break-words whitespace-pre-wrap line-clamp-3">
                     {user.data.bio}
                   </span>
                 )}

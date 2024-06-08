@@ -40,7 +40,7 @@ export const GalleryImage = ({ image, className, ...props }: GalleryImage) => {
                     pathname: '/[slug]',
                   }}
                 >
-                  <Avatar className="text-foreground">
+                  <Avatar className="text-foreground shadow-none border-0">
                     <AvatarImage src={image.user.image} />
                   </Avatar>
                 </Link>
@@ -68,7 +68,7 @@ export const GalleryImage = ({ image, className, ...props }: GalleryImage) => {
                     @{image.user.username}
                   </Link>
                 </UserHoverCard>
-                <div className="line-clamp-2 hover:line-clamp-none break-all text-muted-foreground">
+                <div className="line-clamp-2 hover:line-clamp-none break-all dark:text-muted-foreground text-muted">
                   {image.message}
                 </div>
               </div>
@@ -78,7 +78,7 @@ export const GalleryImage = ({ image, className, ...props }: GalleryImage) => {
                 {image.city && (
                   <>
                     <Link
-                      className="hover:underline text-primary"
+                      className="hover:underline text-primary font-semibold"
                       href={{
                         params: { slug: image.city.id },
                         pathname: '/city/[slug]',
