@@ -55,7 +55,10 @@ export const TrendingCities = () => {
         >
           <CarouselContent>
             {trending.cities.map((city) => (
-              <CarouselItem className="basis-[45%] sm:basis-1/4" key={city.id}>
+              <CarouselItem
+                className="basis-[45%] font-semibold sm:basis-1/4"
+                key={city.id}
+              >
                 <div className="border relative h-full overflow-hidden aspect-[12/9] rounded-lg text-sm">
                   <CountryFlag
                     className="w-full h-full absolute gradient-mask-b-[rgba(0,0,0,1.0)_4px] -z-10 border-none aspect-auto bg-cover bg-center rounded-none"
