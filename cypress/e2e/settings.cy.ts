@@ -273,39 +273,17 @@ describe('Confirmar email', () => {
 
   it('Exibir página de confirmação de email', () => {
     cy.setCookie(
-      'bagg.temp-session-token',
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEzLCJ1c2VybmFtZSI6ImZlZmV6b2thIiwiaWF0IjoxNzE0NDI4NDY1LCJleHAiOjE3MTQ0MzIwNjV9.NPH7-TXOrG-_ZbREthgNFVqEUoUbvbaVFqkjTlHXHhw',
+      'bagg.temp-access-token',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEzLCJ1c2VybmFtZSI6ImZlZmV6b2thIiwiaWF0IjoxNzE0NDI4NDY1LCJleHAiOjI3MTQ0MzIwNjV9.d5wXQO7zhXwk_UuCeEK50KM0Y7d0d9UC6h-a3ngRmQw',
     );
 
     cy.visit('/settings/verify-email');
-    cy.get('button[type="submit"]');
-  });
-
-  it('Redirecionar para página "done"', () => {
-    cy.setCookie(
-      'bagg.temp-session-token',
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEzLCJ1c2VybmFtZSI6ImZlZmV6b2thIiwiaWF0IjoxNzE0NDI4NDY1LCJleHAiOjE3MTQ0MzIwNjV9.NPH7-TXOrG-_ZbREthgNFVqEUoUbvbaVFqkjTlHXHhw',
-    );
-    cy.setCookie(
-      'bagg.temp-refresh-token',
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEzLCJ1c2VybmFtZSI6ImZlZmV6b2thIiwiaWF0IjoxNzE0NDI4NDY1LCJleHAiOjE3MTUwMzMyNjV9.9Qo1OqO8pfSinaReF39_Z16kct9-60LPfnhAjSTwrUQ',
-    );
-
-    cy.intercept('GET', 'users/send-email-confirmation', { statusCode: 200 }).as(
-      'send-email',
-    );
-
-    cy.visit('/settings/verify-email');
-    cy.get('button[type="submit"]').click();
-
-    cy.wait('@send-email');
-
-    cy.url().should('contain', 'done');
+    cy.get('[data-test="already-verified-button"]');
   });
 
   it('Abrir link de confirmação de email', () => {
     cy.setCookie(
-      'bagg.temp-session-token',
+      'bagg.temp-access-token',
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEzLCJ1c2VybmFtZSI6ImZlZmV6b2thIiwiaWF0IjoxNzE0NDI4NDY1LCJleHAiOjE3MTQ0MzIwNjV9.NPH7-TXOrG-_ZbREthgNFVqEUoUbvbaVFqkjTlHXHhw',
     );
     cy.setCookie(

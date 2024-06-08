@@ -21,6 +21,7 @@ import { useCreateTip } from '@/hooks/tip';
 import { SelectCity } from '@/components/select-city';
 import { CreatePostMedias } from '@/components/create-post/create-post-medias';
 import { MediaInput } from '@/components/create-post/media-input';
+import { useRouter } from '@/common/navigation';
 
 const createTipSchema = z.object({
   cityId: z.number(),
@@ -42,6 +43,7 @@ export const CreateTip = ({ children }: { children: ReactNode }) => {
   const [open, setOpen] = useState<boolean>();
   const t = useTranslations();
   const createTip = useCreateTip();
+  const router = useRouter();
   const {
     control,
     register,
@@ -72,7 +74,8 @@ export const CreateTip = ({ children }: { children: ReactNode }) => {
     formData.append('cityId', data.cityId.toString());
     data.tags.length && formData.append('tags', data.tags.join(';'));
 
-    await createTip.mutateAsync(formData);
+    const tip = await createTip.mutateAsync(formData);
+    router.push({ params: { slug: tip.id }, pathname: '/tip/[slug]' });
     setOpen(false);
     reset(undefined, { keepDefaultValues: true });
   };

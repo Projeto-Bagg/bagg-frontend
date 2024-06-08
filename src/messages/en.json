@@ -36,7 +36,9 @@
       "tip-search-results": "Tip search results",
       "user-search-results": "User search results",
       "country-search-results": "Country search results",
-      "city-search-results": "City search results"
+      "city-search-results": "City search results",
+      "recents": "Recents",
+      "clear-all": "Clear all"
     },
     "signup": "Sign up",
     "login": "Login",

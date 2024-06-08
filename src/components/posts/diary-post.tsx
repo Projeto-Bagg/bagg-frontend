@@ -34,7 +34,7 @@ import { intlFormatDistance } from 'date-fns';
 import { UserHoverCard } from '@/components/user-hovercard';
 import { Medias } from '@/components/posts/medias';
 import { Report } from '@/components/posts/report';
-import { Link, useRouter } from '@/common/navigation';
+import { Link, usePathname, useRouter } from '@/common/navigation';
 
 export const DiaryPost = forwardRef<
   HTMLDivElement,
@@ -50,6 +50,7 @@ export const DiaryPost = forwardRef<
   const deletePost = useDeleteDiaryPost();
   const router = useRouter();
   const t = useTranslations();
+  const pathname = usePathname();
 
   const handleLikeClick = async () => {
     if (!auth.user) {
@@ -71,7 +72,9 @@ export const DiaryPost = forwardRef<
   const handleDeleteClick = async () => {
     await deletePost.mutateAsync(post.id);
 
-    router.push('/home');
+    if (pathname === '/diary/post/[slug]') {
+      router.push({ pathname: '/home' });
+    }
   };
 
   return (
@@ -139,49 +142,53 @@ export const DiaryPost = forwardRef<
                 >
                   {t('diary-post.copy-link')}
                 </DropdownMenuItem>
-                {auth.user?.id !== post.user.id && (
-                  <Report id={post.id} reportType="diary-post">
-                    <DropdownMenuItem
-                      data-test="report"
-                      onSelect={(e) => e.preventDefault()}
-                    >
-                      {t('reports.title')}
-                    </DropdownMenuItem>
-                  </Report>
-                )}
-                {auth.user?.id === post.user.id && (
-                  <AlertDialog>
-                    <AlertDialogTrigger asChild>
-                      <DropdownMenuItem
-                        data-test="diary-post-delete"
-                        onSelect={(e) => e.preventDefault()}
-                        className="font-bold"
-                      >
-                        {t('diary-post.delete')}
-                      </DropdownMenuItem>
-                    </AlertDialogTrigger>
-                    <AlertDialogContent>
-                      <AlertDialogHeader>
-                        <AlertDialogTitle>
-                          {t('diary-post.delete-modal.title')}
-                        </AlertDialogTitle>
-                        <AlertDialogDescription>
-                          {t('diary-post.delete-modal.description')}
-                        </AlertDialogDescription>
-                      </AlertDialogHeader>
-                      <AlertDialogFooter>
-                        <AlertDialogCancel>
-                          {t('diary-post.delete-modal.cancel')}
-                        </AlertDialogCancel>
-                        <AlertDialogAction
-                          data-test="diary-post-delete-confirm"
-                          onClick={handleDeleteClick}
+                {auth.user && (
+                  <>
+                    {auth.user.id !== post.user.id && (
+                      <Report id={post.id} reportType="diary-post">
+                        <DropdownMenuItem
+                          data-test="report"
+                          onSelect={(e) => e.preventDefault()}
                         >
-                          {t('diary-post.delete-modal.action')}
-                        </AlertDialogAction>
-                      </AlertDialogFooter>
-                    </AlertDialogContent>
-                  </AlertDialog>
+                          {t('reports.title')}
+                        </DropdownMenuItem>
+                      </Report>
+                    )}
+                    {auth.user.id === post.user.id && (
+                      <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                          <DropdownMenuItem
+                            data-test="diary-post-delete"
+                            onSelect={(e) => e.preventDefault()}
+                            className="font-bold"
+                          >
+                            {t('diary-post.delete')}
+                          </DropdownMenuItem>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>
+                              {t('diary-post.delete-modal.title')}
+                            </AlertDialogTitle>
+                            <AlertDialogDescription>
+                              {t('diary-post.delete-modal.description')}
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel>
+                              {t('diary-post.delete-modal.cancel')}
+                            </AlertDialogCancel>
+                            <AlertDialogAction
+                              data-test="diary-post-delete-confirm"
+                              onClick={handleDeleteClick}
+                            >
+                              {t('diary-post.delete-modal.action')}
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
+                    )}
+                  </>
                 )}
               </DropdownMenuContent>
             </DropdownMenu>

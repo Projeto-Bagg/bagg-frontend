@@ -11,6 +11,8 @@ export const useCreateDiaryPost = () => {
     mutationFn: async (data: FormData) =>
       (await axios.post<DiaryPost>('/diary-posts', data)).data,
     onSuccess: (data) => {
+      queryClient.setQueryData<DiaryPost>(['diary-post', data.id], data);
+
       [
         ['diary-posts', auth.user?.username],
         ['trip-diary-posts', data.tripDiary],
@@ -35,6 +37,8 @@ export const useDeleteDiaryPost = () => {
   return useMutation({
     mutationFn: async (id: number) => axios.delete('/diary-posts/' + id),
     onSuccess: (_, id) => {
+      queryClient.setQueryData<null>(['diary-post', id], null);
+
       [['diary-posts', auth.user?.username], ['trip-diary-posts']].forEach((key) => {
         queryClient.setQueryData<Pagination<DiaryPost[]>>(
           key,

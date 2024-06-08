@@ -1,4 +1,4 @@
-import { ResetPasswordForm } from '@/app/[locale]/settings/reset-password/reset/reset-password-form';
+import { ResetPasswordForm } from '@/app/[locale]/settings/reset-password/reset/components/reset-password-form';
 import { redirect } from '@/common/navigation';
 import { isTokenExpired } from '@/utils/is-token-expired';
 import { hasCookie } from 'cookies-next';

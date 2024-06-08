@@ -2,6 +2,7 @@
 
 import { Link } from '@/common/navigation';
 import { UserSearch } from '@/components/search/user-search';
+import { useSaveQueryOnRecentSearches } from '@/hooks/recent-searches';
 import axios from '@/services/axios';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
@@ -10,6 +11,7 @@ import React, { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 
 export default function Page() {
+  const saveQueryOnRecentSearches = useSaveQueryOnRecentSearches();
   const t = useTranslations();
   const searchParams = useSearchParams();
   const { ref, inView } = useInView();
@@ -58,14 +60,13 @@ export default function Page() {
       {data &&
         data.pages.map((page) =>
           page.map((user, index) => (
-            <Link
-              className="block"
-              ref={page.length - 1 === index ? ref : undefined}
-              href={{ params: { slug: user.username }, pathname: '/[slug]' }}
-              key={index}
-            >
-              <UserSearch user={user} />
-            </Link>
+            <div ref={page.length - 1 === index ? ref : undefined} key={index}>
+              <UserSearch
+                key={index}
+                onClick={() => saveQueryOnRecentSearches.mutate(user)}
+                user={user}
+              />
+            </div>
           )),
         )}
     </div>
