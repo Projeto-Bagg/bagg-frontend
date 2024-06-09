@@ -61,11 +61,7 @@ export const HomepageFeed = () => {
   };
 
   return (
-    <Tabs
-      value={feed}
-      defaultValue="for-you"
-      onValueChange={(value) => onFeedChange(value as Feed)}
-    >
+    <Tabs value={feed} onValueChange={(value) => onFeedChange(value as Feed)}>
       <div className="flex justify-center">
         <TabsList className="p-0 w-full bg-transparent">
           <TabsTrigger

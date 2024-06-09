@@ -51,7 +51,7 @@ export const Resident = forwardRef<
               </Link>
             </UserHoverCard>
           </div>
-          <span className="text-sm text-muted-foreground">{user.bio}</span>
+          <span className="text-sm text-muted-foreground line-clamp-2">{user.bio}</span>
         </div>
       </div>
       {auth.user?.id !== user.id && (

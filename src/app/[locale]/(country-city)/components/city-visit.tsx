@@ -63,7 +63,7 @@ export const CityVisit = forwardRef<
               <>
                 {' • '}
                 <Link
-                  className="hover:underline text-primary"
+                  className="hover:underline text-primary font-semibold"
                   href={{
                     params: { slug: city.id },
                     pathname: '/city/[slug]',
