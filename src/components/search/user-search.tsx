@@ -20,8 +20,8 @@ export const UserSearch = ({ user, onClick }: UserSearchProps) => {
     >
       <div className="flex gap-2 items-center bg-primary-foreground hover:bg-secondary rounded-lg transition-all">
         <UserHoverCard username={user.username}>
-          <Avatar className="rounded-lg bg-muted shadow-none">
-            <AvatarImage src={user.image} />
+          <Avatar className="rounded-lg h-[40px] w-[53.3px] bg-muted shadow-none">
+            <AvatarImage className="object-cover" src={user.image} />
           </Avatar>
         </UserHoverCard>
         <div className="flex flex-1 min-w-0 items-center gap-1 pr-2">

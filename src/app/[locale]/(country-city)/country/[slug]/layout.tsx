@@ -89,7 +89,7 @@ export default function Layout({
               </div>
             )}
           </div>
-          <div className="flex text-sm items-end gap-2 dark:text-muted-foreground font-bold">
+          <div className="flex text-sm items-end gap-2 dark:text-muted-foreground font-semibold">
             <Tooltip>
               <TooltipTrigger asChild>
                 <Link
@@ -211,7 +211,7 @@ export default function Layout({
               )}
             </div>
           )}
-          <div className="flex sm:mt-2 gap-4 font-bold text-sm dark:text-muted-foreground">
+          <div className="flex sm:mt-2 gap-4 font-semibold text-sm text-muted-foreground">
             <Link
               className={cn(
                 pathname === '/country/[slug]'

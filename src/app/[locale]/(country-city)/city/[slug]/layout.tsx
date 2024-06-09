@@ -152,7 +152,7 @@ export default function Layout({
               </div>
             )}
           </div>
-          <div className="font-bold text-lg sm:text-2xl dark:text-muted-foreground">
+          <div className="font-semibold text-lg sm:text-2xl dark:text-muted-foreground">
             <span>
               {city.data.region.name}
               {', '}
@@ -167,7 +167,7 @@ export default function Layout({
               {city.data.region.country.name}
             </Link>
           </div>
-          <div className="flex text-sm items-end gap-2 dark:text-muted-foreground font-bold">
+          <div className="flex text-sm items-end gap-2 dark:text-muted-foreground font-semibold">
             <Tooltip>
               <TooltipTrigger asChild>
                 <Link
@@ -287,7 +287,7 @@ export default function Layout({
               )}
             </div>
           )}
-          <div className="flex sm:mt-2 gap-4 text-sm dark:text-muted-foreground font-bold">
+          <div className="flex sm:mt-2 gap-4 text-sm text-muted-foreground font-semibold">
             <Link
               className={cn(
                 pathname === '/city/[slug]'
