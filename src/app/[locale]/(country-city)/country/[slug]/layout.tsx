@@ -89,7 +89,7 @@ export default function Layout({
               </div>
             )}
           </div>
-          <div className="flex text-sm items-end gap-2 text-muted-foreground font-bold">
+          <div className="flex text-sm items-end gap-2 dark:text-muted-foreground font-bold">
             <Tooltip>
               <TooltipTrigger asChild>
                 <Link
@@ -120,7 +120,10 @@ export default function Layout({
               <Tooltip>
                 <TooltipTrigger>
                   <div className="flex items-center gap-0.5">
-                    <MapPin className="w-[18px] h-[18px] text-blue-400" />
+                    <MapPin
+                      strokeWidth={2.5}
+                      className="w-[18px] h-[18px] text-blue-400"
+                    />
                     <span>{country.data.visitsCount}</span>
                   </div>
                 </TooltipTrigger>
@@ -133,7 +136,10 @@ export default function Layout({
               <Tooltip>
                 <TooltipTrigger>
                   <div className="flex items-center gap-0.5">
-                    <CheckCircle className="w-[18px] h-[18px] text-green-400" />
+                    <CheckCircle
+                      strokeWidth={2.5}
+                      className="w-[18px] h-[18px] text-green-400"
+                    />
                     <span>{country.data.interestsCount}</span>
                   </div>
                 </TooltipTrigger>
@@ -152,7 +158,10 @@ export default function Layout({
                     }}
                   >
                     <div className="flex items-center gap-0.5">
-                      <Home className="w-[18px] h-[18px] text-orange-400" />
+                      <Home
+                        strokeWidth={2.5}
+                        className="w-[18px] h-[18px] text-orange-400"
+                      />
                       <span>{country.data.residentsCount}</span>
                     </div>
                   </Link>
@@ -167,7 +176,7 @@ export default function Layout({
           </div>
           {(country.data.positionInRatingRanking ||
             country.data.positionInVisitRanking) && (
-            <div className="block sm:hidden text-muted-foreground font-semibold mt-1">
+            <div className="block sm:hidden dark:text-muted-foreground font-semibold mt-1">
               {country.data.positionInRatingRanking && (
                 <Link href={'/ranking/country/rating'}>
                   <div className="flex justify-between">
@@ -202,7 +211,7 @@ export default function Layout({
               )}
             </div>
           )}
-          <div className="flex sm:mt-2 gap-4 font-bold text-sm text-muted-foreground">
+          <div className="flex sm:mt-2 gap-4 font-bold text-sm dark:text-muted-foreground">
             <Link
               className={cn(
                 pathname === '/country/[slug]'

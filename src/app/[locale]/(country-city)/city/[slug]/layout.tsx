@@ -101,7 +101,7 @@ export default function Layout({
       />
       <div className="flex flex-col gap-6 sm:flex-row sm:items-end justify-end sm:justify-between pb-[24px]">
         <div className="h-[calc(((100vw*3)/4)-32px)] sm:h-[calc(((820px*3)/4)-32px)] flex flex-col justify-end">
-          <div className="flex gap-2  items-baseline">
+          <div className="flex gap-2 items-baseline">
             <h2 className="font-bold text-3xl sm:text-5xl">{city.data.name}</h2>
             {(city.data.positionInRatingRanking || city.data.positionInVisitRanking) && (
               <div className="hidden sm:flex gap-1 shrink-0 items-baseline">
@@ -152,7 +152,7 @@ export default function Layout({
               </div>
             )}
           </div>
-          <div className="font-bold text-lg sm:text-2xl text-muted-foreground">
+          <div className="font-bold text-lg sm:text-2xl dark:text-muted-foreground">
             <span>
               {city.data.region.name}
               {', '}
@@ -167,7 +167,7 @@ export default function Layout({
               {city.data.region.country.name}
             </Link>
           </div>
-          <div className="flex text-sm items-end gap-2 text-muted-foreground font-bold">
+          <div className="flex text-sm items-end gap-2 dark:text-muted-foreground font-bold">
             <Tooltip>
               <TooltipTrigger asChild>
                 <Link
@@ -197,7 +197,10 @@ export default function Layout({
               <Tooltip>
                 <TooltipTrigger>
                   <div className="flex items-center gap-0.5">
-                    <MapPin className="w-[18px] h-[18px] text-blue-400" />
+                    <MapPin
+                      strokeWidth={2.5}
+                      className="w-[18px] h-[18px] text-blue-400"
+                    />
                     <span>{city.data.visitsCount}</span>
                   </div>
                 </TooltipTrigger>
@@ -210,7 +213,10 @@ export default function Layout({
               <Tooltip>
                 <TooltipTrigger>
                   <div className="flex items-center gap-0.5">
-                    <CheckCircle className="w-[18px] h-[18px] text-green-400" />
+                    <CheckCircle
+                      strokeWidth={2.5}
+                      className="w-[18px] h-[18px] text-green-400"
+                    />
                     <span>{city.data.interestsCount}</span>
                   </div>
                 </TooltipTrigger>
@@ -229,7 +235,10 @@ export default function Layout({
                     }}
                   >
                     <div className="flex items-center gap-0.5">
-                      <Home className="w-[18px] h-[18px] text-orange-400" />
+                      <Home
+                        strokeWidth={2.5}
+                        className="w-[18px] h-[18px] text-orange-400"
+                      />
                       <span>{city.data.residentsCount}</span>
                     </div>
                   </Link>
@@ -243,7 +252,7 @@ export default function Layout({
             </div>
           </div>
           {(city.data.positionInRatingRanking || city.data.positionInVisitRanking) && (
-            <div className="block sm:hidden text-muted-foreground font-semibold mt-1">
+            <div className="block sm:hidden dark:text-muted-foreground font-semibold mt-1">
               {city.data.positionInRatingRanking && (
                 <Link href={'/ranking/city/rating'}>
                   <div className="flex justify-between">
@@ -278,7 +287,7 @@ export default function Layout({
               )}
             </div>
           )}
-          <div className="flex sm:mt-2 gap-4 text-sm text-muted-foreground font-bold">
+          <div className="flex sm:mt-2 gap-4 text-sm dark:text-muted-foreground font-bold">
             <Link
               className={cn(
                 pathname === '/city/[slug]'
