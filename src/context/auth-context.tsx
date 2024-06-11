@@ -93,8 +93,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       }
     }
 
-    setCookie('bagg.access-token', data.accessToken);
-    setCookie('bagg.refresh-token', data.refreshToken);
+    const expires = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000);
+
+    setCookie('bagg.access-token', data.accessToken, { expires });
+    setCookie('bagg.refresh-token', data.refreshToken, { expires });
     deleteCookie('bagg.temp-access-token');
     deleteCookie('bagg.temp-refresh-token');
 
