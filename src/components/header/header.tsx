@@ -20,6 +20,7 @@ import { CreateDiaryPost } from '@/components/create-post/create-diary-post';
 import { Link, usePathname, useRouter } from '@/common/navigation';
 import { CreateTip } from '@/components/create-post/create-tip';
 import { SelectLanguage } from '@/components/select-language';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 
 export const Header = () => {
   const t = useTranslations();
@@ -49,30 +50,10 @@ export const Header = () => {
         </nav>
         <div className="flex gap-2 items-center">
           {auth.user && (
-            <React.Fragment>
-              <CreateTip>
-                <button
-                  data-test="create-tip"
-                  className="text-primary-foreground flex gap-1 h-[1.2rem] px-2 bg-orange-400 items-center rounded-sm"
-                >
-                  <Plus size={14} strokeWidth={3} />
-                  <span className="font-bold text-xs uppercase">
-                    {t('create-tip.trigger')}
-                  </span>
-                </button>
-              </CreateTip>
-              <CreateDiaryPost>
-                <button
-                  data-test="create-post"
-                  className="text-primary-foreground flex gap-1 h-[1.2rem] px-2 bg-primary items-center rounded-sm"
-                >
-                  <Plus size={14} strokeWidth={3} />
-                  <span className="font-bold text-xs uppercase">
-                    {t('create-post.trigger')}
-                  </span>
-                </button>
-              </CreateDiaryPost>
-            </React.Fragment>
+            <>
+              <CreateTip />
+              <CreateDiaryPost />
+            </>
           )}
           <Search />
           <SelectLanguage />

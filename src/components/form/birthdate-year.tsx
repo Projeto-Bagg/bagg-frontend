@@ -1,7 +1,7 @@
 import {
   isDayAvailable,
   isMonthAvailable,
-} from '@/app/[locale]/(auth)/signup/birthdate-validation';
+} from '@/app/[locale]/(user)/(auth)/signup/birthdate-validation';
 import {
   Select,
   SelectContent,

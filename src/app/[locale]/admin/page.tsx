@@ -27,7 +27,7 @@ export default async function Page() {
   const t = await getTranslations();
 
   return (
-    <div className="max-w-[1337px] sm:p-10 m-auto container">
+    <div className="max-w-[1337px] sm:p-10 mx-auto container">
       <div className="p-4 pt-6 sm:p-8 sm:border-2 rounded-lg">
         <div className="flex justify-between mb-4">
           <h2 className="font-bold text-2xl">Dashboard</h2>

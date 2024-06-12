@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -13,7 +14,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { X } from 'lucide-react';
+import { Plus, X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -22,6 +23,7 @@ import { SelectCity } from '@/components/select-city';
 import { CreatePostMedias } from '@/components/create-post/create-post-medias';
 import { MediaInput } from '@/components/create-post/media-input';
 import { useRouter } from '@/common/navigation';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 
 const createTipSchema = z.object({
   cityId: z.number(),
@@ -39,7 +41,7 @@ const createTipSchema = z.object({
 
 export type CreateTipType = z.infer<typeof createTipSchema>;
 
-export const CreateTip = ({ children }: { children: ReactNode }) => {
+export const CreateTip = () => {
   const [open, setOpen] = useState<boolean>();
   const t = useTranslations();
   const createTip = useCreateTip();
@@ -96,10 +98,26 @@ export const CreateTip = ({ children }: { children: ReactNode }) => {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogTrigger asChild>{children}</DialogTrigger>
+      <Tooltip>
+        <TooltipTrigger>
+          <DialogTrigger asChild>
+            <button
+              data-test="create-tip"
+              className="text-primary-foreground flex gap-1 h-[1.2rem] px-2 bg-orange-400 items-center rounded-sm"
+            >
+              <Plus size={14} strokeWidth={3} />
+              <span className="font-bold text-xs uppercase">
+                {t('create-tip.trigger')}
+              </span>
+            </button>
+          </DialogTrigger>
+        </TooltipTrigger>
+        <TooltipContent>{t('create-tip.description').split('.')[0]}</TooltipContent>
+      </Tooltip>
       <DialogContent onInteractOutside={(e) => createTip.isPending && e.preventDefault()}>
         <DialogHeader>
           <DialogTitle>{t('create-tip.title')}</DialogTitle>
+          <DialogDescription>{t('create-tip.description')}</DialogDescription>
         </DialogHeader>
         <form
           data-test="create-tip-form"

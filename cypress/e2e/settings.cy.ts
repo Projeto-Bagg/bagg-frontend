@@ -237,6 +237,12 @@ describe('Esqueci a senha', () => {
   });
 
   it('Redefinição da senha bem sucedida', () => {
+    cy.intercept(
+      'POST',
+      '/users/reset-password/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEzLCJ1c2VybmFtZSI6ImZlZmV6b2thIiwiaWF0IjoxNzE0NDI4NDY1LCJleHAiOjIzMTQ0MzIwNjV9.ZE9T53k8Ws6W91bFngRNpQi40x3EIlVabGlrpoYSJz8',
+      { statusCode: 200 },
+    ).as('req');
+
     cy.visit(
       '/settings/reset-password/reset?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEzLCJ1c2VybmFtZSI6ImZlZmV6b2thIiwiaWF0IjoxNzE0NDI4NDY1LCJleHAiOjIzMTQ0MzIwNjV9.ZE9T53k8Ws6W91bFngRNpQi40x3EIlVabGlrpoYSJz8',
     );
@@ -244,15 +250,11 @@ describe('Esqueci a senha', () => {
     cy.get('[name="password"]').type('Teste@123');
     cy.get('[name="confirmPassword"]').type('Teste@123');
 
-    cy.get('[data-test="forgot-password-form"]').submit();
-
-    cy.intercept(
-      'POST',
-      '/users/reset-password/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEzLCJ1c2VybmFtZSI6ImZlZmV6b2thIiwiaWF0IjoxNzE0NDI4NDY1LCJleHAiOjIzMTQ0MzIwNjV9.ZE9T53k8Ws6W91bFngRNpQi40x3EIlVabGlrpoYSJz8',
-      { statusCode: 200 },
-    ).as('req');
-
-    cy.wait('@req');
+    cy.get('[data-test="forgot-password-form"]')
+      .submit()
+      .then(() => {
+        cy.wait('@req');
+      });
 
     cy.url().should('contain', 'login');
   });

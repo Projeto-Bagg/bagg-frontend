@@ -106,7 +106,7 @@ const TipCommentReportDialog = React.forwardRef<
         <button
           data-test={'tip-comment-report-' + report.id}
           ref={ref}
-          className="flex w-full justify-between p-2 text-sm"
+          className="flex w-full w-full justify-between p-2 text-sm"
         >
           <span>{report._count.tipCommentReport}</span>
           <div className="flex">

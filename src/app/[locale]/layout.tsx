@@ -4,12 +4,7 @@ import { getMessages } from 'next-intl/server';
 import clsx from 'clsx';
 import { Inter } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
-import { Header } from '@/components/header/header';
 import { Providers } from '@/app/[locale]/providers';
-import { getCookie } from 'cookies-next';
-import { cookies } from 'next/headers';
-import { decodeJwt } from 'jose';
-import { cn } from '@/lib/utils';
 
 const inter = Inter({ subsets: ['latin'], weight: ['400', '500', '600', '700'] });
 
@@ -39,19 +34,11 @@ export const metadata: Metadata = {
 export default async function LocaleLayout({ children, params: { locale } }: Props) {
   const messages = await getMessages();
 
-  const accessToken = getCookie('bagg.access-token', { cookies });
-  const jwt = accessToken ? decodeJwt<UserFromJwt>(accessToken) : undefined;
-
   return (
     <html className="h-full" lang={locale} suppressHydrationWarning>
       <body className={clsx(inter.className, 'flex h-full flex-col')}>
         <NextIntlClientProvider locale={locale} messages={messages}>
-          <Providers>
-            {jwt?.role !== 'ADMIN' && <Header />}
-            <div className={cn(jwt?.role !== 'ADMIN' && 'top-[3.75rem] relative')}>
-              {children}
-            </div>
-          </Providers>
+          <Providers>{children}</Providers>
         </NextIntlClientProvider>
       </body>
     </html>

@@ -5,7 +5,7 @@ describe('Ranking', () => {
 
       cy.get('[data-test="visits"]').click();
 
-      cy.url().should('contain', '/country/ranking/visits');
+      cy.url().should('contain', '/ranking/country/visits');
     });
 
     it('Mudar filtro de data', () => {
@@ -26,7 +26,7 @@ describe('Ranking', () => {
       cy.url().should('contain', 'date=7');
 
       cy.get('[data-test="visits"]').click();
-      cy.url().should('contain', '/country/ranking/visits?date=7');
+      cy.url().should('contain', '/ranking/country/visits?date=7');
     });
   });
 
@@ -36,7 +36,7 @@ describe('Ranking', () => {
 
       cy.get('[data-test="visits"]').click();
 
-      cy.url().should('contain', '/city/ranking/visits');
+      cy.url().should('contain', '/ranking/city/visits');
     });
 
     it('Mudar filtro de data', () => {
@@ -83,7 +83,7 @@ describe('Ranking', () => {
       cy.url().should('contain', 'countryIso2=AF');
 
       cy.get('[data-test="visits"]').click();
-      cy.url().should('contain', '/city/ranking/visits?date=7&countryIso2=AF');
+      cy.url().should('contain', '/ranking/city/visits?date=7&countryIso2=AF');
     });
   });
 });
