@@ -46,7 +46,7 @@ export default function Residents({ params }: { params: { slug: string } }) {
             <span>{t('country-city-page.tabs.residents.no-residents')}</span>
           </div>
         )}
-        <div className="grid grid-cols-1 sm:grid-cols-2">
+        <div className="grid divide-y-2 grid-cols-1 sm:grid-cols-2">
           {data?.pages.map((page, index) =>
             page.map((user) => (
               <Resident

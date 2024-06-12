@@ -197,6 +197,7 @@
   "create-post": {
     "trigger": "Diary",
     "title": "Create a diary post",
+    "description": "Create reports about the best moments of your current trip. Diary posts must be created within a trip diary.",
     "trip-diary": "Trip diary",
     "trip-diary-error": "Enter a trip diary or create new one",
     "no-trip-diaries-found": "No results",
@@ -211,7 +212,7 @@
   "create-trip-diary": {
     "title": "Create trip diary",
     "cancel": "Cancel",
-    "description": "Create a travel diary and share your experiences with the community",
+    "description": "Create a travel diary, where you can create posts with stories about your trip.",
     "title-field": "Title",
     "title-field-error": "Enter a title",
     "title-field-max-error": "The maximum length is 255 characters",
@@ -239,6 +240,7 @@
   "create-tip": {
     "trigger": "Tip",
     "title": "Create a tip",
+    "description": "Create a travel tip in a city of your choice. Posts of type 'tip' appear in the main feed.",
     "message": "Message",
     "message-error": "Enter a message",
     "message-max-error": "The maximum length is 300 characters",

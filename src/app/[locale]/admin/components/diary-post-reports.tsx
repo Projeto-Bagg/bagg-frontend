@@ -102,7 +102,7 @@ const DiaryPostReportDialog = React.forwardRef<
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogTrigger>
+      <DialogTrigger asChild>
         <button
           data-test={'diary-post-report-' + report.id}
           ref={ref}

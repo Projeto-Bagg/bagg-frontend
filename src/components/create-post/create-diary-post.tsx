@@ -11,6 +11,7 @@ import {
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -23,7 +24,7 @@ import { cn } from '@/lib/utils';
 import axios from '@/services/axios';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQuery } from '@tanstack/react-query';
-import { ChevronsUpDown, Trash2 } from 'lucide-react';
+import { ChevronsUpDown, Plus, Trash2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -33,6 +34,7 @@ import { useAuth } from '@/context/auth-context';
 import { CreatePostMedias } from '@/components/create-post/create-post-medias';
 import { MediaInput } from '@/components/create-post/media-input';
 import { useRouter } from '@/common/navigation';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 
 const createDiaryPostSchema = z.object({
   tripDiaryId: z.number(),
@@ -49,7 +51,7 @@ const createDiaryPostSchema = z.object({
 
 export type CreateDiaryPostType = z.infer<typeof createDiaryPostSchema>;
 
-export const CreateDiaryPost = ({ children }: { children: ReactNode }) => {
+export const CreateDiaryPost = () => {
   const [open, setOpen] = useState<boolean>();
   const [isCreatingTripDiary, setIsCreatingTripDiary] = useState<boolean>(false);
   const router = useRouter();
@@ -109,7 +111,22 @@ export const CreateDiaryPost = ({ children }: { children: ReactNode }) => {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogTrigger asChild>{children}</DialogTrigger>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <DialogTrigger asChild>
+            <button
+              data-test="create-post"
+              className="text-primary-foreground flex gap-1 h-[1.2rem] px-2 bg-primary items-center rounded-sm"
+            >
+              <Plus size={14} strokeWidth={3} />
+              <span className="font-bold text-xs uppercase">
+                {t('create-post.trigger')}
+              </span>
+            </button>
+          </DialogTrigger>
+        </TooltipTrigger>
+        <TooltipContent>{t('create-post.description').split('.')[0]}</TooltipContent>
+      </Tooltip>
       <DialogContent
         onInteractOutside={(e) => createDiaryPost.isPending && e.preventDefault()}
       >
@@ -123,6 +140,7 @@ export const CreateDiaryPost = ({ children }: { children: ReactNode }) => {
           <>
             <DialogHeader>
               <DialogTitle>{t('create-post.title')}</DialogTitle>
+              <DialogDescription>{t('create-post.description')}</DialogDescription>
             </DialogHeader>
             <div>
               <div>

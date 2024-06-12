@@ -197,6 +197,7 @@
   "create-post": {
     "trigger": "Diário",
     "title": "Criar postagem no diário",
+    "description": "Crie relatos sobre os melhores momentos da sua viagem atual. Postagens no diário devem ser criadas dentro de um diário de viagem.",
     "trip-diary": "Diário de viagem",
     "trip-diary-error": "Insira um diário de viagem ou crie um novo",
     "no-trip-diaries-found": "Sem resultados",
@@ -212,7 +213,7 @@
   "create-trip-diary": {
     "title": "Criar diário de viagem",
     "cancel": "Cancelar",
-    "description": "Crie um diário de viagem e compartilhe suas experiências com a comunidade",
+    "description": "Crie um diário de viagem, onde você poderá criar postagens com relatos da sua viagem.",
     "title-field": "Título",
     "title-field-error": "Insira um título",
     "city": "Cidade",
@@ -239,6 +240,7 @@
   "create-tip": {
     "trigger": "Tip",
     "title": "Criar tip",
+    "description": "Crie uma dica de viagem em uma cidade de sua escolha. Postagens do tipo 'tip' aparecem no feed principal.",
     "message": "Mensagem",
     "message-error": "Insira uma mensagem",
     "message-max-error": "O tamanho máximo é de 300 caracteres",
@@ -400,7 +402,7 @@
     "empty": "Ranking vazio.",
     "trending": {
       "title": "Cidades em alta 🔥",
-      "description": "Cidades com o maior porcentagem de pessoas interessadas nesse mês",
+      "description": "Cidades com a maior porcentagem de pessoas interessadas nesse mês",
       "variation": "do mês anterior"
     },
     "date-range": {

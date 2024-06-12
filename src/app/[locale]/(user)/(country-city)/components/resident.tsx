@@ -32,26 +32,24 @@ export const Resident = forwardRef<
             </Avatar>
           </Link>
         </UserHoverCard>
-        <div className="flex flex-col justify-center min-w-0">
-          <div className="flex items-center min-w-0">
-            <UserHoverCard username={user.username}>
-              <Link
-                className="hover:underline mr-1 truncate min-w-0"
-                href={{ params: { slug: user.username }, pathname: '/[slug]' }}
-              >
-                {user.fullName}
-              </Link>
-            </UserHoverCard>
-            <UserHoverCard username={user.username}>
-              <Link
-                className="text-muted-foreground hover:underline shrink-0"
-                href={{ params: { slug: user.username }, pathname: '/[slug]' }}
-              >
-                @{user.username}
-              </Link>
-            </UserHoverCard>
-          </div>
-          <span className="text-sm text-muted-foreground line-clamp-2">{user.bio}</span>
+        <div className="flex flex-col">
+          <UserHoverCard username={user.username}>
+            <Link
+              className="hover:underline mr-1 truncate min-w-0"
+              href={{ params: { slug: user.username }, pathname: '/[slug]' }}
+            >
+              {user.fullName}
+            </Link>
+          </UserHoverCard>
+          <UserHoverCard username={user.username}>
+            <Link
+              className="text-muted-foreground text-sm hover:underline shrink-0"
+              href={{ params: { slug: user.username }, pathname: '/[slug]' }}
+            >
+              @{user.username}
+            </Link>
+          </UserHoverCard>
+          <span className="text-sm text-muted-foreground line-clamp-1">{user.bio}</span>
         </div>
       </div>
       {auth.user?.id !== user.id && (

@@ -196,9 +196,11 @@ export default function Page({ params }: { params: { slug: string } }) {
             <span>{t('country-city-page.tabs.residents.no-residents')}</span>
           </div>
         )}
-        {residents?.pages.map((page) =>
-          page.map((user) => <Resident key={user.id} user={user} />),
-        )}
+        <div className="divide-y-2">
+          {residents?.pages.map((page) =>
+            page.map((user) => <Resident key={user.id} user={user} />),
+          )}
+        </div>
         {residents?.pages[0].length === 5 && (
           <SeeMore
             href={{ params: { slug: params.slug }, pathname: '/city/[slug]/residents' }}
