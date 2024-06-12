@@ -31,7 +31,6 @@ export const BrithdateMonth = ({
   ...props
 }: BirthdateMonthProps) => {
   const t = useTranslations();
-
   return (
     <Select
       value={month}
@@ -55,6 +54,7 @@ export const BrithdateMonth = ({
             key={month}
             value={index.toString()}
           >
+            <span className="hidden">{index + 1}</span>
             {t(`signup-edit.months.${month}`)}
           </SelectItem>
         ))}

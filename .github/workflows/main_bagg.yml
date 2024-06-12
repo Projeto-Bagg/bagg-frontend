@@ -28,12 +28,14 @@ jobs:
 
       - name: Run Cypress tests
         uses: cypress-io/github-action@v3
+        env:
+          IS_TEST: 'true'
+
         with:
           project: ./
           browser: chrome
           start: npm run start
           wait-on: 'http://localhost:3000'
-        continue-on-error: true
 
       - name: Zip all files for upload between jobs
         run: zip next.zip ./* .next .env -qr

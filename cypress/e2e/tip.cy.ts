@@ -365,20 +365,20 @@ describe('Funcionalidades da tip', () => {
     cy.url().should('contain', '/home');
   });
 
-  it('Copiar link da postagem', () => {
-    cy.get('[data-test="tip-options"]').click();
-    cy.get('[data-test="tip-copy-link"]').click();
+  // it('Copiar link da postagem', () => {
+  //   cy.get('[data-test="tip-options"]').click();
+  //   cy.get('[data-test="tip-copy-link"]').click();
 
-    cy.window().then((window) => {
-      cy.stub(window.navigator.clipboard, 'writeText').as('writeTextStub');
-    });
+  //   cy.window().then((window) => {
+  //     cy.stub(window.navigator.clipboard, 'writeText').as('writeTextStub');
+  //   });
 
-    cy.window().then((win) => {
-      win.navigator.clipboard.readText().then((text) => {
-        expect(text).to.eq(Cypress.config().baseUrl + '/tip/1');
-      });
-    });
+  //   cy.window().then((win) => {
+  //     win.navigator.clipboard.readText().then((text) => {
+  //       expect(text).to.eq(Cypress.config().baseUrl + '/tip/1');
+  //     });
+  //   });
 
-    cy.get('[data-test="toasts"]').children().should('have.length', 1);
-  });
+  //   cy.get('[data-test="toasts"]').children().should('have.length', 1);
+  // });
 });

@@ -157,3 +157,97 @@ describe('Página de pesquisa', () => {
     });
   });
 });
+
+describe('Pesquisas recentes', () => {
+  beforeEach(() => {
+    cy.visit('');
+    cy.get('[data-test="search-dialog"]').click();
+  });
+
+  it('Salvar pesquisa nos cookies', () => {
+    cy.fixture('city-search.json')
+      .then((citySearch) => {
+        cy.intercept(
+          {
+            method: 'GET',
+            url: '/cities/search?q=S%C3%A3o+Sebasti%C3%A3o&count=5',
+          },
+          {
+            statusCode: 200,
+            body: citySearch,
+          },
+        );
+      })
+      .as('city-search');
+
+    cy.get('input').type('São Sebastião');
+    cy.get('#cities').eq(0).click();
+
+    cy.getCookie('bagg.recent-searches').then((cookie) => {
+      expect(cookie).to.not.be.null;
+      const decodedValue = decodeURIComponent(cookie!.value);
+      const jsonValue = JSON.parse(decodedValue);
+      expect(jsonValue[0].element.id).to.equal(242344);
+    });
+  });
+
+  it('Remover pesquisa', () => {
+    cy.fixture('city-search.json')
+      .then((citySearch) => {
+        cy.intercept(
+          {
+            method: 'GET',
+            url: '/cities/search?q=S%C3%A3o+Sebasti%C3%A3o&count=5',
+          },
+          {
+            statusCode: 200,
+            body: citySearch,
+          },
+        );
+      })
+      .as('city-search');
+
+    cy.get('input').type('São Sebastião');
+    cy.get('#cities').eq(0).click();
+    cy.get('[data-test="search-dialog"]').click();
+    cy.get('input').clear();
+    cy.get('[data-test="recent-searches"]').eq(0).find('button').click();
+
+    cy.getCookie('bagg.recent-searches').then((cookie) => {
+      expect(cookie).to.not.be.null;
+      const decodedValue = decodeURIComponent(cookie!.value);
+      const jsonValue = JSON.parse(decodedValue);
+      expect(jsonValue).to.deep.equal([]);
+    });
+  });
+
+  it('Limpar tudo', () => {
+    cy.fixture('city-search.json')
+      .then((citySearch) => {
+        cy.intercept(
+          {
+            method: 'GET',
+            url: '/cities/search?q=S%C3%A3o+Sebasti%C3%A3o&count=5',
+          },
+          {
+            statusCode: 200,
+            body: citySearch,
+          },
+        );
+      })
+      .as('city-search');
+
+    cy.get('input').type('São Sebastião');
+    cy.get('#cities').eq(0).click();
+    cy.get('[data-test="search-dialog"]').click();
+    cy.get('input').clear();
+    cy.get('[data-test="clear-all"]').click();
+
+    cy.getCookie('bagg.recent-searches').then((cookie) => {
+      expect(cookie).to.not.be.null;
+      const decodedValue = decodeURIComponent(cookie!.value);
+      const jsonValue = JSON.parse(decodedValue);
+      expect(jsonValue).to.deep.equal([]);
+    });
+  });
+});

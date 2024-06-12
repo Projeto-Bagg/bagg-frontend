@@ -148,6 +148,7 @@ export const Search = () => {
                 </div>
                 <div>
                   <button
+                    data-test="clear-all"
                     onClick={() => clearRecentSearches.mutate()}
                     className="text-primary hover:brightness-125 transition-all font-semibold"
                   >
@@ -155,7 +156,7 @@ export const Search = () => {
                   </button>
                 </div>
               </div>
-              <div className="space-y-1">
+              <div data-test="recent-searches" className="space-y-1">
                 {recentSearches.data.map((recent, index) => (
                   <div className="text-base w-full flex justify-between" key={index}>
                     <div className="w-full mr-4 sm:mr-8">
