@@ -68,11 +68,16 @@ export const TipSearch = ({ tip, boldMessage, setOpen }: TipSearchProps) => {
           className="line-clamp-3 mb-1"
         />
       </Link>
-      {tip.tipMedias.slice(0, 2).map((media) => (
-        <div className="relative w-1/4 aspect-square" key={media.id}>
-          <img src={media.url} alt="" />
-        </div>
-      ))}
+      <div className="flex rounded-sm">
+        {tip.tipMedias.slice(0, 2).map((media) => (
+          <img
+            key={media.id}
+            className="w-1/3 h-full overflow-hidden object-cover aspect-square"
+            src={media.url}
+            alt=""
+          />
+        ))}
+      </div>
     </div>
   );
 };
